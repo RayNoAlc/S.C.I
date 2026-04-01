@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz — Saúde Coletiva I</title>
+<title>Saúde Coletiva I — Plataforma de Estudos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -15,6 +15,7 @@
   --danger:#ff6b6b;--danger-dim:rgba(255,107,107,0.08);
   --warn:#f5a623;--warn-dim:rgba(245,166,35,0.08);
   --info:#5b9cf6;--info-dim:rgba(91,156,246,0.08);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.08);--purple-border:rgba(167,139,250,0.25);
   --r:10px;--r-sm:7px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -22,8 +23,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 0%,rgba(61,214,140,0.04) 0%,transparent 60%),radial-gradient(ellipse 50% 30% at 80% 100%,rgba(91,156,246,0.04) 0%,transparent 60%);pointer-events:none;z-index:0}
 #app{width:100%;max-width:660px;position:relative;z-index:1}
 
-/* NAV */
-.nav{display:flex;align-items:center;justify-content:space-between;padding-bottom:1.5rem;margin-bottom:2rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding-bottom:1.25rem;margin-bottom:1.75rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
 .nav-brand{display:flex;align-items:center;gap:10px}
 .nav-icon{width:34px;height:34px;border-radius:8px;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:16px}
 .nav-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase}
@@ -31,7 +31,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nav-pills{display:flex;gap:6px;flex-wrap:wrap}
 .pill{font-size:11px;padding:3px 10px;border-radius:99px;border:1px solid var(--border2);color:var(--muted2);background:var(--s1)}
 
-/* SCREENS */
 .screen{display:none}
 .screen.active{display:block;animation:up 0.28s cubic-bezier(0.2,0,0,1)}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -45,54 +44,89 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-ghost:hover{color:var(--text);background:var(--s1)}
 .btn-warn{background:var(--warn);color:#0c0800;padding:12px 22px;font-size:14px}
 .btn-warn:hover{opacity:0.88;transform:translateY(-1px)}
-.btn-warn:active{transform:none}
+.btn-purple{background:var(--purple);color:#07040f;padding:12px 22px;font-size:14px}
+.btn-purple:hover{opacity:0.88;transform:translateY(-1px)}
+.btn-info{background:var(--info);color:#020810;padding:12px 22px;font-size:14px}
+.btn-info:hover{opacity:0.88;transform:translateY(-1px)}
+.btn-sm{padding:8px 14px!important;font-size:13px!important}
 
-/* ── START ── */
-.start-hero{padding:0.5rem 0 2.5rem;text-align:center}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:4px 14px;margin-bottom:1.5rem}
+/* ─── HOME ─────────────────────────────────────────── */
+.home-hero{text-align:center;padding:0.5rem 0 2rem}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:4px 14px;margin-bottom:1.25rem}
 .hero-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block}
-.hero-title{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;line-height:1.15;margin-bottom:0.75rem;background:linear-gradient(145deg,#e8eef4 40%,#5b7a8d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-desc{font-size:14px;color:var(--muted2);line-height:1.75;max-width:380px;margin:0 auto 2.5rem}
-.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:440px;margin:0 auto 2.5rem}
-.feature-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:14px 12px;text-align:left}
-.feature-icon{font-size:18px;margin-bottom:8px}
-.feature-label{font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px}
-.feature-val{font-size:11px;color:var(--muted);line-height:1.5}
-.start-form{display:flex;gap:8px;max-width:360px;margin:0 auto 1rem}
-.start-form input{flex:1;background:var(--s1);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:12px 16px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
-.start-form input:focus{border-color:var(--accent)}
-.start-form input::placeholder{color:var(--muted)}
-.start-secondary{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.last-result-banner{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:border-color 0.15s}
+.hero-title{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;line-height:1.15;margin-bottom:0.5rem;background:linear-gradient(145deg,#e8eef4 40%,#5b7a8d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:14px;color:var(--muted2);line-height:1.7;max-width:380px;margin:0 auto 2rem}
+
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
+.mode-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.15s;text-align:left;position:relative;overflow:hidden}
+.mode-card:hover{border-color:var(--border3);background:var(--s2);transform:translateY(-2px)}
+.mode-card.ranked{border-color:rgba(245,166,35,0.2)}
+.mode-card.ranked:hover{border-color:var(--warn)}
+.mode-card.study{border-color:var(--purple-border)}
+.mode-card.study:hover{border-color:var(--purple)}
+.mode-card-icon{font-size:24px;margin-bottom:10px}
+.mode-card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px}
+.mode-card-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.mode-badge{position:absolute;top:12px;right:12px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;letter-spacing:0.05em;text-transform:uppercase}
+.mode-badge.hot{background:var(--warn-dim);color:var(--warn);border:1px solid rgba(245,166,35,0.2)}
+.mode-badge.new{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
+
+.last-result-banner{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:12px 16px;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:border-color 0.15s}
 .last-result-banner:hover{border-color:var(--accent-border)}
-.lrb-left{display:flex;align-items:center;gap:12px}
-.lrb-icon{font-size:20px}
-.lrb-title{font-size:13px;font-weight:500;margin-bottom:2px}
-.lrb-sub{font-size:12px;color:var(--muted)}
+.lrb-left{display:flex;align-items:center;gap:10px}
+.lrb-icon{font-size:18px}
+.lrb-title{font-size:13px;font-weight:500;margin-bottom:1px}
+.lrb-sub{font-size:11px;color:var(--muted)}
 .lrb-arrow{font-size:18px;color:var(--muted)}
 
-/* ── QUIZ ── */
-.quiz-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;gap:8px}
+/* ─── SETUP (theme + mode selector) ────────────────── */
+.setup-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:0.25rem}
+.setup-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem}
+.setup-section{margin-bottom:1.25rem}
+.setup-label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.6rem}
+.theme-grid{display:flex;flex-direction:column;gap:8px}
+.theme-opt{display:flex;align-items:center;gap:12px;background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 14px;cursor:pointer;transition:all 0.12s}
+.theme-opt:hover{border-color:var(--border3);background:var(--s2)}
+.theme-opt.selected{border-color:var(--accent-border);background:var(--accent-dim)}
+.theme-opt.selected .theme-check{background:var(--accent);border-color:var(--accent)}
+.theme-opt.selected .theme-check::after{content:'✓';color:#05120a;font-size:11px;font-weight:700}
+.theme-check{width:20px;height:20px;border-radius:5px;border:1px solid var(--border2);background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.theme-name{font-size:14px;font-weight:500}
+.theme-count{font-size:11px;color:var(--muted);margin-top:1px}
+.nick-row{display:flex;gap:8px}
+.nick-row input{flex:1;background:var(--s1);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
+.nick-row input:focus{border-color:var(--accent)}
+.nick-row input::placeholder{color:var(--muted)}
+.setup-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.25rem}
+
+/* ranked mode info */
+.ranked-notice{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.18);border-radius:var(--r-sm);padding:10px 14px;font-size:13px;color:var(--warn);margin-bottom:1rem;display:flex;gap:8px;align-items:center}
+
+/* ─── QUIZ ──────────────────────────────────────────── */
+.quiz-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;gap:8px;flex-wrap:wrap}
 .q-label{font-size:12px;color:var(--muted);font-weight:500}
-.score-pill{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:4px 14px}
-.progress-track{height:2px;background:var(--s3);border-radius:99px;margin-bottom:1.25rem;overflow:hidden}
+.q-meta{display:flex;align-items:center;gap:8px}
+.score-pill{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:4px 12px}
+.mode-pill{font-size:11px;color:var(--warn);background:var(--warn-dim);border:1px solid rgba(245,166,35,0.2);border-radius:99px;padding:3px 10px;font-weight:600}
+.mode-pill.normal{color:var(--muted2);background:var(--s2);border-color:var(--border2)}
+.progress-track{height:2px;background:var(--s3);border-radius:99px;margin-bottom:1rem;overflow:hidden}
 .progress-fill{height:100%;background:var(--accent);border-radius:99px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)}
 
-/* TIME-BASED TIMER */
-.timer-row{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
-.timer-track{flex:1;height:6px;background:var(--s3);border-radius:99px;overflow:hidden}
+.timer-row{display:flex;align-items:center;gap:10px;margin-bottom:1.1rem}
+.timer-track{flex:1;height:8px;background:var(--s3);border-radius:99px;overflow:hidden}
 .timer-fill{height:100%;border-radius:99px;transition:width 1s linear,background 0.5s}
-.timer-val{font-size:12px;color:var(--muted);min-width:54px;text-align:right;font-variant-numeric:tabular-nums}
+.timer-val{font-size:13px;color:var(--muted);min-width:32px;text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
 .timer-val.urgent{color:var(--danger)}
-.pts-preview{font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:2px 10px;min-width:60px;text-align:center}
-.pts-preview.mid{color:var(--warn);background:var(--warn-dim);border-color:rgba(245,166,35,0.25)}
-.pts-preview.low{color:var(--muted2);background:var(--s2);border-color:var(--border2)}
+.pts-badge{font-size:12px;font-weight:700;border-radius:99px;padding:3px 10px;min-width:64px;text-align:center;transition:all 0.3s}
+.pts-badge.fast{color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-border)}
+.pts-badge.mid{color:var(--warn);background:var(--warn-dim);border:1px solid rgba(245,166,35,0.25)}
+.pts-badge.slow{color:var(--muted2);background:var(--s2);border:1px solid var(--border2)}
 
-.q-part{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem}
-.q-text{font-size:16px;line-height:1.65;color:var(--text);margin-bottom:1.25rem}
-.q-attempts{font-size:12px;color:var(--muted);margin-bottom:0.75rem}
-.options{display:flex;flex-direction:column;gap:7px;margin-bottom:1rem}
-.opt{width:100%;text-align:left;background:var(--s1);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:13px 15px;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;line-height:1.5;transition:all 0.12s;display:flex;gap:10px;align-items:flex-start}
+.q-part{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem}
+.q-text{font-size:16px;line-height:1.65;color:var(--text);margin-bottom:1.1rem}
+.q-attempts{font-size:12px;color:var(--muted);margin-bottom:0.6rem}
+.options{display:flex;flex-direction:column;gap:7px;margin-bottom:0.9rem}
+.opt{width:100%;text-align:left;background:var(--s1);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:12px 14px;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;line-height:1.5;transition:all 0.12s;display:flex;gap:10px;align-items:flex-start}
 .opt:hover:not(:disabled){border-color:var(--border3);background:var(--s2)}
 .opt:disabled{cursor:default}
 .opt-letter{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted);min-width:22px;height:22px;flex-shrink:0;background:var(--s2);border:1px solid var(--border2);border-radius:4px;display:flex;align-items:center;justify-content:center;margin-top:1px}
@@ -100,102 +134,133 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .opt.correct .opt-letter{background:rgba(61,214,140,0.12);border-color:var(--accent-border);color:var(--accent)}
 .opt.wrong{background:var(--danger-dim);border-color:rgba(255,107,107,0.22);color:var(--danger)}
 .opt.wrong .opt-letter{background:var(--danger-dim);border-color:rgba(255,107,107,0.22);color:var(--danger)}
-.pts-earned{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:4px}
+.hint-box{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.18);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:0.7rem;font-size:13px;line-height:1.6;color:var(--warn);display:none;animation:up 0.2s ease}
+.hint-box.show{display:flex;gap:9px}
+.hint-ico{flex-shrink:0;font-size:14px;margin-top:1px}
+.hint-lbl{font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px;opacity:0.65}
+.expl-box{background:var(--info-dim);border:1px solid rgba(91,156,246,0.18);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:0.7rem;font-size:13px;line-height:1.6;color:var(--info);display:none;animation:up 0.2s ease}
+.expl-box.show{display:flex;gap:9px}
+.expl-lbl{font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px;opacity:0.65}
+.nav-row{display:flex;justify-content:flex-end;gap:8px;margin-top:0.4rem}
 
-.hint-box{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.18);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:0.75rem;font-size:13px;line-height:1.6;color:var(--warn);display:none;animation:up 0.2s ease}
-.hint-box.show{display:flex;gap:10px}
-.hint-ico{flex-shrink:0;margin-top:1px;font-size:15px}
-.hint-label{font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px;opacity:0.65}
-.expl-box{background:var(--info-dim);border:1px solid rgba(91,156,246,0.18);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:0.75rem;font-size:13px;line-height:1.6;color:var(--info);display:none;animation:up 0.2s ease}
-.expl-box.show{display:flex;gap:10px}
-.expl-label{font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px;opacity:0.65}
-.nav-row{display:flex;justify-content:flex-end;gap:8px;margin-top:0.5rem}
-
-/* ── RESULT ── */
-.result-top{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:2rem 1.5rem;text-align:center;margin-bottom:1.25rem}
-.result-emoji{font-size:40px;margin-bottom:0.75rem}
-.result-score-big{font-family:'Syne',sans-serif;font-size:56px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:0.2rem}
-.result-pts-label{font-size:12px;color:var(--muted);margin-bottom:0.75rem;letter-spacing:0.06em;text-transform:uppercase}
-.result-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:0.4rem}
+/* ─── RESULT ────────────────────────────────────────── */
+.result-top{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:1.75rem 1.5rem;text-align:center;margin-bottom:1.1rem}
+.result-emoji{font-size:36px;margin-bottom:0.6rem}
+.result-score-big{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:0.15rem}
+.result-pts-label{font-size:11px;color:var(--muted);margin-bottom:0.6rem;letter-spacing:0.06em;text-transform:uppercase}
+.result-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:0.3rem}
 .result-sub{font-size:13px;color:var(--muted2);line-height:1.7;max-width:400px;margin:0 auto}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem}
-.stat-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:0.9rem}
-.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px}
-.stat-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:700}
-.section-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.75rem;display:flex;align-items:center;gap:10px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.1rem}
+.stat-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:0.85rem}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px}
+.stat-val{font-family:'Syne',sans-serif;font-size:21px;font-weight:700}
+.section-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.7rem;display:flex;align-items:center;gap:10px}
 .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.cat-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem}
-.cat-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px}
-.cat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px}
+.cat-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
+.cat-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:13px 15px}
+.cat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;gap:8px}
 .cat-name{font-size:13px;font-weight:500;flex:1;line-height:1.4}
 .cat-badge{font-size:11px;font-weight:600;padding:2px 10px;border-radius:99px;white-space:nowrap}
 .cat-badge.great{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
 .cat-badge.ok{background:var(--warn-dim);color:var(--warn);border:1px solid rgba(245,166,35,0.2)}
 .cat-badge.bad{background:var(--danger-dim);color:var(--danger);border:1px solid rgba(255,107,107,0.2)}
-.cat-bar-track{height:4px;background:var(--s3);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.cat-bar-track{height:4px;background:var(--s3);border-radius:99px;overflow:hidden;margin-bottom:7px}
 .cat-bar-fill{height:100%;border-radius:99px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
 .cat-bar-fill.great{background:var(--accent)}
 .cat-bar-fill.ok{background:var(--warn)}
 .cat-bar-fill.bad{background:var(--danger)}
 .cat-detail{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
-.result-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:2rem}
-
-/* review CTA */
-.review-cta{background:var(--danger-dim);border:1px solid rgba(255,107,107,0.2);border-radius:var(--r);padding:16px 18px;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.review-cta-left{flex:1}
-.review-cta-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px}
+.result-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:1.75rem}
+.review-cta{background:var(--danger-dim);border:1px solid rgba(255,107,107,0.2);border-radius:var(--r);padding:14px 16px;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.review-cta-title{font-size:14px;font-weight:500;margin-bottom:2px}
 .review-cta-sub{font-size:12px;color:var(--muted2)}
 
-/* ── REVIEW PAGE ── */
-#review-screen{padding-bottom:2rem}
-.review-header{margin-bottom:1.5rem}
-.review-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;margin-bottom:0.25rem}
-.review-sub{font-size:13px;color:var(--muted);margin-bottom:1rem}
-.review-progress-label{font-size:12px;color:var(--muted2);margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
-.review-dot{width:8px;height:8px;border-radius:50%;background:var(--danger);display:inline-block}
-
-/* FLASHCARDS — fixed layout, no absolute positioning */
-.fc-stack{display:flex;flex-direction:column;gap:16px}
-
+/* ─── REVIEW (flashcards) ───────────────────────────── */
+.review-header{margin-bottom:1.25rem}
+.review-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:0.2rem}
+.review-sub{font-size:13px;color:var(--muted)}
+.review-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted2);background:var(--s1);border:1px solid var(--border2);border-radius:99px;padding:3px 10px;margin-top:0.6rem}
+.fc-stack{display:flex;flex-direction:column;gap:14px}
 .flashcard{border-radius:var(--r);overflow:hidden;cursor:pointer}
-.fc-front{
-  background:var(--s1);border:1px solid rgba(255,107,107,0.18);
-  border-radius:var(--r);padding:18px;
-  display:flex;flex-direction:column;gap:10px;
-}
-.fc-back{
-  background:var(--s2);border:1px solid rgba(91,156,246,0.2);
-  border-radius:var(--r);padding:18px;
-  display:none;flex-direction:column;gap:12px;
-}
+.fc-front{background:var(--s1);border:1px solid rgba(255,107,107,0.18);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:9px}
+.fc-back{background:var(--s2);border:1px solid rgba(91,156,246,0.2);border-radius:var(--r);padding:16px;display:none;flex-direction:column;gap:11px}
 .flashcard.open .fc-front{display:none}
 .flashcard.open .fc-back{display:flex}
-
 .fc-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--danger);background:var(--danger-dim);border:1px solid rgba(255,107,107,0.18);border-radius:99px;padding:2px 10px;width:fit-content}
-.fc-num{font-size:11px;color:var(--muted);font-weight:500}
 .fc-question{font-size:14px;color:var(--text);line-height:1.55;font-weight:500}
-.fc-flip-hint{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;margin-top:2px}
-
+.fc-flip-hint{font-size:11px;color:var(--muted);margin-top:2px}
 .fc-back-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--info);display:flex;align-items:center;gap:8px}
 .fc-back-label::after{content:'';flex:1;height:1px;background:rgba(91,156,246,0.15)}
-.fc-wrong-list{display:flex;flex-direction:column;gap:8px}
-.fc-wrong-item{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.1);border-radius:6px;padding:10px 12px}
-.fc-wrong-letter{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--danger);margin-bottom:4px;opacity:0.8}
-.fc-wrong-opt{font-size:12px;color:var(--text);margin-bottom:4px;line-height:1.4}
+.fc-wrong-list{display:flex;flex-direction:column;gap:7px}
+.fc-wrong-item{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.1);border-radius:6px;padding:9px 11px}
+.fc-wrong-letter{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--danger);margin-bottom:3px;opacity:0.8}
+.fc-wrong-opt{font-size:12px;color:var(--text);margin-bottom:3px;line-height:1.4}
 .fc-wrong-why{font-size:12px;color:var(--muted2);line-height:1.5;font-style:italic}
-.fc-hint-box{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.18);border-radius:6px;padding:10px 12px;display:flex;gap:8px}
-.fc-hint-ico{font-size:14px;flex-shrink:0;margin-top:1px}
-.fc-hint-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--warn);opacity:0.7;margin-bottom:3px}
+.fc-hint-box{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.18);border-radius:6px;padding:9px 11px;display:flex;gap:8px}
+.fc-hint-ico{font-size:13px;flex-shrink:0;margin-top:1px}
+.fc-hint-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--warn);opacity:0.7;margin-bottom:2px}
 .fc-hint-text{font-size:12px;color:var(--warn);line-height:1.55}
-.fc-close-hint{font-size:11px;color:var(--muted);text-align:right;margin-top:4px}
-.review-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem}
+.fc-close-hint{font-size:11px;color:var(--muted);text-align:right;margin-top:3px}
+.review-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.25rem}
 
-/* ── RANKING ── */
-.rank-header{margin-bottom:1.5rem}
-.rank-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;margin-bottom:0.25rem}
+/* ─── STUDY FLASHCARDS ──────────────────────────────── */
+.study-header{margin-bottom:1.5rem}
+.study-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:0.25rem}
+.study-sub{font-size:13px;color:var(--muted);margin-bottom:1rem}
+.study-progress{display:flex;gap:8px;font-size:12px;color:var(--muted2);flex-wrap:wrap;align-items:center}
+.study-progress-bar{flex:1;min-width:80px;height:4px;background:var(--s3);border-radius:99px;overflow:hidden}
+.study-progress-fill{height:100%;background:var(--accent);border-radius:99px;transition:width 0.4s ease}
+.study-theme-section{margin-bottom:2rem}
+.study-theme-header{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.75rem;display:flex;align-items:center;gap:10px}
+.study-theme-header::after{content:'';flex:1;height:1px;background:var(--border)}
+.study-card-wrap{display:flex;flex-direction:column;gap:14px}
+.study-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem}
+
+/* FLIP CARD */
+.sfc-scene{perspective:1200px;cursor:pointer}
+.sfc-card{position:relative;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);border-radius:var(--r)}
+.sfc-scene.flipped .sfc-card{transform:rotateY(180deg)}
+.sfc-face{position:absolute;inset:0;width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px}
+.sfc-front-face{background:var(--s1);border:1px solid var(--border2)}
+.sfc-back-face{background:var(--s2);border:1px solid rgba(91,156,246,0.2);transform:rotateY(180deg)}
+
+/* front content */
+.sfc-card-num{font-size:10px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
+.sfc-card-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px}
+.sfc-card-status.done{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
+.sfc-card-status.pending{background:var(--s3);color:var(--muted)}
+.sfc-q{font-size:15px;font-weight:500;color:var(--text);line-height:1.55}
+.sfc-textarea{width:100%;background:var(--s2);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:72px;transition:border-color 0.2s;line-height:1.55}
+.sfc-textarea:focus{border-color:var(--info)}
+.sfc-textarea::placeholder{color:var(--muted)}
+.sfc-front-actions{display:flex;gap:8px;flex-wrap:wrap}
+.sfc-btn{cursor:pointer;border:none;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-weight:500;font-size:13px;padding:9px 16px;transition:all 0.14s}
+.sfc-btn-confirm{background:var(--info);color:#020810}
+.sfc-btn-confirm:hover{opacity:0.88}
+.sfc-btn-outline{background:transparent;color:var(--muted2);border:1px solid var(--border2)}
+.sfc-btn-outline:hover{color:var(--text);background:var(--s1)}
+.sfc-btn-correct{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
+.sfc-btn-correct:hover{opacity:0.8}
+.sfc-flip-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:2px}
+
+/* back content */
+.sfc-back-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--info);display:flex;align-items:center;gap:8px}
+.sfc-back-label::after{content:'';flex:1;height:1px;background:rgba(91,156,246,0.15)}
+.sfc-answer-box{background:var(--info-dim);border:1px solid rgba(91,156,246,0.15);border-radius:var(--r-sm);padding:13px;font-size:13px;color:var(--text);line-height:1.65}
+.sfc-back-actions{display:flex;gap:8px;flex-wrap:wrap}
+.sfc-back-flip-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:2px}
+.sfc-understood-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:3px 10px;font-weight:600}
+
+/* spacer so absolute faces give height to relative parent */
+.sfc-spacer{visibility:hidden;pointer-events:none;padding:18px;display:flex;flex-direction:column;gap:12px}
+.sfc-wrapper{position:relative;margin-bottom:0}
+
+/* ─── RANKING ───────────────────────────────────────── */
+.rank-header{margin-bottom:1.25rem}
+.rank-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:0.25rem}
 .rank-sub{font-size:13px;color:var(--muted)}
-.rank-list{display:flex;flex-direction:column;gap:6px;margin-bottom:1.5rem}
-.rank-item{display:flex;align-items:center;gap:14px;background:var(--s1);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px}
+.rank-list{display:flex;flex-direction:column;gap:6px;margin-bottom:1.25rem}
+.rank-item{display:flex;align-items:center;gap:12px;background:var(--s1);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 13px}
 .rank-item.me{border-color:var(--accent-border);background:var(--accent-dim)}
 .rank-pos{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;min-width:26px;color:var(--muted)}
 .rank-pos.gold{color:#f59e0b}.rank-pos.silver{color:#9ca3af}.rank-pos.bronze{color:#cd7c3a}
@@ -206,69 +271,127 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .rank-empty{text-align:center;color:var(--muted);font-size:14px;padding:2rem}
 .rank-loading{text-align:center;color:var(--muted);font-size:13px;padding:1.5rem}
 .rank-nav{display:flex;gap:8px;flex-wrap:wrap}
-.rank-note{font-size:12px;color:var(--muted);background:var(--s1);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;margin-bottom:1rem;line-height:1.6}
+.rank-note{font-size:12px;color:var(--muted);background:var(--s1);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 13px;margin-bottom:0.9rem;line-height:1.6}
 .rank-note strong{color:var(--muted2)}
-.config-notice{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.2);border-radius:var(--r-sm);padding:14px 16px;font-size:13px;color:var(--warn);line-height:1.7;margin-bottom:1rem}
+.config-notice{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.2);border-radius:var(--r-sm);padding:13px 15px;font-size:13px;color:var(--warn);line-height:1.7;margin-bottom:0.9rem}
 .config-notice code{background:rgba(245,166,35,0.12);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:12px}
 
-@media(max-width:480px){body{padding:1rem 0.75rem 4rem}.hero-title{font-size:28px}.feature-grid{gap:8px}.stat-row{grid-template-columns:repeat(3,1fr)}}
+/* admin toast */
+.admin-toast{position:fixed;bottom:24px;right:24px;background:#1e2733;border:1px solid var(--purple-border);border-radius:var(--r-sm);padding:10px 16px;font-size:13px;color:var(--purple);z-index:9999;animation:up 0.2s ease;display:none}
+.admin-toast.show{display:block}
+
+@media(max-width:480px){body{padding:1rem 0.75rem 4rem}.hero-title{font-size:26px}.mode-grid{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
 <div id="app">
+
   <div class="nav">
     <div class="nav-brand">
       <div class="nav-icon">🦷</div>
-      <div><div class="nav-name">Saúde Coletiva I</div><div class="nav-sub">Odontologia · Monitor de estudos</div></div>
+      <div><div class="nav-name">Saúde Coletiva I</div><div class="nav-sub">Odontologia · Plataforma de estudos</div></div>
     </div>
     <div class="nav-pills"><span class="pill">SUS</span><span class="pill">Saúde-Doença</span><span class="pill">Políticas</span></div>
   </div>
 
-  <!-- START -->
-  <div id="start-screen" class="screen active">
+  <!-- ── HOME ── -->
+  <div id="home-screen" class="screen active">
     <div id="last-result-banner" class="last-result-banner" style="display:none" onclick="showLastResult()">
       <div class="lrb-left"><div class="lrb-icon">📊</div><div><div class="lrb-title">Ver meu último resultado</div><div class="lrb-sub" id="lrb-sub">Clique para ver estatísticas</div></div></div>
       <div class="lrb-arrow">›</div>
     </div>
-    <div class="start-hero">
-      <div class="hero-eyebrow"><span class="hero-dot"></span>Quiz interativo</div>
-      <div class="hero-title">Teste seus<br>conhecimentos</div>
-      <div class="hero-desc">Questões no estilo do professor. Responda rápido — quanto mais rápido o acerto, mais pontos você ganha!</div>
-      <div class="feature-grid">
-        <div class="feature-card"><div class="feature-icon">⚡</div><div class="feature-label">Velocidade</div><div class="feature-val">Pontuação maior para quem acerta mais rápido</div></div>
-        <div class="feature-card"><div class="feature-icon">🔀</div><div class="feature-label">Embaralhado</div><div class="feature-val">Questões e alternativas diferentes a cada jogo</div></div>
-        <div class="feature-card"><div class="feature-icon">🃏</div><div class="feature-label">Revisão</div><div class="feature-val">Flashcards separados para cada questão errada</div></div>
+    <div class="home-hero">
+      <div class="hero-eyebrow"><span class="hero-dot"></span>Plataforma de estudos</div>
+      <div class="hero-title">Como quer estudar hoje?</div>
+      <div class="hero-desc">Quiz com ranking, prática por tema ou flashcards interativos — escolha o modo ideal para sua sessão.</div>
+    </div>
+    <div class="mode-grid">
+      <div class="mode-card ranked" onclick="openSetup('ranked')">
+        <div class="mode-badge hot">🏆 Ranking</div>
+        <div class="mode-card-icon">⚡</div>
+        <div class="mode-card-title">Modo Ranqueado</div>
+        <div class="mode-card-desc">Compete com a turma. Pontuação por velocidade. Responda rápido!</div>
       </div>
-      <div class="start-form">
-        <input type="text" id="nick-input" placeholder="Seu apelido (nickname)" maxlength="20"/>
-        <button class="btn btn-green" onclick="startQuiz()">Jogar →</button>
+      <div class="mode-card" onclick="openSetup('normal')">
+        <div class="mode-card-icon">📝</div>
+        <div class="mode-card-title">Modo Normal</div>
+        <div class="mode-card-desc">Pratique sem pressão. Sem ranking. Ideal para revisar o conteúdo.</div>
+      </div>
+      <div class="mode-card study" onclick="showScreen('study-screen')">
+        <div class="mode-badge new">Novo</div>
+        <div class="mode-card-icon">🃏</div>
+        <div class="mode-card-title">Flashcards</div>
+        <div class="mode-card-desc">Estudo ativo com perguntas abertas. Salve seu progresso por tema.</div>
+      </div>
+      <div class="mode-card" onclick="showRanking()">
+        <div class="mode-card-icon">🏆</div>
+        <div class="mode-card-title">Ver Ranking</div>
+        <div class="mode-card-desc">Confira as melhores pontuações da turma no modo ranqueado.</div>
       </div>
     </div>
-    <div class="start-secondary"><button class="btn btn-ghost" onclick="showRanking()">🏆 Ver ranking</button></div>
   </div>
 
-  <!-- QUIZ -->
+  <!-- ── SETUP (theme + nick) ── -->
+  <div id="setup-screen" class="screen">
+    <div class="setup-title" id="setup-title">Configurar quiz</div>
+    <div class="setup-sub" id="setup-sub">Escolha os temas e seu apelido.</div>
+    <div id="ranked-notice" class="ranked-notice" style="display:none">
+      ⚡ Modo ranqueado: pontuação por velocidade. Quanto mais rápido acertar, mais pontos!
+    </div>
+    <div class="setup-section">
+      <div class="setup-label">Selecione os temas</div>
+      <div class="theme-grid">
+        <div class="theme-opt selected" id="topt-0" onclick="toggleTheme(0)">
+          <div class="theme-check" id="tchk-0"></div>
+          <div><div class="theme-name">Princípios e Bases Legais do SUS</div><div class="theme-count">20 questões</div></div>
+        </div>
+        <div class="theme-opt selected" id="topt-1" onclick="toggleTheme(1)">
+          <div class="theme-check" id="tchk-1"></div>
+          <div><div class="theme-name">Processo Saúde-Doença e Determinantes</div><div class="theme-count">20 questões</div></div>
+        </div>
+        <div class="theme-opt selected" id="topt-2" onclick="toggleTheme(2)">
+          <div class="theme-check" id="tchk-2"></div>
+          <div><div class="theme-name">História das Políticas e Odontologia Coletiva</div><div class="theme-count">20 questões</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="setup-section">
+      <div class="setup-label">Seu apelido</div>
+      <div class="nick-row">
+        <input type="text" id="nick-input" placeholder="Nickname (obrigatório)" maxlength="20"/>
+      </div>
+    </div>
+    <div class="setup-btns">
+      <button class="btn btn-green" onclick="startQuiz()">Iniciar quiz →</button>
+      <button class="btn btn-ghost" onclick="showScreen('home-screen')">← Voltar</button>
+    </div>
+  </div>
+
+  <!-- ── QUIZ ── -->
   <div id="quiz-screen" class="screen">
     <div class="quiz-top">
       <span class="q-label" id="q-counter">Questão 1 de 60</span>
-      <span class="score-pill" id="score-badge">0 pts</span>
+      <div class="q-meta">
+        <span class="score-pill" id="score-badge">0 pts</span>
+        <span class="mode-pill" id="mode-pill">Ranqueado</span>
+      </div>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     <div class="timer-row">
       <div class="timer-track"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
-      <span class="timer-val" id="timer-val">30s</span>
-      <span class="pts-preview" id="pts-preview">+100</span>
+      <span class="timer-val" id="timer-val">60s</span>
+      <span class="pts-badge fast" id="pts-badge">+200</span>
     </div>
     <div class="q-part" id="q-part"></div>
     <div class="q-text" id="q-text"></div>
     <div class="q-attempts" id="q-attempts"></div>
     <div class="options" id="options"></div>
-    <div class="hint-box" id="hint-box"><span class="hint-ico">💡</span><div><div class="hint-label">Dica</div><div id="hint-text"></div></div></div>
-    <div class="expl-box" id="expl-box"><span class="hint-ico">📖</span><div><div class="expl-label" id="expl-label">Explicação</div><div id="expl-text"></div></div></div>
+    <div class="hint-box" id="hint-box"><span class="hint-ico">💡</span><div><div class="hint-lbl">Dica</div><div id="hint-text"></div></div></div>
+    <div class="expl-box" id="expl-box"><span class="hint-ico">📖</span><div><div class="expl-lbl" id="expl-lbl">Explicação</div><div id="expl-text"></div></div></div>
     <div class="nav-row"><button class="btn btn-ghost" id="next-btn" style="display:none" onclick="nextQuestion()">Próxima →</button></div>
   </div>
 
-  <!-- RESULT -->
+  <!-- ── RESULT ── -->
   <div id="result-screen" class="screen">
     <div class="result-top">
       <div class="result-emoji" id="res-emoji">🏆</div>
@@ -286,601 +409,233 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="cat-list" id="cat-list"></div>
     <div id="review-cta-wrap"></div>
     <div class="result-btns">
-      <button class="btn btn-green" onclick="showRanking()">🏆 Ver ranking</button>
-      <button class="btn btn-ghost" onclick="restartQuiz()">Jogar de novo</button>
+      <button class="btn btn-green" id="res-ranking-btn" onclick="showRanking()">🏆 Ver ranking</button>
+      <button class="btn btn-ghost" onclick="showScreen('home-screen')">Início</button>
+      <button class="btn btn-ghost" onclick="openSetup(currentMode)">Jogar de novo</button>
     </div>
   </div>
 
-  <!-- REVIEW PAGE -->
+  <!-- ── REVIEW (wrong questions flashcards) ── -->
   <div id="review-screen" class="screen">
     <div class="review-header">
       <div class="review-title">🃏 Revisão</div>
-      <div class="review-sub" id="review-sub">Clique em cada card para ver a explicação.</div>
-      <div class="review-progress-label"><span class="review-dot"></span><span id="review-count"></span></div>
+      <div class="review-sub">Clique em cada card para ver a explicação de cada alternativa.</div>
+      <div class="review-tag" id="review-count-tag"></div>
     </div>
     <div class="fc-stack" id="fc-stack"></div>
     <div class="review-nav">
       <button class="btn btn-green" onclick="showScreen('result-screen')">← Voltar ao resultado</button>
-      <button class="btn btn-ghost" onclick="restartQuiz()">Jogar de novo</button>
+      <button class="btn btn-ghost" onclick="showScreen('home-screen')">Início</button>
     </div>
   </div>
 
-  <!-- RANKING -->
+  <!-- ── STUDY (flashcards modo estudo) ── -->
+  <div id="study-screen" class="screen">
+    <div class="study-header">
+      <div class="study-title">🃏 Flashcards</div>
+      <div class="study-sub">Modo de estudo ativo. Digite sua resposta, confirme e compare com o gabarito.</div>
+      <div class="study-progress" id="study-progress"></div>
+    </div>
+    <div id="study-content"></div>
+    <div class="study-nav">
+      <button class="btn btn-ghost" onclick="showScreen('home-screen')">← Início</button>
+      <button class="btn btn-ghost btn-sm" onclick="clearStudyProgress()" style="margin-left:auto;font-size:12px">🗑 Limpar progresso</button>
+    </div>
+  </div>
+
+  <!-- ── RANKING ── -->
   <div id="ranking-screen" class="screen">
     <div class="rank-header">
       <div class="rank-title">🏆 Ranking da Turma</div>
-      <div class="rank-sub">Saúde Coletiva I — melhor pontuação de cada aluno</div>
+      <div class="rank-sub">Modo Ranqueado — melhor pontuação de cada aluno</div>
     </div>
     <div class="config-notice" id="config-notice" style="display:none">
       <strong>⚙️ Configure o Supabase para ranking online.</strong> Veja o comentário <code>SUPABASE SETUP</code> no código. Até lá, o ranking mostra apenas resultados deste dispositivo.
     </div>
-    <div class="rank-note"><strong>Pontuação:</strong> baseada em velocidade + acerto. Máximo ~150 pts/questão na 1ª tentativa rápida. Apenas a <strong>melhor pontuação</strong> de cada nickname aparece.</div>
+    <div class="rank-note"><strong>Pontuação:</strong> velocidade × acerto. Máximo ~200 pts/questão. Apenas a <strong>melhor pontuação</strong> de cada nickname aparece.</div>
     <div class="rank-list" id="rank-list"><div class="rank-loading">Carregando…</div></div>
     <div class="rank-nav">
-      <button class="btn btn-green" onclick="restartQuiz()">Jogar</button>
+      <button class="btn btn-green" onclick="openSetup('ranked')">Jogar ranqueado</button>
       <button class="btn btn-ghost" onclick="goBack()">← Voltar</button>
     </div>
   </div>
+
 </div>
 
+<!-- admin toast -->
+<div class="admin-toast" id="admin-toast">🛠 Modo admin ativo — simulando respostas…</div>
+
 <script>
-/*
-════════════════════════════════════════════════════════
-  SUPABASE SETUP — ranking compartilhado entre alunos
-════════════════════════════════════════════════════════
-  1. Crie conta gratuita em https://supabase.com
-  2. Novo projeto → SQL Editor → execute:
-
-     CREATE TABLE sc1_ranking (
-       id BIGSERIAL PRIMARY KEY,
-       nickname TEXT NOT NULL,
-       score INTEGER NOT NULL,
-       created_at TIMESTAMPTZ DEFAULT NOW()
-     );
-     ALTER TABLE sc1_ranking ENABLE ROW LEVEL SECURITY;
-     CREATE POLICY "allow all" ON sc1_ranking
-       FOR ALL USING (true) WITH CHECK (true);
-
-  3. Settings → API → copie Project URL e anon key
-  4. Cole abaixo
-════════════════════════════════════════════════════════
-*/
+/* ════════════════════════════════════════════════════
+   SUPABASE SETUP
+   1. https://supabase.com → novo projeto
+   2. SQL Editor → executar:
+      CREATE TABLE sc1_ranking (
+        id BIGSERIAL PRIMARY KEY,
+        nickname TEXT NOT NULL,
+        score INTEGER NOT NULL,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );
+      ALTER TABLE sc1_ranking ENABLE ROW LEVEL SECURITY;
+      CREATE POLICY "allow all" ON sc1_ranking
+        FOR ALL USING (true) WITH CHECK (true);
+   3. Settings → API → copiar URL e anon key
+   4. Colar abaixo
+════════════════════════════════════════════════════ */
 const SUPABASE_URL = 'https://nmtsmnfchwacqhwihggk.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tdHNtbmZjaHdhY3Fod2loZ2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODA0NDQsImV4cCI6MjA5MDU1NjQ0NH0.AbHu5KgZuYfuYejISug1RK3MZQlpQBxTZ2qqki2VPgQ';
 const USE_SUPABASE = SUPABASE_URL !== '' && SUPABASE_ANON_KEY !== '';
 
-/* ═══════════════════════════════════════════════════════════════
-   BANCO DE QUESTÕES
-   Alternativas rebalanceadas: tamanhos similares, sem viés visual.
-   wrongReasons[i] = null para alternativa correta.
-═══════════════════════════════════════════════════════════════ */
-const QUESTIONS = [
-  /* ── PARTE 1: SUS ── */
-  {cat:0,
-   text:"Sobre o princípio da Universalidade no SUS, assinale a CORRETA:",
-   options:["Atende só quem tem carteira assinada e contribui.","É direito de todos os brasileiros e residentes.","Oferta serviços apenas em grandes centros urbanos.","Permite cobrar taxas simbólicas de acesso."],
-   answer:1,
-   hint:"Pense em quem tem direito à saúde no Brasil — é restrito a algum grupo?",
-   explanation:"A universalidade garante saúde como direito de todos, sem qualquer barreira de contribuição, localização ou pagamento.",
-   wrongReasons:["Confunde universalidade com o modelo do INAMPS — antes do SUS só contribuintes eram atendidos. A universalidade rompeu com isso.",null,"Nega a universalidade geográfica — o SUS deve estar presente em todo o território, incluindo zonas rurais e periferias.","Contradiz a universalidade: o SUS é gratuito no ponto de acesso. Qualquer cobrança viola o princípio."]},
-
-  {cat:0,
-   text:"Assinale a INCORRETA sobre o princípio da Equidade:",
-   options:["Visa diminuir desigualdades, tratando desiguais de forma diferente.","Significa distribuir mais recursos para quem mais necessita.","É sinônimo de igualdade: todos recebem exatamente o mesmo atendimento.","Orienta políticas para grupos em maior situação de vulnerabilidade."],
-   answer:2,
-   hint:"Equidade NÃO é igualdade — ela reconhece diferenças e distribui conforme a necessidade.",
-   explanation:"Equidade significa dar mais a quem mais precisa. Igualdade absoluta ignora as desigualdades existentes — é o oposto da equidade.",
-   wrongReasons:["Esta é correta — tratar desigualmente os desiguais é a essência da equidade.",null,"INCORRETA (a pedida): confunde equidade com igualdade absoluta, sendo a afirmação errada da questão.","Esta é correta — a equidade orienta políticas para populações vulneráveis como quilombolas, moradores de rua etc."]},
-
-  {cat:0,
-   text:"O princípio da Integralidade pressupõe que:",
-   options:["As ações de saúde devem focar exclusivamente na cura.","O indivíduo é visto como um todo: promoção, prevenção, tratamento e reabilitação.","O sistema de saúde deve ser fragmentado para facilitar a gestão.","O dentista deve cuidar apenas do dente, sem considerar o contexto do paciente."],
-   answer:1,
-   hint:"'Integral' = totalidade. Promoção + prevenção + tratamento + reabilitação — tudo junto.",
-   explanation:"A integralidade exige que o ser humano seja visto em todas as suas dimensões, cobrindo todos os níveis de atenção, desde a promoção até a reabilitação.",
-   wrongReasons:["Fragmenta a assistência só ao curativo, ignorando promoção, prevenção e reabilitação — o oposto da integralidade.",null,"A fragmentação é um defeito que a integralidade busca superar, não uma solução. A rede deve ser articulada.","A visão só do órgão (dente) é reflexo do modelo biomédico reducionista, incompatível com a integralidade."]},
-
-  {cat:0,
-   text:"Sobre a Descentralização no SUS, é INCORRETO afirmar:",
-   options:["Redistribui poder e responsabilidades entre os três níveis de governo.","A municipalização é o eixo central da descentralização no Brasil.","O Ministério da Saúde passa a ser o único executor local de saúde.","Visa tornar a gestão mais próxima da realidade local da população."],
-   answer:2,
-   hint:"Descentralização = o município executa; a União coordena. Quem está mais perto, executa.",
-   explanation:"Na descentralização, os municípios tornam-se os principais executores. O Ministério coordena, normatiza e financia — mas não executa ações locais.",
-   wrongReasons:["Correta — descentralização é redistribuição de poderes entre União, estados e municípios.",null,"INCORRETA (a pedida): o Ministério exerce a direção NACIONAL, não execução local. Isso é atribuição municipal.","Correta — a descentralização visa aproximar a gestão das necessidades locais."]},
-
-  {cat:0,
-   text:"A Regionalização e a Hierarquização visam:",
-   options:["Concentrar serviços de alta complexidade em todos os municípios.","Organizar serviços em níveis crescentes, garantindo o fluxo do paciente.","Impedir que pacientes do interior usem hospitais de cidades maiores.","Eliminar a atenção primária do sistema de saúde."],
-   answer:1,
-   hint:"Hierarquia = níveis. O paciente começa na UBS e sobe conforme necessidade.",
-   explanation:"A hierarquização organiza os serviços em três níveis (básica, média e alta complexidade) e a regionalização define territórios para garantir acesso ordenado.",
-   wrongReasons:["Inviável: alta complexidade requer escala e especialização. Pequenos municípios são referenciados para centros regionais.",null,"Contradiz a regionalização: o objetivo é justamente garantir acesso de todos os municípios a serviços de maior complexidade.","A atenção primária é a base e porta de entrada do sistema — eliminar a base colapsaria toda a pirâmide."]},
-
-  {cat:0,
-   text:"A Lei nº 8.080/1990 dispõe sobre:",
-   options:["Exclusivamente a participação da comunidade no SUS.","A organização, direção e gestão dos serviços de saúde no Brasil.","A criação das Caixas e Institutos de Aposentadoria.","O financiamento exclusivo da odontologia no setor público."],
-   answer:1,
-   hint:"8.080 = Lei Orgânica da Saúde. 'Orgânica' regula a estrutura e funcionamento do sistema.",
-   explanation:"A Lei 8.080/1990 é a Lei Orgânica da Saúde, regulamentando o SUS em sua totalidade: organização, competências, princípios, direção e gestão.",
-   wrongReasons:["A participação da comunidade é regulamentada pela Lei 8.142/1990 — outra lei complementar.",null,"As CAPs e IAPs são anteriores em décadas à CF/88 e ao SUS — não foram criados pela Lei 8.080.","A odontologia estética não é objeto de saúde pública universal e nunca compôs essa legislação."]},
-
-  {cat:0,
-   text:"Sobre o Controle Social no SUS, assinale a INCORRETA:",
-   options:["É garantido pela Lei nº 8.142/1990, por Conselhos e Conferências.","Ocorre por meio dos Conselhos e Conferências de Saúde nos três níveis.","Os Conselhos têm caráter apenas consultivo, sem poder sobre verbas.","Os usuários representam 50% da composição dos Conselhos de Saúde."],
-   answer:2,
-   hint:"Consultivo = só recomenda. Deliberativo = decide com força normativa. Qual é o real?",
-   explanation:"Os Conselhos de Saúde são órgãos de caráter DELIBERATIVO — suas resoluções têm força normativa e devem ser cumpridas pelo gestor.",
-   wrongReasons:["Correta — a Lei 8.142/1990 garante a participação popular e regulamenta Conselhos e Conferências.",null,"INCORRETA (a pedida): os Conselhos são deliberativos — aprovam o plano de saúde, fiscalizam verbas e podem exigir prestação de contas.","Correta — 50% dos conselheiros são usuários; os outros 50% dividem-se entre trabalhadores (25%) e gestores/prestadores (25%)."]},
-
-  {cat:0,
-   text:"As Conferências de Saúde devem ser realizadas a cada:",
-   options:["Dois anos, conforme a Lei 8.142.","Quatro anos, conforme a Lei 8.142.","Um ano, para acompanhar metas anuais.","Dez anos, alinhadas ao plano decenal."],
-   answer:1,
-   hint:"A Lei 8.142 define o prazo. Pense no ciclo de planejamento das políticas de saúde.",
-   explanation:"A Lei 8.142/1990 estabelece periodicidade de 4 anos para as Conferências, coincidindo com o ciclo de planejamento das políticas de saúde.",
-   wrongReasons:["2 anos não é o prazo legal. Seria curto demais para avaliar impacto de políticas implementadas.",null,"1 ano seria inviável operacionalmente para convocar representantes de todo o país e consolidar diagnósticos.","10 anos não tem base legal e seria longo demais — geraria descompasso entre realidade e planejamento."]},
-
-  {cat:0,
-   text:"Os 50% dos Conselhos de Saúde não ocupados por usuários são divididos entre:",
-   options:["Apenas médicos e odontólogos da rede pública.","Governo, prestadores de serviço e profissionais de saúde.","Exclusivamente representantes de empresas privadas do setor.","Políticos eleitos e representantes do Judiciário."],
-   answer:1,
-   hint:"Paridade: 50% usuários + 25% profissionais de saúde + 25% gestores e prestadores.",
-   explanation:"A composição: 50% usuários + 25% trabalhadores de saúde + 25% entre gestores e prestadores de serviço (públicos e privados conveniados).",
-   wrongReasons:["Reducionista — profissionais de saúde incluem toda a equipe multiprofissional (enfermeiros, ACS, técnicos etc.), não só médicos e dentistas.",null,"Empresas privadas prestadoras podem ter representação, mas junto aos gestores e outros prestadores — não de forma exclusiva.","Políticos não compõem os Conselhos como categoria. A representação é técnica e da sociedade civil organizada."]},
-
-  {cat:0,
-   text:"O tripé da Seguridade Social na CF/88 abrange:",
-   options:["Saúde, Educação e Segurança Pública.","Saúde, Previdência Social e Assistência Social.","Previdência, Habitação e Acesso ao Lazer.","Assistência Social, Trabalho e Renda Mínima."],
-   answer:1,
-   hint:"Art. 194 da CF/88: três políticas sociais formam a Seguridade. Saúde é uma delas.",
-   explanation:"O Art. 194 da CF/88 define a Seguridade Social como o conjunto integrado de ações de Saúde, Previdência Social e Assistência Social.",
-   wrongReasons:["Educação e Segurança são direitos sociais importantes (Art. 6º), mas não integram o tripé da Seguridade Social do Art. 194.",null,"Habitação e Lazer são direitos sociais, mas não integram a Seguridade Social definida pela Constituição.","Trabalho e Renda são temas relevantes, mas a Seguridade Social é composta pelo tripé saúde, previdência e assistência social."]},
-
-  {cat:0,
-   text:"Qual documento é a 'Certidão de Nascimento' do SUS?",
-   options:["A Lei Eloy Chaves, que criou as CAPs em 1923.","A Constituição Federal de 1988, que instituiu o SUS.","A NOB 96, que reorganizou a gestão do sistema.","O Pacto pela Saúde, de 2006, com suas três dimensões."],
-   answer:1,
-   hint:"O SUS foi criado em que ano? Por qual instrumento legal?",
-   explanation:"A CF/88 criou o SUS nos Arts. 196 a 200, sendo o marco legal que institui a saúde como direito universal e dever do Estado.",
-   wrongReasons:["A Lei Eloy Chaves (1923) criou as CAPs — marca o início da previdência social, não o SUS. É anterior em 65 anos.",null,"A NOB 96 é um instrumento de regulamentação da gestão do SUS já existente — não a sua criação.","O Pacto pela Saúde (2006) reorganizou a gestão, mas é posterior e instrumental, não fundacional."]},
-
-  {cat:0,
-   text:"Assinale a INCORRETA sobre a organização do SUS:",
-   options:["A direção é única em cada esfera de governo federal.","A rede de saúde deve ser organizada de forma regionalizada.","Municípios são proibidos de se unir em consórcios de saúde.","O setor privado pode participar do SUS de forma complementar."],
-   answer:2,
-   hint:"A cooperação intermunicipal em saúde é incentivada ou proibida pela legislação?",
-   explanation:"Os consórcios intermunicipais são previstos e incentivados pela Lei 8.080 e pela Lei 11.107/2005 — são estratégia para municípios com poucos recursos.",
-   wrongReasons:["Correta — a unicidade de comando é princípio organizativo: em cada esfera existe apenas um gestor responsável.",null,"Correta — a regionalização é princípio organizativo explícito que orienta a formação de redes regionais.",null,"Correta — o setor privado pode participar de forma complementar, com preferência para entidades filantrópicas."]},
-
-  {cat:0,
-   text:"'Acesso para todos, distribuído conforme a necessidade' combina:",
-   options:["Universalidade e Equidade.","Descentralização e Hierarquização.","Participação Popular e Regionalização.","Integralidade e Controle Social."],
-   answer:0,
-   hint:"'Acesso para todos' = Universalidade. 'Conforme a necessidade' = Equidade.",
-   explanation:"Universalidade garante acesso a todos; Equidade garante que os recursos sejam distribuídos conforme as necessidades de cada um — os dois princípios se complementam.",
-   wrongReasons:[null,"Descentralização e hierarquização são princípios organizativos relacionados à estrutura, não à lógica de acesso e distribuição.","Participação popular e regionalização são importantes, mas não definem a lógica de acesso universal e justo.","Integralidade trata da completude do cuidado; controle social, da participação popular — não do acesso universal com equidade."]},
-
-  {cat:0,
-   text:"A quem cabe a direção nacional do SUS?",
-   options:["À Secretaria Municipal de Saúde do DF.","Ao Ministério da Saúde, como gestor federal.","Ao Conselho Federal de Medicina e parceiros.","Às Secretarias Estaduais reunidas em colegiado."],
-   answer:1,
-   hint:"Três esferas de governo, três direções. Qual é o órgão da esfera federal?",
-   explanation:"O Ministério da Saúde exerce a direção nacional do SUS. Estados têm Secretarias Estaduais e municípios, as Secretarias Municipais — cada esfera com autonomia e responsabilidades.",
-   wrongReasons:["A Secretaria Municipal exerce a direção MUNICIPAL, não nacional. Confunde as esferas de gestão.",null,"O CFM é um conselho de fiscalização profissional — não é órgão de gestão do sistema público de saúde.","As Secretarias Estaduais exercem direção estadual e não formam um colegiado de direção nacional."]},
-
-  {cat:0,
-   text:"Sobre a participação complementar do setor privado no SUS:",
-   options:["Hospitais privados têm prioridade sobre os filantrópicos.","O SUS só contrata privados se os serviços públicos forem insuficientes.","O prestador privado define livremente o valor cobrado pelo atendimento.","O setor privado contratado não precisa seguir os protocolos do SUS."],
-   answer:1,
-   hint:"'Complementar' = entra quando o público não basta. E há uma ordem de preferência.",
-   explanation:"A participação privada é complementar — acionada quando a rede pública for insuficiente. Preferência para entidades filantrópicas e sem fins lucrativos. Valores são tabelados pelo SUS.",
-   wrongReasons:["Invertido: a preferência é de filantrópicas e sem fins lucrativos SOBRE os hospitais privados com fins lucrativos.",null,"Os valores pagos são tabelados pela tabela SIGTAP — o prestador privado não define o preço livremente.","Qualquer prestador contratado deve seguir as diretrizes, protocolos e princípios do SUS — sem exceção."]},
-
-  {cat:0,
-   text:"A 'Direção Única' no SUS significa que:",
-   options:["Apenas uma autoridade federal comanda todo o sistema.","Em cada esfera de governo há apenas um órgão responsável pela saúde.","Secretarias estaduais de saúde foram extintas pela Lei 8.080.","O setor privado dirige o setor público em parceria formal."],
-   answer:1,
-   hint:"'Única' por esfera de governo, não única para todo o Brasil.",
-   explanation:"Direção única: em cada esfera há um único gestor — Ministério da Saúde (federal), Secretaria Estadual e Secretaria Municipal de Saúde.",
-   wrongReasons:["Confunde 'direção única' com centralização. O princípio refere-se a unicidade de comando por esfera, não a liderança absoluta nacional.",null,"As Secretarias Estaduais existem e são as gestoras estaduais do SUS — o princípio organiza sua competência, não as extingue.","O setor privado é complementar e subordinado às diretrizes do SUS, nunca dirige o setor público."]},
-
-  {cat:0,
-   text:"Assinale a INCORRETA sobre os Conselhos de Saúde:",
-   options:["Devem existir nos três níveis de governo: federal, estadual e municipal.","Devem fiscalizar a execução financeira e orçamentária da saúde.","São compostos e eleitos exclusivamente pela categoria médica.","Atuam na formulação de estratégias e no controle da política de saúde."],
-   answer:2,
-   hint:"Quem compõe os Conselhos? Apenas uma categoria profissional ou a sociedade em geral?",
-   explanation:"Os Conselhos são compostos por usuários (50%), trabalhadores de saúde (25%) e gestores/prestadores (25%). A representação é ampla e multiprofissional.",
-   wrongReasons:["Correta — há Conselho Nacional, Estaduais e Municipais de Saúde, um em cada esfera de governo.",null,"Correta — fiscalizar a execução financeira e orçamentária é atribuição explícita dos Conselhos na Lei 8.142.","Correta — os Conselhos atuam na formulação de estratégias e no controle da execução da política de saúde."]},
-
-  {cat:0,
-   text:"A Lei 8.080 define saúde como direito fundamental e ressalta que:",
-   options:["O dever do Estado isenta a família e a sociedade de responsabilidade.","O dever do Estado não exclui o das pessoas, famílias, empresas e sociedade.","A saúde depende unicamente da vontade e escolhas individuais.","O Estado só deve cuidar de quem não possui vínculo empregatício."],
-   answer:1,
-   hint:"O Estado tem o dever PRINCIPAL, mas isso exclui a responsabilidade dos demais atores?",
-   explanation:"A Lei 8.080 estabelece responsabilidade compartilhada: o Estado tem o dever principal, mas isso não exime indivíduos, famílias, empresas e sociedade de também zelar pela saúde.",
-   wrongReasons:["Incorreto — o dever do Estado é principal, mas não exclui a corresponsabilidade de outros atores.",null,"A saúde não depende só da vontade individual — fatores sociais, econômicos e ambientais têm papel determinante. Visão reducionista que ignora os DSS.","O SUS é universal — não condiciona o atendimento à situação de emprego. Isso seria a característica do modelo pré-SUS (INAMPS)."]},
-
-  {cat:0,
-   text:"A integralidade da assistência no SUS inclui:",
-   options:["Apenas consultas médicas nas unidades de atenção básica.","Assistência terapêutica integral, inclusive a assistência farmacêutica.","Somente vacinação e imunização nas campanhas nacionais.","Apenas procedimentos de baixo custo e baixa complexidade."],
-   answer:1,
-   hint:"'Integral' inclui tudo — desde prevenção até reabilitação, passando pelos medicamentos.",
-   explanation:"A Lei 8.080 define integralidade como assistência terapêutica completa, incluindo medicamentos — materializado nas listas RENAME e nos Protocolos Clínicos do SUS.",
-   wrongReasons:["Limitar ao médico contradiz a integralidade e a equipe multiprofissional do SUS — odontólogos, enfermeiros, psicólogos etc. também compõem a assistência.",null,"Vacinação é apenas uma das ações de prevenção. Integralidade inclui diagnóstico, tratamento, reabilitação, promoção e assistência farmacêutica.","O SUS cobre tratamentos de alta complexidade — transplantes, quimioterapia, cirurgias cardíacas. Limitar ao 'baixo custo' viola a integralidade."]},
-
-  {cat:0,
-   text:"No SUS, o acesso aos serviços deve ser feito preferencialmente pela:",
-   options:["Alta Complexidade, como hospitais de referência regional.","Atenção Primária, pelas Unidades Básicas de Saúde.","Emergência dos Prontos-Socorros hospitalares.","Clínica particular conveniada ao plano de saúde."],
-   answer:1,
-   hint:"A UBS é a 'porta de entrada' — primeiro contato, mais próximo da população.",
-   explanation:"A Atenção Primária é a base e porta de entrada preferencial do SUS, responsável pela coordenação do cuidado e pelo encaminhamento para maior complexidade quando necessário.",
-   wrongReasons:["A alta complexidade atende casos que já foram triados e encaminhados. Usá-la como porta de entrada sobrecarrega o sistema.",null,"O Pronto-Socorro é para urgências e emergências — usá-lo como porta de entrada cotidiana é um dos grandes problemas do sistema.","Clínicas particulares não são a porta de entrada do SUS — o acesso deve ser pelos serviços públicos."]},
-
-  /* ── PARTE 2: PROCESSO SAÚDE-DOENÇA ── */
-  {cat:1,
-   text:"A definição da OMS (1946) de saúde como 'completo bem-estar' é criticada por:",
-   options:["Ser muito focada na doença e nos aspectos biológicos.","Ser utópica e subjetiva, difícil de alcançar plenamente.","Ignorar completamente o aspecto social e coletivo.","Não mencionar a saúde bucal como dimensão relevante."],
-   answer:1,
-   hint:"'Completo bem-estar' — alguém consegue atingir isso de fato? O que os críticos apontam?",
-   explanation:"A definição da OMS é criticada por ser utópica (ninguém atinge 'completo bem-estar') e subjetiva (bem-estar é difícil de mensurar). Funciona mais como horizonte do que estado real.",
-   wrongReasons:["Ao contrário — a definição da OMS ampliou o olhar para além da doença, incluindo dimensões positivas de bem-estar.",null,"A definição inclui explicitamente o aspecto social ('bem-estar social'). Criticá-la por ignorar o social é contraditório com o próprio texto.","A saúde bucal não ser citada explicitamente não é a crítica principal nem a mais relevante academicamente."]},
-
-  {cat:1,
-   text:"Na visão Mágico-Religiosa do processo saúde-doença:",
-   options:["A doença é causada por microrganismos específicos identificáveis.","O adoecimento é visto como castigo divino ou influência espiritual.","A cura depende exclusivamente de antibióticos e antivirais.","O meio ambiente físico é o único fator de risco considerado."],
-   answer:1,
-   hint:"Mágico-Religioso = explicação sobrenatural para o adoecimento, anterior à ciência moderna.",
-   explanation:"No modelo mágico-religioso, a doença é explicada como punição divina, feitiçaria ou desequilíbrio espiritual — modelo pré-científico.",
-   wrongReasons:["Microrganismos como causa é a Era Bacteriológica (Pasteur/Koch, séc. XIX) — muito posterior e científica, oposto do modelo mágico-religioso.",null,"Antibióticos são tecnologia do séc. XX — totalmente incompatíveis com uma visão pré-científica mágico-religiosa.","O meio ambiente como fator de risco pertence ao modelo naturalista hipocrático e à Tríade Ecológica — não ao modelo mágico-religioso."]},
-
-  {cat:1,
-   text:"Sobre o modelo Naturalista de Hipócrates, é INCORRETO afirmar:",
-   options:["Buscou explicações racionais e naturais para as doenças.","Observou a influência do clima, da água e da alimentação na saúde.","Atribuía as epidemias exclusivamente ao pecado e à punição divina.","É considerado um precursor da Epidemiologia e da saúde ambiental."],
-   answer:2,
-   hint:"Hipócrates ROMPEU com explicações religiosas — ele buscava causas na natureza.",
-   explanation:"Hipócrates foi o responsável por separar medicina de religião, buscando causas racionais (clima, água, ventos, dieta). Atribuir causas ao pecado seria o oposto do seu legado.",
-   wrongReasons:["Correta — Hipócrates introduziu o raciocínio racional e observacional, rompendo com o modelo mágico-religioso.",null,"Correta — sua obra 'Dos Ares, das Águas e dos Lugares' é justamente sobre a influência do ambiente físico na saúde.","Correta — seu método observacional e epidemiológico o torna um dos precursores da epidemiologia clássica."]},
-
-  {cat:1,
-   text:"A Teoria Miasmática atribuía as doenças a:",
-   options:["Vírus transmitidos por vetores como mosquitos e carrapatos.","Emanações de matéria orgânica em decomposição — os miasmas.","Deficiência na higiene oral e nas práticas de escovação diária.","Alterações genéticas hereditárias transmitidas entre gerações."],
-   answer:1,
-   hint:"'Miasma' = ar impuro. A teoria baseava-se no que se via (podridão) e no que se cheirava.",
-   explanation:"A teoria miasmática atribuía as doenças a 'ares fétidos' e emanações de matéria orgânica em decomposição — teoricamente equivocada, mas que motivou reformas sanitárias importantes.",
-   wrongReasons:["Transmissão viral por vetores é um conceito moderno da microbiologia — incompatível com o pensamento miasmático pré-bacteriológico.",null,"Higiene dental não tinha relação com a teoria miasmática, que se preocupava com poluição ambiental e ar contaminado.","Genética é ciência do séc. XX — totalmente anacrônico associá-la à teoria miasmática do séc. XVIII-XIX."]},
-
-  {cat:1,
-   text:"A Era Bacteriológica (final do séc. XIX) introduziu o conceito de:",
-   options:["Multicausalidade e determinação social do processo de adoecimento.","Unicausalidade — um agente etiológico específico para cada doença.","Determinantes Sociais como variáveis principais do adoecimento.","História Natural da Doença com fases distintas de progressão."],
-   answer:1,
-   hint:"Pasteur e Koch: para cada doença, UM agente específico. Uma causa, uma doença.",
-   explanation:"A Era Bacteriológica (Pasteur, Koch) estabeleceu o paradigma da unicausalidade: cada doença tem um agente etiológico específico. Modelo dominante até meados do séc. XX.",
-   wrongReasons:["A multicausalidade veio depois, como crítica ao modelo unicausal — reconhece que múltiplos fatores interagem para produzir doença.",null,"Os DSS são conceito do séc. XX, sistematizados pela OMS a partir dos anos 2000.","A História Natural da Doença (Leavell & Clark) é um modelo do séc. XX, posterior à Era Bacteriológica."]},
-
-  {cat:1,
-   text:"Assinale a INCORRETA sobre o Modelo Biomédico:",
-   options:["É focado na cura da doença e na assistência hospitalar curativa.","Fragmenta o corpo humano em especialidades médicas isoladas.","Valoriza aspectos sociais e emocionais acima dos biológicos.","O médico é a figura central e autoritária no processo terapêutico."],
-   answer:2,
-   hint:"O modelo biomédico é biologicista — ele ignora, não valoriza, o que está além do corpo físico.",
-   explanation:"O modelo biomédico é centrado no biológico e na doença. Aspectos sociais, emocionais e culturais são marginalizados — o oposto do que afirma a alternativa incorreta.",
-   wrongReasons:["Correta — o modelo biomédico é curativista, centrado na doença estabelecida e no ambiente hospitalar.",null,"Correta — a fragmentação em especialidades é uma das críticas ao modelo biomédico, que perde a visão do todo.","Correta — a relação médico-paciente no modelo biomédico é hierárquica e paternalista."]},
-
-  {cat:1,
-   text:"A Tríade Ecológica do modelo de Multicausalidade é composta por:",
-   options:["Governo Federal, Estadual e Municipal como esferas de gestão.","Agente causador, Hospedeiro e Meio Ambiente em equilíbrio.","Dentista, Paciente e Auxiliar de Saúde Bucal na equipe.","Vírus, Bactéria e Protozoário como tipos de agentes etiológicos."],
-   answer:1,
-   hint:"Tríade ecológica = três elementos epidemiológicos que interagem para produzir (ou não) doença.",
-   explanation:"A Tríade Ecológica representa o equilíbrio dinâmico entre Agente (causador), Hospedeiro (quem adoece) e Meio Ambiente (contexto). A doença ocorre quando esse equilíbrio é rompido.",
-   wrongReasons:["Governo Federal, Estadual e Municipal são esferas de gestão política — não têm relação com a Tríade Ecológica epidemiológica.",null,"Dentista, Paciente e ASB é a composição da Equipe de Saúde Bucal — confunde modelo epidemiológico com equipe clínica.","Vírus, Bactéria e Protozoário são tipos de AGENTES — apenas um dos três componentes da tríade, não a tríade inteira."]},
-
-  {cat:1,
-   text:"O conceito de Determinantes Sociais da Saúde (DSS) defende que:",
-   options:["A biologia e a genética são os únicos fatores que importam.","As condições de vida — onde se nasce, cresce e trabalha — influenciam a saúde.","A saúde depende apenas das escolhas e comportamentos individuais.","O saneamento básico não interfere nos indicadores de saúde coletiva."],
-   answer:1,
-   hint:"DSS = fatores FORA do corpo que determinam saúde: renda, moradia, saneamento, trabalho.",
-   explanation:"Os DSS reconhecem que as condições de vida — renda, educação, moradia, emprego, acesso a serviços — são determinantes fundamentais do perfil de saúde das populações.",
-   wrongReasons:["Este é o modelo biomédico/biológico — os DSS surgiram exatamente para superar essa visão reducionista.",null,"Culpabilizar o indivíduo ignora que suas escolhas são condicionadas pelo contexto social e econômico — exatamente o que os DSS demonstram.","Décadas de epidemiologia mostram que saneamento básico é o fator de maior impacto na redução de doenças infecciosas e parasitárias."]},
-
-  {cat:1,
-   text:"No modelo de Dahlgren e Whitehead, 'Estilo de Vida' é considerado:",
-   options:["Um determinante macroeconômico estrutural da sociedade.","Um determinante proximal, mais próximo do indivíduo.","Um fator hereditário fixo e imutável ao longo da vida.","Uma política pública de responsabilidade exclusiva do Estado."],
-   answer:1,
-   hint:"No arco-íris de Dahlgren e Whitehead, o que está no centro, mais perto do indivíduo?",
-   explanation:"No modelo em camadas, o estilo de vida individual é a camada mais interna — mais próxima ao indivíduo (proximal). É influenciado pelas camadas externas, mas é o ponto de contato direto.",
-   wrongReasons:["Determinantes macroeconômicos ficam na camada mais externa do modelo — bem distantes do estilo de vida individual.",null,"O estilo de vida não é hereditário nem imutável — é moldado pelo contexto social, econômico e cultural.","Políticas públicas são instrumentos para intervir nos determinantes — não são o próprio determinante 'estilo de vida'."]},
-
-  {cat:1,
-   text:"Na História Natural da Doença (Leavell & Clark), a Pré-Patogênese é:",
-   options:["A fase em que a doença já está instalada com sinais e sintomas.","O período em que o indivíduo é saudável, mas está exposto a riscos.","A etapa de reabilitação física após o tratamento da doença.","O momento do diagnóstico laboratorial precoce e rastreamento."],
-   answer:1,
-   hint:"'Pré' = antes do processo patológico começar NO organismo. Mas o risco já existe no ambiente.",
-   explanation:"A Pré-Patogênese é o período em que o agente e hospedeiro ainda não interagiram — o indivíduo está saudável mas exposto a fatores de risco. É onde atuam as ações de prevenção primária.",
-   wrongReasons:["Sintomas graves caracterizam a fase de patogênese avançada ou o horizonte clínico — muito posterior à pré-patogênese.",null,"A reabilitação é a fase final do modelo (prevenção terciária) — o oposto da pré-patogênese.","O diagnóstico laboratorial é prevenção secundária (detecção precoce), que ocorre na patogênese precoce — não na pré-patogênese."]},
-
-  {cat:1,
-   text:"A Prevenção Primária atua em qual fase da História Natural da Doença?",
-   options:["Patogênese precoce, quando o agente já invadiu o hospedeiro.","Pré-patogênese, antes que o processo patológico se inicie.","Defeito ou invalidez, na fase de limitação funcional instalada.","Diagnóstico precoce, durante o rastreamento da doença silenciosa."],
-   answer:1,
-   hint:"Primária = antes da doença começar. Promoção da saúde e proteção específica.",
-   explanation:"A prevenção primária atua na fase de pré-patogênese, antes que o processo patológico se inicie — inclui promoção da saúde e proteção específica (vacinação, fluoretação).",
-   wrongReasons:["A patogênese precoce é território da prevenção secundária (diagnóstico e tratamento precoce) — a doença já iniciou seu processo biológico.",null,"Defeito ou invalidez é fase avançada da patogênese — território da prevenção terciária (reabilitação).","Diagnóstico precoce é prevenção secundária — pressupõe que a doença já se iniciou silenciosamente."]},
-
-  {cat:1,
-   text:"A fluoretação das águas de abastecimento é uma medida de:",
-   options:["Prevenção Terciária, voltada à reabilitação de perdas dentárias.","Proteção Específica, nível da Prevenção Primária contra cárie.","Diagnóstico Precoce, para identificar cáries em fase inicial.","Reabilitação Oral, para restaurar função em pacientes edêntulos."],
-   answer:1,
-   hint:"Fluoretação previne a cárie antes de ela surgir — atua na fase de pré-patogênese.",
-   explanation:"A fluoretação é uma medida de proteção específica — nível da prevenção primária que atua sobre um mecanismo específico de doença antes que ela se instale.",
-   wrongReasons:["Prevenção terciária é reabilitação de danos já estabelecidos (prótese, reabilitação oral) — a fluoretação não trata, previne.",null,"Diagnóstico precoce pressupõe que a doença já começou silenciosamente. A fluoretação não diagnostica — ela previne que a cárie comece.","Reabilitação oral (próteses, implantes) é prevenção terciária — lida com perdas já consolidadas, não com prevenção."]},
-
-  {cat:1,
-   text:"Assinale a INCORRETA sobre o conceito atual de saúde-doença:",
-   options:["É um processo dinâmico e contínuo ao longo da vida.","Doença e saúde são estados opostos, estáticos e bem delimitados.","Envolve a dimensão subjetiva de como o indivíduo vive sua condição.","É influenciado pela cultura, pelo contexto e pelo momento histórico."],
-   answer:1,
-   hint:"O conceito atual é dinâmico — saúde e doença não são extremos fixos, mas um contínuo.",
-   explanation:"A visão contemporânea entende saúde-doença como processo dinâmico e contínuo, influenciado por fatores biológicos, sociais, culturais e históricos. Não são estados estáticos ou opostos.",
-   wrongReasons:["Correta — o processo saúde-doença é dinâmico, sujeito a variações ao longo do tempo e do contexto de vida.",null,"Correta — a experiência subjetiva do adoecimento é parte do conceito atual de saúde-doença.","Correta — o que é considerado doença varia entre culturas e ao longo da história (ex: homossexualidade já foi classificada como doença)."]},
-
-  {cat:1,
-   text:"O 'Determinismo Biológico' é característica marcante de qual modelo?",
-   options:["Modelo Social, que prioriza os fatores coletivos e estruturais.","Modelo Biomédico e Era Bacteriológica, centrados no biológico.","Modelo Holístico, que integra dimensões bio-psico-sociais.","Promoção da Saúde, que valoriza autonomia e qualidade de vida."],
-   answer:1,
-   hint:"Determinismo biológico = a doença é explicada APENAS pela biologia, sem contexto social.",
-   explanation:"O modelo biomédico e a Era Bacteriológica têm como marca o determinismo biológico — a doença é causada por fatores biológicos, ignorando dimensões sociais e psicológicas.",
-   wrongReasons:["O Modelo Social é o oposto — explica saúde e doença pelos fatores socioambientais, criticando o reducionismo biológico.",null,"O Modelo Holístico busca integrar dimensões biológicas, psicológicas e sociais — por definição, vai além do determinismo biológico.","A Promoção da Saúde critica o determinismo biológico e valoriza autonomia, ambiente e qualidade de vida."]},
-
-  {cat:1,
-   text:"Os 'Determinantes Intermediários' da saúde são:",
-   options:["Condições de vida, trabalho, moradia e acesso a alimentos.","Apenas o patrimônio genético e o DNA de cada indivíduo.","Grandes crises econômicas globais e estrutura do capitalismo.","Características físicas como cor dos olhos e tipo sanguíneo."],
-   answer:0,
-   hint:"'Intermediários' ficam entre o macro (estrutura social) e o micro (biologia individual).",
-   explanation:"Os determinantes intermediários incluem condições materiais de vida: habitação, trabalho, alimentação, acesso a serviços — eles mediam a relação entre estrutura social e saúde individual.",
-   wrongReasons:[null,"O DNA é um fator biológico proximal (determinantes individuais) — não é um 'determinante intermediário' no sentido dos modelos de DSS.","Crises econômicas são determinantes estruturais (macroeconômicos) — a camada mais distante do indivíduo, não intermediária.","Cor dos olhos e tipo sanguíneo são características genéticas individuais — fatores biológicos não modificáveis, não determinantes intermediários."]},
-
-  {cat:1,
-   text:"A Conferência de Alma-Ata (1978) foi marco para:",
-   options:["A descoberta e desenvolvimento dos antibióticos modernos.","A defesa da Atenção Primária como estratégia central de saúde.","O fortalecimento da assistência hospitalar de alta complexidade.","A proibição internacional do uso preventivo do flúor nas águas."],
-   answer:1,
-   hint:"'Saúde para todos até o ano 2000' — qual nível de atenção foi apontado como a chave?",
-   explanation:"Alma-Ata (1978) proclamou 'Saúde para todos até o ano 2000' e definiu a Atenção Primária à Saúde como estratégia fundamental para reduzir desigualdades e universalizar o acesso.",
-   wrongReasons:["Os antibióticos foram desenvolvidos na década de 1940 — décadas antes de Alma-Ata e sem relação com a conferência.",null,"A conferência defendeu o oposto: serviços próximos da comunidade, preventivos e de baixo custo — não tecnologia hospitalar de alto custo.","Alma-Ata não tratou de fluoretação — a fluoretação é regulamentada por legislações nacionais específicas."]},
-
-  {cat:1,
-   text:"Na Odontologia, focar no 'Indivíduo' em vez do 'Dente' reflete:",
-   options:["A aplicação pura do modelo biomédico ao contexto odontológico.","A compreensão ampliada do processo saúde-doença na odontologia.","A falência do sistema público e a falta de recursos estruturais.","O aumento dos preços dos materiais odontológicos no mercado."],
-   answer:1,
-   hint:"Ver o paciente inteiro — não só o dente — é visão integral. Que modelo defende isso?",
-   explanation:"A mudança reflete a transição do modelo biomédico (dente isolado) para uma abordagem integral, que considera o paciente em seu contexto biológico, social e psicológico.",
-   wrongReasons:["O modelo biomédico puro é exatamente o que foca no órgão (dente) em detrimento do indivíduo. A mudança vai na direção OPOSTA.",null,"A falência do sistema não tem relação lógica com a transformação epistemológica no foco do cuidado odontológico.","Preços de materiais têm relação com gestão econômica, não com a transformação do modelo de atenção à saúde bucal."]},
-
-  {cat:1,
-   text:"Fatores como idade, sexo biológico e genética são determinantes:",
-   options:["Sociais, pois estão relacionados ao contexto de vida do indivíduo.","Biológicos não modificáveis, intrínsecos ao hospedeiro.","Econômicos, por influenciarem a capacidade de acesso a serviços.","Culturais, pois variam conforme as crenças de cada sociedade."],
-   answer:1,
-   hint:"Você pode mudar seu genoma, sua data de nascimento ou seu sexo biológico facilmente?",
-   explanation:"Idade, sexo biológico e genética são determinantes biológicos não modificáveis — fazem parte da camada individual da Tríade Ecológica e dos modelos de DSS como fatores do hospedeiro.",
-   wrongReasons:["Determinantes sociais são condições externas ao indivíduo: renda, moradia, educação, trabalho — não características biológicas intrínsecas.",null,"Determinantes econômicos incluem renda, emprego, condições de trabalho — fatores externos e modificáveis pela política social.","Determinantes culturais são crenças, valores e práticas de uma sociedade — externos e historicamente construídos."]},
-
-  {cat:1,
-   text:"A 'Promoção da Saúde' difere da 'Prevenção de Doenças' por:",
-   options:["Sempre ter custo mais baixo do que as ações preventivas.","Focar na saúde geral e na autonomia, além de uma doença específica.","Ser realizada exclusivamente por médicos em unidades de saúde.","Ser aplicada apenas em pacientes com doenças em estágio grave."],
-   answer:1,
-   hint:"Promoção = empoderar e fortalecer. Prevenção = evitar uma doença específica. Qual é mais ampla?",
-   explanation:"A Promoção da Saúde (Carta de Ottawa, 1986) atua sobre os determinantes mais amplos da saúde — qualidade de vida, autonomia, ambiente. A prevenção foca em evitar doenças específicas.",
-   wrongReasons:["O custo não define a diferença conceitual entre promoção e prevenção — além de ser uma simplificação incorreta.",null,"Promoção da Saúde é essencialmente intersetorial e multiprofissional — envolve educadores, assistentes sociais, gestores, comunidade. Não é exclusiva de médicos.","A Promoção da Saúde atua principalmente com populações saudáveis e vulneráveis — não é reservada a doentes graves."]},
-
-  {cat:1,
-   text:"Assinale a INCORRETA sobre a causalidade social das doenças:",
-   options:["Menor escolaridade tende a associar-se a piores indicadores de saúde bucal.","A cárie dentária não tem qualquer relação com o nível de renda familiar.","O desemprego é fator de risco para transtornos mentais e doenças físicas.","A localização geográfica pode determinar o acesso ao saneamento e ao flúor."],
-   answer:1,
-   hint:"Cárie e renda — famílias mais pobres têm menos acesso a alimentos saudáveis, higiene e flúor?",
-   explanation:"A cárie é fortemente influenciada pela renda: populações com menor renda têm menor acesso a alimentos adequados, higiene, flúor e serviços odontológicos. Relação amplamente documentada.",
-   wrongReasons:["Correta — evidências mostram que menor escolaridade se associa a piores hábitos de higiene, dieta e menor acesso a serviços de saúde bucal.",null,"Correta — desemprego gera estresse crônico e acesso precário a serviços, sendo fator de risco reconhecido para diversas doenças.","Correta — municípios sem saneamento e sem fluoretação concentram maiores índices de doenças infecciosas e cárie dentária."]},
-
-  /* ── PARTE 3: HISTÓRIA DAS POLÍTICAS / ODONTOLOGIA COLETIVA ── */
-  {cat:2,
-   text:"O período das CAPs (1923–1933) caracterizava-se por:",
-   options:["Assistência universal financiada pelo Governo Federal para todos.","Caixas organizadas por empresa, financiadas por empregados e empregadores.","Atendimento exclusivo a desempregados e moradores de rua.","Criação do Ministério da Saúde e das secretarias municipais."],
-   answer:1,
-   hint:"CAPs = Caixas de Aposentadorias e Pensões. Por empresa, não pelo governo.",
-   explanation:"As CAPs (criadas pela Lei Eloy Chaves, 1923) eram organizadas por empresa, financiadas por empregados e empregadores. Só cobria trabalhadores de determinadas categorias.",
-   wrongReasons:["Nem universal nem federal — as CAPs eram fragmentadas por empresa e cobriam apenas os trabalhadores daquela empresa específica.",null,"O atendimento era para trabalhadores formais empregados — excluía desempregados, informais e a maioria da população.","O Ministério da Saúde só foi criado em 1953 — três décadas após as CAPs."]},
-
-  {cat:2,
-   text:"A principal diferença entre CAPs e IAPs foi:",
-   options:["O financiamento passou a ser exclusivamente estatal, sem contribuição patronal.","A organização migrou de por empresa para por categoria profissional.","Os IAPs tornaram-se universais, cobrindo toda a população brasileira.","Os IAPs eliminaram a assistência médica, mantendo só a aposentadoria."],
-   answer:1,
-   hint:"IAPs = Institutos de Aposentadorias e Pensões. Centralização por categoria: bancários, industriários...",
-   explanation:"Os IAPs centralizaram a previdência por categoria profissional (IAPI para industriários, IAPB para bancários etc.) — maior escala, mas ainda excludente para trabalhadores sem carteira.",
-   wrongReasons:["O financiamento dos IAPs era tripartite: empregado + empregador + Estado. Não era exclusivamente estatal.",null,"Os IAPs eram vinculados à carteira de trabalho — quem não tinha vínculo formal era 'indigente sanitário'. Longe de ser universal.","Os IAPs mantinham assistência médica e previdenciária — a cobertura até se ampliou em relação às CAPs."]},
-
-  {cat:2,
-   text:"O modelo Campanhista de Oswaldo Cruz no início do séc. XX visava:",
-   options:["Tratar cáries em crianças escolares nas escolas públicas.","Erradicar epidemias para garantir a economia exportadora nos portos.","Criar o Sistema Único de Saúde com base territorial e universal.","Distribuir medicamentos gratuitos para doenças crônicas não transmissíveis."],
-   answer:1,
-   hint:"O Brasil dependia das exportações. Os portos precisavam estar livres de quê?",
-   explanation:"O modelo campanhista de Oswaldo Cruz focava no saneamento dos portos e no combate a febre amarela, varíola e peste bubônica — ameaças ao comércio exterior brasileiro.",
-   wrongReasons:["A odontologia escolar é política posterior e totalmente desvinculada das campanhas sanitárias dos portos do início do séc. XX.",null,"O SUS foi criado em 1988 pela CF/88 — oito décadas após as campanhas de Oswaldo Cruz.","Medicamentos para doenças crônicas são política de saúde contemporânea, incompatível com o modelo campanhista emergencial."]},
-
-  {cat:2,
-   text:"Assinale a INCORRETA sobre o INAMPS (1977–1993):",
-   options:["Era o órgão assistencial da previdência social brasileira.","Atendia apenas quem possuía vínculo formal de trabalho registrado.","Foi o primeiro sistema de saúde universal implantado no Brasil.","Priorizava a assistência médico-hospitalar curativa e privada contratada."],
-   answer:2,
-   hint:"INAMPS = só contribuintes da previdência eram atendidos. 'Indigente sanitário' era o excluído.",
-   explanation:"O INAMPS era excludente — atendia apenas os contribuintes da previdência. O primeiro sistema universal do Brasil foi o SUS, criado pela CF/88 em 1988.",
-   wrongReasons:["Correta — o INAMPS era o braço assistencial da previdência social.",null,"Correta — sem carteira assinada e contribuição, o cidadão era 'indigente sanitário', dependente da caridade.","Correta — o INAMPS foi amplamente criticado por priorizar atendimento curativo em hospitais privados conveniados."]},
-
-  {cat:2,
-   text:"A 8ª Conferência Nacional de Saúde (1986) é histórica porque:",
-   options:["Foi a primeira com ampla participação popular, lançando as bases do SUS.","Decidiu que a saúde deveria ser gerida prioritariamente pelo setor privado.","Extinguiu o cargo de dentista no serviço público de saúde coletiva.","Foi realizada sob controle da Ditadura, sem participação da sociedade civil."],
-   answer:0,
-   hint:"A 8ª CNS foi o marco da Reforma Sanitária — 'saúde como direito, dever do Estado'.",
-   explanation:"A 8ª CNS (1986), com 4.000 participantes, foi a primeira conferência com real participação popular. Seu relatório final foi a base para o capítulo de saúde da CF/88 e a criação do SUS.",
-   wrongReasons:[null,"A 8ª CNS defendeu exatamente o oposto: saúde pública, universal e estatal — 'saúde não é mercadoria'.","Jamais houve deliberação extinguindo dentistas do serviço público. É afirmação sem qualquer fundamento histórico.","A 8ª CNS ocorreu em 1986, em plena redemocratização — com participação ampliada e inédita da sociedade civil."]},
-
-  {cat:2,
-   text:"O Sistema Incremental na Odontologia (década de 50) tinha como característica:",
-   options:["Prioridade para gestantes e bebês de zero a três anos de vida.","Foco em escolares de 6 a 14 anos com tratamento completo por turma.","Distribuição universal de próteses totais para idosos acima de 60 anos.","Educação em saúde sem intervenção clínica nem procedimentos restauradores."],
-   answer:1,
-   hint:"'Incremental' = avança ano a ano por faixa etária escolar, do 1° ao 8° ano.",
-   explanation:"O Sistema Incremental priorizava escolares de 6 a 14 anos (1° ao 8° grau), com tratamento completo por turma a cada ano letivo — modelo fechado, que ignorava adultos, idosos e pré-escolares.",
-   wrongReasons:["Gestantes e bebês foram alvo de outros modelos posteriores (odontologia para bebês, inversão da atenção) — não do sistema incremental.",null,"Próteses para idosos são parte do Brasil Sorridente (2004) — décadas depois e com lógica totalmente diferente.","O sistema incremental incluía intervenção clínica (restaurações, extrações, profilaxia) — não era só educação em saúde."]},
-
-  {cat:2,
-   text:"Assinale a INCORRETA sobre as críticas ao Sistema Incremental:",
-   options:["Era excludente, pois deixava adultos e pré-escolares sem cobertura.","Baseava-se na restauração definitiva sem considerar atividade de cárie.","Teve alto impacto coletivo, beneficiando toda a população brasileira.","Ignorava o contexto socioeconômico como fator de risco para a cárie."],
-   answer:2,
-   hint:"O sistema era restrito a escolares — como poderia ter impacto em 'toda' a população?",
-   explanation:"O Sistema Incremental teve baixo impacto coletivo justamente por ser excludente — atendia apenas escolares de 6-14 anos, deixando a grande maioria sem assistência.",
-   wrongReasons:["Correta crítica — o sistema excluía adultos, idosos, gestantes e crianças menores de 6 anos.",null,"Correta crítica — o foco era restauração definitiva, sem controle da atividade de cárie ou tratamento atraumático.","Correta crítica — não era considerado o contexto socioeconômico e os fatores de risco individuais."]},
-
-  {cat:2,
-   text:"O Programa Brasil Sorridente (2004) instituiu:",
-   options:["A proibição definitiva de extrações dentárias em unidades do SUS.","A Política Nacional de Saúde Bucal, com CEOs e LRPDs para próteses.","O encerramento do programa de fluoretação das águas no país.","O atendimento odontológico restrito a hospitais militares federais."],
-   answer:1,
-   hint:"Brasil Sorridente = primeira política nacional robusta de saúde bucal. CEOs + LRPDs.",
-   explanation:"O Brasil Sorridente (2004) criou a Política Nacional de Saúde Bucal, ampliando a rede com CEOs (especialidades) e LRPDs (laboratórios de prótese) — cobertura para todas as faixas etárias.",
-   wrongReasons:["Não houve proibição de extrações. O Brasil Sorridente buscou ampliar o acesso preventivo e reabilitador, não restringir procedimentos.",null,"A fluoretação é lei federal desde 1974 — o Brasil Sorridente não alterou isso.","O SUS é público e civil — hospitais militares têm rede própria e separada."]},
-
-  {cat:2,
-   text:"O índice CPO-D mede:",
-   options:["A quantidade de dentes com clareamento na dentição permanente.","O número de dentes Cariados, Perdidos e Obturados na dentição permanente.","A pressão arterial do paciente antes do procedimento odontológico.","O custo médio de cada procedimento realizado no consultório."],
-   answer:1,
-   hint:"C = Cariados. P = Perdidos. O = Obturados. D = Dentes permanentes. Soma por pessoa.",
-   explanation:"O CPO-D é o principal índice epidemiológico em saúde bucal, medindo a experiência acumulada de cárie: dentes Cariados + Perdidos por cárie + Obturados (restaurados) na dentição permanente.",
-   wrongReasons:["Dentes clareados não são um indicador epidemiológico — cor dental não compõe nenhum índice de saúde pública em odontologia.",null,"Pressão arterial não tem relação com índices odontológicos — é parâmetro cardiovascular usado na triagem antes de procedimentos.","Custo de procedimento é dado financeiro/administrativo, completamente distinto dos índices epidemiológicos clínicos."]},
-
-  {cat:2,
-   text:"O SB Brasil 2010 mostrou que o CPO-D aos 12 anos:",
-   options:["Aumentou drasticamente em relação aos dados de 1986.","Diminuiu de forma expressiva, atingindo metas da OMS em várias regiões.","Permaneceu estável e sem mudanças desde o levantamento de 1986.","Só diminuiu em municípios da região Nordeste com fluoretação."],
-   answer:1,
-   hint:"Fluoretação + ESF + Brasil Sorridente = qual tendência para a cárie nas últimas décadas?",
-   explanation:"O SB Brasil 2010 mostrou CPO-D de 2,07 aos 12 anos — queda expressiva comparada a 1986 (6,65). Muitas regiões atingiram a meta da OMS de CPO-D menor que 2,0.",
-   wrongReasons:["Os dados mostram queda consistente — não aumento. O aumento contrariaria décadas de políticas de fluoretação e atenção básica.",null,"Houve mudança significativa — de CPO-D 6,65 em 1986 para 2,07 em 2010. Afirmar que permaneceu igual ignora os dados do levantamento.","A queda foi nacional, mais expressiva em algumas regiões, mas com melhora em todo o território — não restrita ao Nordeste."]},
-
-  {cat:2,
-   text:"O edentulismo total no Brasil é mais grave em qual faixa etária?",
-   options:["Crianças de 0 a 5 anos, pela cárie precoce na infância.","Adolescentes de 15 a 19 anos, pela falta de fluoretação na adolescência.","Idosos de 65 a 74 anos, herança do modelo mutilador histórico.","Adultos jovens de 20 a 30 anos, pela alimentação industrializada."],
-   answer:2,
-   hint:"Pense nas gerações que cresceram sem odontologia preventiva e sob o modelo mutilador.",
-   explanation:"O SB Brasil mostra que idosos de 65-74 anos têm prevalência altíssima de edentulismo — herança de décadas de um modelo mutilador que priorizava extrações como solução para a dor.",
-   wrongReasons:["Crianças de 0-5 anos têm dentição decídua — edentulismo total nessa faixa é raro e geralmente por displasias.",null,"Adolescentes de 15-19 anos geralmente têm dentição permanente relativamente preservada e menor histórico de extração.","Adultos jovens têm menos perdas acumuladas — o modelo mutilador afetou mais intensamente as gerações mais velhas."]},
-
-  {cat:2,
-   text:"Sobre a fluoretação da água no Brasil, é CORRETO afirmar:",
-   options:["É obrigatória por lei federal em municípios com estação de tratamento.","Foi proibida por evidências científicas de relação com câncer bucal.","O dentista não tem papel no monitoramento da qualidade da água.","É uma medida de custo elevado e eficácia questionável para cárie."],
-   answer:0,
-   hint:"Lei 6.050/1974 tornou a fluoretação obrigatória. O dentista participa do heterocontrole.",
-   explanation:"A Lei 6.050/1974 torna a fluoretação obrigatória em sistemas de abastecimento público. O dentista deve participar da vigilância (heterocontrole) para garantir concentrações adequadas.",
-   wrongReasons:[null,"Não há evidência científica que relacione fluoretação (em concentrações adequadas) ao câncer. A afirmação contraria décadas de pesquisa epidemiológica.","O dentista tem papel ativo no heterocontrole da fluoretação — é corresponsável por garantir que as concentrações estejam adequadas no território.","A fluoretação da água é reconhecida pela OMS como a medida de saúde pública de melhor custo-benefício para prevenção de cárie coletiva."]},
-
-  {cat:2,
-   text:"O papel do CEO (Centro de Especialidades Odontológicas) é:",
-   options:["Realizar procedimentos simples como limpeza e obturação básica.","Oferecer atenção especializada (Endodontia, Periodontia, Cirurgia etc.).","Atender exclusivamente pacientes com planos de saúde odontológicos.","Comercializar próteses e serviços de odontologia estética ao público."],
-   answer:1,
-   hint:"CEO = nível secundário da rede. Especialidades que a atenção básica não resolve.",
-   explanation:"O CEO oferece atenção especializada em pelo menos: Endodontia, Periodontia, Cirurgia oral menor, Estomatologia, Pacientes com necessidades especiais e Prótese — por encaminhamento da atenção básica.",
-   wrongReasons:["Limpezas e obturações simples são procedimentos da Atenção Básica (UBS/ESB) — o CEO foi criado para ir além disso.",null,"O CEO é equipamento público do SUS — sem pagamento, sem planos. Acesso por encaminhamento da atenção básica.","Planos de saúde são do setor privado — o CEO é unidade pública, financiada pelo Ministério da Saúde."]},
-
-  {cat:2,
-   text:"A Equipe de Saúde Bucal (ESB) na Estratégia Saúde da Família deve priorizar:",
-   options:["Exclusivamente o atendimento de urgências por dor aguda.","O vínculo territorial, a família e as ações de promoção e prevenção.","Aguardar a demanda espontânea dentro do consultório odontológico.","Maximizar o número de extrações dentárias realizadas por turno."],
-   answer:1,
-   hint:"ESF = saúde da família no território. A equipe vai ao encontro das famílias, não espera passivamente.",
-   explanation:"A ESB na ESF deve atuar com base na territorialização, vinculação familiar, visitas domiciliares, ações coletivas preventivas e promoção da saúde — não só clínica no consultório.",
-   wrongReasons:["Atendimento de urgência é importante, mas não é a prioridade central da ESF — usá-lo como único foco contradiz a proposta da Saúde da Família.",null,"Esperar o paciente contradiz o princípio da proatividade da ESF — a equipe deve ir ao território, identificar vulnerabilidades e agir preventivamente.","Maximizar extrações representa o velho modelo mutilador que a ESF veio superar — o foco é manter os dentes com prevenção."]},
-
-  {cat:2,
-   text:"O ASB e o TSB no SUS:",
-   options:["Não têm atribuição legal nas equipes de saúde da família.","São fundamentais para ampliar a cobertura e humanizar o atendimento.","Podem realizar cirurgias de alta complexidade de forma autônoma.","São proibidos de interagir diretamente com os pacientes e famílias."],
-   answer:1,
-   hint:"Trabalho em equipe é um dos pilares do SUS. ASB e TSB têm atribuições clínicas e educativas definidas.",
-   explanation:"O ASB (Auxiliar) e o TSB (Técnico) são membros essenciais da Equipe de Saúde Bucal — realizam procedimentos supervisionados, ações educativas e de promoção, ampliando a capacidade de atendimento.",
-   wrongReasons:["ASB e TSB têm atribuições definidas pelo CFO e pelo Ministério da Saúde para atuação nas ESBs. São peças centrais da equipe.",null,"A realização independente de cirurgias complexas extrapola as atribuições legais do ASB e TSB, que atuam sempre sob supervisão do cirurgião-dentista.","Proibir a comunicação com pacientes contraria a humanização, que é diretriz do SUS e atribuição explícita desses profissionais."]},
-
-  {cat:2,
-   text:"Assinale a INCORRETA sobre a história da odontologia pública:",
-   options:["O modelo 'mutilador' priorizava a extração como solução para a dor.","A odontologia sempre teve política nacional robusta desde a criação do SUS.","O Brasil Sorridente foi um marco na ampliação do acesso a próteses dentárias.","O Sistema de Inversão da Atenção focou na odontologia para bebês e crianças."],
-   answer:1,
-   hint:"O SUS foi criado em 1988 — mas quando surgiu a primeira política nacional de saúde bucal?",
-   explanation:"Apesar de o SUS existir desde 1988, a odontologia ficou marginalizada por décadas. Só em 2004, com o Brasil Sorridente, surgiu uma política nacional estruturada — 16 anos depois.",
-   wrongReasons:["Correta — o modelo mutilador era a prática dominante: extração como solução rápida para dor, sem prevenção ou reabilitação.",null,"Correta — o Brasil Sorridente (2004) foi o primeiro programa a incluir próteses dentárias (LRPDs) na rede pública de forma sistemática.","Correta — o Sistema de Inversão da Atenção focou na atenção precoce, inclusive para bebês, como forma de prevenir cárie precocemente."]},
-
-  {cat:2,
-   text:"Territorialização na Saúde Bucal significa:",
-   options:["Construir cercas e muros para delimitar o espaço físico do consultório.","Mapear e reconhecer a área e as famílias sob responsabilidade da equipe.","Comprar terrenos para expandir as instalações da unidade de saúde.","Dividir a boca em quadrantes para fins de registro e prontuário clínico."],
-   answer:1,
-   hint:"Território = área de abrangência da equipe. Conhecer quem vive ali para planejar ações.",
-   explanation:"Territorialização é o processo de mapeamento e diagnóstico do território de abrangência — identificar famílias, riscos, vulnerabilidades e recursos locais para planejar ações de saúde.",
-   wrongReasons:["Construção de cercas é interpretação literal equivocada — territorialização é conceito de gestão e planejamento em saúde coletiva, não de obras físicas.",null,"Comprar terrenos tem relação com infraestrutura da unidade — nada a ver com o conceito epidemiológico de territorialização.","Dividir a boca em quadrantes é terminologia clínico-odontológica de localização anatômica — não se relaciona com o conceito de territorialização."]},
-
-  {cat:2,
-   text:"O mecanismo principal de ação do flúor no controle da cárie é:",
-   options:["Sistêmico pré-eruptivo, formando esmalte completamente resistente.","Tópico pós-eruptivo, modulando desmineralização e remineralização.","Alteração do DNA bacteriano por mecanismo de ação mutagênica.","Remoção mecânica da placa dental pelo efeito abrasivo do flúor."],
-   answer:1,
-   hint:"O consenso atual: o flúor age principalmente no CONTATO com o esmalte já formado — tópico.",
-   explanation:"O mecanismo principal do flúor é tópico pós-eruptivo: em contato com o esmalte, inibe a desmineralização ácida e favorece a remineralização, formando fluorapatita mais resistente.",
-   wrongReasons:["O efeito sistêmico pré-eruptivo existe, mas é secundário. O efeito tópico pós-eruptivo é o mecanismo principal — paradigma atual da ciência.",null,"A alteração de DNA bacteriano não é o mecanismo principal do flúor. Em altas concentrações, inibe enzimas bacterianas — mas isso é secundário ao efeito no esmalte.","A remoção mecânica de placa é feita pela escovação — o flúor não remove placa, age na resistência do esmalte ao ataque ácido."]},
-
-  {cat:2,
-   text:"A Vigilância à Saúde no SUS engloba:",
-   options:["Somente a presença de forças de segurança nos hospitais públicos.","Vigilância Sanitária, Epidemiológica, Ambiental e do Trabalhador.","Apenas a fiscalização dos consultórios odontológicos e médicos privados.","Exclusivamente a contagem de mortes por causas externas e violência."],
-   answer:1,
-   hint:"Vigilância em saúde = quatro ramos integrados. Muito além da fiscalização de consultórios.",
-   explanation:"A Vigilância à Saúde no SUS abrange: Vigilância Sanitária (VISA), Vigilância Epidemiológica, Vigilância Ambiental em Saúde e Vigilância da Saúde do Trabalhador — sistema integrado de proteção.",
-   wrongReasons:["Forças de segurança em hospitais é questão de segurança pública, não de vigilância em saúde.",null,"A Vigilância Sanitária fiscaliza estabelecimentos de saúde, mas isso é apenas uma das quatro frentes — não a totalidade da Vigilância à Saúde.","A mortalidade por causas externas faz parte da vigilância epidemiológica, mas a Vigilância à Saúde vai muito além de contabilizar mortes por acidentes."]},
-
-  {cat:2,
-   text:"A Emenda Constitucional 29 estabeleceu que:",
-   options:["A saúde pública deve ser financiada exclusivamente por doações voluntárias.","Municípios e Estados devem investir percentuais mínimos de suas receitas em saúde.","O Governo Federal pode livremente reduzir os investimentos em saúde.","Todo recurso da saúde deve ser direcionado para construção de equipamentos."],
-   answer:1,
-   hint:"EC 29 vincula recursos da receita de cada ente federado à saúde — percentuais mínimos obrigatórios.",
-   explanation:"A EC 29/2000 estabeleceu pisos mínimos: municípios devem aplicar ao menos 15% de suas receitas próprias em saúde; estados, no mínimo 12%. Regulamentada pela Lei Complementar 141/2012.",
-   wrongReasons:["O SUS é financiado por impostos e contribuições sociais — não por doações. Financiamento por doações seria inviável e inconstitucional.",null,"A EC 29 fez o oposto: VINCULOU recursos mínimos obrigatórios à saúde, impedindo zeramento ou redução arbitrária dos investimentos.","Desvio de verbas da saúde para outros fins é infração à EC 29 e pode ser objeto de improbidade administrativa."]},
+/* ─── CONSTANTS ─── */
+const TIMER = 60; // segundos por questão
+const CAT_NAMES = [
+  "Princípios e Bases Legais do SUS",
+  "Processo Saúde-Doença e Determinantes",
+  "História das Políticas e Odontologia Coletiva"
 ];
 
-const CAT_NAMES=["Princípios e Bases Legais do SUS","Processo Saúde-Doença e Determinantes","História das Políticas e Odontologia Coletiva"];
-const TIMER=30;
-
-/* ── TIME-BASED SCORING ──
-   Fórmula: pts = floor(base * timeFactor)
-   1ª tentativa: base=150, timeFactor = 0.4 + 0.6*(timeLeft/TIMER)   → 60–150 pts
-   2ª tentativa: base=60,  timeFactor = 0.4 + 0.6*(timeLeft/TIMER)   → 24–60 pts
-   Tempo esgotado: 0 pts
-*/
-function calcPoints(attempt, timeLeft){
-  if(attempt===0){
-    const base=150;
-    const factor=0.4+0.6*(timeLeft/TIMER);
-    return Math.floor(base*factor);
-  }else{
-    const base=60;
-    const factor=0.4+0.6*(timeLeft/TIMER);
-    return Math.floor(base*factor);
-  }
+/* ─── TIME-BASED SCORING ───────────────────────────
+   1ª tentativa: 200 pts no máximo (primeiros 10s)
+                 cai para 60 pts no tempo 60s
+   2ª tentativa: 80 pts → 24 pts
+   Fórmula: base × (0.3 + 0.7 × (timeLeft/TIMER))
+─────────────────────────────────────────────────── */
+function calcPoints(attempt, timeLeft) {
+  const base = attempt === 0 ? 200 : 80;
+  const factor = 0.3 + 0.7 * (timeLeft / TIMER);
+  return Math.floor(base * factor);
 }
-function timerColor(t){
-  if(t>20)return'#3dd68c';
-  if(t>10)return'#f5a623';
-  return'#ff6b6b';
+function timerColor(t) {
+  if (t > 30) return '#3dd68c';
+  if (t > 15) return '#f5a623';
+  return '#ff6b6b';
 }
 
-let shuffled=[],current=0,score=0,correctFirst=0,correctSecond=0;
-let answered=false,attempts=0,timerInterval=null,timeLeft=TIMER;
-let nickname='',log=[];
-let prevScreen='start-screen';
+/* ─── QUIZ QUESTIONS ──────────────────────────────── */
+const QUESTIONS = [
+  /* PARTE 1 — SUS (cat:0) */
+  {cat:0,text:"Sobre o princípio da Universalidade no SUS, assinale a CORRETA:",options:["Atende só quem tem carteira assinada e contribui.","É direito de todos os brasileiros e residentes.","Oferta serviços apenas em grandes centros urbanos.","Permite cobrar taxas simbólicas de acesso."],answer:1,hint:"Pense em quem tem direito à saúde no Brasil — é restrito a algum grupo?",explanation:"A universalidade garante saúde como direito de todos, sem qualquer barreira de contribuição, localização ou pagamento.",wrongReasons:["Confunde universalidade com o modelo do INAMPS — antes do SUS só contribuintes eram atendidos.",null,"Nega a universalidade geográfica — o SUS deve estar presente em todo o território nacional.","Contradiz a universalidade: o SUS é gratuito no ponto de acesso. Qualquer cobrança viola o princípio."]},
+  {cat:0,text:"Assinale a INCORRETA sobre o princípio da Equidade:",options:["Visa diminuir desigualdades, tratando desiguais de forma diferente.","Significa distribuir mais recursos para quem mais necessita.","É sinônimo de igualdade: todos recebem exatamente o mesmo.","Orienta políticas para grupos em maior vulnerabilidade."],answer:2,hint:"Equidade NÃO é igualdade — ela reconhece diferenças e distribui conforme a necessidade.",explanation:"Equidade significa dar mais a quem mais precisa. Igualdade absoluta ignora as desigualdades existentes.",wrongReasons:["Correta — tratar desigualmente os desiguais é a essência da equidade.",null,"INCORRETA: confunde equidade com igualdade absoluta.","Correta — a equidade orienta políticas para populações vulneráveis."]},
+  {cat:0,text:"O princípio da Integralidade pressupõe que:",options:["As ações de saúde devem focar exclusivamente na cura.","O indivíduo é visto como um todo: promoção, prevenção, tratamento e reabilitação.","O sistema de saúde deve ser fragmentado para facilitar a gestão.","O dentista deve cuidar apenas do dente, sem considerar o contexto."],answer:1,hint:"'Integral' = totalidade. Promoção + prevenção + tratamento + reabilitação.",explanation:"A integralidade exige que o ser humano seja visto em todas as suas dimensões, cobrindo todos os níveis de atenção.",wrongReasons:["Fragmenta a assistência só ao curativo, ignorando promoção, prevenção e reabilitação.",null,"A fragmentação é um defeito que a integralidade busca superar.","A visão só do órgão é reflexo do modelo biomédico reducionista, incompatível com a integralidade."]},
+  {cat:0,text:"Sobre a Descentralização no SUS, é INCORRETO afirmar:",options:["Redistribui poder e responsabilidades entre os três níveis de governo.","A municipalização é o eixo central da descentralização no Brasil.","O Ministério da Saúde passa a ser o único executor local de saúde.","Visa tornar a gestão mais próxima da realidade local da população."],answer:2,hint:"Descentralização = o município executa; a União coordena.",explanation:"Na descentralização, os municípios tornam-se os principais executores. O Ministério coordena e financia, mas não executa ações locais.",wrongReasons:["Correta — descentralização é redistribuição de poderes entre os níveis.",null,"INCORRETA: o Ministério exerce a direção NACIONAL, não execução local.","Correta — a descentralização visa aproximar a gestão das necessidades locais."]},
+  {cat:0,text:"A Regionalização e a Hierarquização visam:",options:["Concentrar serviços de alta complexidade em todos os municípios.","Organizar serviços em níveis crescentes, garantindo o fluxo do paciente.","Impedir que pacientes do interior usem hospitais de cidades maiores.","Eliminar a atenção primária do sistema de saúde."],answer:1,hint:"Hierarquia = níveis. O paciente começa na UBS e sobe conforme necessidade.",explanation:"A hierarquização organiza os serviços em três níveis e a regionalização define territórios para garantir acesso ordenado.",wrongReasons:["Inviável: alta complexidade requer escala. Pequenos municípios são referenciados para centros regionais.",null,"Contradiz a regionalização: o objetivo é garantir acesso de todos os municípios a serviços de maior complexidade.","A atenção primária é a base do sistema — eliminá-la colapsaria toda a pirâmide."]},
+  {cat:0,text:"A Lei nº 8.080/1990 dispõe sobre:",options:["Exclusivamente a participação da comunidade no SUS.","A organização, direção e gestão dos serviços de saúde no Brasil.","A criação das Caixas e Institutos de Aposentadoria.","O financiamento exclusivo da odontologia no setor público."],answer:1,hint:"8.080 = Lei Orgânica da Saúde. 'Orgânica' regula a estrutura e funcionamento.",explanation:"A Lei 8.080/1990 é a Lei Orgânica da Saúde, regulamentando o SUS em sua totalidade.",wrongReasons:["A participação da comunidade é regulamentada pela Lei 8.142/1990.",null,"As CAPs e IAPs são anteriores em décadas ao SUS — não foram criados pela Lei 8.080.","A odontologia estética não é objeto de saúde pública universal."]},
+  {cat:0,text:"Sobre o Controle Social no SUS, assinale a INCORRETA:",options:["É garantido pela Lei nº 8.142/1990, por Conselhos e Conferências.","Ocorre por meio dos Conselhos e Conferências nos três níveis.","Os Conselhos têm caráter apenas consultivo, sem poder sobre verbas.","Os usuários representam 50% da composição dos Conselhos."],answer:2,hint:"Consultivo = só recomenda. Deliberativo = decide com força normativa.",explanation:"Os Conselhos de Saúde são órgãos de caráter DELIBERATIVO — suas resoluções têm força normativa.",wrongReasons:["Correta — a Lei 8.142/1990 garante a participação popular.",null,"INCORRETA: os Conselhos são deliberativos — aprovam planos, fiscalizam verbas.","Correta — 50% dos conselheiros são usuários."]},
+  {cat:0,text:"As Conferências de Saúde devem ser realizadas a cada:",options:["Dois anos, conforme a Lei 8.142.","Quatro anos, conforme a Lei 8.142.","Um ano, para acompanhar metas anuais.","Dez anos, alinhadas ao plano decenal."],answer:1,hint:"A Lei 8.142 define o prazo. Pense no ciclo de planejamento das políticas.",explanation:"A Lei 8.142/1990 estabelece periodicidade de 4 anos para as Conferências.",wrongReasons:["2 anos não é o prazo legal — seria curto demais para avaliar impacto de políticas.",null,"1 ano seria inviável operacionalmente para convocar representantes de todo o país.","10 anos não tem base legal e seria longo demais."]},
+  {cat:0,text:"O tripé da Seguridade Social na CF/88 abrange:",options:["Saúde, Educação e Segurança Pública.","Saúde, Previdência Social e Assistência Social.","Previdência, Habitação e Acesso ao Lazer.","Assistência Social, Trabalho e Renda Mínima."],answer:1,hint:"Art. 194 da CF/88: três políticas sociais formam a Seguridade Social.",explanation:"O Art. 194 da CF/88 define a Seguridade Social como o conjunto de Saúde, Previdência Social e Assistência Social.",wrongReasons:["Educação e Segurança são direitos sociais importantes, mas não integram o tripé da Seguridade.",null,"Habitação e Lazer são direitos sociais, mas não integram a Seguridade Social do Art. 194.","Trabalho e Renda são temas relevantes, mas a Seguridade Social é o tripé saúde-previdência-assistência."]},
+  {cat:0,text:"Qual documento é a 'Certidão de Nascimento' do SUS?",options:["A Lei Eloy Chaves, que criou as CAPs em 1923.","A Constituição Federal de 1988, que instituiu o SUS.","A NOB 96, que reorganizou a gestão do sistema.","O Pacto pela Saúde, de 2006, com suas três dimensões."],answer:1,hint:"O SUS foi criado em que ano? Por qual instrumento legal?",explanation:"A CF/88 criou o SUS nos Arts. 196 a 200, sendo o marco legal que institui a saúde como direito universal.",wrongReasons:["A Lei Eloy Chaves (1923) criou as CAPs — é anterior em 65 anos ao SUS.",null,"A NOB 96 é um instrumento de regulamentação do SUS já existente — não a sua criação.","O Pacto pela Saúde (2006) reorganizou a gestão, mas é posterior e instrumental, não fundacional."]},
+  {cat:0,text:"Assinale a INCORRETA sobre a organização do SUS:",options:["A direção é única em cada esfera de governo federal.","A rede deve ser organizada de forma regionalizada e hierarquizada.","Municípios são proibidos de se unir em consórcios de saúde.","O setor privado pode participar do SUS de forma complementar."],answer:2,hint:"A cooperação intermunicipal em saúde é incentivada ou proibida?",explanation:"Os consórcios intermunicipais são previstos e incentivados pela Lei 8.080 e Lei 11.107/2005.",wrongReasons:["Correta — a unicidade de comando é princípio organizativo.",null,"Correta — a regionalização é princípio organizativo explícito.","Correta — o setor privado participa de forma complementar, com preferência para entidades filantrópicas."]},
+  {cat:0,text:"A quem cabe a direção nacional do SUS?",options:["À Secretaria Municipal de Saúde do Distrito Federal.","Ao Ministério da Saúde, como gestor federal do SUS.","Ao Conselho Federal de Medicina e entidades parceiras.","Às Secretarias Estaduais reunidas em colegiado nacional."],answer:1,hint:"Três esferas de governo, três direções. Qual é o órgão da esfera federal?",explanation:"O Ministério da Saúde exerce a direção nacional do SUS. Estados têm Secretarias Estaduais e municípios, as Secretarias Municipais.",wrongReasons:["A Secretaria Municipal exerce a direção MUNICIPAL, não nacional.",null,"O CFM é conselho de fiscalização profissional — não é órgão de gestão do sistema público.","As Secretarias Estaduais exercem direção estadual e não formam um colegiado de direção nacional."]},
+  {cat:0,text:"A 'Direção Única' no SUS significa que:",options:["Apenas uma autoridade federal comanda todo o sistema.","Em cada esfera de governo há apenas um órgão responsável pela saúde.","Secretarias estaduais de saúde foram extintas pela Lei 8.080.","O setor privado dirige o setor público em parceria formal."],answer:1,hint:"'Única' por esfera de governo, não única para todo o Brasil.",explanation:"Direção única: em cada esfera há um único gestor — Ministério da Saúde (federal), Secretaria Estadual e Municipal.",wrongReasons:["Confunde 'direção única' com centralização autoritária.",null,"As Secretarias Estaduais existem — o princípio organiza sua competência, não as extingue.","O setor privado é complementar e subordinado às diretrizes do SUS."]},
+  {cat:0,text:"Sobre a participação complementar do setor privado no SUS:",options:["Hospitais privados têm prioridade sobre os filantrópicos.","O SUS só contrata privados se os serviços públicos forem insuficientes.","O prestador privado define livremente o valor cobrado pelo serviço.","O setor privado contratado não precisa seguir os protocolos do SUS."],answer:1,hint:"'Complementar' = entra quando o público não basta. E há uma ordem de preferência.",explanation:"A participação privada é complementar — acionada quando a rede pública for insuficiente. Valores são tabelados pelo SUS.",wrongReasons:["Invertido: a preferência é de filantrópicas SOBRE os hospitais privados com fins lucrativos.",null,"Os valores pagos são tabelados pela tabela SIGTAP — o prestador privado não define o preço.","Qualquer prestador contratado deve seguir as diretrizes e protocolos do SUS."]},
+  {cat:0,text:"A Lei 8.080 define saúde como direito fundamental e ressalta que:",options:["O dever do Estado isenta a família e a sociedade de responsabilidade.","O dever do Estado não exclui o das pessoas, famílias e sociedade.","A saúde depende unicamente da vontade e escolhas individuais.","O Estado só deve cuidar de quem não possui vínculo empregatício."],answer:1,hint:"O Estado tem o dever PRINCIPAL, mas isso exclui a responsabilidade dos demais?",explanation:"A Lei 8.080 estabelece responsabilidade compartilhada: o Estado tem o dever principal, mas não exime indivíduos, famílias e sociedade.",wrongReasons:["Incorreto — o dever do Estado é principal, mas não exclui a corresponsabilidade de outros atores.",null,"A saúde não depende só da vontade individual — fatores sociais e econômicos têm papel determinante.","O SUS é universal — não condiciona o atendimento à situação de emprego."]},
+  {cat:0,text:"No SUS, o acesso aos serviços deve ser feito preferencialmente pela:",options:["Alta Complexidade, como hospitais de referência regional.","Atenção Primária, pelas Unidades Básicas de Saúde.","Emergência dos Prontos-Socorros hospitalares.","Clínica particular conveniada ao plano de saúde."],answer:1,hint:"A UBS é a 'porta de entrada' — primeiro contato, mais próximo da população.",explanation:"A Atenção Primária é a base e porta de entrada preferencial do SUS, responsável pela coordenação do cuidado.",wrongReasons:["A alta complexidade atende casos encaminhados — usá-la como porta de entrada sobrecarrega o sistema.",null,"O Pronto-Socorro é para urgências — usá-lo como porta cotidiana é um dos grandes problemas do sistema.","Clínicas particulares não são a porta de entrada do SUS."]},
+  {cat:0,text:"A integralidade da assistência no SUS inclui:",options:["Apenas consultas médicas nas unidades de atenção básica.","Assistência terapêutica integral, inclusive a assistência farmacêutica.","Somente vacinação e imunização nas campanhas nacionais.","Apenas procedimentos de baixo custo e baixa complexidade."],answer:1,hint:"'Integral' inclui tudo — desde prevenção até reabilitação, passando pelos medicamentos.",explanation:"A Lei 8.080 define integralidade como assistência terapêutica completa, incluindo medicamentos.",wrongReasons:["Limitar ao médico contradiz a integralidade e a equipe multiprofissional do SUS.",null,"Vacinação é apenas uma das ações de prevenção. Integralidade inclui muito mais.","O SUS cobre tratamentos de alta complexidade — limitar ao 'baixo custo' viola a integralidade."]},
+  {cat:0,text:"Os 50% dos Conselhos não ocupados por usuários são divididos entre:",options:["Apenas médicos e odontólogos da rede pública.","Governo, prestadores de serviço e profissionais de saúde.","Exclusivamente representantes de empresas privadas do setor.","Políticos eleitos e representantes do Judiciário."],answer:1,hint:"Paridade: 50% usuários + 25% profissionais de saúde + 25% gestores e prestadores.",explanation:"A composição: 50% usuários + 25% trabalhadores de saúde + 25% entre gestores e prestadores.",wrongReasons:["Reducionista — a equipe multiprofissional inclui enfermeiros, ACS, técnicos etc., não só médicos.",null,"Empresas privadas prestadoras podem ter representação, mas não de forma exclusiva.","Políticos não compõem os Conselhos como categoria — a representação é da sociedade civil."]},
+  {cat:0,text:"Assinale a INCORRETA sobre os Conselhos de Saúde:",options:["Devem existir nos três níveis de governo: federal, estadual e municipal.","Devem fiscalizar a execução financeira e orçamentária da saúde.","São compostos e eleitos exclusivamente pela categoria médica.","Atuam na formulação de estratégias da política de saúde."],answer:2,hint:"Quem compõe os Conselhos? Apenas uma categoria ou a sociedade em geral?",explanation:"Os Conselhos são compostos por usuários (50%), trabalhadores de saúde (25%) e gestores/prestadores (25%). A representação é multiprofissional.",wrongReasons:["Correta — há Conselho Nacional, Estaduais e Municipais de Saúde.",null,"Correta — fiscalizar a execução financeira é atribuição explícita dos Conselhos na Lei 8.142.","Correta — os Conselhos atuam na formulação de estratégias e controle da política de saúde."]},
+  {cat:0,text:"A Emenda Constitucional 29 estabeleceu que:",options:["A saúde pública deve ser financiada exclusivamente por doações.","Municípios e Estados devem investir percentuais mínimos de suas receitas em saúde.","O Governo Federal pode livremente reduzir os investimentos em saúde.","Todo recurso da saúde deve ser direcionado para equipamentos hospitalares."],answer:1,hint:"EC 29 vincula recursos da receita de cada ente federado à saúde — percentuais mínimos obrigatórios.",explanation:"A EC 29/2000 estabeleceu pisos mínimos: municípios ao menos 15% de suas receitas; estados, ao menos 12%.",wrongReasons:["O SUS é financiado por impostos e contribuições sociais — não por doações.",null,"A EC 29 fez o oposto: VINCULOU recursos mínimos, impedindo zeramento ou redução arbitrária.","Desvio de verbas da saúde para outros fins é infração à EC 29."]},
 
+  /* PARTE 2 — SAÚDE-DOENÇA (cat:1) */
+  {cat:1,text:"A definição da OMS (1946) de saúde como 'completo bem-estar' é criticada por:",options:["Ser muito focada na doença e nos aspectos biológicos.","Ser utópica e subjetiva, difícil de alcançar plenamente.","Ignorar completamente o aspecto social e coletivo.","Não mencionar a saúde bucal como dimensão relevante."],answer:1,hint:"'Completo bem-estar' — alguém consegue atingir isso de fato?",explanation:"A definição da OMS é criticada por ser utópica e subjetiva. Funciona mais como horizonte do que estado real.",wrongReasons:["Ao contrário — a OMS ampliou o olhar para além da doença, incluindo bem-estar.",null,"A definição inclui explicitamente o aspecto social ('bem-estar social').","A saúde bucal não ser citada não é a crítica principal academicamente."]},
+  {cat:1,text:"Na visão Mágico-Religiosa do processo saúde-doença:",options:["A doença é causada por microrganismos específicos identificáveis.","O adoecimento é visto como castigo divino ou influência espiritual.","A cura depende exclusivamente de antibióticos e antivirais.","O meio ambiente físico é o único fator de risco considerado."],answer:1,hint:"Mágico-Religioso = explicação sobrenatural, anterior à ciência moderna.",explanation:"No modelo mágico-religioso, a doença é explicada como punição divina, feitiçaria ou desequilíbrio espiritual.",wrongReasons:["Microrganismos como causa é a Era Bacteriológica (séc. XIX) — posterior e científica, oposto do mágico-religioso.",null,"Antibióticos são tecnologia do séc. XX — incompatíveis com uma visão pré-científica.","O meio ambiente como fator de risco pertence ao modelo naturalista hipocrático."]},
+  {cat:1,text:"Sobre o modelo Naturalista de Hipócrates, é INCORRETO afirmar:",options:["Buscou explicações racionais e naturais para as doenças.","Observou a influência do clima, da água e da alimentação na saúde.","Atribuía as epidemias exclusivamente ao pecado e à punição divina.","É considerado um precursor da Epidemiologia e da saúde ambiental."],answer:2,hint:"Hipócrates ROMPEU com explicações religiosas — buscava causas na natureza.",explanation:"Hipócrates foi responsável por separar medicina de religião, buscando causas racionais (clima, água, dieta).",wrongReasons:["Correta — Hipócrates introduziu o raciocínio racional e observacional.",null,"Correta — 'Dos Ares, das Águas e dos Lugares' é sobre a influência do ambiente na saúde.","Correta — seu método o torna um dos precursores da epidemiologia clássica."]},
+  {cat:1,text:"A Teoria Miasmática atribuía as doenças a:",options:["Vírus transmitidos por vetores como mosquitos e carrapatos.","Emanações de matéria orgânica em decomposição — os miasmas.","Deficiência na higiene oral e nas práticas de escovação diária.","Alterações genéticas hereditárias transmitidas entre gerações."],answer:1,hint:"'Miasma' = ar impuro. A teoria baseava-se no que se via (podridão) e cheirava.",explanation:"A teoria miasmática atribuía as doenças a 'ares fétidos' de matéria orgânica em decomposição.",wrongReasons:["Transmissão viral por vetores é conceito moderno — incompatível com o pensamento miasmático.",null,"Higiene dental não tinha relação com a teoria miasmática.","Genética é ciência do séc. XX — totalmente anacrônico associá-la à teoria miasmática."]},
+  {cat:1,text:"A Era Bacteriológica (final do séc. XIX) introduziu o conceito de:",options:["Multicausalidade e determinação social do adoecimento.","Unicausalidade — um agente etiológico específico para cada doença.","Determinantes Sociais como variáveis principais do adoecimento.","História Natural da Doença com fases distintas de progressão."],answer:1,hint:"Pasteur e Koch: para cada doença, UM agente específico.",explanation:"A Era Bacteriológica estabeleceu o paradigma da unicausalidade: cada doença tem um agente etiológico específico.",wrongReasons:["A multicausalidade veio depois, como crítica ao modelo unicausal.",null,"Os DSS são conceito do séc. XX, sistematizados pela OMS a partir dos anos 2000.","A História Natural da Doença (Leavell & Clark) é modelo do séc. XX, posterior à Era Bacteriológica."]},
+  {cat:1,text:"Assinale a INCORRETA sobre o Modelo Biomédico:",options:["É focado na cura da doença e na assistência hospitalar curativa.","Fragmenta o corpo humano em especialidades médicas isoladas.","Valoriza aspectos sociais e emocionais acima dos biológicos.","O médico é a figura central e autoritária no processo terapêutico."],answer:2,hint:"O modelo biomédico é biologicista — ele ignora, não valoriza, o contexto social.",explanation:"O modelo biomédico é centrado no biológico. Aspectos sociais, emocionais e culturais são marginalizados.",wrongReasons:["Correta — o modelo biomédico é curativista, centrado na doença estabelecida.",null,"Correta — a fragmentação em especialidades é uma das críticas ao modelo biomédico.","Correta — a relação médico-paciente no modelo biomédico é hierárquica e paternalista."]},
+  {cat:1,text:"A Tríade Ecológica do modelo de Multicausalidade é composta por:",options:["Governo Federal, Estadual e Municipal como esferas de gestão.","Agente causador, Hospedeiro e Meio Ambiente em equilíbrio.","Dentista, Paciente e Auxiliar de Saúde Bucal na equipe clínica.","Vírus, Bactéria e Protozoário como tipos de agentes etiológicos."],answer:1,hint:"Tríade ecológica = três elementos epidemiológicos que interagem para produzir doença.",explanation:"A Tríade Ecológica representa o equilíbrio dinâmico entre Agente (causador), Hospedeiro e Meio Ambiente.",wrongReasons:["Governo Federal, Estadual e Municipal são esferas de gestão política — não têm relação com a Tríade Ecológica.",null,"Dentista, Paciente e ASB é a composição da Equipe de Saúde Bucal — não o modelo epidemiológico.","Vírus, Bactéria e Protozoário são tipos de AGENTES — apenas um dos três componentes da tríade."]},
+  {cat:1,text:"O conceito de Determinantes Sociais da Saúde (DSS) defende que:",options:["A biologia e a genética são os únicos fatores que importam.","As condições de vida — onde se nasce, cresce e trabalha — influenciam a saúde.","A saúde depende apenas das escolhas e comportamentos individuais.","O saneamento básico não interfere nos indicadores de saúde coletiva."],answer:1,hint:"DSS = fatores FORA do corpo que determinam saúde: renda, moradia, saneamento.",explanation:"Os DSS reconhecem que as condições de vida — renda, educação, moradia, emprego — são determinantes fundamentais.",wrongReasons:["Este é o modelo biomédico — os DSS surgiram para superar essa visão reducionista.",null,"Culpabilizar o indivíduo ignora que suas escolhas são condicionadas pelo contexto social.","Saneamento básico é o fator de maior impacto na redução de doenças infecciosas e parasitárias."]},
+  {cat:1,text:"Na História Natural da Doença, a Pré-Patogênese é:",options:["A fase em que a doença já está instalada com sinais e sintomas.","O período em que o indivíduo é saudável, mas está exposto a riscos.","A etapa de reabilitação física após o tratamento da doença.","O momento do diagnóstico laboratorial precoce e rastreamento."],answer:1,hint:"'Pré' = antes do processo patológico começar NO organismo. Mas o risco já existe.",explanation:"A Pré-Patogênese é o período em que o agente e hospedeiro ainda não interagiram — o indivíduo está saudável mas exposto a fatores de risco.",wrongReasons:["Sintomas graves caracterizam a fase de patogênese avançada — muito posterior à pré-patogênese.",null,"A reabilitação é a fase final do modelo (prevenção terciária) — o oposto da pré-patogênese.","O diagnóstico laboratorial é prevenção secundária, que ocorre na patogênese precoce."]},
+  {cat:1,text:"A Prevenção Primária atua em qual fase da História Natural da Doença?",options:["Patogênese precoce, quando o agente já invadiu o hospedeiro.","Pré-patogênese, antes que o processo patológico se inicie.","Defeito ou invalidez, na fase de limitação funcional instalada.","Diagnóstico precoce, durante o rastreamento da doença silenciosa."],answer:1,hint:"Primária = antes da doença começar. Promoção da saúde e proteção específica.",explanation:"A prevenção primária atua na fase de pré-patogênese, antes que o processo patológico se inicie.",wrongReasons:["A patogênese precoce é território da prevenção secundária — a doença já iniciou.",null,"Defeito ou invalidez é fase avançada — território da prevenção terciária (reabilitação).","Diagnóstico precoce é prevenção secundária — pressupõe que a doença já se iniciou."]},
+  {cat:1,text:"A fluoretação das águas de abastecimento é uma medida de:",options:["Prevenção Terciária, voltada à reabilitação de perdas dentárias.","Proteção Específica, nível da Prevenção Primária contra cárie.","Diagnóstico Precoce, para identificar cáries em fase inicial.","Reabilitação Oral, para restaurar função em pacientes edêntulos."],answer:1,hint:"Fluoretação previne a cárie antes de ela surgir — atua na pré-patogênese.",explanation:"A fluoretação é uma medida de proteção específica — nível da prevenção primária que atua antes que a doença se instale.",wrongReasons:["Prevenção terciária é reabilitação de danos já estabelecidos — a fluoretação previne, não reabilita.",null,"Diagnóstico precoce pressupõe que a doença já começou. A fluoretação não diagnostica.","Reabilitação oral é prevenção terciária — lida com perdas já consolidadas."]},
+  {cat:1,text:"Assinale a INCORRETA sobre o conceito atual de saúde-doença:",options:["É um processo dinâmico e contínuo ao longo da vida.","Doença e saúde são estados opostos, estáticos e bem delimitados.","Envolve a dimensão subjetiva de como o indivíduo vive sua condição.","É influenciado pela cultura, pelo contexto e pelo momento histórico."],answer:1,hint:"O conceito atual é dinâmico — saúde e doença não são extremos fixos.",explanation:"A visão contemporânea entende saúde-doença como processo dinâmico e contínuo, influenciado por múltiplos fatores.",wrongReasons:["Correta — o processo saúde-doença é dinâmico, sujeito a variações ao longo da vida.",null,"Correta — a experiência subjetiva do adoecimento é parte do conceito atual.","Correta — o que é considerado doença varia entre culturas e ao longo da história."]},
+  {cat:1,text:"O 'Determinismo Biológico' é característica marcante de qual modelo?",options:["Modelo Social, que prioriza os fatores coletivos e estruturais.","Modelo Biomédico e Era Bacteriológica, centrados no biológico.","Modelo Holístico, que integra dimensões bio-psico-sociais.","Promoção da Saúde, que valoriza autonomia e qualidade de vida."],answer:1,hint:"Determinismo biológico = a doença é explicada APENAS pela biologia, sem contexto social.",explanation:"O modelo biomédico e a Era Bacteriológica têm como marca o determinismo biológico.",wrongReasons:["O Modelo Social é o oposto — explica saúde e doença pelos fatores socioambientais.",null,"O Modelo Holístico busca integrar dimensões biológicas, psicológicas e sociais.","A Promoção da Saúde critica o determinismo biológico e valoriza autonomia e qualidade de vida."]},
+  {cat:1,text:"Os 'Determinantes Intermediários' da saúde são:",options:["Condições de vida, trabalho, moradia e acesso a alimentos.","Apenas o patrimônio genético e o DNA de cada indivíduo.","Grandes crises econômicas globais e estrutura do capitalismo.","Características físicas como cor dos olhos e tipo sanguíneo."],answer:0,hint:"'Intermediários' ficam entre o macro (estrutura social) e o micro (biologia individual).",explanation:"Os determinantes intermediários incluem condições materiais de vida: habitação, trabalho, alimentação, acesso a serviços.",wrongReasons:[null,"O DNA é fator biológico proximal — não é 'determinante intermediário' nos modelos de DSS.","Crises econômicas são determinantes estruturais (macroeconômicos) — a camada mais distante do indivíduo.","Cor dos olhos e tipo sanguíneo são características genéticas individuais — não determinantes intermediários."]},
+  {cat:1,text:"A Conferência de Alma-Ata (1978) foi marco para:",options:["A descoberta e desenvolvimento dos antibióticos modernos.","A defesa da Atenção Primária como estratégia central de saúde.","O fortalecimento da assistência hospitalar de alta complexidade.","A proibição internacional do uso preventivo do flúor nas águas."],answer:1,hint:"'Saúde para todos até o ano 2000' — qual nível de atenção foi apontado como chave?",explanation:"Alma-Ata (1978) definiu a Atenção Primária à Saúde como estratégia fundamental para reduzir desigualdades.",wrongReasons:["Os antibióticos foram desenvolvidos nos anos 1940 — décadas antes de Alma-Ata.",null,"A conferência defendeu o oposto: serviços próximos da comunidade, preventivos e de baixo custo.","Alma-Ata não tratou de fluoretação."]},
+  {cat:1,text:"Fatores como idade, sexo biológico e genética são determinantes:",options:["Sociais, pois estão relacionados ao contexto de vida do indivíduo.","Biológicos não modificáveis, intrínsecos ao hospedeiro.","Econômicos, por influenciarem a capacidade de acesso a serviços.","Culturais, pois variam conforme as crenças de cada sociedade."],answer:1,hint:"Você pode mudar seu genoma ou sua data de nascimento facilmente?",explanation:"Idade, sexo biológico e genética são determinantes biológicos não modificáveis — fazem parte da camada individual.",wrongReasons:["Determinantes sociais são condições externas: renda, moradia, educação — não características biológicas intrínsecas.",null,"Determinantes econômicos incluem renda e emprego — fatores externos e modificáveis.",null,"Determinantes culturais são crenças e valores de uma sociedade — externos e historicamente construídos."]},
+  {cat:1,text:"A 'Promoção da Saúde' difere da 'Prevenção de Doenças' por:",options:["Sempre ter custo mais baixo do que as ações preventivas.","Focar na saúde geral e na autonomia, além de uma doença específica.","Ser realizada exclusivamente por médicos em unidades de saúde.","Ser aplicada apenas em pacientes com doenças em estágio grave."],answer:1,hint:"Promoção = empoderar e fortalecer. Prevenção = evitar uma doença específica.",explanation:"A Promoção da Saúde (Carta de Ottawa, 1986) atua sobre os determinantes mais amplos — qualidade de vida, autonomia, ambiente.",wrongReasons:["O custo não define a diferença conceitual entre promoção e prevenção.",null,"Promoção da Saúde é intersetorial e multiprofissional — envolve educadores, gestores, comunidade.","A Promoção da Saúde atua principalmente com populações saudáveis — não é reservada a doentes graves."]},
+  {cat:1,text:"No modelo de Dahlgren e Whitehead, 'Estilo de Vida' é considerado:",options:["Um determinante macroeconômico estrutural da sociedade.","Um determinante proximal, mais próximo do indivíduo.","Um fator hereditário fixo e imutável ao longo da vida.","Uma política pública de responsabilidade exclusiva do Estado."],answer:1,hint:"No arco-íris de Dahlgren e Whitehead, o que está no centro, mais perto do indivíduo?",explanation:"O estilo de vida individual é a camada mais interna do modelo — determinante proximal, influenciado pelas camadas externas.",wrongReasons:["Determinantes macroeconômicos ficam na camada mais externa — bem distantes do estilo de vida individual.",null,"O estilo de vida não é hereditário — é moldado pelo contexto social, econômico e cultural.","Políticas públicas são instrumentos para intervir nos determinantes — não são o próprio estilo de vida."]},
+  {cat:1,text:"Assinale a INCORRETA sobre a causalidade social das doenças:",options:["Menor escolaridade associa-se a piores indicadores de saúde bucal.","A cárie dentária não tem qualquer relação com o nível de renda familiar.","O desemprego é fator de risco para transtornos mentais e doenças físicas.","A localização geográfica pode determinar o acesso ao saneamento e ao flúor."],answer:1,hint:"Cárie e renda — famílias mais pobres têm menos acesso a alimentos saudáveis, higiene e flúor?",explanation:"A cárie é fortemente influenciada pela renda: acesso a alimentos adequados, higiene, flúor e serviços odontológicos.",wrongReasons:["Correta — menor escolaridade associa-se a piores hábitos e menor acesso a serviços.",null,"Correta — desemprego gera estresse crônico e acesso precário a serviços, sendo fator de risco.","Correta — municípios sem saneamento e sem fluoretação concentram maiores índices de doenças."]},
+  {cat:1,text:"A Vigilância à Saúde no SUS engloba:",options:["Somente a presença de forças de segurança nos hospitais públicos.","Vigilância Sanitária, Epidemiológica, Ambiental e do Trabalhador.","Apenas a fiscalização de consultórios odontológicos e médicos privados.","Exclusivamente a contagem de mortes por causas externas e violência."],answer:1,hint:"Vigilância em saúde = quatro ramos integrados. Muito além da fiscalização de consultórios.",explanation:"A Vigilância à Saúde no SUS abrange: Vigilância Sanitária (VISA), Vigilância Epidemiológica, Vigilância Ambiental e Vigilância da Saúde do Trabalhador.",wrongReasons:["Forças de segurança em hospitais é questão de segurança pública, não de vigilância em saúde.",null,"A Vigilância Sanitária fiscaliza estabelecimentos, mas isso é apenas uma das quatro frentes — não a totalidade.","A mortalidade por causas externas faz parte da vigilância epidemiológica, mas a Vigilância à Saúde vai muito além disso."]},
+
+  /* PARTE 3 — HISTÓRIA/ODONTOLOGIA (cat:2) */
+  {cat:2,text:"O período das CAPs (1923–1933) caracterizava-se por:",options:["Assistência universal financiada pelo Governo Federal para todos.","Caixas organizadas por empresa, financiadas por empregados e empregadores.","Atendimento exclusivo a desempregados e moradores de rua.","Criação do Ministério da Saúde e das secretarias municipais."],answer:1,hint:"CAPs = Caixas de Aposentadorias e Pensões. Por empresa, não pelo governo.",explanation:"As CAPs (criadas pela Lei Eloy Chaves, 1923) eram organizadas por empresa e financiadas por empregados e empregadores.",wrongReasons:["Nem universal nem federal — as CAPs eram fragmentadas por empresa e cobriam apenas os trabalhadores daquela empresa.",null,"O atendimento era para trabalhadores formais — excluía desempregados e informais.","O Ministério da Saúde só foi criado em 1953 — três décadas após as CAPs."]},
+  {cat:2,text:"A principal diferença entre CAPs e IAPs foi:",options:["O financiamento passou a ser exclusivamente estatal.","A organização migrou de por empresa para por categoria profissional.","Os IAPs tornaram-se universais, cobrindo toda a população brasileira.","Os IAPs eliminaram a assistência médica, mantendo só aposentadoria."],answer:1,hint:"IAPs = Institutos de Aposentadorias e Pensões. Centralização por categoria.",explanation:"Os IAPs centralizaram a previdência por categoria profissional (IAPI para industriários, IAPB para bancários etc.).",wrongReasons:["O financiamento dos IAPs era tripartite: empregado + empregador + Estado.",null,"Os IAPs eram vinculados à carteira de trabalho — quem não tinha vínculo era 'indigente sanitário'.","Os IAPs mantinham assistência médica e previdenciária — a cobertura até se ampliou."]},
+  {cat:2,text:"O modelo Campanhista de Oswaldo Cruz no início do séc. XX visava:",options:["Tratar cáries em crianças escolares nas escolas públicas.","Erradicar epidemias para garantir a economia exportadora nos portos.","Criar o Sistema Único de Saúde com base territorial e universal.","Distribuir medicamentos gratuitos para doenças crônicas."],answer:1,hint:"O Brasil dependia das exportações. Os portos precisavam estar livres de quê?",explanation:"O modelo campanhista de Oswaldo Cruz focava no saneamento dos portos e no combate a febre amarela, varíola e peste bubônica.",wrongReasons:["A odontologia escolar é política posterior — totalmente desvinculada das campanhas sanitárias dos portos.",null,"O SUS foi criado em 1988 — oito décadas após as campanhas de Oswaldo Cruz.","Medicamentos para doenças crônicas são política contemporânea, incompatível com o modelo campanhista."]},
+  {cat:2,text:"Assinale a INCORRETA sobre o INAMPS (1977–1993):",options:["Era o órgão assistencial da previdência social brasileira.","Atendia apenas quem possuía vínculo formal de trabalho registrado.","Foi o primeiro sistema de saúde universal implantado no Brasil.","Priorizava a assistência médico-hospitalar curativa e privada contratada."],answer:2,hint:"INAMPS = só contribuintes da previdência eram atendidos. 'Indigente sanitário' era o excluído.",explanation:"O INAMPS era excludente — atendia apenas os contribuintes da previdência. O primeiro universal foi o SUS (1988).",wrongReasons:["Correta — o INAMPS era o braço assistencial da previdência social.",null,"Correta — sem carteira assinada e contribuição, o cidadão era 'indigente sanitário'.","Correta — o INAMPS priorizou atendimento curativo em hospitais privados conveniados."]},
+  {cat:2,text:"A 8ª Conferência Nacional de Saúde (1986) é histórica porque:",options:["Foi a primeira com ampla participação popular, lançando as bases do SUS.","Decidiu que a saúde deveria ser gerida pelo setor privado.","Extinguiu o cargo de dentista no serviço público de saúde coletiva.","Foi realizada sob controle da Ditadura, sem participação da sociedade."],answer:0,hint:"A 8ª CNS foi o marco da Reforma Sanitária — 'saúde como direito, dever do Estado'.",explanation:"A 8ª CNS (1986), com 4.000 participantes, foi a primeira conferência com real participação popular. Gerou as bases para o capítulo de saúde da CF/88.",wrongReasons:[null,"A 8ª CNS defendeu exatamente o oposto: saúde pública, universal e estatal.","Jamais houve deliberação extinguindo dentistas do serviço público.","A 8ª CNS ocorreu em 1986, em plena redemocratização — com participação inédita da sociedade civil."]},
+  {cat:2,text:"O Sistema Incremental na Odontologia (década de 50) tinha como característica:",options:["Prioridade para gestantes e bebês de zero a três anos de vida.","Foco em escolares de 6 a 14 anos com tratamento completo por turma.","Distribuição universal de próteses totais para idosos acima de 60 anos.","Educação em saúde sem intervenção clínica nem procedimentos restauradores."],answer:1,hint:"'Incremental' = avança ano a ano por faixa etária escolar, do 1° ao 8° ano.",explanation:"O Sistema Incremental priorizava escolares de 6 a 14 anos, com tratamento completo por turma a cada ano letivo.",wrongReasons:["Gestantes e bebês foram alvo de outros modelos posteriores — não do sistema incremental.",null,"Próteses para idosos são parte do Brasil Sorridente (2004) — décadas depois.","O sistema incremental incluía intervenção clínica (restaurações, extrações, profilaxia)."]},
+  {cat:2,text:"Assinale a INCORRETA sobre as críticas ao Sistema Incremental:",options:["Era excludente, pois deixava adultos e pré-escolares sem cobertura.","Baseava-se na restauração definitiva sem considerar atividade de cárie.","Teve alto impacto coletivo, beneficiando toda a população brasileira.","Ignorava o contexto socioeconômico como fator de risco para a cárie."],answer:2,hint:"O sistema era restrito a escolares — como poderia ter impacto em 'toda' a população?",explanation:"O Sistema Incremental teve baixo impacto coletivo por ser excludente — atendia apenas escolares de 6-14 anos.",wrongReasons:["Correta crítica — o sistema excluía adultos, idosos, gestantes e crianças menores de 6 anos.",null,"Correta crítica — o foco era restauração definitiva, sem controle da atividade de cárie.","Correta crítica — não era considerado o contexto socioeconômico e os fatores de risco individuais."]},
+  {cat:2,text:"O Programa Brasil Sorridente (2004) instituiu:",options:["A proibição definitiva de extrações dentárias em unidades do SUS.","A Política Nacional de Saúde Bucal, com CEOs e LRPDs para próteses.","O encerramento do programa de fluoretação das águas no país.","O atendimento odontológico restrito a hospitais militares federais."],answer:1,hint:"Brasil Sorridente = primeira política nacional robusta de saúde bucal. CEOs + LRPDs.",explanation:"O Brasil Sorridente (2004) criou a Política Nacional de Saúde Bucal, com CEOs (especialidades) e LRPDs (próteses).",wrongReasons:["Não houve proibição de extrações. O programa buscou ampliar o acesso preventivo e reabilitador.",null,"A fluoretação é lei federal desde 1974 — o Brasil Sorridente não alterou isso.","O SUS é público e civil — hospitais militares têm rede própria e separada."]},
+  {cat:2,text:"O índice CPO-D mede:",options:["A quantidade de dentes com clareamento na dentição permanente.","O número de dentes Cariados, Perdidos e Obturados na dentição permanente.","A pressão arterial do paciente antes do procedimento odontológico.","O custo médio de cada procedimento realizado no consultório."],answer:1,hint:"C = Cariados. P = Perdidos. O = Obturados. D = Dentes permanentes.",explanation:"O CPO-D é o principal índice epidemiológico em saúde bucal, medindo a experiência acumulada de cárie.",wrongReasons:["Dentes clareados não são um indicador epidemiológico.",null,"Pressão arterial não tem relação com índices odontológicos.","Custo de procedimento é dado financeiro, distinto dos índices epidemiológicos clínicos."]},
+  {cat:2,text:"O SB Brasil 2010 mostrou que o CPO-D aos 12 anos:",options:["Aumentou drasticamente em relação aos dados de 1986.","Diminuiu de forma expressiva, atingindo metas da OMS em várias regiões.","Permaneceu estável e sem mudanças desde o levantamento de 1986.","Só diminuiu em municípios da região Nordeste com fluoretação."],answer:1,hint:"Fluoretação + ESF + Brasil Sorridente = qual tendência para a cárie?",explanation:"O SB Brasil 2010 mostrou CPO-D de 2,07 aos 12 anos — queda expressiva comparada a 1986 (6,65).",wrongReasons:["Os dados mostram queda consistente — não aumento.",null,"Houve mudança significativa — de 6,65 em 1986 para 2,07 em 2010. Permaneceu igual ignora os dados.","A queda foi nacional, com melhora em todo o território — não restrita ao Nordeste."]},
+  {cat:2,text:"O edentulismo total no Brasil é mais grave em qual faixa etária?",options:["Crianças de 0 a 5 anos, pela cárie precoce na infância.","Adolescentes de 15 a 19 anos, pela falta de fluoretação.","Idosos de 65 a 74 anos, herança do modelo mutilador histórico.","Adultos jovens de 20 a 30 anos, pela alimentação industrializada."],answer:2,hint:"Pense nas gerações que cresceram sem odontologia preventiva e sob o modelo mutilador.",explanation:"O SB Brasil mostra alta prevalência de edentulismo em idosos de 65-74 anos — herança do modelo mutilador.",wrongReasons:["Crianças de 0-5 anos têm dentição decídua — edentulismo total nessa faixa é raro.",null,"Adolescentes de 15-19 anos geralmente têm dentição permanente relativamente preservada.","Adultos jovens têm menos perdas acumuladas — o modelo mutilador afetou mais as gerações mais velhas."]},
+  {cat:2,text:"O papel do CEO (Centro de Especialidades Odontológicas) é:",options:["Realizar procedimentos simples como limpeza e obturação básica.","Oferecer atenção especializada (Endodontia, Periodontia, Cirurgia etc.).","Atender exclusivamente pacientes com planos de saúde odontológicos.","Comercializar próteses e serviços de odontologia estética ao público."],answer:1,hint:"CEO = nível secundário da rede. Especialidades que a atenção básica não resolve.",explanation:"O CEO oferece atenção especializada em Endodontia, Periodontia, Cirurgia oral, Estomatologia, Pacientes com necessidades especiais e Prótese.",wrongReasons:["Limpezas e obturações simples são da Atenção Básica (UBS/ESB) — o CEO foi criado para ir além disso.",null,"O CEO é equipamento público do SUS — sem pagamento, sem planos. Acesso por encaminhamento.","Planos de saúde são do setor privado — o CEO é unidade pública."]},
+  {cat:2,text:"A Equipe de Saúde Bucal (ESB) na Estratégia Saúde da Família deve priorizar:",options:["Exclusivamente o atendimento de urgências por dor aguda.","O vínculo territorial, a família e as ações de promoção e prevenção.","Aguardar a demanda espontânea dentro do consultório odontológico.","Maximizar o número de extrações dentárias realizadas por turno."],answer:1,hint:"ESF = saúde da família no território. A equipe vai ao encontro das famílias.",explanation:"A ESB na ESF deve atuar com base na territorialização, vinculação familiar, visitas domiciliares e ações coletivas preventivas.",wrongReasons:["Atendimento de urgência é importante, mas não é a prioridade central da ESF.",null,"Esperar o paciente contradiz o princípio da proatividade da ESF.","Maximizar extrações representa o velho modelo mutilador que a ESF veio superar."]},
+  {cat:2,text:"Sobre a fluoretação da água no Brasil, é CORRETO afirmar:",options:["É obrigatória por lei federal em municípios com estação de tratamento.","Foi proibida por evidências científicas de relação com câncer bucal.","O dentista não tem papel no monitoramento da qualidade da água.","É uma medida de custo elevado e eficácia questionável para cárie."],answer:0,hint:"Lei 6.050/1974 tornou a fluoretação obrigatória. O dentista participa do heterocontrole.",explanation:"A Lei 6.050/1974 torna a fluoretação obrigatória em sistemas de abastecimento público. É a medida de melhor custo-benefício para prevenção de cárie.",wrongReasons:[null,"Não há evidência científica que relacione fluoretação (em concentrações adequadas) ao câncer.","O dentista tem papel ativo no heterocontrole da fluoretação — é corresponsável pela vigilância.","A fluoretação da água é reconhecida pela OMS como a medida de saúde pública de melhor custo-benefício."]},
+  {cat:2,text:"Assinale a INCORRETA sobre a história da odontologia pública:",options:["O modelo 'mutilador' priorizava a extração como solução para a dor.","A odontologia sempre teve política nacional robusta desde a criação do SUS.","O Brasil Sorridente foi um marco na ampliação do acesso a próteses.","O Sistema de Inversão da Atenção focou na odontologia para bebês."],answer:1,hint:"O SUS foi criado em 1988 — mas quando surgiu a primeira política nacional de saúde bucal?",explanation:"Apesar de o SUS existir desde 1988, a odontologia ficou marginalizada. Só em 2004, com o Brasil Sorridente, surgiu política nacional estruturada.",wrongReasons:["Correta — o modelo mutilador priorizava extração como solução rápida para dor.",null,"Correta — o Brasil Sorridente (2004) foi o primeiro programa a incluir próteses dentárias de forma sistemática.","Correta — o Sistema de Inversão da Atenção focou na atenção precoce para bebês."]},
+  {cat:2,text:"O mecanismo principal de ação do flúor no controle da cárie é:",options:["Sistêmico pré-eruptivo, formando esmalte completamente resistente.","Tópico pós-eruptivo, modulando desmineralização e remineralização.","Alteração do DNA bacteriano por mecanismo de ação mutagênica.","Remoção mecânica da placa dental pelo efeito abrasivo do flúor."],answer:1,hint:"O consenso atual: o flúor age principalmente no CONTATO com o esmalte já formado.",explanation:"O mecanismo principal do flúor é tópico pós-eruptivo: inibe a desmineralização ácida e favorece a remineralização.",wrongReasons:["O efeito sistêmico pré-eruptivo existe, mas é secundário. O tópico pós-eruptivo é o mecanismo principal.",null,"A alteração de DNA bacteriano não é o mecanismo principal do flúor.","A remoção mecânica de placa é feita pela escovação — o flúor age na resistência do esmalte."]},
+  {cat:2,text:"Sobre o ASB (Auxiliar) e TSB (Técnico) em Saúde Bucal no SUS:",options:["Não possuem atribuições legais dentro das equipes de saúde da família.","São fundamentais para ampliar cobertura e humanizar o atendimento odontológico.","Podem realizar cirurgias de alta complexidade de forma completamente autônoma.","São proibidos de interagir diretamente com os pacientes e suas famílias."],answer:1,hint:"Trabalho em equipe é pilar do SUS. ASB e TSB têm atribuições clínicas e educativas definidas pelo CFO.",explanation:"O ASB e o TSB são membros essenciais da Equipe de Saúde Bucal — realizam procedimentos supervisionados, ações educativas e de promoção, ampliando a capacidade de atendimento.",wrongReasons:["ASB e TSB têm atribuições definidas pelo CFO e pelo Ministério da Saúde — são peças centrais da equipe.",null,"A realização independente de cirurgias complexas extrapola as atribuições legais — atuam sempre sob supervisão do cirurgião-dentista.","Proibir a comunicação com pacientes contraria a humanização, que é diretriz do SUS."]},
+  {cat:2,text:"O que é a Territorialização na Estratégia Saúde da Família?",options:["Construção de cercas e muros para delimitar o espaço físico do consultório.","O mapeamento e reconhecimento da área e famílias sob responsabilidade da equipe.","A compra de terrenos para expandir as instalações da unidade de saúde.","A divisão da boca em quadrantes para fins de registro e prontuário clínico."],answer:1,hint:"Território = área de abrangência da equipe. Conhecer quem vive ali para planejar ações de saúde.",explanation:"Territorialização é o processo de mapeamento e diagnóstico do território de abrangência — identificar famílias, riscos, vulnerabilidades e recursos locais para planejar ações.",wrongReasons:["Cercas e muros são infraestrutura física — territorialização é conceito de gestão e planejamento em saúde coletiva.",null,"Comprar terrenos tem relação com infraestrutura da unidade — não com o conceito epidemiológico de territorialização.","Dividir a boca em quadrantes é terminologia clínico-odontológica — não se relaciona com territorialização da ESF."]},
+  {cat:2,text:"Qual foi o principal objetivo do modelo campanhista de Oswaldo Cruz no início do séc. XX?",options:["Criar redes de atenção básica em todo o território nacional.","Combater epidemias urbanas que ameaçavam a economia agroexportadora.","Desenvolver vacinas contra doenças crônicas não transmissíveis.","Implantar fluoretação das águas nas cidades portuárias brasileiras."],answer:1,hint:"O Brasil exportava café pelos portos. Febre amarela e varíola eram a ameaça. Qual era a prioridade?",explanation:"O modelo campanhista visava erradicar epidemias (febre amarela, varíola, peste bubônica) que ameaçavam os portos exportadores, protegendo a economia agroexportadora brasileira.",wrongReasons:["Redes de atenção básica são um conceito contemporâneo — décadas posteriores ao modelo campanhista de Oswaldo Cruz.",null,"O combate a doenças crônicas não transmissíveis é política de saúde do séc. XXI — incompatível com o contexto das campanhas sanitárias de 1900-1920.","A fluoretação só foi regulamentada pela Lei 6.050 em 1974 — muito posterior ao modelo campanhista."]},
+  {cat:2,text:"Sobre a Conferência de Alma-Ata (1978) e sua relação com a odontologia coletiva:",options:["Proibiu o uso de flúor nas águas de abastecimento público mundial.","Defendeu a Atenção Primária como estratégia essencial, influenciando a odontologia coletiva.","Criou os Centros de Especialidades Odontológicas em países em desenvolvimento.","Estabeleceu o índice CPO-D como padrão internacional de avaliação bucal."],answer:1,hint:"Alma-Ata = atenção primária para todos. Como isso influenciou a visão da odontologia coletiva?",explanation:"Alma-Ata (1978) ao defender a Atenção Primária como estratégia central influenciou diretamente a odontologia coletiva, reforçando a mudança do foco do dente para o indivíduo e da clínica individual para a saúde coletiva.",wrongReasons:["Alma-Ata não tratou de fluoretação — a Lei 6.050/1974 já tinha regulamentado a fluoretação no Brasil antes da conferência.",null,"Os CEOs foram criados no Brasil pelo Programa Brasil Sorridente em 2004 — décadas após Alma-Ata.","O índice CPO-D foi desenvolvido por Klein e Palmer nos anos 1930 — anterior à Conferência de Alma-Ata."]},
+];
+
+/* ─── STUDY FLASHCARDS DATA ────────────────────────── */
+const STUDY_CARDS = [
+  /* SUS */
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"O que é o princípio da Universalidade e quem ele garante atendimento?",a:"A Universalidade garante que a saúde é um direito de cidadania de todos os brasileiros e estrangeiros residentes, sem qualquer distinção de contribuição, raça, renda ou localização. Não há barreiras de acesso."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"O que diferencia Equidade de Igualdade no contexto do SUS?",a:"Igualdade daria o mesmo a todos. Equidade reconhece as diferenças e dá mais a quem mais precisa — trata desigualmente os desiguais para reduzir desigualdades de saúde."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"O que significa Integralidade no SUS?",a:"Ver o indivíduo como um todo, articulando ações de promoção, prevenção, tratamento e reabilitação. O cuidado não se restringe a uma doença ou órgão isolado."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"O que as Leis 8.080 e 8.142 regulamentam respectivamente?",a:"A Lei 8.080 (Lei Orgânica da Saúde) organiza, dirige e gere os serviços de saúde do SUS. A Lei 8.142 garante a participação popular por meio dos Conselhos e Conferências de Saúde."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"Como é a composição paritária dos Conselhos de Saúde?",a:"50% são usuários. Os outros 50% dividem-se em 25% profissionais de saúde e 25% entre gestores e prestadores de serviço. Os Conselhos são deliberativos — suas decisões têm força normativa."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"Qual é o tripé da Seguridade Social na CF/88 e onde o SUS se encaixa?",a:"O Art. 194 da CF/88 define o tripé: Saúde, Previdência Social e Assistência Social. O SUS é o sistema que operacionaliza o direito à saúde dentro da Seguridade Social."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"O que é a Descentralização no SUS e qual é o papel de cada esfera?",a:"A descentralização redistribui poder e responsabilidades. O Ministério da Saúde coordena e financia (direção nacional); Secretarias Estaduais gerenciam o nível estadual; Secretarias Municipais executam ações locais."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"Como funciona a participação complementar do setor privado no SUS?",a:"É complementar — acionada apenas quando a rede pública for insuficiente. A preferência é por entidades filantrópicas e sem fins lucrativos. Os valores são tabelados pelo SUS (tabela SIGTAP)."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"O que estabeleceu a Emenda Constitucional 29 para o financiamento do SUS?",a:"A EC 29/2000 criou pisos mínimos obrigatórios: municípios devem aplicar ao menos 15% de suas receitas em saúde; estados, ao menos 12%. Regulamentada pela Lei Complementar 141/2012."},
+  {theme:"SUS — Princípios e Bases Legais",themeKey:"sus",q:"Qual é a porta de entrada preferencial do SUS e por quê?",a:"A Atenção Primária à Saúde (UBS/ESF) é a porta de entrada e centro coordenador da rede. É mais próxima da população, resolve a maioria dos problemas de saúde e encaminha quando necessário."},
+  /* POLÍTICAS */
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"O que foram as CAPs e qual era sua limitação?",a:"As Caixas de Aposentadorias e Pensões (criadas pela Lei Eloy Chaves, 1923) eram organizadas por empresa, financiadas por empregados e empregadores. Cobriam apenas trabalhadores formais de empresas específicas — modelo fragmentado e excludente."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"O que diferenciou os IAPs das CAPs na Era Vargas?",a:"Os IAPs (Institutos de Aposentadorias e Pensões) organizaram a previdência por categoria profissional (bancários, industriários etc.) em vez de por empresa. Maior escala, mas ainda excludentes para quem não tinha carteira assinada."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"Quem era o 'indigente sanitário' no Brasil antes do SUS?",a:"Era o cidadão que não tinha carteira de trabalho assinada e, portanto, não contribuía para a previdência. Ficava excluído do INAMPS e dependia de hospitais filantrópicos ou caridade para receber atendimento."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"Qual foi o papel da 8ª Conferência Nacional de Saúde (1986)?",a:"Foi o marco da Reforma Sanitária Brasileira. Com 4.000 participantes, foi a primeira conferência com ampla participação popular. Seu relatório final foi a base para o capítulo de saúde da CF/88 e a criação do SUS."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"O que foi o Sistema Incremental na Odontologia e quais eram suas críticas?",a:"Modelo dos anos 1950 que priorizava escolares de 6-14 anos com tratamento completo por turma. Era excludente (deixava adultos, idosos e pré-escolares sem cobertura) e de baixo impacto coletivo."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"O que o Programa Brasil Sorridente (2004) trouxe de novo para a saúde bucal?",a:"Criou a primeira Política Nacional de Saúde Bucal, ampliando a rede com CEOs (Centros de Especialidades Odontológicas) e LRPDs (laboratórios de prótese dentária), cobrindo todas as faixas etárias."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"O que é o índice CPO-D e como é calculado?",a:"CPO-D = Cariados + Perdidos + Obturados na dentição permanente. É o principal índice epidemiológico em saúde bucal. Quanto maior, pior a situação de saúde bucal coletiva."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"O que o SB Brasil 2010 revelou sobre o CPO-D aos 12 anos?",a:"O CPO-D caiu de 6,65 (1986) para 2,07 (2010) — queda expressiva atribuída à fluoretação, expansão da atenção básica e políticas de saúde bucal. Muitas regiões atingiram as metas da OMS."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"Qual é o papel do CEO e como o paciente acessa?",a:"O CEO oferece atenção especializada em Endodontia, Periodontia, Cirurgia oral, Estomatologia, Pacientes com necessidades especiais e Prótese. O acesso é por encaminhamento da atenção básica — nunca diretamente."},
+  {theme:"História das Políticas de Saúde",themeKey:"politicas",q:"Por que a Lei 6.050/1974 (fluoretação) é importante para a saúde coletiva?",a:"Tornou obrigatória a fluoretação das águas de abastecimento em municípios com estações de tratamento. É reconhecida pela OMS como a medida de saúde pública de melhor custo-benefício para prevenção coletiva de cárie."},
+  /* SAÚDE-DOENÇA */
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"Por que a definição de saúde da OMS (1946) é criticada?",a:"É considerada utópica ('completo bem-estar físico, mental e social') — ninguém atinge esse estado plenamente. É também subjetiva, pois 'bem-estar' é difícil de mensurar objetivamente. Funciona mais como horizonte do que realidade concreta."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"Quais são os modelos explicativos do processo saúde-doença em ordem histórica?",a:"1) Mágico-Religioso (sobrenatural); 2) Naturalista/Hipocrático (racional, ambiente); 3) Miasmático (ares fétidos); 4) Bacteriológico/Unicausal (Pasteur/Koch); 5) Biomédico; 6) Multicausal (Tríade Ecológica); 7) Social/DSS."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"Quais são os três componentes da Tríade Ecológica de Leavell & Clark?",a:"Agente (o causador da doença), Hospedeiro (quem adoece) e Meio Ambiente (o contexto onde interagem). A doença ocorre quando o equilíbrio entre esses três elementos é rompido."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"O que são os Determinantes Sociais da Saúde (DSS)?",a:"São as condições em que as pessoas nascem, crescem, vivem, trabalham e envelhecem. Incluem renda, educação, moradia, emprego e acesso a serviços. São as causas fundamentais das iniquidades em saúde."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"O que é a Pré-Patogênese e qual nível de prevenção atua nessa fase?",a:"É o período em que o agente e hospedeiro ainda não interagiram — o indivíduo está saudável mas exposto a fatores de risco. É onde atua a Prevenção Primária (promoção da saúde e proteção específica, como vacinação e fluoretação)."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"Quais são os três níveis de prevenção e suas ações correspondentes?",a:"Prevenção Primária (Pré-patogênese): promoção e proteção específica. Prevenção Secundária (Patogênese precoce): diagnóstico precoce e tratamento. Prevenção Terciária: reabilitação e limitação do dano."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"Qual é o mecanismo de ação do flúor no controle da cárie?",a:"O mecanismo principal é tópico pós-eruptivo: em contato com o esmalte, o flúor inibe a desmineralização ácida e favorece a remineralização, formando fluorapatita mais resistente ao ataque ácido das bactérias."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"O que foi a Conferência de Alma-Ata (1978) e qual foi sua contribuição?",a:"Conferência Internacional que proclamou 'Saúde para todos até o ano 2000' e defendeu a Atenção Primária à Saúde como estratégia central para reduzir desigualdades e universalizar o acesso à saúde."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"Como o modelo Biomédico difere do modelo Social de saúde?",a:"O modelo Biomédico é centrado no biológico, na doença, no curativo e na fragmentação em especialidades. O modelo Social reconhece que fatores sociais, econômicos e culturais determinam a saúde — visão ampliada e coletiva."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"O que diferencia Promoção da Saúde de Prevenção de Doenças?",a:"A Promoção da Saúde (Carta de Ottawa, 1986) atua sobre os determinantes amplos — qualidade de vida, autonomia, ambiente. A Prevenção de Doenças foca em evitar uma doença específica. Promoção é mais ampla e intersetorial."},
+  {theme:"Processo Saúde-Doença",themeKey:"saudedoenca",q:"No modelo de Dahlgren e Whitehead, o que são os determinantes proximais e distais?",a:"Proximais são os mais próximos do indivíduo (estilo de vida, comportamentos). Distais são os mais afastados e estruturais (condições macroeconômicas, políticas sociais, cultura). Os distais moldam os proximais."},
+];
+
+/* ─── GLOBAL STATE ──────────────────────────────────── */
+let shuffled=[], current=0, score=0, correctFirst=0, correctSecond=0;
+let answered=false, attempts=0, timerInterval=null, timeLeft=TIMER;
+let nickname='', currentMode='normal', selectedThemes=[0,1,2];
+let log=[], prevScreen='home-screen';
+
+/* ─── UTILS ─────────────────────────────────────────── */
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
 function showScreen(id){
-  prevScreen=document.querySelector('.screen.active')?.id||'start-screen';
+  prevScreen=document.querySelector('.screen.active')?.id||'home-screen';
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
 function goBack(){showScreen(prevScreen);}
 
-/* ── LAST RESULT ── */
+/* ─── LAST RESULT PERSISTENCE ───────────────────────── */
 function saveLastResult(data){try{localStorage.setItem('sc1_last',JSON.stringify(data));}catch(e){}}
 function loadLastResult(){try{const d=localStorage.getItem('sc1_last');return d?JSON.parse(d):null;}catch(e){return null;}}
 function checkLastResultBanner(){
@@ -890,27 +645,72 @@ function checkLastResultBanner(){
 }
 function showLastResult(){
   const r=loadLastResult();if(!r)return;
-  nickname=r.nick;renderResult(r);showScreen('result-screen');
+  nickname=r.nick;currentMode=r.mode||'normal';renderResult(r);showScreen('result-screen');
 }
 
-/* ── QUIZ ── */
+/* ─── SETUP SCREEN ──────────────────────────────────── */
+function openSetup(mode){
+  currentMode=mode;
+  document.getElementById('setup-title').textContent=mode==='ranked'?'⚡ Modo Ranqueado':'📝 Modo Normal';
+  document.getElementById('setup-sub').textContent=mode==='ranked'
+    ?'Compete no ranking da turma. Pontuação por velocidade!'
+    :'Pratique sem pressão. Sem ranking. Escolha os temas.';
+  document.getElementById('ranked-notice').style.display=mode==='ranked'?'flex':'none';
+  // reset theme selections
+  selectedThemes=[0,1,2];
+  [0,1,2].forEach(i=>{
+    document.getElementById('topt-'+i).classList.add('selected');
+    document.getElementById('tchk-'+i).textContent='✓';
+  });
+  // prefill nick
+  const saved=loadLastResult();
+  if(saved&&saved.nick)document.getElementById('nick-input').value=saved.nick;
+  showScreen('setup-screen');
+}
+
+function toggleTheme(i){
+  const idx=selectedThemes.indexOf(i);
+  if(idx>-1){
+    if(selectedThemes.length===1)return; // at least one selected
+    selectedThemes.splice(idx,1);
+    document.getElementById('topt-'+i).classList.remove('selected');
+    document.getElementById('tchk-'+i).textContent='';
+  }else{
+    selectedThemes.push(i);
+    document.getElementById('topt-'+i).classList.add('selected');
+    document.getElementById('tchk-'+i).textContent='✓';
+  }
+}
+
+/* ─── QUIZ ──────────────────────────────────────────── */
 function startQuiz(){
   const nick=document.getElementById('nick-input').value.trim();
   if(!nick){document.getElementById('nick-input').focus();return;}
   nickname=nick;score=0;correctFirst=0;correctSecond=0;current=0;log=[];
-  shuffled=shuffle(QUESTIONS).map(q=>{
+
+  // filter by selected themes and shuffle
+  const pool=QUESTIONS.filter(q=>selectedThemes.includes(q.cat));
+  shuffled=shuffle(pool).map(q=>{
     const idx=shuffle([0,1,2,3]);
     const newWR=idx.map(i=>q.wrongReasons[i]);
     return{...q,options:idx.map(i=>q.options[i]),answer:idx.indexOf(q.answer),wrongReasons:newWR};
   });
+
+  // update UI for mode
+  const mp=document.getElementById('mode-pill');
+  if(currentMode==='ranked'){mp.textContent='⚡ Ranqueado';mp.className='mode-pill';}
+  else{mp.textContent='Normal';mp.className='mode-pill normal';}
+
+  const rb=document.getElementById('res-ranking-btn');
+  rb.style.display=currentMode==='ranked'?'inline-flex':'none';
+
   showScreen('quiz-screen');loadQuestion();
 }
-function restartQuiz(){showScreen('start-screen');}
 
 function loadQuestion(){
   const q=shuffled[current];answered=false;attempts=0;
   document.getElementById('q-counter').textContent=`Questão ${current+1} de ${shuffled.length}`;
-  document.getElementById('score-badge').textContent=`${score} pts`;
+  document.getElementById('score-badge').textContent=score+' pts';
   document.getElementById('progress-fill').style.width=`${(current/shuffled.length)*100}%`;
   document.getElementById('q-part').textContent=CAT_NAMES[q.cat];
   document.getElementById('q-text').textContent=q.text;
@@ -934,28 +734,27 @@ function startTimer(){
 function updateTimer(){
   const f=document.getElementById('timer-fill');
   const v=document.getElementById('timer-val');
-  const pp=document.getElementById('pts-preview');
+  const pb=document.getElementById('pts-badge');
   const pct=(timeLeft/TIMER)*100;
   const col=timerColor(timeLeft);
-  f.style.width=pct+'%';
-  f.style.background=col;
+  f.style.width=pct+'%';f.style.background=col;
   v.textContent=timeLeft+'s';
-  v.className='timer-val'+(timeLeft<=8?' urgent':'');
-  const previewPts=calcPoints(attempts,timeLeft);
-  pp.textContent='+'+previewPts;
-  if(timeLeft>20){pp.className='pts-preview';}
-  else if(timeLeft>10){pp.className='pts-preview mid';}
-  else{pp.className='pts-preview low';}
+  v.className='timer-val'+(timeLeft<=10?' urgent':'');
+  const pp=calcPoints(attempts,timeLeft);
+  pb.textContent='+'+pp;
+  if(timeLeft>30){pb.className='pts-badge fast';}
+  else if(timeLeft>15){pb.className='pts-badge mid';}
+  else{pb.className='pts-badge slow';}
 }
 function timeExpired(){
   if(answered)return;answered=true;
   const q=shuffled[current];
   document.querySelectorAll('.opt').forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});
-  document.getElementById('expl-label').textContent='Tempo esgotado! 0 pontos.';
+  document.getElementById('expl-lbl').textContent='Tempo esgotado! 0 pontos.';
   document.getElementById('expl-text').textContent=q.explanation;
   document.getElementById('expl-box').classList.add('show');
   document.getElementById('next-btn').style.display='inline-block';
-  log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons});
+  log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0});
 }
 function selectOption(idx){
   if(answered)return;
@@ -963,11 +762,10 @@ function selectOption(idx){
   if(idx===q.answer){
     answered=true;clearInterval(timerInterval);
     btns[idx].classList.add('correct');btns.forEach(b=>b.disabled=true);
-    const pts=calcPoints(attempts,timeLeft);
-    score+=pts;
+    const pts=calcPoints(attempts,timeLeft);score+=pts;
     const first=attempts===0;if(first)correctFirst++;else correctSecond++;
     document.getElementById('score-badge').textContent=score+' pts';
-    document.getElementById('expl-label').textContent=`+${pts} pts! (${timeLeft}s restantes)`;
+    document.getElementById('expl-lbl').textContent=`+${pts} pts! (${timeLeft}s restantes)`;
     document.getElementById('expl-text').textContent=q.explanation;
     document.getElementById('expl-box').classList.add('show');
     document.getElementById('next-btn').style.display='inline-block';
@@ -981,7 +779,7 @@ function selectOption(idx){
     }else{
       answered=true;clearInterval(timerInterval);
       btns.forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});
-      document.getElementById('expl-label').textContent='Explicação';
+      document.getElementById('expl-lbl').textContent='Explicação';
       document.getElementById('expl-text').textContent=q.explanation;
       document.getElementById('expl-box').classList.add('show');
       document.getElementById('next-btn').style.display='inline-block';
@@ -991,13 +789,14 @@ function selectOption(idx){
 }
 function nextQuestion(){current++;if(current>=shuffled.length)showResult();else loadQuestion();}
 
-/* ── RESULT ── */
+/* ─── RESULT ────────────────────────────────────────── */
 function showResult(){
   clearInterval(timerInterval);
   const total=log.length,hits=log.filter(l=>l.correct).length;
-  const data={nick:nickname,score,hits,total,correctFirst,correctSecond,log,date:Date.now()};
-  saveLastResult(data);saveScore();renderResult(data);
-  showScreen('result-screen');checkLastResultBanner();
+  const data={nick:nickname,score,hits,total,correctFirst,correctSecond,log,date:Date.now(),mode:currentMode};
+  saveLastResult(data);
+  if(currentMode==='ranked')saveScore();
+  renderResult(data);showScreen('result-screen');checkLastResultBanner();
 }
 
 function renderResult(data){
@@ -1016,7 +815,7 @@ function renderResult(data){
   document.getElementById('res-acc').textContent=acc+'%';
   document.getElementById('res-first').textContent=cf;
 
-  // category bars
+  // cat bars
   const catEl=document.getElementById('cat-list');catEl.innerHTML='';
   CAT_NAMES.forEach((name,ci)=>{
     const cl=lg.filter(l=>l.cat===ci);if(!cl.length)return;
@@ -1031,68 +830,180 @@ function renderResult(data){
   const wrongs=lg.filter(l=>!l.correct);
   const ctaWrap=document.getElementById('review-cta-wrap');
   if(!wrongs.length){
-    ctaWrap.innerHTML='<div style="background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--r-sm);padding:14px 16px;font-size:13px;color:var(--accent);text-align:center;margin-bottom:1.5rem">Parabéns! Você acertou todas as questões. 🎉</div>';
+    ctaWrap.innerHTML='<div style="background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--r-sm);padding:13px 15px;font-size:13px;color:var(--accent);text-align:center;margin-bottom:1.1rem">Parabéns! Você acertou todas as questões. 🎉</div>';
   }else{
-    ctaWrap.innerHTML=`<div class="review-cta"><div class="review-cta-left"><div class="review-cta-title">📚 ${wrongs.length} questão${wrongs.length>1?'s':'para'} revisar</div><div class="review-cta-sub">Veja por que cada alternativa errada está errada, com dicas de raciocínio.</div></div><button class="btn btn-warn" onclick="openReview()">Revisar →</button></div>`;
+    ctaWrap.innerHTML=`<div class="review-cta"><div><div class="review-cta-title">📚 ${wrongs.length} questão${wrongs.length>1?'s':''} para revisar</div><div class="review-cta-sub">Veja por que cada alternativa errada está errada.</div></div><button class="btn btn-warn" onclick="openReview()">Revisar →</button></div>`;
   }
 }
 
-/* ── REVIEW PAGE ── */
+/* ─── REVIEW ────────────────────────────────────────── */
 function openReview(){
   const r=loadLastResult()||{log};
   const wrongs=r.log.filter(l=>!l.correct);
-  document.getElementById('review-sub').textContent='Clique em cada card para virar e ver a explicação detalhada.';
-  document.getElementById('review-count').textContent=wrongs.length+' questão'+(wrongs.length>1?'s':'')+' para revisar';
-  const stack=document.getElementById('fc-stack');
-  stack.innerHTML='';
+  document.getElementById('review-count-tag').textContent=wrongs.length+' questão'+(wrongs.length>1?'s':'')+' com erro';
+  const stack=document.getElementById('fc-stack');stack.innerHTML='';
   wrongs.forEach((w,i)=>{
     let wrongHTML='';
     w.options.forEach((opt,oi)=>{
       if(oi===w.answer)return;
       const why=w.wrongReasons&&w.wrongReasons[oi]?w.wrongReasons[oi]:'Esta alternativa não está correta neste contexto.';
-      wrongHTML+=`<div class="fc-wrong-item">
-        <div class="fc-wrong-letter">${String.fromCharCode(65+oi)}</div>
-        <div class="fc-wrong-opt">${opt}</div>
-        <div class="fc-wrong-why">↳ ${why}</div>
-      </div>`;
+      wrongHTML+=`<div class="fc-wrong-item"><div class="fc-wrong-letter">${String.fromCharCode(65+oi)}</div><div class="fc-wrong-opt">${opt}</div><div class="fc-wrong-why">↳ ${why}</div></div>`;
     });
-    const div=document.createElement('div');
-    div.className='flashcard';
-    div.id='fc'+i;
-    div.onclick=()=>toggleFC('fc'+i);
-    div.innerHTML=`
-      <div class="fc-front">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <span class="fc-tag">❌ questão ${i+1} de ${wrongs.length}</span>
-          <span style="font-size:11px;color:var(--muted)">${CAT_NAMES[w.cat]}</span>
-        </div>
-        <div class="fc-question">${w.text}</div>
-        <div class="fc-flip-hint" style="margin-top:10px">↩ clique para ver explicação de cada alternativa</div>
-      </div>
-      <div class="fc-back">
-        <div class="fc-back-label">Por que cada alternativa errada está errada</div>
-        <div class="fc-wrong-list">${wrongHTML}</div>
-        <div class="fc-hint-box">
-          <span class="fc-hint-ico">💡</span>
-          <div>
-            <div class="fc-hint-label">Como pensar na resposta</div>
-            <div class="fc-hint-text">${w.hint}</div>
-          </div>
-        </div>
-        <div class="fc-close-hint">↩ clique para fechar</div>
-      </div>`;
+    const div=document.createElement('div');div.className='flashcard';div.id='fcr'+i;div.onclick=()=>document.getElementById('fcr'+i).classList.toggle('open');
+    div.innerHTML=`<div class="fc-front"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px"><span class="fc-tag">❌ questão ${i+1} de ${wrongs.length}</span><span style="font-size:10px;color:var(--muted)">${CAT_NAMES[w.cat]}</span></div><div class="fc-question">${w.text}</div><div class="fc-flip-hint" style="margin-top:8px">↩ clique para ver explicação de cada alternativa</div></div><div class="fc-back"><div class="fc-back-label">Por que cada alternativa errada está errada</div><div class="fc-wrong-list">${wrongHTML}</div><div class="fc-hint-box"><span class="fc-hint-ico">💡</span><div><div class="fc-hint-label">Como pensar na resposta</div><div class="fc-hint-text">${w.hint}</div></div></div><div class="fc-close-hint">↩ clique para fechar</div></div>`;
     stack.appendChild(div);
   });
   showScreen('review-screen');
 }
 
-function toggleFC(id){
-  const el=document.getElementById(id);
-  if(el)el.classList.toggle('open');
+/* ─── STUDY FLASHCARDS ──────────────────────────────── */
+function loadStudyProgress(){try{return JSON.parse(localStorage.getItem('sc1_study')||'{}');}catch(e){return{};}}
+function saveStudyProgress(p){try{localStorage.setItem('sc1_study',JSON.stringify(p));}catch(e){}}
+function clearStudyProgress(){if(!confirm('Apagar todo o progresso dos flashcards?'))return;localStorage.removeItem('sc1_study');renderStudy();}
+
+/* Build the "taller side" spacer so the card wrapper has correct height */
+function buildSpacerFront(card,p){
+  return `<div class="sfc-card-num"><span>Card ${card.idx+1} de ${STUDY_CARDS.length}</span><span class="sfc-card-status ${p.understood?'done':'pending'}">${p.understood?'✅ Entendido':'Pendente'}</span></div>
+<div class="sfc-q">${card.q}</div>
+<textarea class="sfc-textarea" placeholder="Digite sua resposta aqui..." style="visibility:hidden">${p.userAnswer||''}</textarea>
+<div class="sfc-front-actions"><button class="sfc-btn sfc-btn-confirm" style="visibility:hidden">Ver resposta</button></div>
+<div class="sfc-flip-hint" style="visibility:hidden"> </div>`;
 }
 
-/* ── RANKING ── */
+function buildFront(card,p){
+  const hasAnswer=p.userAnswer&&p.userAnswer.trim()!=='';
+  return `
+<div class="sfc-card-num">
+  <span>Card ${card.idx+1} de ${STUDY_CARDS.length}</span>
+  <span class="sfc-card-status ${p.understood?'done':'pending'}">${p.understood?'✅ Entendido':'Pendente'}</span>
+</div>
+<div class="sfc-q">${card.q}</div>
+<textarea class="sfc-textarea" id="sta-${card.idx}" placeholder="Digite sua resposta aqui (opcional)...">${p.userAnswer||''}</textarea>
+<div class="sfc-front-actions">
+  <button class="sfc-btn sfc-btn-confirm" onclick="flipCard(${card.idx},event)">Ver resposta →</button>
+</div>
+<div class="sfc-flip-hint">Clique em "Ver resposta" para virar o card</div>`;
+}
+
+function buildBack(card,p){
+  return `
+<div class="sfc-back-label">Resposta de referência</div>
+<div class="sfc-answer-box">${card.a}</div>
+<div class="sfc-back-actions">
+  ${!p.understood?`<button class="sfc-btn sfc-btn-correct" onclick="markUnderstood(${card.idx},event)">✅ Entendido</button>`:''}
+  <button class="sfc-btn sfc-btn-outline" onclick="flipBack(${card.idx},event)">✏️ Editar resposta</button>
+  ${p.understood?`<span class="sfc-understood-badge">✅ Entendido</span>`:''}
+</div>
+<div class="sfc-back-flip-hint">Clique em "Editar resposta" para voltar ao card</div>`;
+}
+
+function renderStudy(){
+  const progress=loadStudyProgress();
+  const total=STUDY_CARDS.length;
+  const answeredCount=Object.values(progress).filter(v=>v.understood).length;
+  const pct=Math.round((answeredCount/total)*100);
+  document.getElementById('study-progress').innerHTML=`
+    <span>✅ ${answeredCount} de ${total} entendidos</span>
+    <div class="study-progress-bar"><div class="study-progress-fill" style="width:${pct}%"></div></div>
+    <span>${pct}%</span>`;
+
+  const themes={};
+  STUDY_CARDS.forEach((c,i)=>{
+    if(!themes[c.theme])themes[c.theme]=[];
+    themes[c.theme].push({...c,idx:i});
+  });
+
+  const container=document.getElementById('study-content');container.innerHTML='';
+  Object.entries(themes).forEach(([themeName,cards])=>{
+    const section=document.createElement('div');section.className='study-theme-section';
+    const themeUnderstood=cards.filter(c=>progress[c.idx]?.understood).length;
+    section.innerHTML=`<div class="study-theme-header">${themeName} <span style="font-size:11px;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0">${themeUnderstood}/${cards.length}</span></div><div class="study-card-wrap" id="swrap-${cards[0].themeKey}"></div>`;
+    container.appendChild(section);
+    const wrap=section.querySelector('.study-card-wrap');
+    cards.forEach(card=>{
+      const p=progress[card.idx]||{userAnswer:'',understood:false,flipped:false};
+      const wrapper=document.createElement('div');wrapper.className='sfc-wrapper';
+      /* 3-layer structure: scene > card > (front-face + back-face) + invisible spacer */
+      wrapper.innerHTML=`
+        <div class="sfc-scene" id="scene-${card.idx}">
+          <div class="sfc-card${p.flipped?' flipped':''}" id="card-${card.idx}" style="min-height:100%">
+            <div class="sfc-face sfc-front-face">${buildFront(card,p)}</div>
+            <div class="sfc-face sfc-back-face">${buildBack(card,p)}</div>
+          </div>
+        </div>`;
+      /* Invisible spacer drives the wrapper height — takes the taller face */
+      const spacer=document.createElement('div');
+      spacer.style.cssText='visibility:hidden;pointer-events:none;padding:18px;display:flex;flex-direction:column;gap:12px;';
+      spacer.innerHTML=buildSpacerFront(card,p);
+      wrapper.appendChild(spacer);
+      /* Make scene height = spacer height */
+      wrap.appendChild(wrapper);
+    });
+  });
+
+  /* After render: sync heights */
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.sfc-wrapper').forEach(wr=>{
+      const scene=wr.querySelector('.sfc-scene');
+      const card=wr.querySelector('.sfc-card');
+      const spacer=wr.lastElementChild;
+      const h=spacer.offsetHeight;
+      if(h>0){scene.style.height=h+'px';card.style.height=h+'px';}
+    });
+  });
+}
+
+function flipCard(idx,e){
+  e&&e.stopPropagation();
+  const progress=loadStudyProgress();
+  const p=progress[idx]||{userAnswer:'',understood:false};
+  /* save user answer before flip */
+  const ta=document.getElementById('sta-'+idx);
+  if(ta)p.userAnswer=ta.value;
+  p.flipped=true;
+  progress[idx]=p;
+  saveStudyProgress(progress);
+  const scene=document.getElementById('scene-'+idx);
+  const card=document.getElementById('card-'+idx);
+  if(scene)scene.classList.add('flipped');
+  if(card)card.classList.add('flipped');
+}
+
+function flipBack(idx,e){
+  e&&e.stopPropagation();
+  const progress=loadStudyProgress();
+  if(progress[idx])progress[idx].flipped=false;
+  saveStudyProgress(progress);
+  const scene=document.getElementById('scene-'+idx);
+  const card=document.getElementById('card-'+idx);
+  if(scene)scene.classList.remove('flipped');
+  if(card)card.classList.remove('flipped');
+  /* focus textarea after flip */
+  setTimeout(()=>{const ta=document.getElementById('sta-'+idx);if(ta){ta.focus();}},560);
+}
+
+function markUnderstood(idx,e){
+  e&&e.stopPropagation();
+  const progress=loadStudyProgress();
+  if(!progress[idx])progress[idx]={userAnswer:'',flipped:true};
+  progress[idx].understood=true;
+  progress[idx].flipped=true;
+  saveStudyProgress(progress);
+  renderStudy();
+  setTimeout(()=>{const el=document.getElementById('scene-'+idx);if(el){el.classList.add('flipped');const c=document.getElementById('card-'+idx);if(c)c.classList.add('flipped');}},80);
+}
+
+// init study screen when shown
+const studyObserver=new MutationObserver(()=>{
+  if(document.getElementById('study-screen').classList.contains('active')){
+    renderStudy();
+  }
+});
+studyObserver.observe(document.getElementById('study-screen'),{attributeFilter:['class']});
+
+/* ─── RANKING ───────────────────────────────────────── */
 async function saveScore(){
+  if(currentMode!=='ranked')return;
   const entry={nick:nickname,score};
   try{
     let r=JSON.parse(localStorage.getItem('sc1_ranking')||'[]');
@@ -1110,6 +1021,7 @@ async function saveScore(){
     }catch(e){}
   }
 }
+
 async function showRanking(){
   showScreen('ranking-screen');
   const list=document.getElementById('rank-list');
@@ -1147,7 +1059,50 @@ function getLocalRanking(){
   }catch(e){return[];}
 }
 
-document.getElementById('nick-input').addEventListener('keydown',e=>{if(e.key==='Enter')startQuiz();});
+/* ─── ADMIN / DEBUG MODE ────────────────────────────────
+   Ativar: Ctrl + Shift + X
+   Simula respostas aleatórias para todas as questões restantes,
+   respeitando o fluxo normal do quiz.
+─────────────────────────────────────────────────────── */
+let adminActive=false;
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.shiftKey&&e.key==='X'){
+    const screen=document.querySelector('.screen.active')?.id;
+    if(screen!=='quiz-screen')return;
+    if(adminActive)return;
+    adminActive=true;
+    const toast=document.getElementById('admin-toast');
+    toast.classList.add('show');
+    setTimeout(()=>{toast.classList.remove('show');adminActive=false;},3000);
+    runAdminSimulation();
+  }
+});
+
+function runAdminSimulation(){
+  if(!document.getElementById('quiz-screen').classList.contains('active')){adminActive=false;return;}
+  if(answered){
+    // click next if available
+    const nb=document.getElementById('next-btn');
+    if(nb&&nb.style.display!=='none'){nb.click();setTimeout(runAdminSimulation,300);}
+    else{setTimeout(runAdminSimulation,200);}
+    return;
+  }
+  clearInterval(timerInterval);
+  const q=shuffled[current];
+  const btns=document.querySelectorAll('.opt:not(:disabled)');
+  if(!btns.length){adminActive=false;return;}
+  // random choice (may be wrong, respects real flow)
+  const pick=Math.floor(Math.random()*btns.length);
+  btns[pick].click();
+  setTimeout(()=>{
+    if(current<shuffled.length-1||answered){
+      setTimeout(runAdminSimulation,400);
+    }
+  },500);
+}
+
+/* ─── INIT ──────────────────────────────────────────── */
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('setup-screen').classList.contains('active'))startQuiz();});
 checkLastResultBanner();
 </script>
 </body>
