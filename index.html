@@ -362,6 +362,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ufc-save-btn:hover{opacity:0.88}
 .ufc-cancel-btn{cursor:pointer;background:transparent;border:1px solid var(--border2);color:var(--muted2);border-radius:var(--r-sm);padding:9px 14px;font-size:13px;font-family:'DM Sans',sans-serif;transition:all 0.14s}
 .ufc-cancel-btn:hover{color:var(--text);background:var(--s1)}
+.sfc-saved-answer{background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:9px 11px}
+.sfc-saved-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:4px}
+.sfc-saved-text{font-size:13px;color:var(--muted2);font-style:italic;line-height:1.5}
+.sfc-no-answer{font-size:12px;color:var(--muted);font-style:italic;padding:2px 0}
 .admin-toast{position:fixed;bottom:24px;right:24px;background:#1e2733;border:1px solid var(--purple-border);border-radius:var(--r-sm);padding:10px 16px;font-size:13px;color:var(--purple);z-index:9999;animation:up 0.2s ease;display:none}
 .admin-toast.show{display:block}
 
@@ -834,31 +838,57 @@ function updatePerfData(logEntries){
   savePerfData(perf);
 }
 
-/* Returns {pool, extraInfo} where extraInfo = [{cat, extra}] for result display */
-function buildSmartPool(base){
-  const perf=loadPerfData();
-  const byTheme={};
-  base.forEach(q=>{if(!byTheme[q.cat])byTheme[q.cat]=[];byTheme[q.cat].push(q);});
+/* Called after base questions are done to calculate and inject extras */
+function calcSmartExtras(baselog,basePool){
+  // count errors per theme in THIS session
+  const sessionErr={};
+  baselog.forEach(l=>{
+    if(!sessionErr[l.cat])sessionErr[l.cat]={wrong:0,total:0};
+    sessionErr[l.cat].total++;
+    if(!l.correct)sessionErr[l.cat].wrong++;
+  });
+  const extras=[];
   const extraInfo=[];
-  const extra=[];
+  const byTheme={};
+  basePool.forEach(q=>{if(!byTheme[q.cat])byTheme[q.cat]=[];byTheme[q.cat].push(q);});
   [0,1,2].forEach(cat=>{
-    const p=perf[cat]||{right:0,wrong:0};
-    const total=p.right+p.wrong;
-    const errRate=total>0?p.wrong/total:0;
+    const s=sessionErr[cat]||{wrong:0,total:0};
+    if(!s.total)return;
+    const errRate=s.wrong/s.total;
     let addCount=0;
-    if(errRate>0.6)addCount=Math.min(10,Math.round(errRate*12));
-    else if(errRate>0.3)addCount=Math.min(4,Math.round(errRate*6));
+    if(errRate>0.6)addCount=Math.min(10,Math.round(errRate*14));
+    else if(errRate>0.4)addCount=Math.min(6,Math.round(errRate*10));
+    else if(errRate>0.2)addCount=Math.min(3,Math.round(errRate*6));
     if(addCount>0){
       const pool=byTheme[cat]||[];
-      const picked=shuffle([...pool]).slice(0,addCount);
-      extra.push(...picked);
-      extraInfo.push({cat,extra:picked.length});
+      // prefer questions the user got wrong (by text match)
+      const wrongTexts=new Set(baselog.filter(l=>!l.correct&&l.cat===cat).map(l=>l.text));
+      const wrongQs=pool.filter(q=>wrongTexts.has(q.text));
+      const otherQs=pool.filter(q=>!wrongTexts.has(q.text));
+      const picked=shuffle([...wrongQs,...otherQs]).slice(0,addCount);
+      extras.push(...picked);
+      if(picked.length)extraInfo.push({cat,extra:picked.length,errRate:Math.round(errRate*100)});
     }
   });
-  return{pool:[...base,...extra],extraInfo};
+  return{extras,extraInfo};
 }
+
 let smartActive=false;
-let lastSmartExtra=[];  // [{cat,extra}] for result screen
+let lastSmartExtra=[];   // [{cat,extra,errRate}]
+let smartBaseCount=0;    // how many base questions before extras
+let inSmartExtra=false;  // whether we're currently in the extra phase
+function toggleSmart(){
+  smartActive=!smartActive;
+  const t=document.getElementById('smart-toggle');
+  const c=document.getElementById('smart-chk');
+  if(smartActive){
+    t.classList.add('active');
+    c.innerHTML='<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#07040f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }else{
+    t.classList.remove('active');
+    c.innerHTML='';
+  }
+}
 function toggleSmart(){
   smartActive=!smartActive;
   const t=document.getElementById('smart-toggle');
@@ -932,10 +962,10 @@ function startSprint(){
 function _startQuizInternal(mode){
   currentMode=mode;
   score=0;correctFirst=0;correctSecond=0;current=0;log=[];streak=0;maxStreak=0;lives=SURVIVAL_LIVES;
+  lastSmartExtra=[];smartBaseCount=0;inSmartExtra=false;
   modesPlayed.add(mode);
 
   let pool;
-  lastSmartExtra=[];
   if(mode==='ranked'){
     pool=[...QUESTIONS,...HARD_QUESTIONS];
   }else if(mode==='sprint'){
@@ -943,14 +973,8 @@ function _startQuizInternal(mode){
   }else if(mode==='survival'){
     pool=shuffle(QUESTIONS.filter(q=>selectedThemes.includes(q.cat)));
   }else{
-    const base=QUESTIONS.filter(q=>selectedThemes.includes(q.cat));
-    if(smartActive){
-      const result=buildSmartPool(base);
-      pool=result.pool;
-      lastSmartExtra=result.extraInfo;
-    }else{
-      pool=base;
-    }
+    pool=QUESTIONS.filter(q=>selectedThemes.includes(q.cat));
+    if(smartActive)smartBaseCount=pool.length; // extras injected dynamically after base
   }
 
   shuffled=shuffle(pool).map(q=>{
@@ -1024,17 +1048,25 @@ function updateStreakUI(){
   row.innerHTML=`<span class="streak-badge ${cls}">🔥 ${streak} seguidos · ×${mult.toFixed(2)}</span>`;
 }
 
-/* ─── LOAD QUESTION ─── */
 function loadQuestion(){
-  if(current>=shuffled.length){showResult();return;} // BUG FIX: safety check
+  if(current>=shuffled.length){showResult();return;}
   const q=shuffled[current];answered=false;attempts=0;
   const total=shuffled.length;
-  document.getElementById('q-counter').textContent=`Questão ${current+1}${currentMode!=='survival'?' de '+total:''}`;
+  const isExtra=q.isSmartExtra===true;
+  let counterTxt=`Questão ${current+1}`;
+  if(currentMode!=='survival'){
+    if(isExtra){
+      counterTxt+=` · 🧠 Reforço ${current-smartBaseCount+1}/${total-smartBaseCount}`;
+    }else{
+      counterTxt+=` de ${smartBaseCount||total}`;
+    }
+  }
+  document.getElementById('q-counter').textContent=counterTxt;
   if(currentMode==='ranked')document.getElementById('score-badge').textContent=score+' pts';
   document.getElementById('progress-fill').style.width=`${(current/total)*100}%`;
-  document.getElementById('q-part').textContent=CAT_NAMES[q.cat];
+  document.getElementById('q-part').textContent=(isExtra?'🧠 Reforço · ':'')+CAT_NAMES[q.cat];
   document.getElementById('q-text').textContent=q.text;
-  document.getElementById('q-attempts').textContent='1ª tentativa';
+  document.getElementById('q-attempts').textContent=currentMode==='survival'?'':' 1ª tentativa';
   document.getElementById('hint-box').classList.remove('show');
   document.getElementById('expl-box').classList.remove('show');
   document.getElementById('next-btn').style.display='none';
@@ -1079,7 +1111,7 @@ function timeExpired(){
   document.getElementById('expl-lbl').textContent='Tempo esgotado!';
   document.getElementById('expl-text').textContent=q.explanation||'';
   document.getElementById('expl-box').classList.add('show');
-  log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0});
+  log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
   streak=0;updateStreakUI();
   // survival: lose life
   if(currentMode==='survival'){
@@ -1108,14 +1140,30 @@ function selectOption(idx){
     }
     document.getElementById('expl-text').textContent=q.explanation||'';
     document.getElementById('expl-box').classList.add('show');
-    log.push({cat:q.cat,correct:true,firstTry:first,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts});
+    log.push({cat:q.cat,correct:true,firstTry:first,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts,isSmartExtra:q.isSmartExtra||false});
     updateStreakUI();
-    // achievement checks
     if(streak>=3)unlockAch('streak_3');
     if(streak>=10)unlockAch('streak_10');
   }else{
-    btns[idx].classList.add('wrong');btns[idx].disabled=true;attempts++;
+    btns[idx].classList.add('wrong');btns[idx].disabled=true;
     streak=0;updateStreakUI();
+
+    /* ── SURVIVAL: 1 attempt, no hint, immediate life loss ── */
+    if(currentMode==='survival'){
+      answered=true;clearInterval(timerInterval);
+      btns.forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});
+      lives--;renderLives();
+      document.getElementById('expl-lbl').textContent='Errou! -1 ❤️';
+      document.getElementById('expl-text').textContent=q.explanation||'';
+      document.getElementById('expl-box').classList.add('show');
+      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
+      const btn=document.getElementById('next-btn');
+      btn.textContent=lives<=0?'Ver resultado':'Próxima →';
+      btn.style.display='inline-block';
+      return;
+    }
+
+    attempts++;
     if(attempts===1){
       document.getElementById('hint-text').textContent=q.hint||'';
       document.getElementById('hint-box').classList.add('show');
@@ -1126,15 +1174,9 @@ function selectOption(idx){
       document.getElementById('expl-lbl').textContent='Explicação';
       document.getElementById('expl-text').textContent=q.explanation||'';
       document.getElementById('expl-box').classList.add('show');
-      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0});
-      // survival: lose life on second wrong
-      if(currentMode==='survival'){
-        lives--;renderLives();
-        if(lives<=0){document.getElementById('next-btn').textContent='Ver resultado';document.getElementById('next-btn').style.display='inline-block';return;}
-      }
+      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
     }
   }
-  // always show next button after answer is resolved
   if(answered){
     const isLast=current===shuffled.length-1;
     const btn=document.getElementById('next-btn');
@@ -1143,16 +1185,45 @@ function selectOption(idx){
   }
 }
 
-/* ─── BUG FIX: nextQuestion properly handles end of quiz ─── */
+/* ─── NEXT QUESTION ─── */
 function nextQuestion(){
   current++;
+
+  // Smart Training: when base phase ends, calculate and inject extras
+  if(smartActive&&smartBaseCount>0&&!inSmartExtra&&current===smartBaseCount){
+    const basePool=QUESTIONS.filter(q=>selectedThemes.includes(q.cat));
+    const{extras,extraInfo}=calcSmartExtras(log,basePool);
+    if(extras.length>0){
+      inSmartExtra=true;
+      lastSmartExtra=extraInfo;
+      const extraShuffled=shuffle(extras).map(q=>{
+        const idx=shuffle([0,1,2,3]);
+        const newWR=idx.map(i=>(q.wrongReasons||[])[i]||null);
+        return{...q,options:idx.map(i=>q.options[i]),answer:idx.indexOf(q.answer),wrongReasons:newWR,isSmartExtra:true};
+      });
+      shuffled=[...shuffled,...extraShuffled];
+      // show brief notification
+      showSmartExtraNotice(extraInfo);
+    }
+  }
+
   if(current>=shuffled.length){
     showResult();
   }else{
-    // survival game over
     if(currentMode==='survival'&&lives<=0){showResult();return;}
     loadQuestion();
   }
+}
+
+function showSmartExtraNotice(extraInfo){
+  const total=extraInfo.reduce((a,b)=>a+b.extra,0);
+  const names=extraInfo.map(e=>CAT_NAMES[e.cat].split(' ')[0]).join(', ');
+  // repurpose expl-box briefly as a notice before next question loads
+  const notice=document.createElement('div');
+  notice.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--s1);border:1px solid var(--purple-border);border-radius:var(--r);padding:20px 24px;text-align:center;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.5);max-width:300px;animation:up 0.3s ease';
+  notice.innerHTML=`<div style="font-size:28px;margin-bottom:8px">🧠</div><div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:var(--purple);margin-bottom:6px">Treino Inteligente</div><div style="font-size:13px;color:var(--muted2);line-height:1.5">+${total} questão${total>1?'s':''} de reforço adicionada${total>1?'s':''}<br><span style="color:var(--muted)">${names}</span></div>`;
+  document.body.appendChild(notice);
+  setTimeout(()=>notice.remove(),2200);
 }
 
 /* ─── RESULT ─── */
@@ -1234,15 +1305,48 @@ function renderResult(data){
   if(smartWrap){
     if(se&&se.length>0){
       const totalExtra=se.reduce((a,b)=>a+b.extra,0);
-      const rows=se.map(e=>`<div class="smart-fb-row"><span>${CAT_NAMES[e.cat]}</span><span>+${e.extra} questão${e.extra>1?'s':''}</span></div>`).join('');
-      smartWrap.innerHTML=`<div class="smart-feedback-block"><div class="smart-fb-header"><span>🧠</span><div><div class="smart-fb-title">Treino Inteligente ativo</div><div class="smart-fb-sub">+${totalExtra} questão${totalExtra>1?'s':''} adicionada${totalExtra>1?'s':''} focadas nos seus pontos fracos</div></div></div><div class="smart-fb-rows">${rows}</div></div>`;
-    }else if(se){
+      const baseLog=lg.filter(l=>!l.isSmartExtra);
+      const extraLog=lg.filter(l=>l.isSmartExtra);
+      const baseHits=baseLog.filter(l=>l.correct).length;
+      const extraHits=extraLog.filter(l=>l.correct).length;
+      const baseAcc=baseLog.length>0?Math.round(baseHits/baseLog.length*100):0;
+      const extraAcc=extraLog.length>0?Math.round(extraHits/extraLog.length*100):0;
+      const rows=se.map(e=>{
+        const el=lg.filter(l=>l.isSmartExtra&&l.cat===e.cat);
+        const eh=el.filter(l=>l.correct).length;
+        const ea=el.length>0?Math.round(eh/el.length*100):0;
+        const eCls=ea>=75?'great':ea>=50?'ok':'bad';
+        return `<div class="smart-fb-row">
+          <span>${CAT_NAMES[e.cat]}</span>
+          <span style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:11px;color:var(--muted)">+${e.extra}q · erro base: ${e.errRate}%</span>
+            <span class="cat-badge ${eCls}" style="font-size:10px">${ea}% no reforço</span>
+          </span>
+        </div>`;
+      }).join('');
+      smartWrap.innerHTML=`<div class="smart-feedback-block">
+        <div class="smart-fb-header"><span>🧠</span><div>
+          <div class="smart-fb-title">Treino Inteligente — Resultado</div>
+          <div class="smart-fb-sub">+${totalExtra} questão${totalExtra>1?'s':''} de reforço foram adicionadas com base nos seus erros desta sessão</div>
+        </div></div>
+        <div class="smart-fb-rows" style="margin-bottom:10px">
+          <div class="smart-fb-row"><span>📋 Base (${baseLog.length}q)</span><span>${baseHits}/${baseLog.length} acertos · ${baseAcc}%</span></div>
+          <div class="smart-fb-row"><span>🔥 Reforço (${extraLog.length}q)</span><span>${extraHits}/${extraLog.length} acertos · ${extraAcc}%</span></div>
+        </div>
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--purple);margin-bottom:6px">Temas reforçados</div>
+        <div class="smart-fb-rows">${rows}</div>
+      </div>`;
+    }else if(se&&se.length===0&&smartBaseCount>0){
+      smartWrap.innerHTML=`<div class="smart-feedback-block"><div class="smart-fb-header"><span>🧠</span><div><div class="smart-fb-title">Treino Inteligente</div><div class="smart-fb-sub">Ótimo desempenho! Nenhuma questão extra foi necessária.</div></div></div></div>`;
+    }else{
       smartWrap.innerHTML='';
     }
   }
 }
 
 function openReview(){
+  const r=loadLastResult()||{log};
+  if(!r||!r.log)return;
   const wrongs=r.log.filter(l=>!l.correct);
   document.getElementById('review-count-tag').textContent=wrongs.length+' questão'+(wrongs.length>1?'s':'')+' com erro';
   const stack=document.getElementById('fc-stack');stack.innerHTML='';
@@ -1484,10 +1588,58 @@ function ufcMarkUnderstood(id){
 }
 
 function buildFront(card,p){
+  const hasAnswer=p.userAnswer&&p.userAnswer.trim()!=='';
+  const answerDisplay=hasAnswer
+    ?`<div class="sfc-saved-answer" id="sa-${card.idx}"><div class="sfc-saved-label">Sua resposta</div><div class="sfc-saved-text">${escStudy(p.userAnswer)}</div></div>`
+    :`<div class="sfc-no-answer" id="sa-${card.idx}">Você ainda não escreveu uma resposta.</div>`;
   return `<div class="sfc-card-num"><span>Card ${card.idx+1}/${STUDY_CARDS.length}</span><span class="sfc-card-status ${p.understood?'done':'pending'}">${p.understood?'✅ Entendido':'Pendente'}</span></div>
 <div class="sfc-q">${card.q}</div>
-<textarea class="sfc-textarea" id="sta-${card.idx}" placeholder="Escreva sua resposta aqui (opcional)…">${p.userAnswer||''}</textarea>
-<div class="sfc-front-actions"><button class="sfc-btn sfc-btn-confirm" onclick="flipCard(${card.idx},event)">🔄 Ver resposta</button></div>`;
+${answerDisplay}
+<div class="sfc-edit-area" id="sedit-${card.idx}" style="display:none"><textarea class="sfc-textarea" id="sta-${card.idx}" placeholder="Escreva sua resposta aqui…">${p.userAnswer||''}</textarea><div class="sfc-front-actions" style="margin-top:6px"><button class="sfc-btn sfc-btn-confirm" id="sbtn-save-${card.idx}">💾 Salvar</button><button class="sfc-btn sfc-btn-outline" id="sbtn-cancel-${card.idx}">Cancelar</button></div></div>
+<div class="sfc-front-actions" id="sactions-${card.idx}"><button class="sfc-btn sfc-btn-confirm" id="sbtn-flip-${card.idx}">🔄 Ver resposta</button><button class="sfc-btn sfc-btn-outline" id="sbtn-edit-${card.idx}">✏️ ${hasAnswer?'Editar':'Escrever'} resposta</button></div>`;
+}
+
+function escStudy(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+
+function bindStudyCard(idx){
+  const g=id=>document.getElementById(id);
+  const fb=g('sbtn-flip-'+idx);if(fb)fb.onclick=(e)=>flipCard(idx,e);
+  const eb=g('sbtn-edit-'+idx);if(eb)eb.onclick=()=>openStudyEdit(idx);
+  const sb=g('sbtn-save-'+idx);if(sb)sb.onclick=()=>saveStudyAnswer(idx);
+  const cb=g('sbtn-cancel-'+idx);if(cb)cb.onclick=()=>closeStudyEdit(idx);
+  const bk=g('back-'+idx);
+  if(bk){
+    const vb=bk.querySelector('.sfc-btn-outline');if(vb)vb.onclick=(e)=>flipBack(idx,e);
+    const ub=bk.querySelector('.sfc-btn-correct');if(ub)ub.onclick=(e)=>markUnderstood(idx,e);
+  }
+}
+function openStudyEdit(idx){
+  document.getElementById('sedit-'+idx).style.display='block';
+  document.getElementById('sactions-'+idx).style.display='none';
+  document.getElementById('sa-'+idx).style.display='none';
+  const ta=document.getElementById('sta-'+idx);
+  if(ta){ta.focus();ta.selectionStart=ta.value.length;}
+}
+function closeStudyEdit(idx){
+  document.getElementById('sedit-'+idx).style.display='none';
+  document.getElementById('sactions-'+idx).style.display='flex';
+  document.getElementById('sa-'+idx).style.display='';
+}
+function saveStudyAnswer(idx){
+  const ta=document.getElementById('sta-'+idx);
+  const val=ta?ta.value.trim():'';
+  const progress=loadStudyProgress();
+  if(!progress[idx])progress[idx]={understood:false,flipped:false};
+  progress[idx].userAnswer=val;
+  saveStudyProgress(progress);
+  closeStudyEdit(idx);
+  const saEl=document.getElementById('sa-'+idx);
+  if(saEl){
+    if(val){saEl.className='sfc-saved-answer';saEl.innerHTML=`<div class="sfc-saved-label">Sua resposta</div><div class="sfc-saved-text">${escStudy(val)}</div>`;}
+    else{saEl.className='sfc-no-answer';saEl.innerHTML='Você ainda não escreveu uma resposta.';}
+  }
+  const eb=document.getElementById('sbtn-edit-'+idx);
+  if(eb)eb.textContent=`✏️ ${val?'Editar':'Escrever'} resposta`;
 }
 function buildBack(card,p){
   return `<div class="sfc-back-label">Resposta de referência</div>
@@ -1521,15 +1673,7 @@ function renderStudy(){
       const wrapper=document.createElement('div');wrapper.className='sfc-wrapper';
       wrapper.innerHTML=`<div class="sfc-scene${p.flipped?' flipped':''}" id="scene-${card.idx}"><div class="sfc-card${p.flipped?' flipped':''}" id="card-${card.idx}"><div class="sfc-face sfc-front-face" id="front-${card.idx}">${buildFront(card,p)}</div><div class="sfc-face sfc-back-face" id="back-${card.idx}">${buildBack(card,p)}</div></div></div><div class="sfc-spacer">${buildFront(card,p)}</div>`;
       wrap.appendChild(wrapper);
-      // Re-bind all interactive buttons via JS so they survive any future innerHTML swaps
-      const _idx=card.idx;
-      const frontEl=wrapper.querySelector('#front-'+_idx);
-      const backEl2=wrapper.querySelector('#back-'+_idx);
-      if(frontEl){const cb=frontEl.querySelector('.sfc-btn-confirm');if(cb)cb.onclick=(ev)=>flipCard(_idx,ev);}
-      if(backEl2){
-        const vb=backEl2.querySelector('.sfc-btn-outline');if(vb)vb.onclick=(ev)=>flipBack(_idx,ev);
-        const ub=backEl2.querySelector('.sfc-btn-correct');if(ub)ub.onclick=(ev)=>markUnderstood(_idx,ev);
-      }
+      requestAnimationFrame(()=>bindStudyCard(card.idx));
     });
   });
   requestAnimationFrame(()=>{
@@ -1551,8 +1695,9 @@ function flipCard(idx,e){
   if(e){e.stopPropagation();e.preventDefault();}
   const progress=loadStudyProgress();
   const p=progress[idx]||{userAnswer:'',understood:false};
-  const ta=document.getElementById('sta-'+idx);
-  if(ta)p.userAnswer=ta.value;
+  // close edit area if open before flipping
+  const editArea=document.getElementById('sedit-'+idx);
+  if(editArea&&editArea.style.display!=='none')closeStudyEdit(idx);
   p.flipped=true;progress[idx]=p;saveStudyProgress(progress);
   _applyFlip(idx,true);
 }
