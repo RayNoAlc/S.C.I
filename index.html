@@ -369,6 +369,36 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .admin-toast{position:fixed;bottom:24px;right:24px;background:#1e2733;border:1px solid var(--purple-border);border-radius:var(--r-sm);padding:10px 16px;font-size:13px;color:var(--purple);z-index:9999;animation:up 0.2s ease;display:none}
 .admin-toast.show{display:block}
 
+
+/* ─── AUTH SCREEN ─── */
+.auth-wrap{display:flex;align-items:center;justify-content:center;min-height:65vh;padding:1rem 0}
+.auth-box{width:100%;background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:2rem 1.75rem}
+.auth-logo{font-size:30px;margin-bottom:0.5rem}
+.auth-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:0.2rem;background:linear-gradient(145deg,#e8eef4 40%,#5b7a8d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.auth-subtitle{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.5}
+.auth-field{margin-bottom:0.85rem}
+.auth-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted2);margin-bottom:5px}
+.auth-input{width:100%;background:var(--s2);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:12px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
+.auth-input:focus{border-color:var(--accent)}
+.auth-input::placeholder{color:var(--muted)}
+.auth-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.1rem}
+.auth-nick-badge{display:inline-flex;align-items:center;gap:7px;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:9px 14px;font-size:14px;color:var(--text);margin-bottom:1rem;width:100%}
+.auth-nick-avatar{width:28px;height:28px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.auth-nick-name{font-weight:600;flex:1}
+.auth-step2-info{font-size:13px;color:var(--muted2);margin-bottom:1rem;line-height:1.5;padding:10px 12px;background:var(--s2);border-radius:var(--r-sm);border:1px solid var(--border)}
+.auth-msg{font-size:13px;border-radius:var(--r-sm);padding:10px 13px;margin-top:0.75rem;line-height:1.5;display:none}
+.auth-msg.error{background:var(--danger-dim);color:var(--danger);border:1px solid rgba(255,107,107,0.2)}
+.auth-msg.loading{background:var(--s2);color:var(--muted2);border:1px solid var(--border2)}
+.auth-msg.success{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
+.auth-divider{height:1px;background:var(--border);margin:1.25rem 0}
+.auth-pw-toggle{position:relative}
+.auth-pw-toggle .auth-input{padding-right:40px}
+.auth-pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:15px;color:var(--muted);background:none;border:none;padding:0;line-height:1}
+/* Nav user pill */
+.nav-user{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted2);background:var(--s1);border:1px solid var(--border2);border-radius:99px;padding:4px 10px 4px 6px;cursor:pointer;transition:all 0.14s}
+.nav-user:hover{border-color:var(--danger);color:var(--danger)}
+.nav-user-dot{width:20px;height:20px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+
 @media(max-width:480px){body{padding:1rem 0.75rem 4rem}.hero-title{font-size:26px}.mode-grid{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
@@ -380,10 +410,57 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div><div class="nav-name">Saúde Coletiva I</div><div class="nav-sub">Odontologia · Plataforma de estudos</div></div>
     </div>
     <div class="nav-pills"><span class="pill">SUS</span><span class="pill">Saúde-Doença</span><span class="pill">Políticas</span></div>
+    <div class="nav-user" id="nav-user-btn" onclick="confirmLogout()" style="display:none"><div class="nav-user-dot">👤</div><span id="nav-user-name"></span><span style="font-size:10px;opacity:0.6">sair</span></div>
+  </div>
+
+  <!-- AUTH -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-wrap">
+      <div class="auth-box">
+        <div class="auth-logo">🦷</div>
+        <div class="auth-title">Saúde Coletiva I</div>
+        <div class="auth-subtitle">Plataforma de estudos · Odontologia<br>Entre com seu apelido para acessar sua conta.</div>
+
+        <!-- Step 1: Nickname input -->
+        <div id="auth-step1">
+          <div class="auth-field">
+            <div class="auth-label">Seu apelido</div>
+            <input class="auth-input" id="auth-nick" type="text" placeholder="Ex: maria123" maxlength="20" autocomplete="username"
+              onkeydown="if(event.key==='Enter')authLookup()"/>
+          </div>
+          <div class="auth-btn-row">
+            <button class="btn btn-green" onclick="authLookup()">Continuar →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Password (shown after nickname lookup) -->
+        <div id="auth-step2" style="display:none">
+          <div class="auth-nick-badge">
+            <div class="auth-nick-avatar">👤</div>
+            <span class="auth-nick-name" id="auth-nick-display">@apelido</span>
+          </div>
+          <div class="auth-step2-info" id="auth-step2-info"></div>
+          <div class="auth-field">
+            <div class="auth-label" id="auth-pw-label">Senha</div>
+            <div class="auth-pw-toggle">
+              <input class="auth-input" id="auth-pw" type="password" placeholder="••••••••" autocomplete="current-password"
+                onkeydown="if(event.key==='Enter')document.getElementById('auth-step2-btn').click()"/>
+              <button class="auth-pw-eye" onclick="togglePwVis()" id="pw-eye-btn">👁</button>
+            </div>
+          </div>
+          <div class="auth-btn-row">
+            <button class="btn btn-green" id="auth-step2-btn">Entrar →</button>
+            <button class="btn btn-ghost" onclick="authBack()">← Voltar</button>
+          </div>
+        </div>
+
+        <div class="auth-msg" id="auth-msg"></div>
+      </div>
+    </div>
   </div>
 
   <!-- HOME -->
-  <div id="home-screen" class="screen active">
+  <div id="home-screen" class="screen">
     <div id="last-result-banner" class="last-result-banner" style="display:none" onclick="showLastResult()">
       <div class="lrb-left"><div class="lrb-icon">📊</div><div><div class="lrb-title">Ver meu último resultado</div><div class="lrb-sub" id="lrb-sub">Clique para ver estatísticas</div></div></div>
       <div class="lrb-arrow">›</div>
@@ -628,6 +705,234 @@ const SUPABASE_URL = 'https://nmtsmnfchwacqhwihggk.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tdHNtbmZjaHdhY3Fod2loZ2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODA0NDQsImV4cCI6MjA5MDU1NjQ0NH0.AbHu5KgZuYfuYejISug1RK3MZQlpQBxTZ2qqki2VPgQ';
 const USE_SUPABASE = SUPABASE_URL !== '' && SUPABASE_ANON_KEY !== '';
 
+/* ════════════════════════════════════════════════════
+   AUTH & USER DATA LAYER
+════════════════════════════════════════════════════ */
+
+/* ─── Session ─── */
+let currentUser = null; // {id, nickname}
+let userDataCache = {}; // in-memory blob, synced to Supabase
+let _syncTimer = null;
+
+function saveSession(user){
+  try{ localStorage.setItem('sc1_session', JSON.stringify({...user, ts:Date.now()})); }catch(e){}
+}
+function loadSession(){
+  try{
+    const s=JSON.parse(localStorage.getItem('sc1_session')||'null');
+    if(!s)return null;
+    if(Date.now()-s.ts > 30*24*3600*1000){ localStorage.removeItem('sc1_session'); return null; }
+    return s;
+  }catch(e){ return null; }
+}
+function clearSession(){
+  localStorage.removeItem('sc1_session');
+  currentUser=null; userDataCache={};
+}
+
+/* ─── Password hashing (SHA-256, Web Crypto) ─── */
+async function hashPassword(pw){
+  const enc=new TextEncoder().encode(pw);
+  const hash=await crypto.subtle.digest('SHA-256',enc);
+  return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+/* ─── Supabase user helpers ─── */
+async function sbFetch(path, opts={}){
+  const headers={'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,...(opts.headers||{})};
+  const res=await fetch(SUPABASE_URL+path,{...opts,headers});
+  return res;
+}
+
+async function lookupUser(nick){
+  const res=await sbFetch(`/rest/v1/sc1_users?nickname=eq.${encodeURIComponent(nick)}&select=id,nickname`);
+  const data=await res.json();
+  return Array.isArray(data)&&data.length>0 ? data[0] : null;
+}
+
+async function verifyPassword(userId, pw){
+  const hash=await hashPassword(pw);
+  const res=await sbFetch(`/rest/v1/sc1_users?id=eq.${userId}&password_hash=eq.${hash}&select=id`);
+  const data=await res.json();
+  return Array.isArray(data)&&data.length>0;
+}
+
+async function registerUser(nick, pw){
+  const hash=await hashPassword(pw);
+  const res=await sbFetch('/rest/v1/sc1_users',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Prefer':'return=representation'},
+    body:JSON.stringify({nickname:nick, password_hash:hash})
+  });
+  if(!res.ok){ const e=await res.json(); throw new Error(e?.message||'Erro ao criar conta'); }
+  const data=await res.json();
+  if(!data||!data[0])throw new Error('Resposta inválida do servidor');
+  const user={id:data[0].id, nickname:data[0].nickname};
+  // Create empty data record
+  await sbFetch('/rest/v1/sc1_user_data',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({user_id:user.id, data:{}})
+  });
+  return user;
+}
+
+async function loadUserDataFromDB(userId){
+  const res=await sbFetch(`/rest/v1/sc1_user_data?user_id=eq.${userId}&select=data`);
+  const rows=await res.json();
+  return (Array.isArray(rows)&&rows.length>0) ? (rows[0].data||{}) : {};
+}
+
+/* ─── Debounced sync to Supabase ─── */
+function scheduleSave(){
+  if(!currentUser||!USE_SUPABASE)return;
+  clearTimeout(_syncTimer);
+  _syncTimer=setTimeout(syncToSupabase, 2500);
+}
+async function syncToSupabase(){
+  if(!currentUser||!USE_SUPABASE)return;
+  try{
+    await sbFetch(`/rest/v1/sc1_user_data?user_id=eq.${currentUser.id}`,{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({data:userDataCache, updated_at:new Date().toISOString()})
+    });
+  }catch(e){ console.warn('Sync failed:',e); }
+}
+
+/* ─── Data cache accessors (replace localStorage) ─── */
+function getCache(key, def){ return userDataCache[key]!==undefined ? userDataCache[key] : def; }
+function setCache(key, val){ userDataCache[key]=val; scheduleSave(); }
+
+/* ─── Auth UI helpers ─── */
+function showAuthMsg(msg, type){
+  const el=document.getElementById('auth-msg');
+  el.textContent=msg; el.className='auth-msg '+type; el.style.display='block';
+}
+function hideAuthMsg(){ document.getElementById('auth-msg').style.display='none'; }
+function togglePwVis(){
+  const inp=document.getElementById('auth-pw');
+  const eye=document.getElementById('pw-eye-btn');
+  if(inp.type==='password'){ inp.type='text'; eye.textContent='🙈'; }
+  else{ inp.type='password'; eye.textContent='👁'; }
+}
+
+/* ─── Auth flow: step 1 — lookup nickname ─── */
+async function authLookup(){
+  const nick=document.getElementById('auth-nick').value.trim();
+  if(!nick){ showAuthMsg('Digite um apelido para continuar.','error'); return; }
+  if(nick.length<2){ showAuthMsg('O apelido deve ter pelo menos 2 caracteres.','error'); return; }
+  showAuthMsg('Verificando apelido…','loading');
+  try{
+    const user=await lookupUser(nick);
+    hideAuthMsg();
+    document.getElementById('auth-nick-display').textContent='@'+nick;
+    document.getElementById('auth-step1').style.display='none';
+    document.getElementById('auth-step2').style.display='block';
+    if(user){
+      document.getElementById('auth-pw-label').textContent='Senha';
+      document.getElementById('auth-step2-info').innerHTML='<strong>@'+nick+'</strong> já está registrado. Digite sua senha para entrar.';
+      const btn=document.getElementById('auth-step2-btn');
+      btn.textContent='Entrar →'; btn.onclick=()=>authLogin(user.id,nick);
+    }else{
+      document.getElementById('auth-pw-label').textContent='Criar uma senha';
+      document.getElementById('auth-step2-info').innerHTML='<strong>@'+nick+'</strong> está disponível! Crie uma senha para registrar sua conta.';
+      const btn=document.getElementById('auth-step2-btn');
+      btn.textContent='Criar conta →'; btn.onclick=()=>authRegister(nick);
+    }
+    setTimeout(()=>document.getElementById('auth-pw').focus(),80);
+  }catch(e){ showAuthMsg('Erro de conexão. Verifique sua internet e tente novamente.','error'); }
+}
+
+async function authLogin(userId, nick){
+  const pw=document.getElementById('auth-pw').value;
+  if(!pw){ showAuthMsg('Digite sua senha.','error'); return; }
+  showAuthMsg('Verificando…','loading');
+  try{
+    const ok=await verifyPassword(userId,pw);
+    if(!ok){ showAuthMsg('Senha incorreta. Tente novamente.','error'); return; }
+    showAuthMsg('Carregando seus dados…','loading');
+    userDataCache=await loadUserDataFromDB(userId);
+    currentUser={id:userId, nickname:nick};
+    finishLogin();
+  }catch(e){ showAuthMsg('Erro ao fazer login. Tente novamente.','error'); }
+}
+
+async function authRegisterFlow(nick){
+  const pw=document.getElementById('auth-pw').value;
+  if(!pw||pw.length<4){ showAuthMsg('Crie uma senha com pelo menos 4 caracteres.','error'); return; }
+  showAuthMsg('Criando sua conta…','loading');
+  try{
+    const user=await registerUser(nick,pw);
+    userDataCache={};
+    currentUser=user;
+    showAuthMsg('Conta criada com sucesso! ✅','success');
+    setTimeout(finishLogin,700);
+  }catch(e){ showAuthMsg('Erro ao criar conta: '+(e.message||'Tente novamente.'),'error'); }
+}
+
+function authBack(){
+  document.getElementById('auth-step1').style.display='block';
+  document.getElementById('auth-step2').style.display='none';
+  hideAuthMsg();
+  document.getElementById('auth-pw').value='';
+  setTimeout(()=>document.getElementById('auth-nick').focus(),80);
+}
+
+/* ─── Finish login: enter app ─── */
+function finishLogin(){
+  saveSession(currentUser);
+  nickname=currentUser.nickname;
+  // Update nav
+  document.getElementById('nav-user-btn').style.display='flex';
+  document.getElementById('nav-user-name').textContent=currentUser.nickname;
+  // Pre-fill nick in setup
+  const ni=document.getElementById('nick-input');
+  if(ni){ ni.value=currentUser.nickname; ni.readOnly=true; ni.style.opacity='0.65'; ni.style.cursor='default'; }
+  checkLastResultBanner();
+  showScreen('home-screen');
+}
+
+/* ─── Logout ─── */
+function confirmLogout(){
+  if(!confirm('Sair da conta @'+currentUser.nickname+'?'))return;
+  // Sync any pending changes before logout
+  syncToSupabase().finally(()=>{
+    clearSession();
+    nickname='';
+    document.getElementById('nav-user-btn').style.display='none';
+    document.getElementById('auth-step1').style.display='block';
+    document.getElementById('auth-step2').style.display='none';
+    document.getElementById('auth-nick').value='';
+    document.getElementById('auth-pw').value='';
+    hideAuthMsg();
+    showScreen('auth-screen');
+  });
+}
+
+/* ─── App initialization ─── */
+async function authInit(){
+  if(!USE_SUPABASE){ /* fallback: skip auth, use local mode */
+    currentUser={id:'local',nickname:''};
+    checkLastResultBanner(); showScreen('home-screen'); return;
+  }
+  const session=loadSession();
+  if(session){
+    showAuthMsg('Restaurando sua sessão…','loading');
+    try{
+      userDataCache=await loadUserDataFromDB(session.id);
+      currentUser={id:session.id,nickname:session.nickname};
+      finishLogin(); return;
+    }catch(e){ clearSession(); hideAuthMsg(); }
+  }
+  showScreen('auth-screen');
+}
+
+/* fix: authRegister renamed to avoid collision */
+function authRegister(nick){ authRegisterFlow(nick); }
+
+
+
 /* ─── CONSTANTS ─── */
 const TIMER_RANKED = 45;
 const TIMER_NORMAL = 60;
@@ -816,9 +1121,9 @@ function showScreen(id){
 }
 function goBack(){showScreen(prevScreen);}
 
-/* ─── PERSISTENCE ─── */
-function saveLastResult(data){try{localStorage.setItem('sc1_last',JSON.stringify(data));}catch(e){}}
-function loadLastResult(){try{const d=localStorage.getItem('sc1_last');return d?JSON.parse(d):null;}catch(e){return null;}}
+/* ─── PERSISTENCE (Supabase-backed cache) ─── */
+function saveLastResult(data){ setCache('last',data); }
+function loadLastResult(){ return getCache('last',null); }
 function checkLastResultBanner(){
   const r=loadLastResult();if(!r)return;
   document.getElementById('last-result-banner').style.display='flex';
@@ -826,9 +1131,9 @@ function checkLastResultBanner(){
 }
 function showLastResult(){const r=loadLastResult();if(!r)return;nickname=r.nick;currentMode=r.mode||'normal';renderResult(r);showScreen('result-screen');}
 
-/* ─── SMART TRAINING ─── */
-function loadPerfData(){try{return JSON.parse(localStorage.getItem('sc1_perf')||'{}');}catch(e){return{};}}
-function savePerfData(d){try{localStorage.setItem('sc1_perf',JSON.stringify(d));}catch(e){}}
+/* ─── SMART TRAINING (Supabase-backed) ─── */
+function loadPerfData(){ return getCache('perf',{}); }
+function savePerfData(d){ setCache('perf',d); }
 function updatePerfData(logEntries){
   const perf=loadPerfData();
   logEntries.forEach(l=>{
@@ -923,8 +1228,7 @@ function openSetup(mode){
   smartActive=false;
   document.getElementById('smart-toggle').classList.remove('active');
   document.getElementById('smart-chk').innerHTML='';
-  const saved=loadLastResult();
-  if(saved&&saved.nick)document.getElementById('nick-input').value=saved.nick;
+  if(currentUser&&currentUser.nickname)document.getElementById('nick-input').value=currentUser.nickname;
   showScreen('setup-screen');
 }
 
@@ -950,8 +1254,8 @@ function startQuiz(){
 }
 
 function startSprint(){
-  const nick=loadLastResult()?.nick||'';
-  if(nick){nickname=nick;}else{
+  if(currentUser&&currentUser.nickname){ nickname=currentUser.nickname; }
+  else{
     const n=prompt('Qual é seu apelido?','');
     if(!n)return;
     nickname=n.trim();
@@ -1402,9 +1706,9 @@ function playAgain(){
 }
 
 /* ─── STUDY FLASHCARDS ─── */
-function loadStudyProgress(){try{return JSON.parse(localStorage.getItem('sc1_study')||'{}');}catch(e){return{};}}
-function saveStudyProgress(p){try{localStorage.setItem('sc1_study',JSON.stringify(p));}catch(e){}}
-function clearStudyProgress(){if(!confirm('Apagar todo o progresso dos flashcards?'))return;localStorage.removeItem('sc1_study');activeStudyFilter='all';document.querySelectorAll('.filter-tab').forEach((t,i)=>{t.classList.toggle('active',i===0);});renderStudy();}
+function loadStudyProgress(){ return getCache('study',{}); }
+function saveStudyProgress(p){ setCache('study',p); }
+function clearStudyProgress(){if(!confirm('Apagar todo o progresso dos flashcards?'))return;setCache('study',{});activeStudyFilter='all';document.querySelectorAll('.filter-tab').forEach((t,i)=>{t.classList.toggle('active',i===0);});renderStudy();}
 
 let activeStudyFilter='all';
 function setStudyFilter(key,el){
@@ -1425,10 +1729,10 @@ function setStudyFilter(key,el){
 }
 
 /* ─── USER FLASHCARDS (CRUD) ─── */
-function loadUserCards(){try{return JSON.parse(localStorage.getItem('sc1_user_fc')||'[]');}catch(e){return[];}}
-function saveUserCards(arr){try{localStorage.setItem('sc1_user_fc',JSON.stringify(arr));}catch(e){}}
-function loadUserProgress(){try{return JSON.parse(localStorage.getItem('sc1_user_prog')||'{}');}catch(e){return{};}}
-function saveUserProgress(p){try{localStorage.setItem('sc1_user_prog',JSON.stringify(p));}catch(e){}}
+function loadUserCards(){ return getCache('user_fc',[]); }
+function saveUserCards(arr){ setCache('user_fc',arr); }
+function loadUserProgress(){ return getCache('user_prog',{}); }
+function saveUserProgress(p){ setCache('user_prog',p); }
 
 const UFC_THEMES=[
   {key:'sus',label:'SUS — Princípios'},
@@ -1807,7 +2111,7 @@ async function saveScore(modeKey,value){
       await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{
         method:'POST',
         headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Prefer':'return=minimal'},
-        body:JSON.stringify({nickname,score:value})
+        body:JSON.stringify({nickname,score:value,user_id:currentUser?.id||null})
       });
     }catch(e){}
   }
@@ -1872,8 +2176,8 @@ async function loadRankingTab(modeKey){
 }
 
 /* ─── ACHIEVEMENTS ─── */
-function loadUnlocked(){try{return JSON.parse(localStorage.getItem('sc1_ach')||'[]');}catch(e){return[];}}
-function saveUnlocked(arr){try{localStorage.setItem('sc1_ach',JSON.stringify(arr));}catch(e){}}
+function loadUnlocked(){ return getCache('ach',[]); }
+function saveUnlocked(arr){ setCache('ach',arr); }
 function unlockAch(id){
   const unlocked=loadUnlocked();
   if(unlocked.includes(id))return;
@@ -1957,7 +2261,7 @@ function runAdminSimulation(alwaysCorrect){
 
 /* ─── INIT ─── */
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('setup-screen').classList.contains('active'))startQuiz();});
-checkLastResultBanner();
+authInit();
 </script>
 </body>
 </html>
