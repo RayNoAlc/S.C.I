@@ -24,7 +24,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 #app{width:100%;max-width:660px;position:relative;z-index:1}
 
 .nav{display:flex;align-items:center;justify-content:space-between;padding-bottom:1.25rem;margin-bottom:1.75rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
-.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-brand{display:flex;align-items:center;gap:10px;border-radius:var(--r-sm);transition:background 0.14s,opacity 0.14s}
+.nav-brand:hover{background:var(--s1);opacity:0.85}
 .nav-icon{width:34px;height:34px;border-radius:8px;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:16px}
 .nav-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase}
 .nav-sub{font-size:11px;color:var(--muted);margin-top:1px}
@@ -58,7 +59,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .hero-desc{font-size:14px;color:var(--muted2);line-height:1.7;max-width:380px;margin:0 auto 1.5rem}
 
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
-.mode-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:16px;cursor:pointer;transition:all 0.14s;text-align:left;position:relative;overflow:hidden}
+.mode-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:16px 16px 32px;cursor:pointer;transition:all 0.14s;text-align:left;position:relative;overflow:hidden}
 .mode-card:hover{border-color:var(--border3);background:var(--s2);transform:translateY(-2px)}
 .mode-card.ranked{border-color:rgba(245,166,35,0.2)}
 .mode-card.ranked:hover{border-color:var(--warn)}
@@ -399,15 +400,103 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nav-user:hover{border-color:var(--danger);color:var(--danger)}
 .nav-user-dot{width:20px;height:20px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
 
+
+/* ─── Extended palette ─── */
+:root{
+  --gold:#eab308;--gold-dim:rgba(234,179,8,0.09);--gold-border:rgba(234,179,8,0.28);
+}
+/* ─── Mode card — unique colors per mode ─── */
+/* Normal: blue (info) */
+.mode-card.normal{border-color:rgba(91,156,246,0.22)}
+.mode-card.normal:hover{border-color:var(--info)}
+/* Ranked: yellow/gold (override old warn-based) */
+.mode-card.ranked{border-color:var(--gold-border)!important}
+.mode-card.ranked:hover{border-color:var(--gold)!important}
+/* Sprint: accent green */
+.mode-card.sprint{border-color:var(--accent-border)!important}
+.mode-card.sprint:hover{border-color:var(--accent)!important}
+/* Survival: danger red (already set via base, reinforce) */
+.mode-card.survival{border-color:rgba(255,107,107,0.22)!important}
+.mode-card.survival:hover{border-color:var(--danger)!important}
+/* Flashcards: purple */
+.mode-card.study{border-color:var(--purple-border)!important}
+.mode-card.study:hover{border-color:var(--purple)!important}
+/* Ranking: gold */
+.mode-card.ranking-card{border-color:var(--gold-border)}
+.mode-card.ranking-card:hover{border-color:var(--gold)}
+
+/* ─── Mode info button ─── */
+.mode-info-btn{
+  position:absolute;bottom:8px;right:8px;
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  color:var(--muted);font-size:11px;font-weight:700;font-family:'DM Sans',sans-serif;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.14s;line-height:1;z-index:2;padding:0;
+}
+.mode-info-btn:hover{background:rgba(255,255,255,0.12);color:var(--text);border-color:rgba(255,255,255,0.28);transform:scale(1.1)}
+
+/* ─── Mode info overlay ─── */
+.mode-info-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.72);
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9000;padding:1.25rem;
+}
+.mode-info-box{
+  background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);
+  padding:1.75rem 1.5rem;max-width:400px;width:100%;
+  animation:up 0.22s cubic-bezier(0.2,0,0,1);
+}
+.mi-icon{font-size:26px;margin-bottom:0.35rem}
+.mi-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:0.9rem}
+.mi-section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted2);margin-bottom:0.4rem;margin-top:0.9rem}
+.mi-section-label:first-of-type{margin-top:0}
+.mi-pedagogy{font-size:13px;color:var(--muted2);line-height:1.65}
+.mi-flow{list-style:none;padding:0;margin:0 0 1.25rem;display:flex;flex-direction:column;gap:4px}
+.mi-flow li{font-size:12px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5;padding:5px 10px;background:var(--s2);border-radius:var(--r-sm)}
+.mi-flow li::before{content:'→';color:var(--accent);flex-shrink:0;font-size:11px;margin-top:2px;font-weight:700}
+
+/* ─── Click ripple ─── */
+.click-ripple{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:9998;
+  background:radial-gradient(circle,rgba(255,255,255,0.16) 0%,transparent 70%);
+  transform:scale(0);animation:ripple-go 0.55s cubic-bezier(0,0,0.2,1) forwards;
+}
+@keyframes ripple-go{to{transform:scale(4.5);opacity:0}}
+
+/* ─── Floating controls ─── */
+.floating-controls{
+  position:fixed;bottom:22px;right:14px;display:flex;flex-direction:column;
+  gap:7px;z-index:8000;
+}
+.fc-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--s1);border:1px solid var(--border2);
+  color:var(--muted2);font-size:15px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.14s;box-shadow:0 2px 10px rgba(0,0,0,0.35);
+}
+.fc-btn:hover{border-color:var(--border3);color:var(--text);transform:scale(1.1)}
+.fc-btn.active{border-color:var(--accent-border);color:var(--accent);background:var(--accent-dim)}
+
+/* ─── Confetti canvas ─── */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:8500;display:none}
+
+/* ─── Auth particles canvas ─── */
+.auth-wrap{position:relative;overflow:hidden}
+#auth-particles{position:absolute;inset:0;pointer-events:none;z-index:0;width:100%;height:100%}
+.auth-box{position:relative;z-index:1}
+
 @media(max-width:480px){body{padding:1rem 0.75rem 4rem}.hero-title{font-size:26px}.mode-grid{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
 <div id="app">
   <div class="nav">
-    <div class="nav-brand">
+    <div class="nav-brand" onclick="goHome()" style="cursor:pointer" title="Ir para o início">
       <div class="nav-icon">🦷</div>
-      <div><div class="nav-name">Saúde Coletiva I</div><div class="nav-sub">Odontologia · Plataforma de estudos</div></div>
+      <div><div class="nav-name">S.C.I</div><div class="nav-sub">Saúde Coletiva Inteligente</div></div>
     </div>
     <div class="nav-pills"><span class="pill">SUS</span><span class="pill">Saúde-Doença</span><span class="pill">Políticas</span></div>
     <div class="nav-user" id="nav-user-btn" onclick="confirmLogout()" style="display:none"><div class="nav-user-dot">👤</div><span id="nav-user-name"></span><span style="font-size:10px;opacity:0.6">sair</span></div>
@@ -416,10 +505,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <!-- AUTH -->
   <div id="auth-screen" class="screen active">
     <div class="auth-wrap">
+      <canvas id="auth-particles"></canvas>
       <div class="auth-box">
         <div class="auth-logo">🦷</div>
-        <div class="auth-title">Saúde Coletiva I</div>
-        <div class="auth-subtitle">Plataforma de estudos · Odontologia<br>Entre com seu apelido para acessar sua conta.</div>
+        <div class="auth-title">S.C.I</div>
+        <div class="auth-subtitle">Saúde Coletiva Inteligente · Odontologia<br>Entre com seu apelido para acessar sua conta.</div>
 
         <!-- Step 1: Nickname input -->
         <div id="auth-step1">
@@ -466,40 +556,46 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="lrb-arrow">›</div>
     </div>
     <div class="home-hero">
-      <div class="hero-eyebrow"><span class="hero-dot"></span>Plataforma de estudos</div>
-      <div class="hero-title">Como quer estudar hoje?</div>
-      <div class="hero-desc">Quiz competitivo, prática por tema, sobrevivência ou flashcards — escolha o modo ideal.</div>
+      <div class="hero-eyebrow"><span class="hero-dot"></span>S.C.I</div>
+      <div class="hero-title">Mais do que questões, uma forma de aprender.</div>
+      <div class="hero-desc">Treine, entenda e evolua no seu ritmo!</div>
     </div>
     <div class="mode-grid">
       <div class="mode-card ranked" onclick="openSetup('ranked')">
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('ranked')" title="Como funciona?">?</button>
         <div class="mode-badge hot">🏆 Ranking</div>
         <div class="mode-card-icon">⚡</div>
         <div class="mode-card-title">Modo Ranqueado</div>
         <div class="mode-card-desc">Compete com a turma. Pontuação por velocidade + streak bônus!</div>
       </div>
-      <div class="mode-card" onclick="openSetup('normal')">
+      <div class="mode-card normal" onclick="openSetup('normal')">
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('normal')" title="Como funciona?">?</button>
         <div class="mode-card-icon">📝</div>
         <div class="mode-card-title">Modo Normal</div>
         <div class="mode-card-desc">Pratique sem pressão. Treino inteligente adapta às suas dificuldades.</div>
       </div>
       <div class="mode-card sprint" onclick="startSprint()">
-        <div class="mode-badge new">⚡ Rápido</div>
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('sprint')" title="Como funciona?">?</button>
+        <div class="mode-badge new">⏱ Rápido</div>
         <div class="mode-card-icon">🏃</div>
         <div class="mode-card-title">Modo Sprint</div>
         <div class="mode-card-desc">10 questões em 2 minutos. Teste rápido de conhecimento!</div>
       </div>
       <div class="mode-card survival" onclick="openSetup('survival')">
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('survival')" title="Como funciona?">?</button>
         <div class="mode-badge fire">❤️ Vidas</div>
         <div class="mode-card-icon">💀</div>
         <div class="mode-card-title">Modo Sobrevivência</div>
         <div class="mode-card-desc">3 vidas. Sem tempo. Até onde você consegue chegar?</div>
       </div>
       <div class="mode-card study" onclick="showScreen('study-screen')">
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('study')" title="Como funciona?">?</button>
         <div class="mode-card-icon">🃏</div>
         <div class="mode-card-title">Flashcards</div>
         <div class="mode-card-desc">Estudo ativo com perguntas abertas. Salve seu progresso.</div>
       </div>
-      <div class="mode-card" onclick="showRanking()">
+      <div class="mode-card ranking-card" onclick="showRanking()">
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('ranking')" title="Como funciona?">?</button>
         <div class="mode-card-icon">🏆</div>
         <div class="mode-card-title">Ranking</div>
         <div class="mode-card-desc">Ranqueado, Sobrevivência e Sprint — veja todos os rankings.</div>
@@ -696,6 +792,30 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   </div>
 </div>
 <div class="admin-toast" id="admin-toast">🛠 Modo admin ativo…</div>
+
+<!-- MODE INFO MODAL -->
+<div class="mode-info-overlay" id="mode-info-overlay" style="display:none" onclick="closeModeInfo()">
+  <div class="mode-info-box" onclick="event.stopPropagation()">
+    <div class="mi-icon" id="mi-icon">⚡</div>
+    <div class="mi-title" id="mi-title">Modo</div>
+    <div class="mi-pedagogy" id="mi-pedagogy" style="margin-bottom:1rem"></div>
+    <div class="mi-section-label" style="margin-top:0">Como funciona</div>
+    <ul class="mi-flow" id="mi-flow"></ul>
+    <button class="btn btn-ghost btn-sm" onclick="closeModeInfo()" style="width:100%;justify-content:center">Fechar</button>
+  </div>
+</div>
+
+<!-- CONFETTI CANVAS -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- FLOATING CONTROLS -->
+<div class="floating-controls">
+  <button class="fc-btn" id="music-btn" onclick="toggleMusic()" title="Tocar música ambiente">🎵</button>
+  <button class="fc-btn" id="sound-btn" onclick="toggleSound()" title="Desativar efeitos sonoros">🔔</button>
+</div>
+
+<!-- YOUTUBE PLAYER (hidden) -->
+<iframe id="yt-iframe" style="position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;pointer-events:none;border:none" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 /* ════════════════════════════════════════════════════
@@ -1120,6 +1240,12 @@ function showScreen(id){
   window.scrollTo(0,0);
 }
 function goBack(){showScreen(prevScreen);}
+function goHome(){
+  clearInterval(timerInterval);
+  clearInterval(sprintTimerInterval);
+  if(currentUser)showScreen('home-screen');
+  else showScreen('auth-screen');
+}
 
 /* ─── PERSISTENCE (Supabase-backed cache) ─── */
 function saveLastResult(data){ setCache('last',data); }
@@ -1264,6 +1390,8 @@ function startSprint(){
 }
 
 function _startQuizInternal(mode){
+  clearInterval(timerInterval);
+  clearInterval(sprintTimerInterval);
   currentMode=mode;
   score=0;correctFirst=0;correctSecond=0;current=0;log=[];streak=0;maxStreak=0;lives=SURVIVAL_LIVES;
   lastSmartExtra=[];smartBaseCount=0;inSmartExtra=false;
@@ -1408,7 +1536,7 @@ function updateTimer(){
   }else{pb.style.display='none';}
 }
 function timeExpired(){
-  if(answered)return;answered=true;
+  if(answered)return;sfxTimeout();answered=true;
   clearInterval(timerInterval);
   const q=shuffled[current];
   document.querySelectorAll('.opt').forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});
@@ -1431,6 +1559,7 @@ function selectOption(idx){
   if(answered)return;
   const q=shuffled[current];const btns=document.querySelectorAll('.opt');
   if(idx===q.answer){
+    sfxCorrect();
     answered=true;clearInterval(timerInterval);
     btns[idx].classList.add('correct');btns.forEach(b=>b.disabled=true);
     const pts=calcPoints(attempts,timeLeft);score+=pts;
@@ -1454,6 +1583,7 @@ function selectOption(idx){
 
     /* ── SURVIVAL: 1 attempt, no hint, immediate life loss ── */
     if(currentMode==='survival'){
+      sfxWrong();
       answered=true;clearInterval(timerInterval);
       btns.forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});
       lives--;renderLives();
@@ -1473,6 +1603,7 @@ function selectOption(idx){
       document.getElementById('hint-box').classList.add('show');
       document.getElementById('q-attempts').textContent='2ª tentativa';
     }else{
+      sfxWrong();
       answered=true;clearInterval(timerInterval);
       btns.forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});
       document.getElementById('expl-lbl').textContent='Explicação';
@@ -1536,6 +1667,9 @@ function showResult(){
   clearInterval(sprintTimerInterval);
   const total=log.length;
   const hits=log.filter(l=>l.correct).length;
+  const _qacc=total>0?Math.round((hits/total)*100):0;
+  sfxQuizEnd(_qacc>=60);
+  if(_qacc>=70)setTimeout(launchConfetti,700);
   const data={nick:nickname,score,hits,total,correctFirst,correctSecond,log,date:Date.now(),mode:currentMode,maxStreak,lives,smartExtra:lastSmartExtra};
   saveLastResult(data);
   updatePerfData(log);
@@ -1673,6 +1807,8 @@ function openReview(){
 
 /* ─── RETRY ERRORS: new quiz with only wrong questions ─── */
 function retryErrors(){
+  clearInterval(timerInterval);
+  clearInterval(sprintTimerInterval);
   const r=loadLastResult();
   if(!r)return;
   const wrongs=r.log.filter(l=>!l.correct);
@@ -2188,6 +2324,7 @@ function unlockAch(id){
   if(document.getElementById('ach-screen').classList.contains('active'))renderAchievements();
 }
 function showAchToast(ach){
+  sfxAchievement();
   document.getElementById('ach-toast-icon').textContent=ach.icon;
   document.getElementById('ach-toast-name').textContent=ach.name;
   document.getElementById('ach-toast-desc').textContent=ach.desc;
@@ -2259,9 +2396,212 @@ function runAdminSimulation(alwaysCorrect){
   setTimeout(()=>runAdminSimulation(alwaysCorrect),alwaysCorrect?350:500);
 }
 
+
+/* ════════════════════════════════════════════════════
+   JUICY EFFECTS — Sound · Music · Particles · Ripple
+════════════════════════════════════════════════════ */
+
+/* ─── Sound state ─── */
+let soundOn=true;
+let musicOn=false;
+
+/* ─── Toggle controls ─── */
+function toggleSound(){
+  soundOn=!soundOn;
+  const btn=document.getElementById('sound-btn');
+  btn.textContent=soundOn?'🔔':'🔕';
+  btn.title=soundOn?'Desativar efeitos sonoros':'Ativar efeitos sonoros';
+  btn.classList.toggle('active',false);
+}
+function toggleMusic(){
+  musicOn=!musicOn;
+  const btn=document.getElementById('music-btn');
+  if(musicOn){
+    loadYTMusic();
+    btn.textContent='🔊';btn.title='Pausar música';btn.classList.add('active');
+  }else{
+    unloadYTMusic();
+    btn.textContent='🎵';btn.title='Tocar música ambiente';btn.classList.remove('active');
+  }
+}
+
+/* ─── Web Audio: sound effects ─── */
+let _actx=null;
+function getACtx(){
+  if(!_actx)_actx=new(window.AudioContext||window.webkitAudioContext)();
+  if(_actx.state==='suspended')_actx.resume();
+  return _actx;
+}
+function _tone(freq,type,dur,vol,delay){
+  try{
+    const ctx=getACtx();
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.type=type;o.frequency.setValueAtTime(freq,ctx.currentTime+(delay||0));
+    g.gain.setValueAtTime(vol||0.22,ctx.currentTime+(delay||0));
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+(delay||0)+dur);
+    o.start(ctx.currentTime+(delay||0));o.stop(ctx.currentTime+(delay||0)+dur+0.05);
+  }catch(e){}
+}
+function sfxClick(){if(!soundOn)return;_tone(900,'sine',0.04,0.1);}
+function sfxCorrect(){
+  if(!soundOn)return;
+  _tone(523,'sine',0.12,0.2);_tone(659,'sine',0.12,0.2,0.1);_tone(784,'sine',0.18,0.22,0.22);
+}
+function sfxWrong(){
+  if(!soundOn)return;
+  _tone(220,'sawtooth',0.12,0.18);_tone(180,'sawtooth',0.14,0.15,0.13);
+}
+function sfxTimeout(){
+  if(!soundOn)return;
+  _tone(440,'square',0.06,0.2);_tone(330,'square',0.06,0.2,0.1);_tone(220,'square',0.18,0.2,0.2);
+}
+function sfxAchievement(){
+  if(!soundOn)return;
+  [523,659,784,1047].forEach((f,i)=>_tone(f,'sine',0.18,0.28,i*0.1));
+}
+function sfxQuizEnd(good){
+  if(!soundOn)return;
+  if(good){[523,659,784,1047,1319].forEach((f,i)=>_tone(f,'sine',0.22,0.28,i*0.09));}
+  else{_tone(440,'sine',0.3,0.2);_tone(392,'sine',0.3,0.18,0.28);}
+}
+
+/* ─── Ripple on click ─── */
+document.addEventListener('click',e=>{
+  const el=e.target.closest('.btn,.opt,.mode-card,.filter-tab,.rank-tab,.sfc-btn,.mode-info-btn,.fc-btn,.auth-input,.rank-tab,.theme-opt,.smart-toggle');
+  if(el&&soundOn)sfxClick();
+  const d=document.createElement('div');
+  d.className='click-ripple';
+  const s=64;
+  d.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-s/2)+'px;top:'+(e.clientY-s/2)+'px';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),580);
+});
+
+/* ─── Background music via YouTube iframe ─── */
+const YT_VID='5qap5aO4i9A';
+let _ytLoaded=false;
+
+function loadYTMusic(){
+  if(_ytLoaded)return;
+  _ytLoaded=true;
+  const iframe=document.getElementById('yt-iframe');
+  // autoplay=1 mute=0 requires user gesture first — called from toggleMusic on click
+  iframe.src='https://www.youtube.com/embed/'+YT_VID
+    +'?autoplay=1&mute=0&loop=1&playlist='+YT_VID
+    +'&controls=0&disablekb=1&playsinline=1&enablejsapi=0&volume=20';
+}
+function unloadYTMusic(){
+  const iframe=document.getElementById('yt-iframe');
+  iframe.src='';
+  _ytLoaded=false;
+}
+
+/* ─── Confetti ─── */
+function launchConfetti(){
+  const cvs=document.getElementById('confetti-canvas');if(!cvs)return;
+  cvs.style.display='block';
+  const ctx=cvs.getContext('2d');
+  cvs.width=window.innerWidth;cvs.height=window.innerHeight;
+  const cols=['#3dd68c','#a78bfa','#5b9cf6','#f5a623','#ff6b6b','#06b6d4','#fbbf24'];
+  const ps=Array.from({length:90},()=>({
+    x:Math.random()*cvs.width,y:-20,r:Math.random()*5+3,
+    dx:(Math.random()-0.5)*4,dy:Math.random()*4+2,
+    col:cols[Math.floor(Math.random()*cols.length)],
+    rot:Math.random()*360,drot:(Math.random()-0.5)*8
+  }));
+  let f=0;
+  (function draw(){
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    ps.forEach(p=>{
+      p.x+=p.dx;p.y+=p.dy;p.rot+=p.drot;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.col;ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*2);ctx.restore();
+    });
+    if(++f<200)requestAnimationFrame(draw);else cvs.style.display='none';
+  })();
+}
+
+/* ─── Auth particles ─── */
+function initAuthParticles(){
+  const cvs=document.getElementById('auth-particles');if(!cvs||cvs._running)return;
+  cvs._running=true;
+  const ctx=cvs.getContext('2d');
+  function resize(){cvs.width=window.innerWidth;cvs.height=Math.max(cvs.offsetHeight||0,window.innerHeight);}
+  resize();window.addEventListener('resize',resize);
+  const cols=['#3dd68c','#a78bfa','#5b9cf6','#ff6b6b'];
+  const ps=Array.from({length:38},()=>({
+    x:Math.random()*(cvs.width||window.innerWidth),
+    y:Math.random()*(cvs.height||window.innerHeight),
+    r:Math.random()*1.8+0.5,dx:(Math.random()-0.5)*0.45,dy:(Math.random()-0.5)*0.45,
+    op:Math.random()*0.35+0.08,col:cols[Math.floor(Math.random()*cols.length)]
+  }));
+  (function draw(){
+    if(!document.getElementById('auth-screen').classList.contains('active')){cvs._running=false;return;}
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    ps.forEach(p=>{
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.x<0)p.x=cvs.width;if(p.x>cvs.width)p.x=0;
+      if(p.y<0)p.y=cvs.height;if(p.y>cvs.height)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.col+(Math.floor(p.op*255).toString(16).padStart(2,'0'));
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  })();
+}
+const _authPartObs=new MutationObserver(()=>{
+  const screen=document.getElementById('auth-screen');
+  if(screen&&screen.classList.contains('active')){
+    const cvs=document.getElementById('auth-particles');
+    if(cvs)cvs._running=false;
+    initAuthParticles();
+  }
+});
+_authPartObs.observe(document.getElementById('auth-screen'),{attributeFilter:['class']});
+
+/* ─── Mode Info Modal ─── */
+const MODE_INFO={
+  ranked:{icon:'⚡',title:'Modo Ranqueado',color:'#f5a623',
+    pedagogy:'Treina a recuperação rápida da memória sob pressão de tempo. Quanto mais veloz e certeiro você responde, maior a pontuação. Acertos consecutivos multiplicam os pontos pelo efeito de streak.',
+    flow:['75 questões de todos os temas','45 segundos por pergunta','1 tentativa — sem segunda chance','Pontuação por velocidade + bônus de streak','Resultado registrado no ranking público']},
+  normal:{icon:'📝',title:'Modo Normal',color:'#5b9cf6',
+    pedagogy:'Ideal para o primeiro contato com o conteúdo. Você tem duas tentativas por questão, com uma dica antes da segunda chance. O Treino Inteligente opcional adapta as questões aos seus pontos fracos.',
+    flow:['Escolha os temas que quer praticar','60 segundos por pergunta','2 tentativas — dica aparece na primeira tentativa errada','Treino Inteligente: reforça os temas onde você mais errou','Explicação completa após cada questão']},
+  sprint:{icon:'🏃',title:'Modo Sprint',color:'#a78bfa',
+    pedagogy:'Treina fluência de recuperação: responder certo e rápido. Ideal para revisão rápida antes de provas. A curta duração torna fácil encaixar em qualquer momento do dia.',
+    flow:['10 questões aleatórias de todo o banco','2 minutos para responder todas','Você controla o ritmo entre as questões','1 tentativa por questão','Resultado aparece no ranking Sprint']},
+  survival:{icon:'💀',title:'Modo Sobrevivência',color:'#ff6b6b',
+    pedagogy:'Simula a tomada de decisão sob pressão real, sem relógio e sem segunda chance. Treina resistência ao erro e atenção plena. Cada falha tem consequência imediata.',
+    flow:['3 vidas no total','1 tentativa por questão — erre e perde uma vida','Sem limite de tempo por questão','Quanto mais questões, melhor o resultado','Resultado aparece no ranking Sobrevivência']},
+  study:{icon:'🃏',title:'Flashcards',color:'#06b6d4',
+    pedagogy:'Recordação ativa: escreva a resposta antes de ver o gabarito. Comprovadamente mais eficaz do que reler. Criar seus próprios cards ativa os níveis mais profundos do aprendizado.',
+    flow:['Cartões organizados por tema','Escreva sua resposta antes de virar','Compare com a resposta de referência','Marque como Entendido para rastrear seu progresso','Crie seus próprios cards em Meus Flashcards']},
+  ranking:{icon:'🏆',title:'Ranking da Turma',color:'#eab308',
+    pedagogy:'Veja onde você está na turma. O ranking exibe apenas o melhor resultado de cada aluno, tornando a competição justa e motivadora.',
+    flow:['3 rankings distintos: Ranqueado, Sprint e Sobrevivência','Exibe apenas a melhor pontuação de cada aluno','Seu nome aparece destacado na lista','Atualizado em tempo real após cada partida']}
+};
+function showModeInfo(key){
+  const info=MODE_INFO[key];if(!info)return;
+  document.getElementById('mi-icon').textContent=info.icon;
+  document.getElementById('mi-title').textContent=info.title;
+  document.getElementById('mi-title').style.color=info.color;
+  document.getElementById('mi-pedagogy').textContent=info.pedagogy;
+  const fl=document.getElementById('mi-flow');fl.innerHTML='';
+  info.flow.forEach(step=>{const li=document.createElement('li');li.textContent=step;fl.appendChild(li);});
+  document.getElementById('mode-info-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeModeInfo(){
+  document.getElementById('mode-info-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModeInfo();});
+
 /* ─── INIT ─── */
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('setup-screen').classList.contains('active'))startQuiz();});
 authInit();
+requestAnimationFrame(initAuthParticles);
 </script>
 </body>
 </html>
