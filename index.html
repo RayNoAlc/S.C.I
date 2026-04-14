@@ -72,6 +72,57 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .mode-card.survival:hover{border-color:var(--danger)}
 .mode-card.sprint{border-color:rgba(167,139,250,0.2)}
 .mode-card.sprint:hover{border-color:var(--purple)}
+.mode-card.duel{border-color:rgba(6,182,212,0.22)}
+.mode-card.duel:hover{border-color:#06b6d4}
+
+/* ─── DUEL STYLES ─── */
+.duel-section{margin-bottom:1.1rem}
+.duel-section-label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.55rem}
+.duel-opt-grid{display:flex;flex-wrap:wrap;gap:7px}
+.duel-opt{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:8px 14px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);transition:all 0.12s;user-select:none}
+.duel-opt:hover{border-color:var(--border3);background:var(--s2)}
+.duel-opt.selected{border-color:rgba(6,182,212,0.5);background:rgba(6,182,212,0.08);color:#06b6d4}
+.duel-toggle-grid{display:flex;flex-direction:column;gap:7px}
+.duel-toggle{display:flex;align-items:center;gap:12px;background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 14px;cursor:pointer;transition:all 0.12s;user-select:none}
+.duel-toggle:hover{border-color:var(--border3);background:var(--s2)}
+.duel-toggle.active{border-color:rgba(6,182,212,0.35);background:rgba(6,182,212,0.07)}
+.duel-toggle-icon{font-size:16px;flex-shrink:0}
+.duel-toggle-text{flex:1}
+.duel-toggle-title{font-size:13px;font-weight:500}
+.duel-toggle-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.duel-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.duel-toggle.active .duel-check{background:#06b6d4;border-color:#06b6d4}
+
+/* Duel ID display */
+.duel-id-box{background:var(--s2);border:1px solid rgba(6,182,212,0.35);border-radius:var(--r);padding:1.5rem;text-align:center;margin-bottom:1.1rem}
+.duel-id-label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.5rem}
+.duel-id-value{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;letter-spacing:0.12em;color:#06b6d4;margin-bottom:0.5rem;word-break:break-all}
+.duel-id-sub{font-size:12px;color:var(--muted);line-height:1.6}
+.duel-copy-btn{background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.3);color:#06b6d4;border-radius:var(--r-sm);padding:9px 18px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;transition:all 0.13s;display:inline-flex;align-items:center;gap:7px;margin-top:0.7rem}
+.duel-copy-btn:hover{background:rgba(6,182,212,0.2)}
+.duel-enter-input{background:var(--s1);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:11px 14px;font-size:15px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;outline:none;transition:border-color 0.2s;width:100%;text-align:center}
+.duel-enter-input:focus{border-color:rgba(6,182,212,0.5)}
+.duel-enter-input::placeholder{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--muted)}
+.duel-divider{display:flex;align-items:center;gap:12px;margin:1.1rem 0}
+.duel-divider::before,.duel-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.duel-divider span{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
+.duel-config-summary{background:var(--s2);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:6px}
+.duel-cfg-tag{font-size:11px;padding:3px 9px;border-radius:99px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);color:#06b6d4;font-weight:500}
+
+/* Duel leaderboard */
+.duel-lb-header{background:var(--s1);border:1px solid rgba(6,182,212,0.25);border-radius:var(--r);padding:16px 16px 14px;margin-bottom:1rem;text-align:center}
+.duel-lb-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#06b6d4;margin-bottom:4px}
+.duel-lb-id{font-family:'Syne',sans-serif;font-size:13px;color:var(--muted);letter-spacing:0.08em;margin-bottom:8px}
+.duel-lb-tags{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.duel-lb-item{display:flex;align-items:center;gap:10px;background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:7px;transition:all 0.12s}
+.duel-lb-item.me{border-color:rgba(6,182,212,0.4);background:rgba(6,182,212,0.05)}
+.duel-lb-pos{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;min-width:28px;text-align:center}
+.duel-lb-nick{flex:1;font-size:14px;font-weight:500}
+.duel-lb-score{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#06b6d4}
+.duel-lb-sub{font-size:11px;color:var(--muted)}
+.duel-you-tag{font-size:10px;font-weight:600;background:rgba(6,182,212,0.12);color:#06b6d4;border:1px solid rgba(6,182,212,0.25);border-radius:99px;padding:1px 7px;margin-left:5px}
+.duel-result-banner{background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.28);border-radius:var(--r);padding:13px 15px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:border-color 0.15s}
+.duel-result-banner:hover{border-color:rgba(6,182,212,0.55)}
 .mode-card.study{border-color:var(--purple-border)}
 .mode-card.study:hover{border-color:var(--purple)}
 .mode-card-icon{font-size:22px;margin-bottom:8px}
@@ -891,6 +942,7 @@ body{padding-bottom:7rem!important}
       <div class="lrb-left"><div class="lrb-icon">📊</div><div><div class="lrb-title">Ver meu último resultado</div><div class="lrb-sub" id="lrb-sub">Clique para ver estatísticas</div></div></div>
       <div class="lrb-arrow">›</div>
     </div>
+
     <div id="history-banner" class="history-banner" style="display:none" onclick="showEvoScreen()">
       <div class="hb-top">
         <span class="hb-label">📈 Minha evolução (últimas partidas)</span>
@@ -985,6 +1037,212 @@ body{padding-bottom:7rem!important}
         <div class="mode-card-icon">📋</div>
         <div class="mode-card-title">Simulado de Prova</div>
         <div class="mode-card-desc">30 questões, 30 minutos. Sem feedback. Condições reais de avaliação.</div>
+      </div>
+      <div class="mode-card duel" onclick="openDuelSetup()" style="grid-column:1/-1;border-color:rgba(6,182,212,0.28)">
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('duel')" title="Como funciona?">?</button>
+        <div class="mode-badge new" style="background:rgba(6,182,212,0.1);color:#06b6d4;border:1px solid rgba(6,182,212,0.25)">⚔️ Novo</div>
+        <div class="mode-card-icon">⚔️</div>
+        <div class="mode-card-title">Modo Duelo</div>
+        <div class="mode-card-desc">Configure um quiz personalizado, gere um ID único e desafie colegas. Todos jogam exatamente o mesmo quiz!</div>
+      </div>
+    </div>
+    <!-- Entrar em duelo existente -->
+    <div style="margin-top:0.5rem;background:var(--s1);border:1px solid rgba(6,182,212,0.22);border-radius:var(--r);padding:14px 15px">
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px">⚔️ Recebeu um ID de duelo?</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="duel-modos-input" class="duel-enter-input" placeholder="Cole o ID aqui: SCI-XXXXXXXXXXXXX" maxlength="20" oninput="this.value=this.value.toUpperCase()" style="flex:1;font-size:13px;padding:9px 12px"/>
+        <button class="btn btn-sm" onclick="enterDuelFromModos()" style="background:#06b6d4;color:#001a1f;border-radius:var(--r-sm);font-size:13px;padding:9px 16px;white-space:nowrap;flex-shrink:0">Entrar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUELO: SETUP -->
+  <div id="duel-setup-screen" class="screen">
+    <div class="sub-header">
+      <button class="sub-header-back" onclick="showScreen('modos-screen')">← Modos</button>
+      <div class="sub-header-title">⚔️ Configurar Duelo</div>
+      <div class="sub-header-desc">Monte seu quiz e gere um ID único para desafiar colegas</div>
+    </div>
+
+    <!-- Temas -->
+    <div class="duel-section">
+      <div class="duel-section-label">Temas incluídos</div>
+      <div class="theme-grid">
+        <div class="theme-opt selected" id="dtopt-0" onclick="duelToggleTheme(0)">
+          <div class="theme-check" id="dtchk-0"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><div class="theme-name">Princípios e Bases Legais do SUS</div></div>
+        </div>
+        <div class="theme-opt selected" id="dtopt-1" onclick="duelToggleTheme(1)">
+          <div class="theme-check" id="dtchk-1"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><div class="theme-name">Processo Saúde-Doença e Determinantes</div></div>
+        </div>
+        <div class="theme-opt selected" id="dtopt-2" onclick="duelToggleTheme(2)">
+          <div class="theme-check" id="dtchk-2"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><div class="theme-name">História das Políticas e Odontologia Coletiva</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nº de Questões -->
+    <div class="duel-section">
+      <div class="duel-section-label">Número de questões</div>
+      <div class="duel-opt-grid" id="duel-count-opts">
+        <div class="duel-opt" onclick="selectDuelOpt('count',5,this)">5</div>
+        <div class="duel-opt selected" onclick="selectDuelOpt('count',10,this)">10</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',15,this)">15</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',20,this)">20</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',25,this)">25</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',30,this)">30</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',35,this)">35</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',40,this)">40</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',45,this)">45</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',50,this)">50</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',55,this)">55</div>
+        <div class="duel-opt" onclick="selectDuelOpt('count',60,this)">60</div>
+      </div>
+    </div>
+
+    <!-- Tempo por questão -->
+    <div class="duel-section">
+      <div class="duel-section-label">Tempo por questão</div>
+      <div class="duel-opt-grid" id="duel-time-opts">
+        <div class="duel-opt" onclick="selectDuelOpt('time',0,this)">Sem limite</div>
+        <div class="duel-opt" onclick="selectDuelOpt('time',20,this)">20s</div>
+        <div class="duel-opt selected" onclick="selectDuelOpt('time',30,this)">30s</div>
+        <div class="duel-opt" onclick="selectDuelOpt('time',45,this)">45s</div>
+        <div class="duel-opt" onclick="selectDuelOpt('time',60,this)">60s</div>
+      </div>
+    </div>
+
+    <!-- Dificuldade -->
+    <div class="duel-section">
+      <div class="duel-section-label">Dificuldade</div>
+      <div class="duel-opt-grid" id="duel-diff-opts">
+        <div class="duel-opt selected" onclick="selectDuelOpt('difficulty','normal',this)">🟢 Normal</div>
+        <div class="duel-opt" onclick="selectDuelOpt('difficulty','mixed',this)">🔴 Misto (+ difíceis)</div>
+      </div>
+    </div>
+
+    <!-- Mecânicas -->
+    <div class="duel-section">
+      <div class="duel-section-label">Mecânicas do jogo</div>
+      <div class="duel-toggle-grid">
+        <div class="duel-toggle active" id="dtog-speedScore" onclick="toggleDuelMechanic('speedScore',this)">
+          <div class="duel-toggle-icon">⚡</div>
+          <div class="duel-toggle-text">
+            <div class="duel-toggle-title">Pontuação por velocidade</div>
+            <div class="duel-toggle-sub">Responder rápido vale mais pontos — permite comparação justa</div>
+          </div>
+          <div class="duel-check"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="duel-toggle active" id="dtog-streak" onclick="toggleDuelMechanic('streak',this)">
+          <div class="duel-toggle-icon">🔥</div>
+          <div class="duel-toggle-text">
+            <div class="duel-toggle-title">Bônus de streak</div>
+            <div class="duel-toggle-sub">Acertos consecutivos multiplicam a pontuação</div>
+          </div>
+          <div class="duel-check"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="duel-toggle" id="dtog-lives" onclick="toggleDuelMechanic('lives',this)">
+          <div class="duel-toggle-icon">❤️</div>
+          <div class="duel-toggle-text">
+            <div class="duel-toggle-title">Modo vidas</div>
+            <div class="duel-toggle-sub">3 vidas — 1 tentativa por questão, sem dica</div>
+          </div>
+          <div class="duel-check"></div>
+        </div>
+        <div class="duel-toggle active" id="dtog-secondTry" onclick="toggleDuelMechanic('secondTry',this)">
+          <div class="duel-toggle-icon">🔄</div>
+          <div class="duel-toggle-text">
+            <div class="duel-toggle-title">Segunda tentativa</div>
+            <div class="duel-toggle-sub">Permite 2ª chance com dica (desativado se vidas ativo)</div>
+          </div>
+          <div class="duel-check"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apelido -->
+    <div class="duel-section">
+      <div class="duel-section-label">Seu apelido</div>
+      <div class="nick-row"><input type="text" id="duel-nick-input" placeholder="Nickname (obrigatório)" maxlength="20"/></div>
+    </div>
+
+    <div class="setup-btns">
+      <button class="btn btn-green" onclick="generateDuelId()" style="background:#06b6d4;color:#001a1f">⚔️ Gerar Desafio →</button>
+      <button class="btn btn-ghost" onclick="showScreen('modos-screen')">← Voltar</button>
+    </div>
+  </div>
+
+  <!-- DUELO: ID GERADO -->
+  <div id="duel-id-screen" class="screen">
+    <div class="sub-header">
+      <button class="sub-header-back" onclick="showScreen('duel-setup-screen')">← Configurar</button>
+      <div class="sub-header-title">⚔️ Duelo Criado!</div>
+      <div class="sub-header-desc">Compartilhe o ID com seus colegas</div>
+    </div>
+
+    <div class="duel-id-box">
+      <div class="duel-id-label">🆔 ID do Duelo</div>
+      <div class="duel-id-value" id="duel-id-display">SCI-XXXXXXXXXX</div>
+      <div class="duel-id-sub">Qualquer colega que inserir este ID jogará<br>exatamente o mesmo quiz — mesmas questões, mesma ordem, mesmas alternativas.</div>
+      <button class="duel-copy-btn" onclick="copyDuelId()">📋 Copiar ID</button>
+    </div>
+
+    <div id="duel-id-config-summary" class="duel-config-summary"></div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.1rem">
+      <button class="btn btn-green" onclick="startDuelNow()" style="background:#06b6d4;color:#001a1f;width:100%;justify-content:center">▶️ Jogar agora</button>
+      <button class="btn" onclick="shareDuelWhatsApp()" style="background:#25D366;color:#fff;padding:12px 22px;font-size:14px;width:100%;justify-content:center;border-radius:var(--r-sm)">💬 Convidar pelo WhatsApp</button>
+    </div>
+
+    <div class="duel-divider"><span>ou entrar em um duelo existente</span></div>
+
+    <div class="duel-section">
+      <div class="duel-section-label">Inserir ID de duelo recebido</div>
+      <input class="duel-enter-input" id="duel-enter-input" placeholder="Cole o ID aqui: SCI-XXXXXXXXXX" maxlength="20" oninput="this.value=this.value.toUpperCase()"/>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button class="btn btn-green btn-sm" onclick="enterDuelById()" style="background:#06b6d4;color:#001a1f">Entrar no Duelo →</button>
+      </div>
+    </div>
+
+    <div style="margin-top:1.1rem">
+      <button class="btn btn-ghost" onclick="showScreen('modos-screen')">← Modos de jogo</button>
+    </div>
+  </div>
+
+  <!-- DUELO: LEADERBOARD -->
+  <div id="duel-leaderboard-screen" class="screen">
+    <div class="sub-header">
+      <button class="sub-header-back" id="duel-lb-back-btn" onclick="goBack()">← Voltar</button>
+      <div class="sub-header-title">⚔️ Placar do Duelo</div>
+      <div class="sub-header-desc" id="duel-lb-subtitle">Todos que jogaram este desafio</div>
+    </div>
+    <div class="duel-lb-header">
+      <div class="duel-lb-title">⚔️ Duelo</div>
+      <div class="duel-lb-id" id="duel-lb-id-display"></div>
+      <div class="duel-lb-tags" id="duel-lb-tags"></div>
+    </div>
+    <div id="duel-lb-list"><div class="rank-loading">Carregando…</div></div>
+    <div style="margin-top:1.1rem;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-green btn-sm" onclick="openDuelInviteCard()" style="background:#06b6d4;color:#001a1f;display:inline-flex;align-items:center;gap:6px">🎨 Gerar convite</button>
+      <button class="btn btn-ghost btn-sm" onclick="copyDuelIdFromLb()">📋 Copiar ID</button>
+      <button class="btn btn-ghost btn-sm" onclick="showScreen('modos-screen')">← Modos</button>
+    </div>
+  </div>
+
+  <!-- DUELO: INVITE CARD MODAL -->
+  <div id="duel-invite-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(5px);z-index:9600;align-items:center;justify-content:center;padding:1rem">
+    <div style="background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:20px;max-width:420px;width:100%;max-height:92vh;overflow-y:auto;animation:up 0.22s cubic-bezier(0.2,0,0,1)">
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:12px;text-align:center">🎨 Card de Convite</div>
+      <div style="border-radius:var(--r-sm);overflow:hidden;margin-bottom:14px;border:1px solid var(--border2);display:flex;justify-content:center;background:#060c12">
+        <canvas id="duel-invite-canvas" style="max-width:100%;display:block"></canvas>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <button class="btn btn-green" onclick="downloadDuelCard()" style="width:100%;justify-content:center">🖼️ Baixar imagem</button>
+        <button class="btn" onclick="shareDuelCardWhatsApp()" style="background:#25D366;color:#fff;padding:12px 22px;font-size:14px;width:100%;justify-content:center;border-radius:var(--r-sm)">💬 Enviar pelo WhatsApp</button>
+        <button class="btn btn-ghost" onclick="copyDuelIdFromCard()" style="width:100%;justify-content:center">📋 Copiar ID do duelo</button>
+        <button class="btn btn-ghost" onclick="closeDuelInviteCard()" style="width:100%;justify-content:center">Fechar</button>
       </div>
     </div>
   </div>
@@ -1139,9 +1397,11 @@ body{padding-bottom:7rem!important}
     <div id="share-result-wrap"></div>
     <div class="result-btns">
       <button class="btn btn-green" id="res-ranking-btn" onclick="showRanking()" style="display:none">🏆 Ranking</button>
+      <button class="btn btn-green" id="res-duel-lb-btn" onclick="showDuelLeaderboard(currentDuelId)" style="display:none;background:#06b6d4;color:#001a1f">⚔️ Placar do Duelo</button>
       <button class="btn btn-ghost" onclick="showScreen('home-screen')">Início</button>
       <button class="btn btn-ghost" id="play-again-btn" onclick="playAgain()">Jogar de novo</button>
     </div>
+    <div id="duel-result-banner-wrap"></div>
   </div>
 
   <!-- REVIEW -->
@@ -1199,6 +1459,7 @@ body{padding-bottom:7rem!important}
       <button class="rank-tab active" onclick="switchRankTab('ranked',this)">⚡ Ranqueado</button>
       <button class="rank-tab" onclick="switchRankTab('survival',this)">💀 Sobrevivência</button>
       <button class="rank-tab" onclick="switchRankTab('sprint',this)">🏃 Sprint</button>
+      <button class="rank-tab" onclick="switchRankTab('duels',this)">⚔️ Duelos</button>
     </div>
     <div class="config-notice" id="config-notice" style="display:none">
       <strong>⚙️ Ranking online (Modo Ranqueado):</strong> para compartilhar o ranking entre dispositivos, configure o Supabase no código. Veja o comentário <code>SUPABASE SETUP</code>. Sprint e Sobrevivência usam apenas este dispositivo.
@@ -1812,13 +2073,17 @@ function _getPool(mode, themes){
 function getTimer(){
   if(currentMode==='ranked')return TIMER_RANKED;
   if(currentMode==='sprint')return TIMER_SPRINT;
+  if(currentMode==='duel')return(currentDuelConfig&&currentDuelConfig.timePerQ>0)?currentDuelConfig.timePerQ:TIMER_NORMAL;
   return TIMER_NORMAL;
 }
 function calcPoints(attempt,timeLeft){
-  if(currentMode!=='ranked')return 0;
+  const isDuelSpeed=currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.speedScore;
+  if(currentMode!=='ranked'&&!isDuelSpeed)return 0;
+  const timer=currentMode==='duel'?(currentDuelConfig.timePerQ||TIMER_NORMAL):TIMER_RANKED;
   const base=attempt===0?200:80;
-  const factor=0.3+0.7*(timeLeft/TIMER_RANKED);
-  const streakMult=getStreakMult();
+  const factor=timer>0?(0.3+0.7*(timeLeft/timer)):1;
+  const streakOk=currentMode==='ranked'||(currentDuelConfig&&currentDuelConfig.streak);
+  const streakMult=streakOk?getStreakMult():1;
   return Math.floor(base*factor*streakMult);
 }
 function getStreakMult(){
@@ -1999,9 +2264,9 @@ let modesPlayed=new Set();
 
 /* ─── UTILS ─── */
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-const SCREEN_ICONS={'home-screen':'🦷','auth-screen':'🦷','setup-screen':'⚙️','quiz-screen':'🧠','result-screen':'📊','review-screen':'📚','study-screen':'🃏','ranking-screen':'🏆','ach-screen':'🎖️','evo-screen':'📈','map-screen':'🕸️','modos-screen':'🎮','estudo-screen':'📖','desempenho-screen':'🏆','config-screen':'⚙️'};
+const SCREEN_ICONS={'home-screen':'🦷','auth-screen':'🦷','setup-screen':'⚙️','quiz-screen':'🧠','result-screen':'📊','review-screen':'📚','study-screen':'🃏','ranking-screen':'🏆','ach-screen':'🎖️','evo-screen':'📈','map-screen':'🕸️','modos-screen':'🎮','estudo-screen':'📖','desempenho-screen':'🏆','config-screen':'⚙️','duel-setup-screen':'⚔️','duel-id-screen':'⚔️','duel-leaderboard-screen':'⚔️'};
 const _NO_NAV_SCREENS=new Set(['auth-screen','quiz-screen','setup-screen']);
-const _TAB_MAP={'home-screen':'bn-home','modos-screen':'bn-jogar','setup-screen':'bn-jogar','quiz-screen':'bn-jogar','result-screen':'bn-jogar','review-screen':'bn-jogar','estudo-screen':'bn-estudo','study-screen':'bn-estudo','map-screen':'bn-estudo','desempenho-screen':'bn-desemp','ranking-screen':'bn-desemp','ach-screen':'bn-desemp','evo-screen':'bn-desemp','config-screen':'bn-config'};
+const _TAB_MAP={'home-screen':'bn-home','modos-screen':'bn-jogar','setup-screen':'bn-jogar','quiz-screen':'bn-jogar','result-screen':'bn-jogar','review-screen':'bn-jogar','estudo-screen':'bn-estudo','study-screen':'bn-estudo','map-screen':'bn-estudo','desempenho-screen':'bn-desemp','ranking-screen':'bn-desemp','ach-screen':'bn-desemp','evo-screen':'bn-desemp','config-screen':'bn-config','duel-setup-screen':'bn-jogar','duel-id-screen':'bn-jogar','duel-leaderboard-screen':'bn-jogar'};
 
 function _syncBottomNav(id){
   const nav=document.getElementById('bottom-nav');
@@ -2092,6 +2357,7 @@ function checkLastResultBanner(){
   const r=loadLastResult();if(!r)return;
   document.getElementById('last-result-banner').style.display='flex';
   document.getElementById('lrb-sub').textContent=`${r.nick} — ${r.hits}/${r.total} acertos`;
+  /* duel quick banner foi movido para o hub de desempenho */
 }
 function showLastResult(){const r=loadLastResult();if(!r)return;_focusConceptId=null;if(!selectedThemes||selectedThemes.length===0)selectedThemes=[0,1,2];nickname=r.nick;currentMode=r.mode||'normal';renderResult(r);showScreen('result-screen');}
 
@@ -2235,12 +2501,43 @@ function _startQuizInternal(mode){
     pool=shuffle(_getPool('survival',selectedThemes));
   }else if(mode==='simulado'){
     pool=shuffle(_getPool('simulado',selectedThemes)).slice(0,SIMULADO_QUESTIONS);
+  }else if(mode==='duel'){
+    // Seeded pool from duel config
+    _focusConceptId=null;
+    const cfg=currentDuelConfig;
+    const rng=_mulberry32(cfg.seed);
+    let src=cfg.difficulty==='mixed'?[...QUESTIONS,...HARD_QUESTIONS]:[...QUESTIONS];
+    src=src.filter(q=>cfg.themes.includes(q.cat));
+    pool=_seededShuffle(src,rng).slice(0,cfg.count);
+    shuffled=pool.map(q=>{
+      const idx=_seededShuffle([0,1,2,3],rng);
+      const newWR=idx.map(i=>(q.wrongReasons||[])[i]||null);
+      return{...q,options:idx.map(i=>q.options[i]),answer:idx.indexOf(q.answer),wrongReasons:newWR};
+    });
+    // Set lives for duel
+    if(cfg.lives)lives=3; else lives=999;
+    // UI
+    const mp=document.getElementById('mode-pill');
+    const sb=document.getElementById('score-badge');
+    const pb=document.getElementById('pts-badge');
+    mp.textContent='⚔️ Duelo';mp.className='mode-pill';
+    mp.style.color='#06b6d4';mp.style.background='rgba(6,182,212,0.12)';mp.style.borderColor='rgba(6,182,212,0.3)';
+    sb.style.display=cfg.speedScore?'':'none';
+    pb.style.display=cfg.speedScore?'':'none';
+    const livesRow=document.getElementById('lives-row');
+    livesRow.style.display=cfg.lives?'flex':'none';
+    if(cfg.lives)renderLives();
+    const timerRow=document.getElementById('timer-row');
+    timerRow.style.display=cfg.timePerQ>0?'flex':'none';
+    document.getElementById('simulado-timer-row').style.display='none';
+    document.getElementById('res-ranking-btn').style.display='none';
+    document.getElementById('res-duel-lb-btn').style.display='inline-flex';
+    showScreen('quiz-screen');loadQuestion();
+    return;
   }else{
     pool=_getPool('normal',selectedThemes);
-    if(smartActive)smartBaseCount=pool.length; // extras injected dynamically after base
+    if(smartActive)smartBaseCount=pool.length;
   }
-  // Limpa o foco de conceito IMEDIATAMENTE após o pool ser construído,
-  // para que quaisquer quizzes subsequentes usem o pool completo normalmente.
   _focusConceptId=null;
 
   shuffled=shuffle(pool).map(q=>{
@@ -2256,6 +2553,7 @@ function _startQuizInternal(mode){
   const livesRow=document.getElementById('lives-row');
   const timerRow=document.getElementById('timer-row');
 
+  mp.style.color='';mp.style.background='';mp.style.borderColor='';
   if(mode==='ranked'){mp.textContent='⚡ Ranqueado';mp.className='mode-pill';sb.style.display='';pb.style.display='';}
   else if(mode==='survival'){mp.textContent='💀 Sobrevivência';mp.className='mode-pill survival';sb.style.display='none';pb.style.display='none';}
   else if(mode==='sprint'){mp.textContent='🏃 Sprint';mp.className='mode-pill sprint';sb.style.display='none';pb.style.display='none';}
@@ -2288,6 +2586,7 @@ function _startQuizInternal(mode){
 
   // ranking btn
   document.getElementById('res-ranking-btn').style.display=mode==='ranked'||mode==='sprint'||mode==='survival'?'inline-flex':'none';
+  document.getElementById('res-duel-lb-btn').style.display='none';
 
   // sprint timer
   if(mode==='sprint'){
@@ -2305,7 +2604,8 @@ function _startQuizInternal(mode){
 function renderLives(){
   const row=document.getElementById('lives-row');
   row.innerHTML='';
-  for(let i=0;i<SURVIVAL_LIVES;i++){
+  const maxLives=(currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.lives)?3:SURVIVAL_LIVES;
+  for(let i=0;i<maxLives;i++){
     const s=document.createElement('span');
     s.className='life-icon'+(i>=lives?' lost':'');
     s.textContent='❤️';
@@ -2325,7 +2625,8 @@ function updateSprintTimer(){
 
 function updateStreakUI(){
   const row=document.getElementById('streak-row');
-  if(currentMode!=='ranked'||streak<3){row.innerHTML='';return;}
+  const showStreak=(currentMode==='ranked')||(currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.streak);
+  if(!showStreak||streak<3){row.innerHTML='';return;}
   const mult=getStreakMult();
   let cls='s3';if(streak>=10)cls='s10';else if(streak>=5)cls='s5';
   row.innerHTML=`<span class="streak-badge ${cls}">🔥 ${streak} seguidos · ×${mult.toFixed(2)}</span>`;
@@ -2361,8 +2662,9 @@ function loadQuestion(){
     btn.innerHTML=`<span class="opt-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span>`;
     btn.onclick=()=>selectOption(i);opts.appendChild(btn);
   });
-  if(currentMode!=='sprint'&&currentMode!=='survival')startTimer();
+  if(currentMode!=='sprint'&&currentMode!=='survival'&&currentMode!=='duel')startTimer();
   else if(currentMode==='sprint')updateSprintTimer();
+  else if(currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.timePerQ>0)startTimer();
   updateStreakUI();
 }
 
@@ -2380,7 +2682,8 @@ function updateTimer(){
   f.style.width=pct+'%';f.style.background=col;
   v.textContent=timeLeft+'s';
   v.className='timer-val'+(timeLeft<=8?' urgent':'');
-  if(currentMode==='ranked'){
+  const showPts=currentMode==='ranked'||(currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.speedScore);
+  if(showPts){
     const pp=calcPoints(attempts,timeLeft);
     pb.textContent='+'+pp;pb.style.display='';
     if(timeLeft>timer*0.5){pb.className='pts-badge fast';}
@@ -2404,8 +2707,8 @@ function timeExpired(){
   document.getElementById('expl-lbl').textContent='Tempo esgotado!';
   document.getElementById('expl-text').textContent=q.explanation||'';
   document.getElementById('expl-box').classList.add('show');
-  // survival: lose life
-  if(currentMode==='survival'){
+  // survival or duel-lives: lose life
+  if(currentMode==='survival'||(currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.lives)){
     lives--;renderLives();
     if(lives<=0){document.getElementById('next-btn').textContent='Ver resultado';document.getElementById('next-btn').style.display='inline-block';return;}
   }
@@ -2438,10 +2741,14 @@ function selectOption(idx){
     btns[idx].classList.add('correct');btns.forEach(b=>b.disabled=true);
     const pts=calcPoints(attempts,timeLeft);score+=pts;
     const first=attempts===0;if(first)correctFirst++;else correctSecond++;
-    if(currentMode==='ranked'){
+    if(currentMode==='ranked'||(currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.speedScore)){
       streak++;if(streak>maxStreak)maxStreak=streak;
       document.getElementById('score-badge').textContent=score+' pts';
-      document.getElementById('expl-lbl').textContent=`+${pts} pts!${streak>=3?' 🔥×'+getStreakMult().toFixed(2):''}`;
+      const streakOk=currentMode==='ranked'||(currentDuelConfig&&currentDuelConfig.streak);
+      document.getElementById('expl-lbl').textContent=`+${pts} pts!${streakOk&&streak>=3?' 🔥×'+getStreakMult().toFixed(2):''}`;
+    }else if(currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.streak){
+      streak++;if(streak>maxStreak)maxStreak=streak;
+      document.getElementById('expl-lbl').textContent='Correto!';
     }else{
       document.getElementById('expl-lbl').textContent='Correto!';
     }
@@ -2455,19 +2762,36 @@ function selectOption(idx){
     btns[idx].classList.add('wrong');btns[idx].disabled=true;
     streak=0;updateStreakUI();
 
-    /* ── SURVIVAL: 1 attempt, no hint, immediate life loss ── */
-    if(currentMode==='survival'){
+    /* ── DUEL: check config for lives or single-attempt behavior ── */
+    const isDuelLives=currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.lives;
+    const isDuelSingle=currentMode==='duel'&&currentDuelConfig&&!currentDuelConfig.lives&&!currentDuelConfig.secondTry;
+
+    /* ── SURVIVAL or DUEL-LIVES: 1 attempt, no hint, immediate life loss ── */
+    if(currentMode==='survival'||isDuelLives){
       sfxWrong();
       answered=true;clearInterval(timerInterval);
       btns.forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});
-      lives--;renderLives();
-      document.getElementById('expl-lbl').textContent='Errou! -1 ❤️';
+      if(isDuelLives||currentMode==='survival'){lives--;renderLives();}
+      document.getElementById('expl-lbl').textContent=(isDuelLives||currentMode==='survival')?'Errou! -1 ❤️':'Errou!';
       document.getElementById('expl-text').textContent=q.explanation||'';
       document.getElementById('expl-box').classList.add('show');
       log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
       const btn=document.getElementById('next-btn');
       btn.textContent=lives<=0?'Ver resultado':'Próxima →';
       btn.style.display='inline-block';
+      return;
+    }
+
+    /* ── DUEL-SINGLE: 1 attempt, no lives, immediate reveal ── */
+    if(isDuelSingle){
+      sfxWrong();
+      answered=true;clearInterval(timerInterval);
+      btns.forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');});
+      document.getElementById('expl-lbl').textContent='Explicação';
+      document.getElementById('expl-text').textContent=q.explanation||'';
+      document.getElementById('expl-box').classList.add('show');
+      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
+      document.getElementById('next-btn').style.display='inline-block';
       return;
     }
 
@@ -2519,7 +2843,7 @@ function nextQuestion(){
   if(current>=shuffled.length){
     showResult();
   }else{
-    if(currentMode==='survival'&&lives<=0){showResult();return;}
+    if((currentMode==='survival'||(currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.lives))&&lives<=0){showResult();return;}
     loadQuestion();
   }
 }
@@ -2555,7 +2879,8 @@ function showResult(){
   // save score per mode
   if(currentMode==='ranked')saveScore('ranked',score);
   else if(currentMode==='sprint')saveScore('sprint',hits);
-  else if(currentMode==='survival')saveScore('survival',current+1); // +1 = questions reached (1-indexed)
+  else if(currentMode==='survival')saveScore('survival',current+1);
+  else if(currentMode==='duel'&&currentDuelId)saveDuelScore(currentDuelId,{score,hits,total,acc:_qacc});
   // achievements
   unlockAch('first_quiz');
   if(hits===total&&total>0)unlockAch('perfect_score');
@@ -2564,7 +2889,7 @@ function showResult(){
   if(currentMode==='sprint'&&hits===SPRINT_QUESTIONS)unlockAch('sprint_perfect');
   modesPlayed.add(currentMode);
   if(modesPlayed.size>=4)unlockAch('all_modes');
-  renderResult(data);showScreen('result-screen');checkLastResultBanner();
+  renderResult(data);showScreen('result-screen');checkLastResultBanner();_refreshDuelQuickBanner();
 }
 
 function renderResult(data){
@@ -2577,12 +2902,17 @@ function renderResult(data){
   else if(acc>=40){emoji='💪';title='Continue! O esforço vai compensar.';}
   document.getElementById('res-emoji').textContent=emoji;
   const isRanked=md==='ranked';
-  document.getElementById('res-score-big').style.display=isRanked?'':'none';
-  document.getElementById('result-pts-label').style.display=isRanked?'':'none';
+  const isDuelSpeed=md==='duel'&&data.score>0;
+  document.getElementById('res-score-big').style.display=(isRanked||isDuelSpeed)?'':'none';
+  document.getElementById('result-pts-label').style.display=(isRanked||isDuelSpeed)?'':'none';
   document.getElementById('res-score-big').textContent=sc;
   document.getElementById('res-title').textContent=title;
   let subTxt=`${nick}, você acertou ${hits} de ${total}`;
-  if(md==='survival')subTxt+=` questões com ${lv||0} vida${(lv||0)!==1?'s':''} restante${(lv||0)!==1?'s':''}.`;
+  if(md==='duel'){
+    const cfg=currentDuelConfig;
+    const streakTxt=ms>=3&&cfg&&cfg.streak?` · Streak máx: ${ms}🔥`:'';
+    subTxt+=` questões no duelo.${streakTxt}`;
+  }else if(md==='survival')subTxt+=` questões com ${lv||0} vida${(lv||0)!==1?'s':''} restante${(lv||0)!==1?'s':''}.`;
   else if(md==='sprint')subTxt+=' questões em 2 minutos!';
   else if(md==='simulado')subTxt+=' questões no simulado.';
   else subTxt+=` — ${cf} de primeira e ${cs} de segunda tentativa.`;
@@ -2592,10 +2922,11 @@ function renderResult(data){
   document.getElementById('res-acc').textContent=acc+'%';
   const thirdLabel=document.getElementById('res-third-label');
   const thirdVal=document.getElementById('res-first');
-  if(md==='survival'){thirdLabel.textContent='Chegou até';thirdVal.textContent='Q'+total;}
-  else if(md==='sprint'){thirdLabel.textContent='Em 2 min';thirdVal.textContent=hits+'/10';}
-  else if(md==='simulado'){thirdLabel.textContent='Simulado';thirdVal.textContent=acc+'%';}
-  else{thirdLabel.textContent='De 1ª';thirdVal.textContent=cf;}
+  if(md==='duel'){thirdLabel.textContent='ID';thirdVal.textContent=currentDuelId?currentDuelId.slice(4):'—';thirdVal.style.fontSize='13px';}
+  else if(md==='survival'){thirdLabel.textContent='Chegou até';thirdVal.textContent='Q'+total;thirdVal.style.fontSize='';}
+  else if(md==='sprint'){thirdLabel.textContent='Em 2 min';thirdVal.textContent=hits+'/10';thirdVal.style.fontSize='';}
+  else if(md==='simulado'){thirdLabel.textContent='Simulado';thirdVal.textContent=acc+'%';thirdVal.style.fontSize='';}
+  else{thirdLabel.textContent='De 1ª';thirdVal.textContent=cf;thirdVal.style.fontSize='';}
 
   // cat bars
   const catEl=document.getElementById('cat-list');catEl.innerHTML='';
@@ -2612,35 +2943,51 @@ function renderResult(data){
   const wrongs=lg.filter(l=>!l.correct);
   const ctaWrap=document.getElementById('review-cta-wrap');
   const retryWrap=document.getElementById('retry-errors-wrap');
-  if(!wrongs.length){
-    ctaWrap.innerHTML='<div style="background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:var(--accent);text-align:center;margin-bottom:1rem">Parabéns! Você acertou todas as questões. 🎉</div>';
-    retryWrap.innerHTML='';
-  }else{
-    ctaWrap.innerHTML=`<div class="review-cta"><div><div class="review-cta-title">📚 ${wrongs.length} questão${wrongs.length>1?'s':''} para revisar</div><div class="review-cta-sub">Veja por que cada alternativa errada está errada.</div></div><button class="btn btn-warn" onclick="openReview()">Ver o que errei</button></div>`;
-    retryWrap.innerHTML=`<div class="retry-errors-cta"><div><div class="review-cta-title">🔄 Revisar meus erros</div><div class="review-cta-sub">Gera um novo quiz apenas com as ${wrongs.length} questões que você errou.</div></div><button class="btn btn-purple" onclick="retryErrors()">Revisar erros →</button></div>`;
-  }
-  // smart training feedback block
   const smartWrap=document.getElementById('smart-extra-wrap');
-  if(smartWrap){
-    if(se&&se.length>0){
-      const totalExtra=se.reduce((a,b)=>a+b.extra,0);
-      const baseLog=lg.filter(l=>!l.isSmartExtra);
-      const extraLog=lg.filter(l=>l.isSmartExtra);
-      const baseHits=baseLog.filter(l=>l.correct).length;
-      const extraHits=extraLog.filter(l=>l.correct).length;
-      const baseAcc=baseLog.length>0?Math.round(baseHits/baseLog.length*100):0;
-      const extraAcc=extraLog.length>0?Math.round(extraHits/extraLog.length*100):0;
-      const rows=se.map(e=>{
-        const el=lg.filter(l=>l.isSmartExtra&&l.cat===e.cat);
-        const eh=el.filter(l=>l.correct).length;
-        const ea=el.length>0?Math.round(eh/el.length*100):0;
-        const eCls=ea>=75?'great':ea>=50?'ok':'bad';
-        return `<div class="smart-fb-row"><span>${CAT_NAMES[e.cat]}</span><span style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">+${e.extra}q · erro base: ${e.errRate}%</span><span class="cat-badge ${eCls}" style="font-size:10px">${ea}% no reforço</span></span></div>`;
-      }).join('');
-      smartWrap.innerHTML=`<div class="smart-feedback-block"><div class="smart-fb-header"><span>🧠</span><div><div class="smart-fb-title">Treino Inteligente — Resultado</div><div class="smart-fb-sub">+${totalExtra} questão${totalExtra>1?'s':''} de reforço foram adicionadas com base nos seus erros desta sessão</div></div></div><div class="smart-fb-rows" style="margin-bottom:10px"><div class="smart-fb-row"><span>📋 Base (${baseLog.length}q)</span><span>${baseHits}/${baseLog.length} acertos · ${baseAcc}%</span></div><div class="smart-fb-row"><span>🔥 Reforço (${extraLog.length}q)</span><span>${extraHits}/${extraLog.length} acertos · ${extraAcc}%</span></div></div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--purple);margin-bottom:6px">Temas reforçados</div><div class="smart-fb-rows">${rows}</div></div>`;
-    }else if(se&&se.length===0&&smartBaseCount>0){
-      smartWrap.innerHTML=`<div class="smart-feedback-block"><div class="smart-fb-header"><span>🧠</span><div><div class="smart-fb-title">Treino Inteligente</div><div class="smart-fb-sub">Ótimo desempenho! Nenhuma questão extra foi necessária.</div></div></div></div>`;
-    }else{smartWrap.innerHTML='';}
+  const isDuel=md==='duel';
+  if(isDuel){
+    /* modo duelo: sem análise de erros, só resultado comparativo */
+    ctaWrap.innerHTML='';
+    retryWrap.innerHTML='';
+    if(smartWrap)smartWrap.innerHTML='';
+    /* banner de convite ao placar */
+    const bw=document.getElementById('duel-result-banner-wrap');
+    if(bw)bw.innerHTML=`<div class="duel-result-banner" onclick="showDuelLeaderboard('${currentDuelId||''}')">
+      <div><div style="font-size:13px;font-weight:600;color:#06b6d4;margin-bottom:2px">⚔️ Ver placar do duelo</div>
+      <div style="font-size:11px;color:var(--muted)">Compare seu resultado com os outros participantes</div></div>
+      <div style="font-size:18px;color:#06b6d4">›</div></div>`;
+  }else{
+    const bw=document.getElementById('duel-result-banner-wrap');
+    if(bw)bw.innerHTML='';
+    if(!wrongs.length){
+      ctaWrap.innerHTML='<div style="background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:var(--accent);text-align:center;margin-bottom:1rem">Parabéns! Você acertou todas as questões. 🎉</div>';
+      retryWrap.innerHTML='';
+    }else{
+      ctaWrap.innerHTML=`<div class="review-cta"><div><div class="review-cta-title">📚 ${wrongs.length} questão${wrongs.length>1?'s':''} para revisar</div><div class="review-cta-sub">Veja por que cada alternativa errada está errada.</div></div><button class="btn btn-warn" onclick="openReview()">Ver o que errei</button></div>`;
+      retryWrap.innerHTML=`<div class="retry-errors-cta"><div><div class="review-cta-title">🔄 Revisar meus erros</div><div class="review-cta-sub">Gera um novo quiz apenas com as ${wrongs.length} questões que você errou.</div></div><button class="btn btn-purple" onclick="retryErrors()">Revisar erros →</button></div>`;
+    }
+    // smart training feedback block
+    if(smartWrap){
+      if(se&&se.length>0){
+        const totalExtra=se.reduce((a,b)=>a+b.extra,0);
+        const baseLog=lg.filter(l=>!l.isSmartExtra);
+        const extraLog=lg.filter(l=>l.isSmartExtra);
+        const baseHits=baseLog.filter(l=>l.correct).length;
+        const extraHits=extraLog.filter(l=>l.correct).length;
+        const baseAcc=baseLog.length>0?Math.round(baseHits/baseLog.length*100):0;
+        const extraAcc=extraLog.length>0?Math.round(extraHits/extraLog.length*100):0;
+        const rows=se.map(e=>{
+          const el=lg.filter(l=>l.isSmartExtra&&l.cat===e.cat);
+          const eh=el.filter(l=>l.correct).length;
+          const ea=el.length>0?Math.round(eh/el.length*100):0;
+          const eCls=ea>=75?'great':ea>=50?'ok':'bad';
+          return `<div class="smart-fb-row"><span>${CAT_NAMES[e.cat]}</span><span style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">+${e.extra}q · erro base: ${e.errRate}%</span><span class="cat-badge ${eCls}" style="font-size:10px">${ea}% no reforço</span></span></div>`;
+        }).join('');
+        smartWrap.innerHTML=`<div class="smart-feedback-block"><div class="smart-fb-header"><span>🧠</span><div><div class="smart-fb-title">Treino Inteligente — Resultado</div><div class="smart-fb-sub">+${totalExtra} questão${totalExtra>1?'s':''} de reforço foram adicionadas com base nos seus erros desta sessão</div></div></div><div class="smart-fb-rows" style="margin-bottom:10px"><div class="smart-fb-row"><span>📋 Base (${baseLog.length}q)</span><span>${baseHits}/${baseLog.length} acertos · ${baseAcc}%</span></div><div class="smart-fb-row"><span>🔥 Reforço (${extraLog.length}q)</span><span>${extraHits}/${extraLog.length} acertos · ${extraAcc}%</span></div></div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--purple);margin-bottom:6px">Temas reforçados</div><div class="smart-fb-rows">${rows}</div></div>`;
+      }else if(se&&se.length===0&&smartBaseCount>0){
+        smartWrap.innerHTML=`<div class="smart-feedback-block"><div class="smart-fb-header"><span>🧠</span><div><div class="smart-fb-title">Treino Inteligente</div><div class="smart-fb-sub">Ótimo desempenho! Nenhuma questão extra foi necessária.</div></div></div></div>`;
+      }else{smartWrap.innerHTML='';}
+    }
   }
   // history + share (inlined — no monkey-patching)
   pushHistory(data);
@@ -2703,6 +3050,10 @@ function retryErrors(){
 }
 
 function playAgain(){
+  if(currentMode==='duel'){
+    openDuelSetup();
+    return;
+  }
   const validModes=['ranked','normal','survival','sprint','simulado'];
   openSetup(validModes.includes(currentMode)?currentMode:'normal');
 }
@@ -3166,6 +3517,36 @@ async function loadRankingTab(modeKey){
   const note=document.getElementById('rank-note-txt');
   list.innerHTML='<div class="rank-loading">Carregando…</div>';
   document.getElementById('config-notice').style.display=USE_SUPABASE?'none':'block';
+
+  /* ── Aba especial: Duelos ── */
+  if(modeKey==='duels'){
+    note.innerHTML='⚔️ <strong>Duelos registrados neste dispositivo.</strong> Toque em um duelo para ver o placar completo.';
+    const savedDuels=_loadSavedDuels();
+    if(!savedDuels.length){
+      list.innerHTML='<div class="rank-empty">Nenhum duelo jogado ainda.<br><span style="font-size:12px;color:var(--muted)">Acesse Modos de Jogo → Duelo para criar ou entrar em um duelo.</span></div>';
+      return;
+    }
+    list.innerHTML='';
+    const themeNames=['SUS','Saúde-Doença','Políticas'];
+    savedDuels.slice().reverse().forEach(d=>{
+      const cfg=_decodeDuelId(d.id)||{};
+      const themes=(cfg.themes||[]).map(t=>themeNames[t]).join(', ');
+      const item=document.createElement('div');
+      item.className='rank-item'+(d.id===currentDuelId?' me':'');
+      item.style.cssText='flex-direction:column;align-items:flex-start;gap:4px;cursor:pointer';
+      item.onclick=()=>showDuelLeaderboard(d.id);
+      item.innerHTML=`
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px">
+          <span style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#06b6d4;letter-spacing:0.06em">${d.id}</span>
+          <span style="font-size:11px;color:var(--muted)">${new Date(d.date).toLocaleDateString('pt-BR')}</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted2)">${themes} · ${cfg.count||'?'}q · ${cfg.timePerQ>0?cfg.timePerQ+'s/q':'Sem limite'}</div>
+        <div style="font-size:11px;color:var(--muted)">Acertos: ${d.hits}/${d.total} (${d.acc}%) · ${cfg.difficulty==='mixed'?'Misto':'Normal'}</div>`;
+      list.appendChild(item);
+    });
+    return;
+  }
+
   const labels={ranked:'Pontuação por velocidade (pts)',survival:'Questões alcançadas',sprint:'Acertos em 10 questões'};
   const suffix={ranked:' pts',survival:' Q',sprint:' acertos'};
   const tableMap={ranked:'sc1_ranking',survival:'sc1_ranking_survival',sprint:'sc1_ranking_sprint'};
@@ -3798,7 +4179,10 @@ const MODE_INFO={
     flow:['Gráfico de precisão por partida ao longo do tempo','Acertos acumulados por tema (SUS, Saúde-Doença, Políticas)','Histórico de partidas por modo de jogo','Atualizado automaticamente após cada quiz']},
   ach:{icon:'🎖️',title:'Conquistas',color:'#a78bfa',
     pedagogy:'Medalhas desbloqueadas conforme você avança na plataforma. Servem como marcos de progressão e motivam a explorar todos os modos.',
-    flow:['Conquistas por número de partidas jogadas','Conquistas por desempenho (nota perfeita, streak longo)','Conquistas por exploração dos diferentes modos','Conquistas secretas — descubra jogando!','Cada conquista desbloqueada aparece em destaque na tela']}
+    flow:['Conquistas por número de partidas jogadas','Conquistas por desempenho (nota perfeita, streak longo)','Conquistas por exploração dos diferentes modos','Conquistas secretas — descubra jogando!','Cada conquista desbloqueada aparece em destaque na tela']},
+  duel:{icon:'⚔️',title:'Modo Duelo',color:'#06b6d4',
+    pedagogy:'Competição direta e justa entre colegas. O mesmo ID garante que todos enfrentem exatamente as mesmas questões na mesma ordem — ninguém tem vantagem de sorte, apenas de conhecimento e velocidade.',
+    flow:['Configure temas, nº de questões, tempo e mecânicas','Gere um ID único que codifica toda a configuração do quiz','Compartilhe o ID com seus colegas pelo WhatsApp ou outro canal','Todos que usarem o ID jogam exatamente o mesmo quiz (mesmas questões, mesma ordem, mesmas alternativas)','Ao final, compare os resultados no placar do duelo']}
 };
 function showModeInfo(key){
   const info=MODE_INFO[key];if(!info)return;
@@ -3820,6 +4204,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModeInfo();});
 /* ─── INIT ─── */
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('setup-screen').classList.contains('active'))startQuiz();});
 authInit();
+/* Duel banner movido para hub de desempenho — sem restore na home */
 requestAnimationFrame(initAuthParticles);
 
 /* ════════════════════════════════════════════════════
@@ -3964,7 +4349,7 @@ function _drawShareCard(data){
   ctx.scale(DPR,DPR);
 
   const acc=data.total>0?Math.round(data.hits/data.total*100):0;
-  const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado'};
+  const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado',duel:'Duelo'};
   const stars=acc>=90?'🏆':acc>=75?'🎯':acc>=60?'📚':'💪';
   const modeLabel=modeNames[data.mode]||data.mode;
 
@@ -4099,7 +4484,7 @@ function _roundRect(ctx,x,y,w,h,r){
 function _buildSocialBtns(data){
   const canvas=document.getElementById('share-card-canvas');
   const acc=data.total>0?Math.round(data.hits/data.total*100):0;
-  const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado'};
+  const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado',duel:'Duelo'};
   const stars=acc>=90?'🏆':acc>=75?'🎯':acc>=60?'📚':'💪';
   const btns=document.getElementById('share-social-btns');
   btns.innerHTML='';
@@ -4194,7 +4579,7 @@ function renderEvoScreen(){
 
   // Mode breakdown
   const modeCounts={};
-  const modeNames={ranked:'⚡ Ranqueado',normal:'📝 Normal',sprint:'🏃 Sprint',survival:'💀 Sobrevivência',simulado:'📋 Simulado'};
+  const modeNames={ranked:'⚡ Ranqueado',normal:'📝 Normal',sprint:'🏃 Sprint',survival:'💀 Sobrevivência',simulado:'📋 Simulado',duel:'⚔️ Duelo'};
   h.forEach(e=>{modeCounts[e.mode]=(modeCounts[e.mode]||0)+1;});
   const modeList=document.getElementById('evo-mode-list');
   modeList.innerHTML='';
@@ -4802,7 +5187,796 @@ function closeCreditsModal(){
   document.body.style.overflow='';
 }
 
-/* ── Avaliação (Turma) ── */
+/* ════════════════════════════════════════════════════════════
+   MODO DUELO ASSÍNCRONO
+   - Seeded RNG garante reprodutibilidade total do quiz
+   - ID codifica config + seed → mesmo ID = mesmo quiz
+   - Resultados salvos na tabela sci_duels do Supabase
+   Tabela necessária:
+   CREATE TABLE sci_duels (
+     id bigserial PRIMARY KEY,
+     duel_id text NOT NULL,
+     nickname text NOT NULL,
+     score integer DEFAULT 0,
+     hits integer NOT NULL,
+     total integer NOT NULL,
+     acc integer NOT NULL,
+     date bigint NOT NULL,
+     config_json text
+   );
+   CREATE INDEX ON sci_duels(duel_id);
+════════════════════════════════════════════════════════════ */
+
+/* ── Estado do duelo ── */
+let currentDuelConfig = null;
+let currentDuelId     = null;
+
+/* config interna do setup screen */
+let _duelSetupThemes    = [0,1,2];
+let _duelSetupCount     = 10;
+let _duelSetupTime      = 30;
+let _duelSetupDiff      = 'normal';
+let _duelSetupMechanics = { speedScore:true, streak:true, lives:false, secondTry:true };
+
+/* ── Seeded PRNG (mulberry32) ── */
+function _mulberry32(seed){
+  return function(){
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/* ── Seeded shuffle (Fisher-Yates com rng fornecido) ── */
+function _seededShuffle(arr, rng){
+  const a = [...arr];
+  for(let i = a.length-1; i > 0; i--){
+    const j = Math.floor(rng() * (i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+/* ── Encode / Decode do Duel ID ──
+   Formato: SCI-XXXXXXXXXXXXX  (13 chars após "SCI-")
+   configBits (3 chars base36): 14 bits de flags de configuração
+   seedStr    (7 chars base36): seed de 32 bits para reprodução do quiz
+
+   Bits de configuração (14 bits):
+     0-2  : themes bitmask (bit0=tema0, bit1=tema1, bit2=tema2)
+     3-5  : count index em [5,10,15,20,30]
+     6-8  : time index  em [0,20,30,45,60]
+     9    : difficulty (0=normal, 1=mixed)
+     10   : lives
+     11   : speedScore
+     12   : streak
+     13   : secondTry
+── */
+const _DUEL_COUNTS = [5,10,15,20,25,30,35,40,45,50,55,60];
+const _DUEL_TIMES  = [0,20,30,45,60];
+
+function _encodeDuelId(config){
+  const themesBits = config.themes.reduce((acc,t)=>acc|(1<<t), 0);
+  const countIdx   = _DUEL_COUNTS.indexOf(config.count);           // 0-11 → 4 bits
+  const timeIdx    = _DUEL_TIMES.indexOf(config.timePerQ);         // 0-4  → 3 bits
+  const diffBit    = config.difficulty==='mixed'?1:0;
+  // bit layout (15 bits total):
+  // 0-2: themes | 3-6: countIdx | 7-9: timeIdx | 10: diff | 11: lives | 12: speedScore | 13: streak | 14: secondTry
+  let flags = themesBits
+    | ((countIdx  & 0xF) << 3)
+    | ((timeIdx   & 0x7) << 7)
+    | (diffBit             << 10)
+    | ((config.lives?1:0)       << 11)
+    | ((config.speedScore?1:0)  << 12)
+    | ((config.streak?1:0)      << 13)
+    | ((config.secondTry?1:0)   << 14);
+  const configPart = flags.toString(36).padStart(3,'0').toUpperCase();  // 15 bits < 46656 = 36^3 ✓
+  const seedPart   = (config.seed >>> 0).toString(36).padStart(7,'0').toUpperCase();
+  return 'SCI-' + configPart + seedPart;
+}
+
+function _decodeDuelId(id){
+  const clean = id.replace(/\s/g,'').toUpperCase();
+  if(!clean.startsWith('SCI-')||clean.length!==14) return null;
+  const body      = clean.slice(4);
+  const configPart= body.slice(0,3);
+  const seedPart  = body.slice(3);
+  const flags     = parseInt(configPart,36);
+  const seed      = parseInt(seedPart,36);
+  if(isNaN(flags)||isNaN(seed)) return null;
+  const themesBits= flags & 0x7;
+  const themes    = [0,1,2].filter(t=>(themesBits>>t)&1);
+  if(!themes.length) return null;
+  const countIdx  = (flags>>3)&0xF;
+  const timeIdx   = (flags>>7)&0x7;
+  const count     = _DUEL_COUNTS[countIdx] || 10;
+  const timePerQ  = _DUEL_TIMES[timeIdx]   != null ? _DUEL_TIMES[timeIdx] : 30;
+  const difficulty= ((flags>>10)&1)?'mixed':'normal';
+  const lives     = !!((flags>>11)&1);
+  const speedScore= !!((flags>>12)&1);
+  const streak    = !!((flags>>13)&1);
+  const secondTry = !!((flags>>14)&1);
+  return { themes, count, timePerQ, difficulty, lives, speedScore, streak, secondTry, seed };
+}
+
+/* ── UI helpers do setup ── */
+function openDuelSetup(){
+  /* restaura defaults */
+  _duelSetupThemes    = [0,1,2];
+  _duelSetupCount     = 10;
+  _duelSetupTime      = 30;
+  _duelSetupDiff      = 'normal';
+  _duelSetupMechanics = { speedScore:true, streak:true, lives:false, secondTry:true };
+
+  /* checkboxes de tema */
+  [0,1,2].forEach(i=>{
+    document.getElementById('dtopt-'+i).classList.add('selected');
+    const chk=document.getElementById('dtchk-'+i);
+    chk.innerHTML='<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  });
+
+  /* opções de count — default 10 */
+  document.querySelectorAll('#duel-count-opts .duel-opt').forEach(el=>{
+    el.classList.toggle('selected',el.textContent.trim()==='10');
+  });
+
+  /* opções de time */
+  document.querySelectorAll('#duel-time-opts .duel-opt').forEach(el=>{
+    el.classList.toggle('selected',el.textContent.trim()==='30s');
+  });
+
+  /* opções de dificuldade */
+  document.querySelectorAll('#duel-diff-opts .duel-opt').forEach(el=>{
+    el.classList.toggle('selected',el.textContent.includes('Normal'));
+  });
+
+  /* toggles de mecânicas */
+  const svg='<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  ['speedScore','streak','secondTry'].forEach(k=>{
+    const el=document.getElementById('dtog-'+k);
+    if(el){el.classList.add('active');el.querySelector('.duel-check').innerHTML=svg;}
+  });
+  const livesEl=document.getElementById('dtog-lives');
+  if(livesEl){livesEl.classList.remove('active');livesEl.querySelector('.duel-check').innerHTML='';}
+
+  /* nick */
+  if(currentUser&&currentUser.nickname)document.getElementById('duel-nick-input').value=currentUser.nickname;
+
+  showScreen('duel-setup-screen');
+}
+
+function duelToggleTheme(i){
+  const idx=_duelSetupThemes.indexOf(i);
+  const svg='<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  if(idx>-1){
+    if(_duelSetupThemes.length===1)return; /* precisa de ao menos 1 tema */
+    _duelSetupThemes.splice(idx,1);
+    document.getElementById('dtopt-'+i).classList.remove('selected');
+    document.getElementById('dtchk-'+i).innerHTML='';
+  }else{
+    _duelSetupThemes.push(i);
+    document.getElementById('dtopt-'+i).classList.add('selected');
+    document.getElementById('dtchk-'+i).innerHTML=svg;
+  }
+}
+
+function selectDuelOpt(type, val, el){
+  const parentId = type==='count'?'duel-count-opts':type==='time'?'duel-time-opts':'duel-diff-opts';
+  document.querySelectorAll('#'+parentId+' .duel-opt').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+  if(type==='count')    _duelSetupCount = val;
+  else if(type==='time') _duelSetupTime  = val;
+  else                  _duelSetupDiff   = val;
+}
+
+function toggleDuelMechanic(key, el){
+  const svg='<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4.5 7.5L10 1" stroke="#05120a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  _duelSetupMechanics[key] = !_duelSetupMechanics[key];
+  const chk=el.querySelector('.duel-check');
+  if(_duelSetupMechanics[key]){
+    el.classList.add('active'); chk.innerHTML=svg;
+  }else{
+    el.classList.remove('active'); chk.innerHTML='';
+  }
+  /* vidas e segunda tentativa são mutuamente exclusivas */
+  if(key==='lives'&&_duelSetupMechanics.lives){
+    _duelSetupMechanics.secondTry=false;
+    const st=document.getElementById('dtog-secondTry');
+    if(st){st.classList.remove('active');st.querySelector('.duel-check').innerHTML='';}
+  }
+  if(key==='secondTry'&&_duelSetupMechanics.secondTry){
+    _duelSetupMechanics.lives=false;
+    const lv=document.getElementById('dtog-lives');
+    if(lv){lv.classList.remove('active');lv.querySelector('.duel-check').innerHTML='';}
+  }
+}
+
+/* ── Gerar ID do Duelo ── */
+function generateDuelId(){
+  const nick=document.getElementById('duel-nick-input').value.trim();
+  if(!nick){ document.getElementById('duel-nick-input').focus(); return; }
+  nickname=nick;
+
+  /* valida temas */
+  const themes=[..._duelSetupThemes].sort();
+  if(!themes.length){
+    showModal({icon:'⚠️',title:'Temas obrigatórios',msg:'Selecione ao menos um tema para o duelo.'});
+    return;
+  }
+
+  /* verifica pool mínimo */
+  let src = _duelSetupDiff==='mixed'?[...QUESTIONS,...HARD_QUESTIONS]:[...QUESTIONS];
+  src = src.filter(q=>themes.includes(q.cat));
+  if(src.length < _duelSetupCount){
+    showModal({icon:'⚠️',title:'Questões insuficientes',msg:`Só há ${src.length} questões disponíveis para esta combinação. Reduza o número de questões ou adicione mais temas.`});
+    return;
+  }
+
+  /* monta config */
+  const seed = (Math.random()*0xFFFFFFFF)|0;
+  const config = {
+    themes,
+    count:     _duelSetupCount,
+    timePerQ:  _duelSetupTime,
+    difficulty:_duelSetupDiff,
+    lives:     _duelSetupMechanics.lives,
+    speedScore:_duelSetupMechanics.speedScore,
+    streak:    _duelSetupMechanics.streak,
+    secondTry: _duelSetupMechanics.secondTry,
+    seed
+  };
+
+  const id = _encodeDuelId(config);
+  currentDuelId     = id;
+  currentDuelConfig = config;
+
+  /* atualiza tela */
+  document.getElementById('duel-id-display').textContent = id;
+  document.getElementById('duel-enter-input').value = '';
+
+  /* tags de resumo */
+  const themeNames=['SUS','Saúde-Doença','Políticas'];
+  const tags=[
+    ...themes.map(t=>`📚 ${themeNames[t]}`),
+    `🔢 ${config.count} questões`,
+    config.timePerQ>0?`⏱ ${config.timePerQ}s/q`:'⏱ Sem limite',
+    config.difficulty==='mixed'?'🔴 Misto':'🟢 Normal',
+    ...(config.speedScore?['⚡ Velocidade']:[]),
+    ...(config.streak?['🔥 Streak']:[]),
+    ...(config.lives?['❤️ Vidas']:[]),
+    ...(config.secondTry?['🔄 2ª tentativa']:[]),
+  ];
+  document.getElementById('duel-id-config-summary').innerHTML =
+    tags.map(t=>`<span class="duel-cfg-tag">${t}</span>`).join('');
+
+  showScreen('duel-id-screen');
+}
+
+/* ── Copiar ID ── */
+function copyDuelId(){
+  const id = document.getElementById('duel-id-display').textContent;
+  navigator.clipboard.writeText(id).then(()=>{
+    const btn=document.querySelector('.duel-copy-btn');
+    const orig=btn.innerHTML;
+    btn.innerHTML='✅ Copiado!';
+    setTimeout(()=>{btn.innerHTML=orig;},2000);
+  }).catch(()=>{
+    showModal({icon:'📋',title:'Copie o ID',msg:id});
+  });
+}
+
+/* ── Compartilhar no WhatsApp — abre o card visual de convite ── */
+function shareDuelWhatsApp(){
+  openDuelInviteCard();
+}
+
+function shareDuelFromLb(){
+  if(currentDuelId) {
+    const id=currentDuelId;
+    const msg=`⚔️ *Duelo S.C.I* — entre e compare seu resultado!\n\n🆔 ID: ${id}\n\nAcesse Modos de Jogo → Duelo e insira o ID.`;
+    window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+  }
+}
+
+/* ── Iniciar o duelo agora (o próprio criador joga) ── */
+function startDuelNow(){
+  if(!currentDuelConfig||!currentDuelId){
+    showModal({icon:'⚠️',title:'Erro',msg:'Configure e gere um duelo primeiro.'});
+    return;
+  }
+  _startQuizInternal('duel');
+}
+
+/* ── Entrar num duelo pelo ID ── */
+function enterDuelById(){
+  const raw = document.getElementById('duel-enter-input').value.trim().toUpperCase();
+  if(!raw){
+    showModal({icon:'⚠️',title:'ID vazio',msg:'Cole o ID do duelo no campo acima.'});
+    return;
+  }
+  const config = _decodeDuelId(raw);
+  if(!config){
+    showModal({icon:'❌',title:'ID inválido',msg:'O ID informado não é válido. Verifique se digitou corretamente.\n\nFormato esperado: SCI-XXXXXXXXXXXXX (14 caracteres).'});
+    return;
+  }
+
+  /* pede nick se necessário */
+  if(!nickname){
+    if(currentUser&&currentUser.nickname){ nickname=currentUser.nickname; }
+    else{
+      showModal({icon:'👤',title:'Apelido necessário',msg:'Você precisa de um apelido para participar do duelo. Vá em configurações ou inicie sessão.'});
+      return;
+    }
+  }
+
+  currentDuelId     = raw;
+  currentDuelConfig = config;
+  _startQuizInternal('duel');
+}
+
+/* ── Entrar num duelo a partir da home screen (campo rápido) ── */
+function enterDuelFromHome(){
+  // Se não tem nickname, vai para o setup do duelo (onde pode digitar)
+  if(!nickname&&!(currentUser&&currentUser.nickname)){
+    openDuelSetup();
+    return;
+  }
+  if(currentUser&&currentUser.nickname&&!nickname) nickname=currentUser.nickname;
+  showScreen('duel-id-screen');
+  // limpa o ID gerado anterior para que o campo fique vazio e focado
+  document.getElementById('duel-enter-input').value='';
+  setTimeout(()=>{
+    const inp=document.getElementById('duel-enter-input');
+    if(inp){inp.focus();}
+  },320);
+}
+
+/* ── Entrar em duelo pelo banner da home ── */
+function enterDuelFromHomeBanner(){
+  const raw=(document.getElementById('duel-home-input').value||'').trim().toUpperCase();
+  if(!raw){
+    showScreen('duel-id-screen');
+    setTimeout(()=>{const inp=document.getElementById('duel-enter-input');if(inp)inp.focus();},300);
+    return;
+  }
+  const config=_decodeDuelId(raw);
+  if(!config){
+    showModal({icon:'❌',title:'ID inválido',msg:'Verifique o ID e tente novamente.\nFormato esperado: SCI-XXXXXXXXXXXXX'});
+    return;
+  }
+  if(!nickname){
+    if(currentUser&&currentUser.nickname){nickname=currentUser.nickname;}
+    else{
+      // Pre-fill ID and redirect to duel-id-screen so user can see the enter field
+      showScreen('duel-id-screen');
+      document.getElementById('duel-enter-input').value=raw;
+      showModal({icon:'👤',title:'Apelido necessário',msg:'Insira seu apelido antes de entrar no duelo. Faça login ou configure seu nickname nas configurações.'});
+      return;
+    }
+  }
+  currentDuelId=raw;
+  currentDuelConfig=config;
+  _startQuizInternal('duel');
+}
+
+/* _refreshDuelQuickBanner: banner removido da home — mantida para não quebrar chamadas */
+function _refreshDuelQuickBanner(){ /* no-op: banner agora fica no hub de desempenho */ }
+
+/* ── Persistência local de duelos jogados ── */
+function _loadSavedDuels(){ try{return JSON.parse(localStorage.getItem('sci_duels_played')||'[]');}catch(e){return[];} }
+function _saveDuelLocally(duelId,result){
+  try{
+    let arr=_loadSavedDuels();
+    // Update if exists, otherwise push
+    const idx=arr.findIndex(d=>d.id===duelId);
+    const entry={id:duelId,date:Date.now(),hits:result.hits,total:result.total,acc:result.acc,score:result.score||0};
+    if(idx>-1) arr[idx]=entry; else arr.push(entry);
+    // keep last 30
+    arr.sort((a,b)=>b.date-a.date);
+    localStorage.setItem('sci_duels_played',JSON.stringify(arr.slice(0,30)));
+  }catch(e){}
+}
+function _getLastDuelId(){ const arr=_loadSavedDuels(); return arr.length?arr[0].id:null; }
+
+/* ── Entrar em duelo pelo campo da tela modos-screen ── */
+function enterDuelFromModos(){
+  const raw=(document.getElementById('duel-modos-input').value||'').trim().toUpperCase();
+  if(!raw){
+    showModal({icon:'⚠️',title:'ID vazio',msg:'Cole o ID do duelo no campo acima.'});
+    return;
+  }
+  const config=_decodeDuelId(raw);
+  if(!config){
+    showModal({icon:'❌',title:'ID inválido',msg:'Verifique o ID e tente novamente.\nFormato: SCI-XXXXXXXXXXXXX (14 caracteres).'});
+    return;
+  }
+  if(!nickname){
+    if(currentUser&&currentUser.nickname){nickname=currentUser.nickname;}
+    else{
+      // Show duel id screen pre-filled
+      showScreen('duel-id-screen');
+      document.getElementById('duel-enter-input').value=raw;
+      showModal({icon:'👤',title:'Apelido necessário',msg:'Você precisa de um apelido para entrar no duelo. Faça login ou configure seu nickname.'});
+      return;
+    }
+  }
+  currentDuelId=raw;
+  currentDuelConfig=config;
+  _startQuizInternal('duel');
+}
+
+/* ── Salvar pontuação do duelo no Supabase + localmente ── */
+async function saveDuelScore(duelId, {score:sc,hits,total,acc}){
+  _saveDuelLocally(duelId,{hits,total,acc,score:sc||0});
+  if(!USE_SUPABASE) return;
+  // TTL de 7 dias: registros expiram automaticamente no client-side
+  const expiresAt = Date.now() + 7*24*3600*1000;
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/sci_duels`,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SUPABASE_ANON_KEY,
+        'Authorization':'Bearer '+SUPABASE_ANON_KEY,
+        'Prefer':'return=minimal'
+      },
+      body:JSON.stringify({
+        duel_id:duelId,
+        nickname,
+        score:sc||0,
+        hits,
+        total,
+        acc,
+        date:Date.now(),
+        expires_at:expiresAt,
+        config_json:JSON.stringify(currentDuelConfig)
+      })
+    });
+  }catch(e){console.error('Duel save error:',e);}
+}
+
+/* ── Leaderboard do Duelo ── */
+async function showDuelLeaderboard(duelId){
+  if(!duelId){
+    showModal({icon:'⚠️',title:'Sem duelo ativo',msg:'Conclua um duelo para ver o placar.'});
+    return;
+  }
+  // Store as current duel if not already set
+  if(!currentDuelId) currentDuelId=duelId;
+  if(!currentDuelConfig) currentDuelConfig=_decodeDuelId(duelId);
+  showScreen('duel-leaderboard-screen');
+
+  /* header */
+  document.getElementById('duel-lb-id-display').textContent=duelId;
+  const cfg=currentDuelConfig||_decodeDuelId(duelId);
+  if(cfg){
+    const themeNames=['SUS','Saúde-Doença','Políticas'];
+    const tags=[
+      ...cfg.themes.map(t=>themeNames[t]),
+      cfg.count+'q',
+      cfg.timePerQ>0?cfg.timePerQ+'s/q':'Sem limite',
+      cfg.difficulty==='mixed'?'Misto':'Normal',
+      ...(cfg.speedScore?['⚡']:[]),
+      ...(cfg.streak?['🔥']:[]),
+      ...(cfg.lives?['❤️']:[]),
+    ];
+    document.getElementById('duel-lb-tags').innerHTML=
+      tags.map(t=>`<span class="duel-cfg-tag">${t}</span>`).join('');
+    document.getElementById('duel-lb-subtitle').textContent=
+      `Duelo de ${cfg.count} questões · compare os resultados`;
+  }
+
+  const list=document.getElementById('duel-lb-list');
+  list.innerHTML='<div class="rank-loading">Carregando placar…</div>';
+
+  if(!USE_SUPABASE){
+    list.innerHTML='<div class="rank-empty" style="color:var(--warn)">⚠️ Ranking de duelos requer Supabase configurado.<br><span style="font-size:12px;color:var(--muted)">Configure as credenciais no topo do script para compartilhar resultados.</span></div>';
+    return;
+  }
+
+  try{
+    const res=await fetch(
+      `${SUPABASE_URL}/rest/v1/sci_duels?duel_id=eq.${encodeURIComponent(duelId)}&select=nickname,score,hits,total,acc,date,expires_at&order=score.desc,acc.desc,hits.desc&limit=100`,
+      {headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY}}
+    );
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    if(!Array.isArray(data)||!data.length){
+      list.innerHTML='<div class="rank-empty">Ainda nenhum participante registrado.<br><span style="font-size:12px;color:var(--muted)">Seja o primeiro! Jogue o duelo e seu resultado aparecerá aqui.</span></div>';
+      return;
+    }
+
+    /* filtra entradas expiradas (TTL 7 dias) */
+    const now=Date.now();
+    const valid=data.filter(r=>!r.expires_at||r.expires_at>now);
+
+    if(!valid.length){
+      list.innerHTML='<div class="rank-empty">Nenhum participante registrado (ou dados expirados).<br><span style="font-size:12px;color:var(--muted)">Os registros de duelos ficam disponíveis por 7 dias após a criação.</span></div>';
+      return;
+    }
+
+    /* best score por nickname */
+    const best={};
+    valid.forEach(r=>{
+      if(!best[r.nickname]||r.score>best[r.nickname].score||(r.score===best[r.nickname].score&&r.acc>best[r.nickname].acc))
+        best[r.nickname]=r;
+    });
+    const cfg2=currentDuelConfig||cfg;
+    const useScore=cfg2&&cfg2.speedScore;
+    const entries=Object.values(best).sort((a,b)=>
+      useScore?(b.score-a.score||b.acc-a.acc):(b.acc-a.acc||b.hits-a.hits)
+    );
+    const medals=['🥇','🥈','🥉'];
+
+    list.innerHTML='';
+    entries.forEach((e,i)=>{
+      const isMe=e.nickname===nickname;
+      const medal=medals[i]||'#'+(i+1);
+      const scoreLabel=useScore?`${e.score} pts`:`${e.hits}/${e.total} (${e.acc}%)`;
+      const scoreSub=useScore?`${e.hits}/${e.total} corretas · ${e.acc}%`:``;
+      const d2=new Date(e.date);
+      const dateStr=`${d2.getDate().toString().padStart(2,'0')}/${(d2.getMonth()+1).toString().padStart(2,'0')} ${d2.getHours().toString().padStart(2,'0')}:${d2.getMinutes().toString().padStart(2,'0')}`;
+      const item=document.createElement('div');
+      item.className='duel-lb-item'+(isMe?' me':'');
+      item.innerHTML=`
+        <span class="duel-lb-pos">${medal}</span>
+        <div style="flex:1;min-width:0">
+          <div class="duel-lb-nick">${e.nickname}${isMe?'<span class="duel-you-tag">você</span>':''}</div>
+          <div class="duel-lb-sub">${scoreSub?scoreSub+' · ':''} ${dateStr}</div>
+        </div>
+        <span class="duel-lb-score">${scoreLabel}</span>`;
+      list.appendChild(item);
+    });
+
+    const myPos=entries.findIndex(e=>e.nickname===nickname)+1;
+    if(myPos>0){
+      document.getElementById('duel-lb-subtitle').textContent=
+        `Você está em ${myPos}º lugar · ${entries.length} participante${entries.length!==1?'s':''}`;
+    }
+  }catch(err){
+    console.error('Duel leaderboard error:',err);
+    list.innerHTML='<div class="rank-empty" style="color:var(--warn)">⚠️ Erro ao carregar placar. Verifique sua conexão e tente novamente.</div>';
+  }
+}
+
+/* ── Copiar ID a partir do leaderboard ── */
+function copyDuelIdFromLb(){
+  const id=currentDuelId||document.getElementById('duel-lb-id-display').textContent;
+  if(!id)return;
+  navigator.clipboard.writeText(id).then(()=>{
+    showModal({icon:'✅',title:'Copiado!',msg:'ID do duelo copiado: '+id});
+  }).catch(()=>{
+    showModal({icon:'📋',title:'ID do Duelo',msg:id});
+  });
+}
+
+function copyDuelIdFromCard(){
+  const id=currentDuelId||'';
+  navigator.clipboard.writeText(id).then(()=>{
+    showModal({icon:'✅',title:'Copiado!',msg:'ID copiado: '+id});
+  }).catch(()=>{
+    showModal({icon:'📋',title:'ID do Duelo',msg:id});
+  });
+}
+
+/* ══════════════════════════════════════════════════════════
+   CARD VISUAL DE CONVITE — Canvas 400×500
+   Estilo: dark com gradiente ciano, ID em destaque, tags de mecânicas
+══════════════════════════════════════════════════════════ */
+function openDuelInviteCard(){
+  const id=currentDuelId;
+  const cfg=currentDuelConfig||_decodeDuelId(id||'');
+  if(!id||!cfg){
+    showModal({icon:'⚠️',title:'Sem duelo',msg:'Acesse um duelo primeiro para gerar o card.'});
+    return;
+  }
+  document.getElementById('duel-invite-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+  setTimeout(()=>_drawDuelInviteCard(id,cfg),80);
+}
+
+function closeDuelInviteCard(){
+  document.getElementById('duel-invite-modal').style.display='none';
+  document.body.style.overflow='';
+}
+
+function _drawDuelInviteCard(id, cfg){
+  const canvas=document.getElementById('duel-invite-canvas');
+  const DPR=Math.min(window.devicePixelRatio||1,2);
+  const W=400, H=500;
+  canvas.width=W*DPR; canvas.height=H*DPR;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');
+  ctx.scale(DPR,DPR);
+
+  /* ── Background ── */
+  ctx.fillStyle='#060c12';
+  ctx.fillRect(0,0,W,H);
+
+  /* Grid dots */
+  ctx.fillStyle='rgba(6,182,212,0.07)';
+  for(let x=20;x<W;x+=28)for(let y=20;y<H;y+=28){
+    ctx.beginPath();ctx.arc(x,y,1,0,Math.PI*2);ctx.fill();
+  }
+
+  /* Top glow */
+  const glow=ctx.createRadialGradient(W/2,0,0,W/2,0,300);
+  glow.addColorStop(0,'rgba(6,182,212,0.18)');
+  glow.addColorStop(1,'transparent');
+  ctx.fillStyle=glow; ctx.fillRect(0,0,W,H);
+
+  /* Card border */
+  ctx.strokeStyle='rgba(6,182,212,0.35)';
+  ctx.lineWidth=1.5;
+  _rrect(ctx,12,12,W-24,H-24,14);
+  ctx.stroke();
+
+  /* Inner accent line top */
+  ctx.strokeStyle='rgba(6,182,212,0.6)';
+  ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(60,34);ctx.lineTo(W-60,34);ctx.stroke();
+
+  /* Platform name */
+  ctx.textAlign='center';
+  ctx.fillStyle='rgba(6,182,212,0.75)';
+  ctx.font=`600 11px "DM Sans",system-ui,sans-serif`;
+  ctx.fillText('S.C.I — SAÚDE COLETIVA INTELIGENTE · ODONTOLOGIA',W/2,28);
+
+  /* Sword icon area */
+  ctx.font='42px serif';
+  ctx.fillText('⚔️',W/2,92);
+
+  /* DUELO heading */
+  ctx.fillStyle='#e8eef4';
+  ctx.font=`800 32px "Syne","DM Sans",system-ui,sans-serif`;
+  ctx.fillText('DUELO',W/2,136);
+
+  ctx.fillStyle='rgba(6,182,212,0.55)';
+  ctx.font=`400 13px "DM Sans",system-ui,sans-serif`;
+  ctx.fillText('Você foi desafiado — consegue superar?',W/2,158);
+
+  /* Divider */
+  ctx.strokeStyle='rgba(6,182,212,0.2)';
+  ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(48,172);ctx.lineTo(W-48,172);ctx.stroke();
+
+  /* ID box — altura aumentada para duas linhas */
+  ctx.fillStyle='rgba(6,182,212,0.1)';
+  _rrect(ctx,36,184,W-72,72,10); ctx.fill();
+  ctx.strokeStyle='rgba(6,182,212,0.45)';ctx.lineWidth=1.5;
+  _rrect(ctx,36,184,W-72,72,10); ctx.stroke();
+
+  ctx.fillStyle='rgba(6,182,212,0.6)';
+  ctx.font=`600 10px "DM Sans",system-ui,sans-serif`;
+  ctx.fillText('🆔  ID DO DUELO',W/2,201);
+
+  ctx.fillStyle='#06b6d4';
+  ctx.font=`800 20px "Syne","DM Sans",system-ui,sans-serif`;
+  ctx.letterSpacing='0.10em';
+  // Quebra o ID em duas linhas para evitar overflow: "SCI-" + primeiros chars / restante
+  const idParts = id.match(/^(SCI-\w{3})(\w+)$/) || null;
+  if(idParts){
+    ctx.fillText(idParts[1],W/2,218);
+    ctx.fillText(idParts[2],W/2,240);
+  } else {
+    // fallback: desenha em uma linha com fonte menor se necessário
+    const measW = ctx.measureText(id).width;
+    if(measW > W-80){
+      ctx.font=`800 15px "Syne","DM Sans",system-ui,sans-serif`;
+    }
+    ctx.fillText(id,W/2,228);
+  }
+  ctx.letterSpacing='0';
+
+  /* Config tags */
+  const themeNames=['SUS','Saúde-Doença','Políticas'];
+  const tags=[];
+  if(cfg.themes)cfg.themes.forEach(t=>tags.push(themeNames[t]));
+  tags.push(cfg.count+'q');
+  tags.push(cfg.timePerQ>0?cfg.timePerQ+'s/q':'Sem limite');
+  tags.push(cfg.difficulty==='mixed'?'🔴 Misto':'🟢 Normal');
+  if(cfg.speedScore)tags.push('⚡ Velocidade');
+  if(cfg.streak)tags.push('🔥 Streak');
+  if(cfg.lives)tags.push('❤️ Vidas');
+
+  ctx.font=`500 11px "DM Sans",system-ui,sans-serif`;
+  let tx=W/2, ty=278;
+  // Center tags in 2-3 per row
+  const rows=[];
+  let row=[];
+  tags.forEach((t,i)=>{
+    row.push(t);
+    if(row.length===3||(i===tags.length-1)){rows.push([...row]);row=[];}
+  });
+  rows.forEach((r,ri)=>{
+    const totalW=r.reduce((a,t)=>a+ctx.measureText(t).width+24,0)-8;
+    let rx=W/2-totalW/2;
+    r.forEach(t=>{
+      const tw=ctx.measureText(t).width+16;
+      ctx.fillStyle='rgba(255,255,255,0.07)';
+      _rrect(ctx,rx,ty+ri*28,tw,20,6); ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=1;
+      _rrect(ctx,rx,ty+ri*28,tw,20,6); ctx.stroke();
+      ctx.fillStyle='#8a99ac';ctx.textAlign='left';
+      ctx.fillText(t,rx+8,ty+ri*28+13);
+      rx+=tw+8;
+    });
+  });
+  ctx.textAlign='center';
+
+  /* How to join */
+  const instrY=ty+rows.length*28+22;
+  ctx.strokeStyle='rgba(6,182,212,0.15)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(48,instrY);ctx.lineTo(W-48,instrY);ctx.stroke();
+
+  ctx.fillStyle='rgba(255,255,255,0.35)';
+  ctx.font=`400 11px "DM Sans",system-ui,sans-serif`;
+  ctx.fillText('Como jogar: Modos de Jogo → ⚔️ Duelo → cole o ID',W/2,instrY+16);
+
+  /* Bottom bar */
+  const barGrad=ctx.createLinearGradient(48,H-36,W-48,H-36);
+  barGrad.addColorStop(0,'transparent');
+  barGrad.addColorStop(0.3,'rgba(6,182,212,0.6)');
+  barGrad.addColorStop(0.7,'rgba(6,182,212,0.6)');
+  barGrad.addColorStop(1,'transparent');
+  ctx.strokeStyle=barGrad;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(48,H-36);ctx.lineTo(W-48,H-36);ctx.stroke();
+
+  ctx.fillStyle='rgba(6,182,212,0.4)';
+  ctx.font=`400 10px "DM Sans",system-ui,sans-serif`;
+  ctx.fillText('🦷 S.C.I · Odontologia — Unioeste Campus Cascavel',W/2,H-18);
+}
+
+function _rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+
+function downloadDuelCard(){
+  const canvas=document.getElementById('duel-invite-canvas');
+  const a=document.createElement('a');
+  a.href=canvas.toDataURL('image/png');
+  a.download='duelo-sci-'+((currentDuelId||'convite').replace(/[^A-Z0-9]/g,''))+'.png';
+  a.click();
+}
+
+function shareDuelCardWhatsApp(){
+  const id=currentDuelId||'';
+  const cfg=currentDuelConfig||{};
+  const themeNames=['SUS','Saúde-Doença','Políticas'];
+  const temas=(cfg.themes||[]).map(t=>themeNames[t]).join(', ');
+  const mechs=[
+    cfg.speedScore?'⚡ Velocidade':null,
+    cfg.streak?'🔥 Streak':null,
+    cfg.lives?'❤️ Vidas':null,
+    cfg.secondTry?'🔄 2ª tentativa':null,
+  ].filter(Boolean).join(' · ')||'—';
+  const msg=`⚔️ *Duelo S.C.I — Saúde Coletiva Inteligente*\n\nEu criei um desafio. Consegue me superar?\n\n🆔 *ID:* ${id}\n📚 Temas: ${temas}\n🔢 Questões: ${cfg.count||'?'}\n⏱ Tempo: ${cfg.timePerQ>0?cfg.timePerQ+'s/q':'Sem limite'}\n🎮 Mecânicas: ${mechs}\n\n*Como jogar:*\n1. Acesse a plataforma\n2. Modos de Jogo → ⚔️ Duelo\n3. Cole o ID acima e jogue!`;
+  const canvas=document.getElementById('duel-invite-canvas');
+  canvas.toBlob(blob=>{
+    const file=blob?new File([blob],'duelo-sci.png',{type:'image/png'}):null;
+    if(file&&navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+      navigator.share({files:[file],title:'⚔️ Duelo S.C.I',text:msg}).catch(()=>
+        window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank')
+      );
+    }else{
+      window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+    }
+  },'image/png');
+}
+
+
+/* ── Botão de entrar em duelo na tela de resultado ── */
+function _initDuelResultBanner(){
+  const btn=document.getElementById('res-duel-lb-btn');
+  if(btn) btn.style.display = currentMode==='duel'&&currentDuelId ? 'inline-flex':'none';
+}
+
+
 /* ══════════════════════════════════════════════════════
    AVALIAÇÕES — usa as credenciais Supabase já definidas
    acima (SUPABASE_URL / SUPABASE_ANON_KEY).
