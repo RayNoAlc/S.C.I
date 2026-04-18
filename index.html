@@ -296,15 +296,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .filter-tab{cursor:pointer;border:1px solid var(--border2);background:var(--s1);color:var(--muted2);border-radius:99px;padding:5px 13px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all 0.12s;white-space:nowrap}
 .filter-tab:hover{color:var(--text);border-color:var(--border3)}
 .filter-tab.active{background:var(--accent);color:#05120a;border-color:var(--accent)}
-.study-theme-section{margin-bottom:1.25rem}
-.study-theme-header{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.5rem;display:flex;align-items:center;gap:10px}
+.study-theme-section{margin-bottom:0.5rem}
+.study-theme-header{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.35rem;display:flex;align-items:center;gap:10px}
 .study-theme-header::after{content:'';flex:1;height:1px;background:var(--border)}
-.study-card-wrap{display:flex;flex-direction:column;gap:8px}
+.study-card-wrap{display:flex;flex-direction:column;gap:52px}
 .study-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.25rem}
 
 /* FLIP CARD */
-.sfc-scene{perspective:1200px}
-.sfc-card{position:relative;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);border-radius:var(--r)}
+.sfc-scene{perspective:1200px;position:absolute;top:0;left:0;width:100%}
+.sfc-card{position:relative;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);border-radius:var(--r);width:100%;height:100%}
 .sfc-scene.flipped .sfc-card{transform:rotateY(180deg)}
 .sfc-face{position:absolute;inset:0;width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r);padding:15px;display:flex;flex-direction:column;gap:10px}
 .sfc-front-face{background:var(--s1);border:1px solid var(--border2)}
@@ -337,7 +337,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .rank-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
 .rank-tab{cursor:pointer;border:1px solid var(--border2);background:var(--s1);color:var(--muted2);border-radius:99px;padding:6px 16px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all 0.12s}
 .rank-tab:hover{color:var(--text);border-color:var(--border3)}
-.rank-tab.active{background:var(--accent);color:#05120a;border-color:var(--accent)}
+.rank-tab.active{color:#05120a;border-color:transparent}
 .rank-header{margin-bottom:1rem}
 .rank-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:0.25rem}
 .rank-sub{font-size:13px;color:var(--muted)}
@@ -499,6 +499,142 @@ body.hub-config{
 }
 body.hub-config .bottom-nav{border-top-color:rgba(148,163,184,0.16)}
 
+/* ── Tema Claro ── */
+body.light-mode{
+  --bg:#1a3d35;
+  --s1:#234d42;
+  --s2:#1c4038;
+  --s3:#163328;
+  --border:rgba(61,214,140,0.10);
+  --border2:rgba(61,214,140,0.17);
+  --border3:rgba(61,214,140,0.30);
+  --text:#d4f0e4;
+  --muted:#6eaa8a;
+  --muted2:#9ecfb4;
+  --purple-dim:rgba(167,139,250,0.11);
+  --purple-border:rgba(167,139,250,0.30);
+  --info-dim:rgba(91,156,246,0.12);
+  --warn-dim:rgba(245,166,35,0.12);
+  --danger-dim:rgba(255,107,107,0.11);
+}
+
+/* ── Glow usa variáveis do hub, igual ao dark ── */
+body.light-mode::before{
+  background:
+    radial-gradient(ellipse 75% 55% at 5%  0%,  var(--hub-glow1,rgba(61,214,140,0.22)) 0%,transparent 60%),
+    radial-gradient(ellipse 55% 40% at 95% 100%,var(--hub-glow2,rgba(91,156,246,0.18)) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 30% at 55% 40%, rgba(6,182,212,0.07)                   0%,transparent 55%);
+}
+
+/* ── Hub colors no light-mode: restaura accent + glow com intensidade maior ── */
+body.light-mode.hub-home{
+  --accent:#3dd68c;--accent-dim:rgba(61,214,140,0.18);--accent-border:rgba(61,214,140,0.40);
+  --hub-glow1:rgba(61,214,140,0.28);--hub-glow2:rgba(91,156,246,0.16);
+}
+body.light-mode.hub-jogar{
+  --accent:#f97316;--accent-dim:rgba(249,115,22,0.18);--accent-border:rgba(249,115,22,0.42);
+  --hub-glow1:rgba(249,115,22,0.32);--hub-glow2:rgba(251,146,60,0.18);
+}
+body.light-mode.hub-jogar .bottom-nav{border-top-color:rgba(249,115,22,0.38)}
+body.light-mode.hub-estudo{
+  --accent:#818cf8;--accent-dim:rgba(129,140,248,0.18);--accent-border:rgba(129,140,248,0.42);
+  --hub-glow1:rgba(129,140,248,0.30);--hub-glow2:rgba(99,102,241,0.18);
+}
+body.light-mode.hub-estudo .bottom-nav{border-top-color:rgba(129,140,248,0.38)}
+body.light-mode.hub-desemp{
+  --accent:#fbbf24;--accent-dim:rgba(251,191,36,0.18);--accent-border:rgba(251,191,36,0.42);
+  --hub-glow1:rgba(251,191,36,0.32);--hub-glow2:rgba(245,158,11,0.18);
+}
+body.light-mode.hub-desemp .bottom-nav{border-top-color:rgba(251,191,36,0.38)}
+body.light-mode.hub-config{
+  --accent:#94a3b8;--accent-dim:rgba(148,163,184,0.18);--accent-border:rgba(148,163,184,0.38);
+  --hub-glow1:rgba(148,163,184,0.24);--hub-glow2:rgba(100,116,139,0.16);
+}
+body.light-mode.hub-config .bottom-nav{border-top-color:rgba(148,163,184,0.32)}
+
+/* ── Hero title: gradiente verde-brilhante → ciano ── */
+body.light-mode .hero-title{
+  background:linear-gradient(145deg,#d4f0e4 40%,#5beab4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── Nav ── */
+body.light-mode .nav{border-bottom-color:rgba(61,214,140,0.14)}
+
+/* ── Bottom nav: glassmorphism teal escuro ── */
+body.light-mode .bottom-nav{
+  background:rgba(20,50,42,0.94);
+  border-top-color:rgba(61,214,140,0.18);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 -2px 20px rgba(0,0,0,0.30);
+}
+
+/* ── Cards e superfícies ── */
+body.light-mode .opt{background:var(--s1)}
+body.light-mode .opt:hover:not(:disabled){background:var(--s2)}
+body.light-mode .hub-card{background:var(--s1)}
+body.light-mode .hub-card:hover{background:var(--s2)}
+body.light-mode .mode-card{background:var(--s1)}
+body.light-mode .mode-card:hover{background:var(--s2)}
+body.light-mode .rank-item{background:var(--s1)}
+body.light-mode .duel-lb-item{background:var(--s1)}
+body.light-mode .config-row{background:var(--s1)}
+body.light-mode .theme-opt{background:var(--s1)}
+body.light-mode .smart-toggle{background:var(--s1)}
+body.light-mode .duel-opt{background:var(--s1)}
+body.light-mode .duel-toggle{background:var(--s1)}
+body.light-mode .rank-note{background:var(--s1)}
+body.light-mode .last-result-banner{background:var(--s1)}
+body.light-mode .duel-result-banner{background:rgba(6,182,212,0.08)}
+body.light-mode .sfc-front-face{background:var(--s1)}
+body.light-mode .sfc-back-face{background:var(--s2)}
+body.light-mode .nick-row input{background:var(--s2);color:var(--text)}
+body.light-mode .duel-enter-input{background:var(--s2);color:var(--text)}
+body.light-mode .sfc-textarea{background:var(--s2)}
+body.light-mode .history-banner{background:var(--s1)}
+body.light-mode .duel-id-box{background:var(--s2)}
+body.light-mode .duel-lb-header{background:var(--s1);border-color:rgba(6,182,212,0.28)}
+
+/* ── Modais ── */
+body.light-mode .modal-overlay{background:rgba(5,20,14,0.70)}
+body.light-mode .modal-box{background:var(--s1);box-shadow:0 16px 48px rgba(0,0,0,0.40)}
+body.light-mode .share-modal-box{background:var(--s1);box-shadow:0 16px 48px rgba(0,0,0,0.40)}
+body.light-mode .review-modal-box{background:var(--s1)}
+body.light-mode .mode-info-overlay{background:rgba(5,20,14,0.72)}
+body.light-mode .mode-info-box{background:var(--s1)}
+body.light-mode .share-modal-overlay{background:rgba(5,20,14,0.70)}
+
+/* ── Mode info button ── */
+body.light-mode .mode-info-btn{background:rgba(61,214,140,0.07);border-color:rgba(61,214,140,0.18)}
+body.light-mode .mode-info-btn:hover{background:rgba(61,214,140,0.14);border-color:rgba(61,214,140,0.32);color:var(--text)}
+
+/* ── Achievement toast ── */
+body.light-mode .ach-toast{
+  background:var(--s1);
+  box-shadow:0 8px 32px rgba(0,0,0,0.40),0 0 0 1px rgba(61,214,140,0.28);
+}
+
+/* ── Floating controls ── */
+body.light-mode .fc-btn{background:var(--s1);box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+
+/* ── Rank tabs inativos ── */
+body.light-mode .rank-tab:not(.active){background:var(--s2);color:var(--muted2);border-color:var(--border2)}
+
+/* ── Notices ── */
+body.light-mode .config-notice{background:rgba(245,166,35,0.12);border-color:rgba(245,166,35,0.28)}
+body.light-mode .ranked-notice{background:rgba(245,166,35,0.12);border-color:rgba(245,166,35,0.28)}
+body.light-mode .smart-feedback-block{background:rgba(167,139,250,0.10);border-color:rgba(167,139,250,0.26)}
+
+/* ── Evo bar track ── */
+body.light-mode .evo-bar-track{background:var(--s3)}
+
+/* ── Click ripple ── */
+body.light-mode .click-ripple{background:radial-gradient(circle,rgba(61,214,140,0.25) 0%,transparent 70%)}
+
+/* ── Scroll ── */
+body.light-mode ::-webkit-scrollbar-thumb{background:rgba(61,214,140,0.28)}
+body.light-mode ::-webkit-scrollbar-track{background:var(--s3)}
+
 /* ── Transições suaves nos elementos-chave que usam --accent ── */
 .nav-icon{transition:background 0.45s ease,border-color 0.45s ease!important}
 .bottom-nav{transition:border-top-color 0.45s ease}
@@ -614,7 +750,7 @@ body.hub-config .bottom-nav{border-top-color:rgba(148,163,184,0.16)}
 #auth-particles{position:absolute;inset:0;pointer-events:none;z-index:0;width:100%;height:100%}
 .auth-box{position:relative;z-index:1}
 
-@media(max-width:480px){body{padding:1rem 0.75rem 4rem}.hero-title{font-size:26px}.mode-grid{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){body{padding:1rem 0.75rem 4rem}.hero-title{font-size:26px}.mode-grid{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(3,1fr)}.hub-topic-pill{display:none}.nav-user{font-size:11px;padding:3px 8px 3px 5px}.nav-user-dot{width:18px;height:18px;font-size:9px}}
 
 /* ─── MODAL SYSTEM (replaces alert/confirm) ─── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.68);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:9500;padding:1.25rem;animation:fadeIn 0.18s ease}
@@ -875,7 +1011,7 @@ body{padding-bottom:7rem!important}
 <noscript><div style="position:fixed;inset:0;background:#080c10;color:#e8eef4;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;font-family:system-ui,sans-serif;z-index:99999"><div><div style="font-size:40px;margin-bottom:1rem">🦷</div><div style="font-size:20px;font-weight:700;margin-bottom:0.5rem">S.C.I — Saúde Coletiva Inteligente</div><div style="font-size:14px;color:#6b7a8d;line-height:1.7">Esta plataforma requer JavaScript para funcionar.<br>Por favor, habilite o JavaScript no seu navegador e recarregue a página.</div></div></div></noscript>
 <div id="app">
   <div class="nav">
-    <div class="nav-brand" onclick="goHome()" style="cursor:pointer" title="Ir para o início">
+    <div class="nav-brand" onclick="goHome();_logoClick()" style="cursor:pointer" title="Ir para o início">
       <div class="nav-icon">🦷</div>
       <div><div class="nav-name">S.C.I</div><div class="nav-sub">Saúde Coletiva Inteligente</div></div>
     </div>
@@ -1040,7 +1176,7 @@ body{padding-bottom:7rem!important}
       </div>
       <div class="mode-card duel" onclick="openDuelSetup()" style="grid-column:1/-1;border-color:rgba(6,182,212,0.28)">
         <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('duel')" title="Como funciona?">?</button>
-        <div class="mode-badge new" style="background:rgba(6,182,212,0.1);color:#06b6d4;border:1px solid rgba(6,182,212,0.25)">⚔️ Novo</div>
+        <div class="mode-badge" style="background:rgba(6,182,212,0.1);color:#06b6d4;border:1px solid rgba(6,182,212,0.25)">⚔️ Duelo</div>
         <div class="mode-card-icon">⚔️</div>
         <div class="mode-card-title">Modo Duelo</div>
         <div class="mode-card-desc">Configure um quiz personalizado, gere um ID único e desafie colegas. Todos jogam exatamente o mesmo quiz!</div>
@@ -1262,7 +1398,7 @@ body{padding-bottom:7rem!important}
         <div class="mode-card-desc">Estudo ativo com perguntas abertas. Salve seu progresso.</div>
       </div>
       <div class="mode-card" onclick="showScreen('map-screen');initMap()" style="border-color:rgba(91,156,246,0.22);grid-column:1/-1" onmouseover="this.style.borderColor='var(--info)'" onmouseout="this.style.borderColor='rgba(91,156,246,0.22)'">
-        <div class="mode-badge new" style="background:var(--info-dim);color:var(--info);border:1px solid rgba(91,156,246,0.2)">🗺 Novo</div>
+        <div class="mode-badge" style="background:var(--info-dim);color:var(--info);border:1px solid rgba(91,156,246,0.2)">🗺 Mapa</div>
         <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('map')" title="Como funciona?">?</button>
         <div class="mode-card-icon">🕸️</div>
         <div class="mode-card-title">Mapa Conceitual</div>
@@ -1440,7 +1576,7 @@ body{padding-bottom:7rem!important}
       </div>
       <div id="ufc-form-wrap"></div>
       <button class="user-fc-add-btn" onclick="openUFCForm()">➕ Criar novo flashcard</button>
-      <div id="user-fc-list" style="margin-top:10px"></div>
+      <div id="user-fc-list" style="margin-top:10px;display:flex;flex-direction:column;gap:52px"></div>
     </div>
     <div class="study-nav">
       <button class="btn btn-ghost" onclick="showScreen('home-screen')">← Início</button>
@@ -1467,7 +1603,7 @@ body{padding-bottom:7rem!important}
     <div class="rank-note" id="rank-note-txt">Apenas a <strong>melhor pontuação</strong> de cada nickname aparece.</div>
     <div class="rank-list" id="rank-list"><div class="rank-loading">Carregando…</div></div>
     <div class="rank-nav">
-      <button class="btn btn-green" onclick="openSetup('ranked')">Jogar ranqueado</button>
+      <button id="rank-play-btn" class="btn btn-warn" onclick="openSetup('ranked')">⚡ Jogar Ranqueado</button>
       <button class="btn btn-ghost" onclick="goBack()">← Voltar</button>
     </div>
   </div>
@@ -1576,6 +1712,19 @@ body{padding-bottom:7rem!important}
       </div>
     </div>
     <div class="config-section">
+      <div class="config-section-label">Aparência</div>
+      <div class="config-row" onclick="toggleLightMode()">
+        <div class="config-row-left">
+          <div class="config-row-icon" id="cfg-theme-icon">☀️</div>
+          <div class="config-row-body">
+            <div class="config-row-title">Tema Claro</div>
+            <div class="config-row-sub">Alterna entre fundo escuro e claro</div>
+          </div>
+        </div>
+        <div class="config-toggle" id="cfg-theme-toggle"></div>
+      </div>
+    </div>
+    <div class="config-section">
       <div class="config-section-label">Notificações</div>
       <div class="config-row" onclick="toggleNotifications()">
         <div class="config-row-left">
@@ -1631,10 +1780,21 @@ body{padding-bottom:7rem!important}
         </div>
       </div>
     </div>
-    <div class="version-badge">S.C.I · v4.0 · Odontologia</div>
+    <div class="version-badge">S.C.I · v1.0β · Odontologia</div>
   </div>
 
 </div><!-- /#app -->
+
+<!-- EASTER EGG MODAL — Beta Testers -->
+<div id="easter-egg-overlay" onclick="if(event.target===this)closeEasterEgg()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:9700;padding:1.25rem">
+  <div style="background:var(--s1);border:1px solid var(--accent-border);border-radius:var(--r);padding:1.75rem 1.5rem;max-width:380px;width:100%;animation:up 0.25s cubic-bezier(0.2,0,0,1);text-align:center">
+    <div style="font-size:32px;margin-bottom:0.4rem">🌟</div>
+    <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:0.3rem;background:linear-gradient(135deg,#3dd68c,#5b9cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Beta Testers</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:1.25rem;line-height:1.6">Obrigado a quem esteve desde o início testando, sugerindo e tornando o S.C.I melhor. 💙</div>
+    <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:1.25rem" id="beta-testers-list"></div>
+    <button class="btn btn-ghost btn-sm" onclick="closeEasterEgg()" style="width:100%;justify-content:center">Fechar</button>
+  </div>
+</div>
 
 
 <!-- CREDITS DETAIL MODAL -->
@@ -2235,16 +2395,41 @@ const STUDY_CARDS=[
 
 /* ─── ACHIEVEMENTS ─── */
 const ACHIEVEMENTS=[
+  /* ── Gerais ── */
   {id:'first_quiz',icon:'🎓',name:'Primeiro Quiz',desc:'Complete seu primeiro quiz.',secret:false},
   {id:'perfect_score',icon:'💯',name:'Nota 10',desc:'Acerte 100% das questões em qualquer quiz.',secret:false},
-  {id:'streak_3',icon:'🔥',name:'Em chamas',desc:'Faça uma sequência de 3 acertos consecutivos no ranqueado.',secret:false},
+  {id:'all_modes',icon:'🏅',name:'Explorador',desc:'Jogue pelo menos uma vez em cada modo.',secret:false},
+  {id:'flashcards_all',icon:'🃏',name:'Estudante Dedicado',desc:'Marque todos os 30 flashcards como entendidos.',secret:false},
+
+  /* ── Ranqueado ── */
+  {id:'streak_3',icon:'🔥',name:'Em Chamas',desc:'Faça uma sequência de 3 acertos consecutivos no ranqueado.',secret:false},
   {id:'streak_10',icon:'⚡',name:'Imparável',desc:'Faça uma sequência de 10 acertos consecutivos no ranqueado.',secret:false},
+  {id:'ranked_top',icon:'🥇',name:'Líder da Turma',desc:'Chegue ao 1º lugar no ranking ranqueado.',secret:true},
+
+  /* ── Sobrevivência ── */
   {id:'survival_10',icon:'💀',name:'Sobrevivente',desc:'Alcance 10 questões no modo Sobrevivência.',secret:false},
   {id:'survival_20',icon:'🧟',name:'Imortal',desc:'Alcance 20 questões no modo Sobrevivência.',secret:true},
+  {id:'survival_30',icon:'👻',name:'Lenda',desc:'Alcance 30 questões no modo Sobrevivência.',secret:true},
+
+  /* ── Sprint ── */
   {id:'sprint_perfect',icon:'🏃',name:'Sprint Perfeito',desc:'Acerte todas as 10 questões no modo Sprint.',secret:false},
-  {id:'flashcards_all',icon:'🃏',name:'Estudante Dedicado',desc:'Marque todos os 30 flashcards como entendidos.',secret:false},
-  {id:'ranked_top',icon:'🥇',name:'Líder da Turma',desc:'Chegue ao 1º lugar no ranking ranqueado.',secret:true},
-  {id:'all_modes',icon:'🏅',name:'Explorador',desc:'Jogue pelo menos uma vez em cada modo.',secret:false},
+  {id:'sprint_5',icon:'💨',name:'Rápido e Preciso',desc:'Complete 5 sprints diferentes.',secret:false},
+
+  /* ── Simulado ── */
+  {id:'simulado_first',icon:'📋',name:'Candidato',desc:'Complete seu primeiro simulado de prova.',secret:false},
+  {id:'simulado_perfect',icon:'🎯',name:'Gabarito',desc:'Acerte 100% no modo Simulado.',secret:true},
+  {id:'simulado_90',icon:'📐',name:'Aprovado com Louvor',desc:'Acerte 90% ou mais no modo Simulado.',secret:false},
+
+  /* ── Duelo ── */
+  {id:'duel_first',icon:'⚔️',name:'Duelista',desc:'Complete seu primeiro duelo.',secret:false},
+  {id:'duel_win',icon:'🏆',name:'Campeão do Duelo',desc:'Fique em 1º lugar no placar de qualquer duelo.',secret:false},
+  {id:'duel_perfect',icon:'🗡️',name:'Lâmina Afiada',desc:'Acerte 100% em um duelo.',secret:true},
+  {id:'duel_creator',icon:'🔮',name:'Arquiteto',desc:'Crie e jogue 3 duelos diferentes.',secret:true},
+
+  /* ── Segredos extras ── */
+  {id:'secret_night',icon:'🌙',name:'Turno da Noite',desc:'Jogue após a meia-noite.',secret:true},
+  {id:'secret_speed',icon:'🚀',name:'Resposta Relâmpago',desc:'Responda 5 questões seguidas em menos de 3 segundos cada.',secret:true},
+  {id:'secret_comeback',icon:'💫',name:'Virada Épica',desc:'Acerte as últimas 5 questões após ter menos de 50% de precisão.',secret:true},
 ];
 
 /* ─── GLOBAL STATE ─── */
@@ -2884,11 +3069,27 @@ function showResult(){
   // achievements
   unlockAch('first_quiz');
   if(hits===total&&total>0)unlockAch('perfect_score');
+  // Sobrevivência
   if(currentMode==='survival'&&current>=10)unlockAch('survival_10');
   if(currentMode==='survival'&&current>=20)unlockAch('survival_20');
+  if(currentMode==='survival'&&current>=30)unlockAch('survival_30');
+  // Sprint
   if(currentMode==='sprint'&&hits===SPRINT_QUESTIONS)unlockAch('sprint_perfect');
+  _incrementAch('sprint_5_count','sprint_5',5,currentMode==='sprint');
+  // Simulado
+  if(currentMode==='simulado')unlockAch('simulado_first');
+  if(currentMode==='simulado'&&hits===total&&total>0)unlockAch('simulado_perfect');
+  if(currentMode==='simulado'&&_qacc>=90)unlockAch('simulado_90');
+  // Duelo
+  if(currentMode==='duel')unlockAch('duel_first');
+  if(currentMode==='duel'&&hits===total&&total>0)unlockAch('duel_perfect');
+  _incrementAch('duel_creator_count','duel_creator',3,currentMode==='duel');
+  // Segredos
+  if(new Date().getHours()>=0&&new Date().getHours()<6)unlockAch('secret_night');
+  // all_modes — conta duel e simulado também
   modesPlayed.add(currentMode);
-  if(modesPlayed.size>=4)unlockAch('all_modes');
+  if(['ranked','normal','sprint','survival','simulado','duel'].every(m=>modesPlayed.has(m)))unlockAch('all_modes');
+  else if(modesPlayed.size>=4)unlockAch('all_modes');
   renderResult(data);showScreen('result-screen');checkLastResultBanner();_refreshDuelQuickBanner();
 }
 
@@ -3237,7 +3438,7 @@ function ufcFlip(id,toBack){
     const spacer=wr.querySelector('.sfc-spacer');
     const backEl=document.getElementById('uback-'+id);
     if(spacer&&backEl){
-      const h=Math.max(spacer.offsetHeight,backEl.scrollHeight+36,80);
+      const h=Math.max(spacer.offsetHeight,backEl.scrollHeight+4,80);
       scene.style.height=h+'px';card.style.height=h+'px';
     }
   });
@@ -3289,17 +3490,31 @@ function bindStudyCard(idx){
     const ub=bk.querySelector('.sfc-btn-correct');if(ub)ub.onclick=(e)=>markUnderstood(idx,e);
   }
 }
+function _syncSceneHeight(idx){
+  const wrapper=document.querySelector('#scene-'+idx)?.closest('.sfc-wrapper');
+  if(!wrapper)return;
+  const scene=wrapper.querySelector('.sfc-scene');
+  const spacer=wrapper.querySelector('.sfc-spacer');
+  if(!scene||!spacer)return;
+  // measure spacer with current content visible
+  const h=Math.max(spacer.scrollHeight,80);
+  scene.style.height=h+'px';
+  const card=scene.querySelector('.sfc-card');
+  if(card)card.style.height=h+'px';
+}
 function openStudyEdit(idx){
   document.getElementById('sedit-'+idx).style.display='block';
   document.getElementById('sactions-'+idx).style.display='none';
   document.getElementById('sa-'+idx).style.display='none';
   const ta=document.getElementById('sta-'+idx);
   if(ta){ta.focus();ta.selectionStart=ta.value.length;}
+  requestAnimationFrame(()=>_syncSceneHeight(idx));
 }
 function closeStudyEdit(idx){
   document.getElementById('sedit-'+idx).style.display='none';
   document.getElementById('sactions-'+idx).style.display='flex';
   document.getElementById('sa-'+idx).style.display='';
+  requestAnimationFrame(()=>_syncSceneHeight(idx));
 }
 function saveStudyAnswer(idx){
   const ta=document.getElementById('sta-'+idx);
@@ -3316,6 +3531,7 @@ function saveStudyAnswer(idx){
   }
   const eb=document.getElementById('sbtn-edit-'+idx);
   if(eb)eb.textContent=`✏️ ${val?'Editar':'Escrever'} resposta`;
+  requestAnimationFrame(()=>_syncSceneHeight(idx));
 }
 function buildBack(card,p){
   return `<div class="sfc-back-label">Resposta de referência</div>
@@ -3401,7 +3617,7 @@ function _applyFlip(idx,toBack){
     const spacer=wr.querySelector('.sfc-spacer');
     const backEl=document.getElementById('back-'+idx);
     if(spacer&&backEl){
-      const h=Math.max(spacer.offsetHeight,backEl.scrollHeight+36,80);
+      const h=Math.max(spacer.offsetHeight,backEl.scrollHeight+4,80);
       scene.style.height=h+'px';
       card.style.height=h+'px';
     }
@@ -3501,15 +3717,43 @@ function getLocalRanking(modeKey){
 async function showRanking(){
   showScreen('ranking-screen');
   currentRankTab='ranked';
-  document.querySelectorAll('.rank-tab').forEach((t,i)=>{t.classList.toggle('active',i===0);});
+  document.querySelectorAll('.rank-tab').forEach((t,i)=>{
+    t.classList.toggle('active',i===0);
+    t.style.background='';t.style.borderColor='';t.style.color='';
+    if(i===0){t.style.background='#f5a623';t.style.borderColor='#f5a623';t.style.color='#05120a';}
+  });
+  _updateRankPlayBtn('ranked');
   await loadRankingTab('ranked');
 }
 
 async function switchRankTab(modeKey,el){
   currentRankTab=modeKey;
-  document.querySelectorAll('.rank-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.rank-tab').forEach(t=>{
+    t.classList.remove('active');
+    t.style.background='';t.style.borderColor='';t.style.color='';
+  });
   el.classList.add('active');
+  const tabColor={ranked:'#f5a623',survival:'#ff6b6b',sprint:'#f97316',duels:'#06b6d4'};
+  const c=tabColor[modeKey]||'#f5a623';
+  el.style.background=c;el.style.borderColor=c;el.style.color='#05120a';
+  _updateRankPlayBtn(modeKey);
   await loadRankingTab(modeKey);
+}
+
+function _updateRankPlayBtn(modeKey){
+  const btn=document.getElementById('rank-play-btn');
+  if(!btn) return;
+  const map={
+    ranked: {cls:'btn-warn',  action:"openSetup('ranked')",   label:'⚡ Jogar Ranqueado'},
+    survival:{cls:'btn-danger',action:"openSetup('survival')", label:'💀 Jogar Sobrevivência'},
+    sprint:  {cls:'',          action:"openSetup('sprint')",   label:'🏃 Jogar Sprint',   style:'background:#f97316;color:#0c0400;padding:12px 22px;font-size:14px'},
+    duels:   {cls:'',          action:'openDuelSetup()',        label:'⚔️ Criar Duelo',    style:'background:#06b6d4;color:#001a1f;padding:12px 28px;font-size:14px'}
+  };
+  const cfg=map[modeKey]||map.ranked;
+  btn.className='btn '+(cfg.cls||'');
+  btn.setAttribute('onclick',cfg.action);
+  btn.textContent=cfg.label;
+  btn.style.cssText=cfg.style||'';
 }
 
 async function loadRankingTab(modeKey){
@@ -3595,6 +3839,16 @@ async function loadRankingTab(modeKey){
 /* ─── ACHIEVEMENTS ─── */
 function loadUnlocked(){ return getCache('ach',[]); }
 function saveUnlocked(arr){ setCache('ach',arr); }
+
+/* Contador persistente para conquistas acumulativas */
+function _incrementAch(countKey, achId, threshold, condition){
+  if(!condition)return;
+  try{
+    let c=parseInt(localStorage.getItem('sci_ach_'+countKey)||'0')+1;
+    localStorage.setItem('sci_ach_'+countKey,c);
+    if(c>=threshold)unlockAch(achId);
+  }catch(e){}
+}
 function unlockAch(id){
   const unlocked=loadUnlocked();
   if(unlocked.includes(id))return;
@@ -3685,6 +3939,31 @@ function runAdminSimulation(alwaysCorrect){
 /* ─── Sound state ─── */
 let soundOn=true;
 let musicOn=false;
+let lightMode=false;
+
+function toggleLightMode(){
+  lightMode=!lightMode;
+  document.body.classList.toggle('light-mode',lightMode);
+  const t=document.getElementById('cfg-theme-toggle');
+  const ic=document.getElementById('cfg-theme-icon');
+  if(t)t.classList.toggle('on',lightMode);
+  if(ic)ic.textContent=lightMode?'🌙':'☀️';
+  try{localStorage.setItem('sci_light_mode',lightMode?'1':'0');}catch(e){}
+}
+
+/* Restaura preferência de tema */
+(function(){
+  try{
+    if(localStorage.getItem('sci_light_mode')==='1'){
+      lightMode=true;
+      document.body.classList.add('light-mode');
+      const t=document.getElementById('cfg-theme-toggle');
+      const ic=document.getElementById('cfg-theme-icon');
+      if(t)t.classList.add('on');
+      if(ic)ic.textContent='🌙';
+    }
+  }catch(e){}
+})();
 
 /* ─── Toggle controls ─── */
 function toggleSound(){
@@ -3777,59 +4056,58 @@ document.addEventListener('click',e=>{
 ════════════════════════════════════════════════════════════ */
 const LOFI=(()=>{
   /* ── Constantes temporais ── */
-  const BPM=82, BEAT=60/BPM, S16=BEAT/4;   // duração de 1 semicolcheia (s)
-  const SWING=0.052;                         // deslocamento swing (off-beats)
-  const STEPS=16, BARS=16;                   // 16 compassos por loop
-  const LOOKAHEAD=0.30, TICK=85;             // agendamento antecipado
+  const BPM=88, BEAT=60/BPM, S16=BEAT/4;    // BPM aumentado para 88 — mais fluído
+  const SWING=0.048;                          // swing suave
+  const STEPS=16, BARS=16;
+  const LOOKAHEAD=0.30, TICK=85;
 
   /* ── Helpers de frequência ── */
   const hz=(m,c=0)=>440*Math.pow(2,(m-69+c/100)/12);
   const jit=(a)=>(Math.random()*2-1)*a;
 
-  /* ── Progressão harmônica (MIDI).  r=raiz do baixo, n=vozes do pad ── */
+  /* ── Progressão harmônica (MIDI) — tons mais médios ── */
   const CHORDS=[
-    {r:48, n:[60,63,67,70]},  // Cm7  — C4 Eb4 G4 Bb4
-    {r:53, n:[65,68,72,75]},  // Fm7  — F4 Ab4 C5 Eb5
-    {r:51, n:[63,67,70,74]},  // EbM7 — Eb4 G4 Bb4 D5
-    {r:58, n:[70,74,77,80]},  // Bb7  — Bb4 D5 F5 Ab5
+    {r:48, n:[60,63,67,70]},  // Cm7
+    {r:53, n:[65,68,72,75]},  // Fm7
+    {r:51, n:[63,67,70,74]},  // EbM7
+    {r:58, n:[70,74,77,80]},  // Bb7
   ];
 
-  /* ── Escala pentatônica menor de C (3 oitavas) ── */
-  const PENTA=[36,39,41,43,46, 48,51,53,55,58, 60,63,65,67,70];
+  /* ── Escala pentatônica menor de C — apenas 2 oitavas médias ── */
+  const PENTA=[48,51,53,55,58, 60,63,65,67,70];
 
-  /* ── Padrões de bateria (1=toca, 0=silêncio) ── */
-  const KP=[ // kick
+  /* ── Padrões de bateria ── */
+  const KP=[
     [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
     [1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0],
     [1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0],
     [1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0],
   ];
-  const HP=[ // hi-hat
+  const HP=[
     [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
     [1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,0],
     [1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0],
     [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1],
   ];
-  /* ── Padrões de baixo: [step, semitonsDesdeRaiz] ── */
   const BP=[
     [[0,0],[8,0],[12,7]],
     [[0,0],[5,0],[8,0],[14,5]],
     [[0,0],[4,7],[8,0],[12,7],[14,0]],
     [[0,0],[6,5],[8,0],[10,0],[14,7]],
   ];
-  /* ── Melodia esparsa: bar%8 → [[step, idxPenta, durEmSteps]] ── */
+  /* ── Melodia esparsa — índices dentro do PENTA reduzido (0-9) ── */
   const MP={
-    1:[[0,9,4],[8,11,4],[12,10,3]],
-    3:[[2,12,3],[6,11,2],[10,13,4]],
-    5:[[0,9,2],[4,10,2],[8,12,4]],
-    7:[[0,14,3],[4,13,2],[8,11,3],[14,9,2]],
+    1:[[0,4,3],[8,6,3],[12,5,2]],
+    3:[[2,7,2],[6,6,2],[10,8,3]],
+    5:[[0,4,2],[4,5,2],[8,7,3]],
+    7:[[0,9,2],[4,8,2],[8,6,3],[14,4,2]],
   };
 
   /* ── Estado interno ── */
   let ctx,mGain,lpF,cmpN,noiseN,wobbleN,schedT;
   let nxt=0,step=0,kp=0,hp=0,bp=0;
 
-  /* ── Gerador de ruído rosa (simulação de vinil) ── */
+  /* ── Ruído rosa (vinil) ── */
   function mkPinkNoise(){
     const len=ctx.sampleRate*5;
     const buf=ctx.createBuffer(1,len,ctx.sampleRate);
@@ -3845,102 +4123,102 @@ const LOFI=(()=>{
     return buf;
   }
 
-  /* ── Waveshaper para saturação suave ── */
-  function softClip(amt=2.2){
+  function softClip(amt=2.0){
     const n=256,c=new Float32Array(n);
     for(let i=0;i<n;i++){const x=i*2/n-1;c[i]=(Math.PI+amt)*x/(Math.PI+amt*Math.abs(x));}
     return c;
   }
 
-  /* ── Filtro rápido ── */
   function flt(type,freq,q=1){
     const f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;return f;
   }
 
   /* ══ INSTRUMENTOS ════════════════════════════════════════ */
 
-  function kick(t,v=.70){
-    // Corpo: oscillador com sweep de frequência 155→40 Hz
+  function kick(t,v=.65){
     const o=ctx.createOscillator(),ws=ctx.createWaveShaper(),g=ctx.createGain();
-    ws.curve=softClip(2.4); o.connect(ws);ws.connect(g);g.connect(mGain);
+    ws.curve=softClip(2.2); o.connect(ws);ws.connect(g);g.connect(mGain);
     o.type='sine';
-    o.frequency.setValueAtTime(155,t);
-    o.frequency.exponentialRampToValueAtTime(42,t+.075);
-    o.frequency.exponentialRampToValueAtTime(39,t+.30);
-    g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.001,t+.46);
-    o.start(t); o.stop(t+.52);
-    // Transiente de ataque (click)
+    o.frequency.setValueAtTime(148,t);
+    o.frequency.exponentialRampToValueAtTime(42,t+.072);
+    o.frequency.exponentialRampToValueAtTime(39,t+.28);
+    g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.001,t+.42);
+    o.start(t); o.stop(t+.48);
     const oc=ctx.createOscillator(),gc=ctx.createGain();
     oc.connect(gc); gc.connect(mGain);
-    oc.type='sine'; oc.frequency.setValueAtTime(720,t); oc.frequency.exponentialRampToValueAtTime(75,t+.016);
-    gc.gain.setValueAtTime(v*.26,t); gc.gain.exponentialRampToValueAtTime(.001,t+.018);
+    oc.type='sine'; oc.frequency.setValueAtTime(680,t); oc.frequency.exponentialRampToValueAtTime(72,t+.016);
+    gc.gain.setValueAtTime(v*.22,t); gc.gain.exponentialRampToValueAtTime(.001,t+.018);
     oc.start(t); oc.stop(t+.022);
   }
 
-  function snare(t,v=.29){
-    // Ruído filtrado
-    const bufN=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.22),ctx.sampleRate);
+  function snare(t,v=.22){
+    // Ruído filtrado — mais curto e menos agudo
+    const bufN=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.18),ctx.sampleRate);
     const dn=bufN.getChannelData(0); for(let i=0;i<dn.length;i++)dn[i]=Math.random()*2-1;
     const sn=ctx.createBufferSource(); sn.buffer=bufN;
-    const hpN=flt('highpass',2100),gn=ctx.createGain();
-    sn.connect(hpN); hpN.connect(gn); gn.connect(mGain);
-    gn.gain.setValueAtTime(v,t); gn.gain.exponentialRampToValueAtTime(.001,t+.17);
-    sn.start(t); sn.stop(t+.22);
+    const hpN=flt('highpass',1800),lpN=flt('lowpass',6000),gn=ctx.createGain();
+    sn.connect(hpN); hpN.connect(lpN); lpN.connect(gn); gn.connect(mGain);
+    gn.gain.setValueAtTime(v,t); gn.gain.exponentialRampToValueAtTime(.001,t+.14);
+    sn.start(t); sn.stop(t+.18);
     // Tom corporal suave
     const o=ctx.createOscillator(),go=ctx.createGain();
     o.connect(go); go.connect(mGain);
-    o.type='triangle'; o.frequency.setValueAtTime(188,t); o.frequency.exponentialRampToValueAtTime(70,t+.095);
-    go.gain.setValueAtTime(v*.32,t); go.gain.exponentialRampToValueAtTime(.001,t+.13);
-    o.start(t); o.stop(t+.15);
+    o.type='sine'; o.frequency.setValueAtTime(175,t); o.frequency.exponentialRampToValueAtTime(65,t+.08);
+    go.gain.setValueAtTime(v*.28,t); go.gain.exponentialRampToValueAtTime(.001,t+.10);
+    o.start(t); o.stop(t+.12);
   }
 
-  function hihat(t,v=.13,open=false){
-    const dur=open?.16:.054;
-    const bufH=ctx.createBuffer(1,Math.floor(ctx.sampleRate*(open?.22:.09)),ctx.sampleRate);
+  function hihat(t,v=.07,open=false){
+    // Volume e brilho reduzidos — menos estridente
+    const dur=open?.12:.042;
+    const bufH=ctx.createBuffer(1,Math.floor(ctx.sampleRate*(open?.18:.07)),ctx.sampleRate);
     const dh=bufH.getChannelData(0); for(let i=0;i<dh.length;i++)dh[i]=Math.random()*2-1;
     const sh=ctx.createBufferSource(); sh.buffer=bufH;
-    const h1=flt('highpass',7500),b1=flt('bandpass',10500,.85),gh=ctx.createGain();
+    const h1=flt('highpass',6000),b1=flt('bandpass',8500,.7),gh=ctx.createGain();
     sh.connect(h1); h1.connect(b1); b1.connect(gh); gh.connect(mGain);
     gh.gain.setValueAtTime(v,t); gh.gain.exponentialRampToValueAtTime(.001,t+dur);
-    sh.start(t); sh.stop(t+dur+.012);
+    sh.start(t); sh.stop(t+dur+.01);
   }
 
-  function bassNote(t,midi,dur,v=.19){
-    const f=hz(midi,-12); // levemente desafinado (lo-fi)
+  function bassNote(t,midi,dur,v=.17){
+    const f=hz(midi,-10);
     const o1=ctx.createOscillator(),o2=ctx.createOscillator();
-    const lf=flt('lowpass',370),g=ctx.createGain();
+    const lf=flt('lowpass',320),g=ctx.createGain();
     o1.connect(lf); o2.connect(lf); lf.connect(g); g.connect(mGain);
     o1.type='sawtooth'; o2.type='sine';
     o1.frequency.value=f; o2.frequency.value=f;
-    const atk=.012,rel=Math.min(.09,dur*.28);
+    const atk=.014,rel=Math.min(.08,dur*.25);
     g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+atk);
     g.gain.setValueAtTime(v,t+dur-rel); g.gain.exponentialRampToValueAtTime(.001,t+dur);
-    o1.start(t); o1.stop(t+dur+.06); o2.start(t); o2.stop(t+dur+.06);
+    o1.start(t); o1.stop(t+dur+.05); o2.start(t); o2.stop(t+dur+.05);
   }
 
-  function chordPad(t,ch,dur,v=.058){
+  function chordPad(t,ch,dur,v=.044){
+    // Todas as vozes em 'sine' — sem triangle que adiciona harmônicos agudos
     ch.n.forEach((midi,i)=>{
-      const det=jit(5); // leve variação de afinação (lo-fi)
-      const o=ctx.createOscillator(),lf=flt('lowpass',2600),g=ctx.createGain();
+      const det=jit(4);
+      const o=ctx.createOscillator(),lf=flt('lowpass',1800),g=ctx.createGain();
       o.connect(lf); lf.connect(g); g.connect(mGain);
-      o.type=i===0?'sine':'triangle'; o.frequency.value=hz(midi,det);
-      const stg=i*.024,atk=.09+stg,rel=.38;
+      o.type='sine'; o.frequency.value=hz(midi,det);
+      const stg=i*.028,atk=.12+stg,rel=.44;
       g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+atk);
-      g.gain.setValueAtTime(v,t+dur-rel); g.gain.exponentialRampToValueAtTime(.001,t+dur);
-      o.start(t); o.stop(t+dur+.14);
+      g.gain.setValueAtTime(v*.85,t+dur-rel); g.gain.exponentialRampToValueAtTime(.001,t+dur);
+      o.start(t); o.stop(t+dur+.10);
     });
   }
 
-  function melodyNote(t,midi,dur,v=.048){
-    const o=ctx.createOscillator(),lf=flt('lowpass',1700),g=ctx.createGain();
+  function melodyNote(t,midi,dur,v=.034){
+    // Vibrato muito mais suave; sem transposição de oitava; nota mais curta
+    const o=ctx.createOscillator(),lf=flt('lowpass',1400),g=ctx.createGain();
     const vib=ctx.createOscillator(),vibG=ctx.createGain();
-    vib.connect(vibG); vibG.connect(o.frequency); // vibrato via modulação
+    vib.connect(vibG); vibG.connect(o.frequency);
     o.connect(lf); lf.connect(g); g.connect(mGain);
-    o.type='sine'; o.frequency.value=hz(midi+12); // oitava acima da pentatônica
-    vib.type='sine'; vib.frequency.value=4.6; vibG.gain.value=2.8;
-    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+.065);
-    g.gain.setValueAtTime(v*.72,t+.09); g.gain.exponentialRampToValueAtTime(.001,t+dur);
-    o.start(t); vib.start(t); o.stop(t+dur+.1); vib.stop(t+dur+.1);
+    o.type='sine'; o.frequency.value=hz(midi); // sem oitava extra
+    vib.type='sine'; vib.frequency.value=3.8; vibG.gain.value=1.2; // vibrato gentil
+    const noteDur=Math.min(dur, S16*3.5);       // limita duração máxima
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+.055);
+    g.gain.setValueAtTime(v*.65,t+.08); g.gain.exponentialRampToValueAtTime(.001,t+noteDur);
+    o.start(t); vib.start(t); o.stop(t+noteDur+.06); vib.stop(t+noteDur+.06);
   }
 
   /* ══ SCHEDULER ════════════════════════════════════════════ */
@@ -3948,11 +4226,10 @@ const LOFI=(()=>{
   function schedStep(s,t){
     const bar=Math.floor(s/STEPS)%BARS;
     const beat=s%STEPS;
-    const T=t+(beat%2===1?SWING:0); // swing nos off-beats
+    const T=t+(beat%2===1?SWING:0);
     const chIdx=Math.floor(bar/4)%4;
     const ch=CHORDS[chIdx];
 
-    /* Variação de padrão a cada 4 e 8 compassos */
     if(beat===0){
       if(bar%8===0){
         kp=(kp+1+Math.floor(Math.random()*2))%KP.length;
@@ -3960,7 +4237,7 @@ const LOFI=(()=>{
         bp=(bp+1+Math.floor(Math.random()*2))%BP.length;
       } else if(bar%4===0&&Math.random()<.6){
         hp=(hp+1)%HP.length;
-      } else if(bar%2===0&&Math.random()<.25){
+      } else if(bar%2===0&&Math.random()<.22){
         if(Math.random()<.5) kp=(kp+1)%KP.length;
         else hp=(hp+1)%HP.length;
       }
@@ -3968,28 +4245,19 @@ const LOFI=(()=>{
 
     /* KICK */
     if(KP[kp][beat]){
-      const kv=beat===0?.73:.60+Math.random()*.12;
-      kick(T+jit(.005),kv);
+      kick(T+jit(.005), beat===0?.68:.56+Math.random()*.10);
     }
 
-    /* SNARE — steps 4 e 12 (tempos 2 e 4) */
+    /* SNARE */
     if(beat===4||beat===12){
-      snare(T+jit(.006),.28+Math.random()*.05);
-      if(Math.random()<.20) snare(T+S16*.5,.08); // ghost note
-    }
-    /* Rimshot ocasional no final do compasso */
-    if(beat===15&&Math.random()<.14){
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g); g.connect(mGain);
-      o.type='square'; o.frequency.value=1150;
-      g.gain.setValueAtTime(.08,T); g.gain.exponentialRampToValueAtTime(.001,T+.035);
-      o.start(T); o.stop(T+.04);
+      snare(T+jit(.006),.22+Math.random()*.04);
+      if(Math.random()<.15) snare(T+S16*.5,.06); // ghost note mais raro e quieto
     }
 
-    /* HI-HAT */
+    /* HI-HAT — volume base mais baixo */
     if(HP[hp][beat]){
-      const isOpen=beat===10&&Math.random()<.24;
-      const hv=(beat%4===0?.17:.10)+Math.random()*.035;
+      const isOpen=beat===10&&Math.random()<.18;
+      const hv=(beat%4===0?.09:.06)+Math.random()*.02;
       hihat(T+jit(.007),hv,isOpen);
     }
 
@@ -3998,20 +4266,20 @@ const LOFI=(()=>{
       if(beat===bs){
         const next=BP[bp].find(([x])=>x>bs);
         const nextS=next?next[0]:STEPS;
-        const dur=Math.max((nextS-bs)*S16*.80,S16*.5);
-        bassNote(T+jit(.004),ch.r+semi,dur,.18);
+        const dur=Math.max((nextS-bs)*S16*.78,S16*.45);
+        bassNote(T+jit(.004),ch.r+semi,dur,.17);
       }
     });
 
-    /* PAD DE ACORDES — uma vez por compasso + re-strum opcional */
-    if(beat===0) chordPad(T,ch,BEAT*4,.058);
-    if(beat===8&&Math.random()<.35) chordPad(T,ch,BEAT*2,.040);
+    /* PAD */
+    if(beat===0) chordPad(T,ch,BEAT*4,.044);
+    if(beat===8&&Math.random()<.30) chordPad(T,ch,BEAT*2,.030);
 
-    /* MELODIA ESPARSA */
+    /* MELODIA — só aparece 50% dos compassos elegíveis */
     const mp=MP[bar%8];
-    if(mp) mp.forEach(([ms,pi,ds])=>{
+    if(mp&&Math.random()<.50) mp.forEach(([ms,pi,ds])=>{
       if(beat===ms){
-        melodyNote(T+jit(.008),PENTA[Math.min(pi,PENTA.length-1)],ds*S16*.82,.050);
+        melodyNote(T+jit(.007),PENTA[Math.min(pi,PENTA.length-1)],ds*S16*.75,.034);
       }
     });
   }
@@ -4029,35 +4297,34 @@ const LOFI=(()=>{
   return{
     start(){
       if(schedT) return;
-      /* Reutiliza o AudioContext dos SFX se já existir */
       if(!_actx) _actx=new(window.AudioContext||window.webkitAudioContext)();
       if(_actx.state==='suspended') _actx.resume();
       ctx=_actx;
 
-      /* Cadeia de efeitos: mGain → LP (lo-fi) → Compressor → saída */
+      /* Cadeia: mGain → LP 3800 Hz (corta agudos duros) → Compressor → saída */
       mGain=ctx.createGain(); mGain.gain.value=0;
-      lpF=ctx.createBiquadFilter(); lpF.type='lowpass'; lpF.frequency.value=5100; lpF.Q.value=.65;
+      lpF=ctx.createBiquadFilter(); lpF.type='lowpass'; lpF.frequency.value=3800; lpF.Q.value=.55;
       cmpN=ctx.createDynamicsCompressor();
-      cmpN.threshold.value=-15; cmpN.knee.value=14;
-      cmpN.ratio.value=4; cmpN.attack.value=.004; cmpN.release.value=.18;
+      cmpN.threshold.value=-18; cmpN.knee.value=16;
+      cmpN.ratio.value=3.5; cmpN.attack.value=.005; cmpN.release.value=.22;
       mGain.connect(lpF); lpF.connect(cmpN); cmpN.connect(ctx.destination);
 
-      /* Ruído de vinil (pink noise, muito sutil) */
+      /* Ruído de vinil — ainda mais sutil */
       const nb=mkPinkNoise();
       const ns=ctx.createBufferSource(); ns.buffer=nb; ns.loop=true;
-      const nlp=flt('lowpass',1600); const ng=ctx.createGain(); ng.gain.value=.014;
+      const nlp=flt('lowpass',1200); const ng=ctx.createGain(); ng.gain.value=.009;
       ns.connect(nlp); nlp.connect(ng); ng.connect(mGain);
       ns.start(); noiseN=ns;
 
-      /* Wobble leve — oscilação de volume (~0.12 Hz) */
+      /* Wobble leve */
       const wob=ctx.createOscillator(); const wobG=ctx.createGain();
-      wob.type='sine'; wob.frequency.value=.12; wobG.gain.value=.018;
+      wob.type='sine'; wob.frequency.value=.10; wobG.gain.value=.014;
       wob.connect(wobG); wobG.connect(mGain.gain);
       wob.start(); wobbleN=wob;
 
-      /* Fade-in suave (2 s) */
+      /* Fade-in mais lento (3 s) — entrada mais suave */
       mGain.gain.setValueAtTime(0,ctx.currentTime);
-      mGain.gain.linearRampToValueAtTime(.78,ctx.currentTime+2.0);
+      mGain.gain.linearRampToValueAtTime(.62,ctx.currentTime+3.0);
 
       nxt=ctx.currentTime+.06; step=0;
       schedT=setInterval(tick,TICK);
@@ -4156,13 +4423,13 @@ const MODE_INFO={
   normal:{icon:'📝',title:'Modo Normal',color:'#5b9cf6',
     pedagogy:'Ideal para o primeiro contato com o conteúdo. Você tem duas tentativas por questão, com uma dica antes da segunda chance. O Treino Inteligente opcional adapta as questões aos seus pontos fracos.',
     flow:['Escolha os temas que quer praticar','60 segundos por pergunta','2 tentativas — dica aparece na primeira tentativa errada','Treino Inteligente: reforça os temas onde você mais errou','Explicação completa após cada questão']},
-  sprint:{icon:'🏃',title:'Modo Sprint',color:'#a78bfa',
+  sprint:{icon:'🏃',title:'Modo Sprint',color:'#f97316',
     pedagogy:'Treina fluência de recuperação: responder certo e rápido. Ideal para revisão rápida antes de provas. A curta duração torna fácil encaixar em qualquer momento do dia.',
     flow:['10 questões aleatórias de todo o banco','2 minutos para responder todas','Você controla o ritmo entre as questões','1 tentativa por questão','Resultado aparece no ranking Sprint']},
   survival:{icon:'💀',title:'Modo Sobrevivência',color:'#ff6b6b',
     pedagogy:'Simula a tomada de decisão sob pressão real, sem relógio e sem segunda chance. Treina resistência ao erro e atenção plena. Cada falha tem consequência imediata.',
     flow:['3 vidas no total','1 tentativa por questão — erre e perde uma vida','Sem limite de tempo por questão','Quanto mais questões, melhor o resultado','Resultado aparece no ranking Sobrevivência']},
-  study:{icon:'🃏',title:'Flashcards',color:'#06b6d4',
+  study:{icon:'🃏',title:'Flashcards',color:'#a78bfa',
     pedagogy:'Recordação ativa: escreva a resposta antes de ver o gabarito. Comprovadamente mais eficaz do que reler. Criar seus próprios cards ativa os níveis mais profundos do aprendizado.',
     flow:['Cartões organizados por tema','Escreva sua resposta antes de virar','Compare com a resposta de referência','Marque como Entendido para rastrear seu progresso','Crie seus próprios cards em Meus Flashcards']},
   ranking:{icon:'🏆',title:'Ranking da Turma',color:'#eab308',
@@ -4205,6 +4472,47 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModeInfo();});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('setup-screen').classList.contains('active'))startQuiz();});
 authInit();
 /* Duel banner movido para hub de desempenho — sem restore na home */
+
+/* ════════════════════════════════════════════════════
+   EASTER EGG — 7 cliques no logo SCI
+════════════════════════════════════════════════════ */
+const _BETA_TESTERS=[
+  'Adriele L. de Paula',
+  'Dandara B. Vanot',
+  'Ketlyn C. G. Dos Reis',
+  'Larissa C. Colla',
+  'Letícia C. Gonçalves',
+  'Maria V. M. G. do Nascimento',
+  'Ygor M. G. Bariviera',
+];
+let _logoClickCount=0;
+let _logoClickTimer=null;
+function _logoClick(){
+  _logoClickCount++;
+  clearTimeout(_logoClickTimer);
+  _logoClickTimer=setTimeout(()=>{_logoClickCount=0;},1800);
+  if(_logoClickCount>=7){
+    _logoClickCount=0;
+    clearTimeout(_logoClickTimer);
+    openEasterEgg();
+  }
+}
+function openEasterEgg(){
+  const list=document.getElementById('beta-testers-list');
+  if(list){
+    list.innerHTML=_BETA_TESTERS.map((name,i)=>`
+      <div style="display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:9px 13px">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:'Syne',sans-serif">${i+1}</div>
+        <span style="font-size:13px;font-weight:500">${name}</span>
+      </div>`).join('');
+  }
+  const ov=document.getElementById('easter-egg-overlay');
+  if(ov){ov.style.display='flex';document.body.style.overflow='hidden';}
+}
+function closeEasterEgg(){
+  const ov=document.getElementById('easter-egg-overlay');
+  if(ov){ov.style.display='none';document.body.style.overflow='';}
+}
 requestAnimationFrame(initAuthParticles);
 
 /* ════════════════════════════════════════════════════
@@ -5730,6 +6038,7 @@ async function showDuelLeaderboard(duelId){
     });
 
     const myPos=entries.findIndex(e=>e.nickname===nickname)+1;
+    if(myPos===1)unlockAch('duel_win');
     if(myPos>0){
       document.getElementById('duel-lb-subtitle').textContent=
         `Você está em ${myPos}º lugar · ${entries.length} participante${entries.length!==1?'s':''}`;
