@@ -551,6 +551,17 @@ body.light-mode.hub-config{
   --hub-glow1:rgba(148,163,184,0.24);--hub-glow2:rgba(100,116,139,0.16);
 }
 body.light-mode.hub-config .bottom-nav{border-top-color:rgba(148,163,184,0.32)}
+/* ── Hub: Duelo — Ciano (desafio, rivalidade, tecnologia) ── */
+body.hub-duel{
+  --accent:#06b6d4;--accent-dim:rgba(6,182,212,0.09);--accent-border:rgba(6,182,212,0.30);
+  --hub-glow1:rgba(6,182,212,0.16);--hub-glow2:rgba(14,165,233,0.08);
+}
+body.hub-duel .bottom-nav{border-top-color:rgba(6,182,212,0.22)}
+body.light-mode.hub-duel{
+  --accent:#06b6d4;--accent-dim:rgba(6,182,212,0.18);--accent-border:rgba(6,182,212,0.38);
+  --hub-glow1:rgba(6,182,212,0.28);--hub-glow2:rgba(14,165,233,0.16);
+}
+body.light-mode.hub-duel .bottom-nav{border-top-color:rgba(6,182,212,0.38)}
 
 /* ── Hero title: gradiente verde-brilhante → ciano ── */
 body.light-mode .hero-title{
@@ -844,8 +855,11 @@ body.light-mode ::-webkit-scrollbar-track{background:var(--s3)}
 .map-theme-arrow{font-size:18px;color:var(--muted)}
 .map-back-bar{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
 .map-breadcrumb{font-size:13px;font-weight:500;color:var(--muted2)}
-.map-concept-list{display:flex;flex-direction:column;gap:8px;margin-bottom:0.5rem}
-.map-concept-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px 15px;cursor:pointer;transition:all 0.13s;display:flex;align-items:flex-start;gap:12px}
+.map-concept-list{display:flex;flex-direction:column;gap:0;margin-bottom:0.5rem;border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden}
+.map-concept-card{background:var(--s1);border:none;border-bottom:1px solid var(--border2);border-radius:0;padding:13px 15px;cursor:pointer;transition:all 0.13s;display:flex;align-items:flex-start;gap:12px}
+.map-concept-card:last-child{border-bottom:none}
+.map-concept-card:first-child{border-radius:var(--r-sm) var(--r-sm) 0 0}
+.map-concept-card:last-child{border-radius:0 0 var(--r-sm) var(--r-sm)}
 .map-concept-card:hover{background:var(--s2);border-color:var(--border3)}
 .map-concept-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .map-concept-body{flex:1}
@@ -979,6 +993,27 @@ body.light-mode ::-webkit-scrollbar-track{background:var(--s3)}
   border-radius:50%;background:#fff;transition:transform 0.2s;
 }
 .config-toggle.on::after{transform:translateX(18px)}
+/* ── Volume slider ── */
+.vol-row{cursor:default}
+.vol-row:hover{border-color:var(--border2)}
+.vol-slider-wrap{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px}
+.vol-slider{
+  -webkit-appearance:none;appearance:none;
+  flex:1;height:4px;border-radius:2px;outline:none;cursor:pointer;
+  background:linear-gradient(to right,var(--accent) 0%,var(--accent) var(--vol-pct,70%),var(--s3) var(--vol-pct,70%),var(--s3) 100%);
+  transition:background 0.08s;
+}
+.vol-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:16px;height:16px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 3px rgba(61,214,140,0.20);cursor:pointer;transition:transform 0.1s;
+}
+.vol-slider::-webkit-slider-thumb:hover{transform:scale(1.18)}
+.vol-slider::-moz-range-thumb{
+  width:16px;height:16px;border-radius:50%;background:var(--accent);
+  border:none;cursor:pointer;
+}
+.vol-label{font-size:12px;font-weight:600;color:var(--accent);min-width:34px;text-align:right;font-family:'Syne',sans-serif}
 .credits-card{
   background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);
   padding:18px 16px;
@@ -1710,6 +1745,23 @@ body{padding-bottom:7rem!important}
         </div>
         <div class="config-toggle" id="cfg-music-toggle"></div>
       </div>
+      <div class="config-row vol-row" style="flex-direction:column;align-items:flex-start;cursor:default" onclick="event.stopPropagation()">
+        <div style="display:flex;align-items:center;gap:11px;width:100%">
+          <div class="config-row-icon">🔈</div>
+          <div class="config-row-body">
+            <div class="config-row-title">Volume da Música</div>
+            <div class="config-row-sub">Arraste para ajustar o volume da trilha</div>
+          </div>
+        </div>
+        <div class="vol-slider-wrap">
+          <input type="range" class="vol-slider" id="cfg-vol-slider"
+            min="0" max="100" value="60" step="1"
+            oninput="setMusicVolume(this.value)"
+            onclick="event.stopPropagation()"
+            style="--vol-pct:60%">
+          <span class="vol-label" id="cfg-vol-label">60%</span>
+        </div>
+      </div>
     </div>
     <div class="config-section">
       <div class="config-section-label">Aparência</div>
@@ -1971,6 +2023,15 @@ function loadSession(){
 function clearSession(){
   localStorage.removeItem('sc1_session');
   currentUser=null; userDataCache={};
+  /* ── Remover imediatamente todo rastro do modo QA/Admin ── */
+  if(isAdminUser){
+    isAdminUser=false;
+    adminActive=false;
+    _qaOpen=false;
+    document.getElementById('qa-panel')?.remove();
+    document.getElementById('qa-panel-style')?.remove();
+    document.getElementById('qa-admin-badge')?.remove();
+  }
 }
 
 /* ─── Password hashing (SHA-256, Web Crypto) ─── */
@@ -2475,6 +2536,11 @@ function _syncConfigScreen(){
   if(mi)mi.textContent=musicOn?'🔊':'🎵';
   if(nt)nt.classList.toggle('on',_notifEnabled);
   if(ul&&currentUser)ul.textContent='Conectado como @'+currentUser.nickname;
+  /* sync volume slider */
+  const slider=document.getElementById('cfg-vol-slider');
+  const label=document.getElementById('cfg-vol-label');
+  if(slider){slider.value=_musicVolPct;slider.style.setProperty('--vol-pct',_musicVolPct+'%');}
+  if(label)label.textContent=_musicVolPct+'%';
 }
 /* ── Hub routing: screen → hub class ── */
 const _HUB_MAP={
@@ -2485,6 +2551,7 @@ const _HUB_MAP={
   'desempenho-screen':'hub-desemp','ranking-screen':'hub-desemp',
   'ach-screen':'hub-desemp','evo-screen':'hub-desemp',
   'config-screen':'hub-config',
+  'duel-setup-screen':'hub-duel','duel-id-screen':'hub-duel','duel-leaderboard-screen':'hub-duel',
 };
 const _HUB_META={
   'hub-home':{icon:'🦷',label:'Início',show:false},
@@ -2492,6 +2559,7 @@ const _HUB_META={
   'hub-estudo':{icon:'📚',label:'Estudo',show:true},
   'hub-desemp':{icon:'🏆',label:'Desempenho',show:true},
   'hub-config':{icon:'⚙️',label:'Config',show:true},
+  'hub-duel':{icon:'⚔️',label:'Duelo',show:true},
 };
 function _applyHub(hub){
   const prev=[...document.body.classList].find(c=>c.startsWith('hub-'));
@@ -2523,6 +2591,10 @@ function showScreen(id){
   _syncBottomNav(id);
   if(id==='config-screen')_syncConfigScreen();
   _applyHub(_HUB_MAP[id]||'hub-home');
+  /* ── Música adaptativa por tela ── */
+  if(musicOn&&_MUSIC_SCREEN_MAP[id]&&id!=='quiz-screen'){
+    setMusicState(_MUSIC_SCREEN_MAP[id],1.2);
+  }
 }
 function goBack(){showScreen(prevScreen);}
 function goHome(){
@@ -2676,6 +2748,9 @@ function _startQuizInternal(mode){
   score=0;correctFirst=0;correctSecond=0;current=0;log=[];streak=0;maxStreak=0;lives=SURVIVAL_LIVES;
   lastSmartExtra=[];smartBaseCount=0;inSmartExtra=false;
   modesPlayed.add(mode);
+  /* ── Estado musical por modo de jogo ── */
+  const _modeMusic={ranked:'ranked',sprint:'sprint',survival:'survival',normal:'menu',simulado:'study',duel:'ranked'};
+  setMusicState(_modeMusic[mode]||'menu',0.9);
 
   let pool;
   if(mode==='ranked'){
@@ -2779,6 +2854,7 @@ function _startQuizInternal(mode){
     sprintTimerInterval=setInterval(()=>{
       sprintTimer--;
       updateSprintTimer();
+      if(sprintTimer===15) triggerMusicEvent('time_low');
       if(sprintTimer<=0){clearInterval(sprintTimerInterval);timeExpired();}
     },1000);
   }
@@ -2855,7 +2931,12 @@ function loadQuestion(){
 
 function startTimer(){
   clearInterval(timerInterval);timeLeft=getTimer();updateTimer();
-  timerInterval=setInterval(()=>{timeLeft--;updateTimer();if(timeLeft<=0){clearInterval(timerInterval);timeExpired();}},1000);
+  timerInterval=setInterval(()=>{
+    timeLeft--;updateTimer();
+    if(timeLeft===10) triggerMusicEvent('time_low');
+    if(timeLeft===0) triggerMusicEvent('time_ok');
+    if(timeLeft<=0){clearInterval(timerInterval);timeExpired();}
+  },1000);
 }
 function updateTimer(){
   const f=document.getElementById('timer-fill');
@@ -2943,9 +3024,12 @@ function selectOption(idx){
     updateStreakUI();
     if(streak>=3)unlockAch('streak_3');
     if(streak>=10)unlockAch('streak_10');
+    if(streak===3||streak===5||streak===10) triggerMusicEvent('streak');
   }else{
     btns[idx].classList.add('wrong');btns[idx].disabled=true;
+    const prevStreak=streak;
     streak=0;updateStreakUI();
+    if(prevStreak>=3) triggerMusicEvent('streak_end');
 
     /* ── DUEL: check config for lives or single-attempt behavior ── */
     const isDuelLives=currentMode==='duel'&&currentDuelConfig&&currentDuelConfig.lives;
@@ -3006,6 +3090,7 @@ function selectOption(idx){
 /* ─── NEXT QUESTION ─── */
 function nextQuestion(){
   current++;
+  triggerMusicEvent('time_ok'); /* reset tensão ao avançar questão */
 
   // Smart Training: when base phase ends, calculate and inject extras
   if(smartActive&&smartBaseCount>0&&!inSmartExtra&&current===smartBaseCount){
@@ -3091,6 +3176,7 @@ function showResult(){
   if(['ranked','normal','sprint','survival','simulado','duel'].every(m=>modesPlayed.has(m)))unlockAch('all_modes');
   else if(modesPlayed.size>=4)unlockAch('all_modes');
   renderResult(data);showScreen('result-screen');checkLastResultBanner();_refreshDuelQuickBanner();
+  triggerMusicEvent('results');
 }
 
 function renderResult(data){
@@ -3886,14 +3972,16 @@ achObserver.observe(document.getElementById('ach-screen'),{attributeFilter:['cla
 /* ─── ADMIN MODE ─── */
 let adminActive=false;
 document.addEventListener('keydown',e=>{
+  if(!isAdminUser)return; /* X/Z exclusivos do admin QA */
   const s=document.querySelector('.screen.active')?.id;
   // Ctrl+Shift+X → random answers
   if(e.ctrlKey&&e.shiftKey&&(e.key==='X'||e.key==='x')){
     if(s!=='quiz-screen'||adminActive)return;
     adminActive=true;
     const toast=document.getElementById('admin-toast');
-    toast.textContent='🛠 Admin: respostas aleatórias…';
+    toast.textContent='🛠 QA: respostas aleatórias…';
     toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');adminActive=false;},3000);
+    _qaLog('⌨ Ctrl+Shift+X — respostas aleatórias');
     runAdminSimulation(false);
   }
   // Ctrl+Shift+Z → always correct answers (max score)
@@ -3901,8 +3989,9 @@ document.addEventListener('keydown',e=>{
     if(s!=='quiz-screen'||adminActive)return;
     adminActive=true;
     const toast=document.getElementById('admin-toast');
-    toast.textContent='🛠 Admin: respostas perfeitas…';
+    toast.textContent='🛠 QA: respostas perfeitas…';
     toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');adminActive=false;},3000);
+    _qaLog('⌨ Ctrl+Shift+Z — todas corretas');
     runAdminSimulation(true);
   }
 });
@@ -4011,10 +4100,12 @@ function sfxClick(){if(!soundOn)return;_tone(900,'sine',0.04,0.1);}
 function sfxCorrect(){
   if(!soundOn)return;
   _tone(523,'sine',0.12,0.2);_tone(659,'sine',0.12,0.2,0.1);_tone(784,'sine',0.18,0.22,0.22);
+  triggerMusicEvent('correct');
 }
 function sfxWrong(){
   if(!soundOn)return;
   _tone(220,'sawtooth',0.12,0.18);_tone(180,'sawtooth',0.14,0.15,0.13);
+  triggerMusicEvent('wrong');
 }
 function sfxTimeout(){
   if(!soundOn)return;
@@ -4023,11 +4114,13 @@ function sfxTimeout(){
 function sfxAchievement(){
   if(!soundOn)return;
   [523,659,784,1047].forEach((f,i)=>_tone(f,'sine',0.18,0.28,i*0.1));
+  triggerMusicEvent('achievement');
 }
 function sfxQuizEnd(good){
   if(!soundOn)return;
   if(good){[523,659,784,1047,1319].forEach((f,i)=>_tone(f,'sine',0.22,0.28,i*0.09));}
   else{_tone(440,'sine',0.3,0.2);_tone(392,'sine',0.3,0.18,0.28);}
+  triggerMusicEvent('finish');
 }
 
 /* ─── Ripple on click + SFX universal ─── */
@@ -4051,306 +4144,582 @@ document.addEventListener('click',e=>{
 });
 
 /* ════════════════════════════════════════════════════════════
-   LO-FI HIP-HOP ENGINE — 100% Web Audio API, zero assets
-   Progressão: Cm7 → Fm7 → EbMaj7 → Bb7  |  82 BPM  |  16 bars
+   SCI MUSIC ENGINE v2 — Sistema de Música Adaptativa
+   100% Web Audio API · Zero assets · Multi-layer
+   ────────────────────────────────────────────────────────────
+   Camadas: base · arpejo · beat · percussão · lead · tensão
+   Estados: home · menu · ranked · sprint · survival · study
+   Eventos: correct · wrong · streak · time_low · finish · achievement · results
 ════════════════════════════════════════════════════════════ */
-const LOFI=(()=>{
-  /* ── Constantes temporais ── */
-  const BPM=88, BEAT=60/BPM, S16=BEAT/4;    // BPM aumentado para 88 — mais fluído
-  const SWING=0.048;                          // swing suave
-  const STEPS=16, BARS=16;
-  const LOOKAHEAD=0.30, TICK=85;
+const SCI_MUSIC=(()=>{
 
-  /* ── Helpers de frequência ── */
+  /* ── Constantes globais ── */
+  let MASTER_VOL=1.60; /* padrão 60% — ajustável via setMusicVolume() */
+  const LOOKAHEAD=0.28;
+  const TICK_MS=80;
+  const STEPS=16;
+  const SWING=0.038;
+
+  /* ── Helpers ── */
   const hz=(m,c=0)=>440*Math.pow(2,(m-69+c/100)/12);
   const jit=(a)=>(Math.random()*2-1)*a;
+  const clamp=(v,mn,mx)=>Math.max(mn,Math.min(mx,v));
 
-  /* ── Progressão harmônica (MIDI) — tons mais médios ── */
+  /* ── Sistema harmônico: Lá menor · Am–F–C–G ── */
+  /* MIDI: cada acorde = {r: nota raiz do baixo, n: [notas do pad]} */
   const CHORDS=[
-    {r:48, n:[60,63,67,70]},  // Cm7
-    {r:53, n:[65,68,72,75]},  // Fm7
-    {r:51, n:[63,67,70,74]},  // EbM7
-    {r:58, n:[70,74,77,80]},  // Bb7
+    {r:45, n:[45,48,52,55]},   // Am7  (A-C-E-G)
+    {r:41, n:[41,45,48,53]},   // Fmaj7 (F-A-C-E)
+    {r:36, n:[36,40,43,47]},   // C    (C-E-G-B)
+    {r:43, n:[43,47,50,55]},   // G7   (G-B-D-G)
   ];
 
-  /* ── Escala pentatônica menor de C — apenas 2 oitavas médias ── */
-  const PENTA=[48,51,53,55,58, 60,63,65,67,70];
+  /* Arpejos por acorde — padrão ascendente/descendente */
+  const ARP=[
+    [45,48,52,55,52,48,45,48], // Am
+    [41,45,48,53,48,45,41,45], // F
+    [36,40,43,47,43,40,36,40], // C
+    [43,47,50,55,50,47,43,47], // G
+  ];
 
-  /* ── Padrões de bateria ── */
+  /* Escala de Lá menor — notas para o lead */
+  const LEAD_SCALE=[52,53,55,57,59,60,57,55,53,52,55,57,60,59,57,55];
+
+  /* ── Configuração dos estados ──
+     Cada propriedade de layer é um multiplicador [0-1]
+     que é aplicado sobre o volume base de cada camada. */
+  const STATES={
+    home:     {bpm:70,  base:0.90, arp:0.80, beat:0.00, perc:0.00, lead:0.22, tension:0.00},
+    menu:     {bpm:80,  base:1.00, arp:0.90, beat:0.28, perc:0.00, lead:0.32, tension:0.00},
+    ranked:   {bpm:92,  base:0.72, arp:0.28, beat:1.00, perc:0.90, lead:0.52, tension:0.00},
+    sprint:   {bpm:108, base:0.85, arp:0.80, beat:1.00, perc:1.00, lead:0.82, tension:0.00},
+    survival: {bpm:96,  base:0.28, arp:0.00, beat:1.00, perc:1.00, lead:0.00, tension:0.00},
+    study:    {bpm:65,  base:1.00, arp:0.68, beat:0.00, perc:0.00, lead:0.22, tension:0.00},
+  };
+
+  /* Volume máximo de cada camada no master (antes do multiplicador de estado) */
+  const LAYER_VOL={base:0.90, arp:0.85, beat:1.20, perc:1.10, lead:1.00, tension:0.85};
+
+  /* Padrões de bateria */
   const KP=[
     [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
     [1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0],
     [1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0],
-    [1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0],
+    [1,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0],
   ];
   const HP=[
     [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
     [1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,0],
     [1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0],
-    [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1],
+    [1,0,1,0,1,1,0,1,1,0,1,0,1,0,1,1],
   ];
-  const BP=[
-    [[0,0],[8,0],[12,7]],
-    [[0,0],[5,0],[8,0],[14,5]],
-    [[0,0],[4,7],[8,0],[12,7],[14,0]],
-    [[0,0],[6,5],[8,0],[10,0],[14,7]],
-  ];
-  /* ── Melodia esparsa — índices dentro do PENTA reduzido (0-9) ── */
-  const MP={
-    1:[[0,4,3],[8,6,3],[12,5,2]],
-    3:[[2,7,2],[6,6,2],[10,8,3]],
-    5:[[0,4,2],[4,5,2],[8,7,3]],
-    7:[[0,9,2],[4,8,2],[8,6,3],[14,4,2]],
-  };
 
   /* ── Estado interno ── */
-  let ctx,mGain,lpF,cmpN,noiseN,wobbleN,schedT;
-  let nxt=0,step=0,kp=0,hp=0,bp=0;
+  let ctx,masterGain,lpMain,cmpMain;
+  let layerG={};        // GainNodes por camada
+  let schedT=null;
+  let nxt=0,step=0;
+  let currentBPM=70, targetBPM=70;
+  let currentState='home';
+  let kpIdx=0,hpIdx=0,barCount=0;
+  let streakBars=0;    // compassos extras de boost por streak
+  let tensionOn=false;
 
-  /* ── Ruído rosa (vinil) ── */
-  function mkPinkNoise(){
-    const len=ctx.sampleRate*5;
-    const buf=ctx.createBuffer(1,len,ctx.sampleRate);
-    const d=buf.getChannelData(0);
-    let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
-    for(let i=0;i<len;i++){
-      const w=Math.random()*2-1;
-      b0=.99886*b0+w*.0555179; b1=.99332*b1+w*.0750759;
-      b2=.96900*b2+w*.1538520; b3=.86650*b3+w*.3104856;
-      b4=.55000*b4+w*.5329522; b5=-.7616*b5-w*.0168980;
-      d[i]=(b0+b1+b2+b3+b4+b5+b6+w*.5362)*.11; b6=w*.115926;
-    }
-    return buf;
+  /* ── Filtro helper ── */
+  function flt(type,freq,q=1){
+    const f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;return f;
   }
 
-  function softClip(amt=2.0){
+  /* ── Soft clip (wave shaper) ── */
+  function softClip(amt=2.2){
     const n=256,c=new Float32Array(n);
     for(let i=0;i<n;i++){const x=i*2/n-1;c[i]=(Math.PI+amt)*x/(Math.PI+amt*Math.abs(x));}
     return c;
   }
 
-  function flt(type,freq,q=1){
-    const f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;return f;
+  /* ── Nó de saída de uma camada (com guarda de ativação) ── */
+  function layerActive(name){
+    return layerG[name]&&layerG[name].gain.value>0.005;
   }
 
-  /* ══ INSTRUMENTOS ════════════════════════════════════════ */
+  /* ════ INSTRUMENTOS ════════════════════════════════════════ */
 
-  function kick(t,v=.65){
+  function kick(t,v=0.62){
+    if(!layerActive('beat'))return;
     const o=ctx.createOscillator(),ws=ctx.createWaveShaper(),g=ctx.createGain();
-    ws.curve=softClip(2.2); o.connect(ws);ws.connect(g);g.connect(mGain);
+    ws.curve=softClip(2.2);
+    o.connect(ws);ws.connect(g);g.connect(layerG.beat);
     o.type='sine';
-    o.frequency.setValueAtTime(148,t);
-    o.frequency.exponentialRampToValueAtTime(42,t+.072);
-    o.frequency.exponentialRampToValueAtTime(39,t+.28);
-    g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.001,t+.42);
-    o.start(t); o.stop(t+.48);
+    o.frequency.setValueAtTime(138,t);
+    o.frequency.exponentialRampToValueAtTime(42,t+0.075);
+    o.frequency.exponentialRampToValueAtTime(38,t+0.30);
+    g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.40);
+    o.start(t);o.stop(t+0.46);
+    /* sub-clique de ataque */
     const oc=ctx.createOscillator(),gc=ctx.createGain();
-    oc.connect(gc); gc.connect(mGain);
-    oc.type='sine'; oc.frequency.setValueAtTime(680,t); oc.frequency.exponentialRampToValueAtTime(72,t+.016);
-    gc.gain.setValueAtTime(v*.22,t); gc.gain.exponentialRampToValueAtTime(.001,t+.018);
-    oc.start(t); oc.stop(t+.022);
+    oc.connect(gc);gc.connect(layerG.beat);
+    oc.type='sine';oc.frequency.setValueAtTime(660,t);oc.frequency.exponentialRampToValueAtTime(68,t+0.016);
+    gc.gain.setValueAtTime(v*0.20,t);gc.gain.exponentialRampToValueAtTime(0.001,t+0.018);
+    oc.start(t);oc.stop(t+0.022);
   }
 
-  function snare(t,v=.22){
-    // Ruído filtrado — mais curto e menos agudo
-    const bufN=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.18),ctx.sampleRate);
-    const dn=bufN.getChannelData(0); for(let i=0;i<dn.length;i++)dn[i]=Math.random()*2-1;
-    const sn=ctx.createBufferSource(); sn.buffer=bufN;
-    const hpN=flt('highpass',1800),lpN=flt('lowpass',6000),gn=ctx.createGain();
-    sn.connect(hpN); hpN.connect(lpN); lpN.connect(gn); gn.connect(mGain);
-    gn.gain.setValueAtTime(v,t); gn.gain.exponentialRampToValueAtTime(.001,t+.14);
-    sn.start(t); sn.stop(t+.18);
-    // Tom corporal suave
+  function snare(t,v=0.19){
+    if(!layerActive('perc'))return;
+    /* ruído filtrado */
+    const bufN=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.17),ctx.sampleRate);
+    const dn=bufN.getChannelData(0);for(let i=0;i<dn.length;i++)dn[i]=Math.random()*2-1;
+    const sn=ctx.createBufferSource();sn.buffer=bufN;
+    const hpN=flt('highpass',1700),lpN=flt('lowpass',5800),gn=ctx.createGain();
+    sn.connect(hpN);hpN.connect(lpN);lpN.connect(gn);gn.connect(layerG.perc);
+    gn.gain.setValueAtTime(v,t);gn.gain.exponentialRampToValueAtTime(0.001,t+0.13);
+    sn.start(t);sn.stop(t+0.17);
+    /* corpo tonal */
     const o=ctx.createOscillator(),go=ctx.createGain();
-    o.connect(go); go.connect(mGain);
-    o.type='sine'; o.frequency.setValueAtTime(175,t); o.frequency.exponentialRampToValueAtTime(65,t+.08);
-    go.gain.setValueAtTime(v*.28,t); go.gain.exponentialRampToValueAtTime(.001,t+.10);
-    o.start(t); o.stop(t+.12);
+    o.connect(go);go.connect(layerG.perc);
+    o.type='sine';o.frequency.setValueAtTime(168,t);o.frequency.exponentialRampToValueAtTime(62,t+0.07);
+    go.gain.setValueAtTime(v*0.26,t);go.gain.exponentialRampToValueAtTime(0.001,t+0.09);
+    o.start(t);o.stop(t+0.11);
   }
 
-  function hihat(t,v=.07,open=false){
-    // Volume e brilho reduzidos — menos estridente
-    const dur=open?.12:.042;
-    const bufH=ctx.createBuffer(1,Math.floor(ctx.sampleRate*(open?.18:.07)),ctx.sampleRate);
-    const dh=bufH.getChannelData(0); for(let i=0;i<dh.length;i++)dh[i]=Math.random()*2-1;
-    const sh=ctx.createBufferSource(); sh.buffer=bufH;
-    const h1=flt('highpass',6000),b1=flt('bandpass',8500,.7),gh=ctx.createGain();
-    sh.connect(h1); h1.connect(b1); b1.connect(gh); gh.connect(mGain);
-    gh.gain.setValueAtTime(v,t); gh.gain.exponentialRampToValueAtTime(.001,t+dur);
-    sh.start(t); sh.stop(t+dur+.01);
+  function ghostSnare(t){
+    if(!layerActive('perc'))return;
+    const bufN=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.06),ctx.sampleRate);
+    const dn=bufN.getChannelData(0);for(let i=0;i<dn.length;i++)dn[i]=Math.random()*2-1;
+    const sn=ctx.createBufferSource();sn.buffer=bufN;
+    const hpN=flt('highpass',2200),gn=ctx.createGain();
+    sn.connect(hpN);hpN.connect(gn);gn.connect(layerG.perc);
+    gn.gain.setValueAtTime(0.048,t);gn.gain.exponentialRampToValueAtTime(0.001,t+0.05);
+    sn.start(t);sn.stop(t+0.06);
   }
 
-  function bassNote(t,midi,dur,v=.17){
-    const f=hz(midi,-10);
-    const o1=ctx.createOscillator(),o2=ctx.createOscillator();
-    const lf=flt('lowpass',320),g=ctx.createGain();
-    o1.connect(lf); o2.connect(lf); lf.connect(g); g.connect(mGain);
-    o1.type='sawtooth'; o2.type='sine';
-    o1.frequency.value=f; o2.frequency.value=f;
-    const atk=.014,rel=Math.min(.08,dur*.25);
-    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+atk);
-    g.gain.setValueAtTime(v,t+dur-rel); g.gain.exponentialRampToValueAtTime(.001,t+dur);
-    o1.start(t); o1.stop(t+dur+.05); o2.start(t); o2.stop(t+dur+.05);
+  function hihat(t,v=0.055,open=false){
+    if(!layerActive('perc'))return;
+    const dur=open?0.11:0.036;
+    const bufH=ctx.createBuffer(1,Math.floor(ctx.sampleRate*(open?0.16:0.065)),ctx.sampleRate);
+    const dh=bufH.getChannelData(0);for(let i=0;i<dh.length;i++)dh[i]=Math.random()*2-1;
+    const sh=ctx.createBufferSource();sh.buffer=bufH;
+    const h1=flt('highpass',5800),b1=flt('bandpass',8200,0.75),gh=ctx.createGain();
+    sh.connect(h1);h1.connect(b1);b1.connect(gh);gh.connect(layerG.perc);
+    gh.gain.setValueAtTime(v,t);gh.gain.exponentialRampToValueAtTime(0.001,t+dur);
+    sh.start(t);sh.stop(t+dur+0.01);
   }
 
-  function chordPad(t,ch,dur,v=.044){
-    // Todas as vozes em 'sine' — sem triangle que adiciona harmônicos agudos
+  function chordPad(t,chIdx,dur,v=0.036){
+    if(!layerActive('base'))return;
+    const ch=CHORDS[chIdx%CHORDS.length];
     ch.n.forEach((midi,i)=>{
-      const det=jit(4);
-      const o=ctx.createOscillator(),lf=flt('lowpass',1800),g=ctx.createGain();
-      o.connect(lf); lf.connect(g); g.connect(mGain);
-      o.type='sine'; o.frequency.value=hz(midi,det);
-      const stg=i*.028,atk=.12+stg,rel=.44;
-      g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+atk);
-      g.gain.setValueAtTime(v*.85,t+dur-rel); g.gain.exponentialRampToValueAtTime(.001,t+dur);
-      o.start(t); o.stop(t+dur+.10);
+      const det=jit(3.5);
+      const o=ctx.createOscillator(),lf=flt('lowpass',1700),g=ctx.createGain();
+      o.connect(lf);lf.connect(g);g.connect(layerG.base);
+      o.type='sine';o.frequency.value=hz(midi,det);
+      const stg=i*0.026,atk=0.14+stg,rel=0.44;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+atk);
+      g.gain.setValueAtTime(v*0.82,t+dur-rel);g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+      o.start(t);o.stop(t+dur+0.12);
     });
+    /* nota de baixo — sine puro (sem harmônicos de sawtooth que causam distorção) */
+    const ob=ctx.createOscillator(),lb=flt('lowpass',110),gb=ctx.createGain();
+    ob.connect(lb);lb.connect(gb);gb.connect(layerG.base);
+    ob.type='sine';ob.frequency.value=hz(ch.r-12); /* oitava abaixo — sub-grave */
+    const bassV=v*0.28; /* gain bem mais baixo */
+    gb.gain.setValueAtTime(0,t);gb.gain.linearRampToValueAtTime(bassV,t+0.06);
+    gb.gain.setValueAtTime(bassV*0.80,t+dur-0.15);gb.gain.exponentialRampToValueAtTime(0.001,t+dur);
+    ob.start(t);ob.stop(t+dur+0.05);
   }
 
-  function melodyNote(t,midi,dur,v=.034){
-    // Vibrato muito mais suave; sem transposição de oitava; nota mais curta
-    const o=ctx.createOscillator(),lf=flt('lowpass',1400),g=ctx.createGain();
+  function arpNote(t,midi,dur,v=0.040){
+    if(!layerActive('arp'))return;
+    const o=ctx.createOscillator(),lf=flt('lowpass',2400),g=ctx.createGain();
+    o.connect(lf);lf.connect(g);g.connect(layerG.arp);
+    o.type='triangle';o.frequency.value=hz(midi+12); /* +1 oitava — mais brilhante mas filtrado */
+    const noteDur=Math.min(dur*0.72,0.16);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+0.022);
+    g.gain.exponentialRampToValueAtTime(0.001,t+noteDur);
+    o.start(t);o.stop(t+noteDur+0.04);
+  }
+
+  function leadNote(t,midi,dur,v=0.030){
+    if(!layerActive('lead'))return;
+    const o=ctx.createOscillator(),lf=flt('lowpass',1900),g=ctx.createGain();
     const vib=ctx.createOscillator(),vibG=ctx.createGain();
-    vib.connect(vibG); vibG.connect(o.frequency);
-    o.connect(lf); lf.connect(g); g.connect(mGain);
-    o.type='sine'; o.frequency.value=hz(midi); // sem oitava extra
-    vib.type='sine'; vib.frequency.value=3.8; vibG.gain.value=1.2; // vibrato gentil
-    const noteDur=Math.min(dur, S16*3.5);       // limita duração máxima
-    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+.055);
-    g.gain.setValueAtTime(v*.65,t+.08); g.gain.exponentialRampToValueAtTime(.001,t+noteDur);
-    o.start(t); vib.start(t); o.stop(t+noteDur+.06); vib.stop(t+noteDur+.06);
+    vib.connect(vibG);vibG.connect(o.frequency);
+    o.connect(lf);lf.connect(g);g.connect(layerG.lead);
+    o.type='sine';o.frequency.value=hz(midi);
+    vib.type='sine';vib.frequency.value=4.0;vibG.gain.value=1.0; /* vibrato gentil */
+    const noteDur=Math.min(dur,0.32);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+0.052);
+    g.gain.setValueAtTime(v*0.68,t+0.08);g.gain.exponentialRampToValueAtTime(0.001,t+noteDur);
+    o.start(t);vib.start(t);o.stop(t+noteDur+0.06);vib.stop(t+noteDur+0.06);
   }
 
-  /* ══ SCHEDULER ════════════════════════════════════════════ */
+  function tensionPulse(t,S16){
+    if(!tensionOn||!layerActive('tension'))return;
+    /* pulso de baixa frequência — estilo batimento cardíaco acelerado */
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(layerG.tension);
+    o.type='sine';o.frequency.value=55; /* A1 — grave, não irritante */
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.24,t+0.035);
+    g.gain.exponentialRampToValueAtTime(0.001,t+S16*0.75);
+    o.start(t);o.stop(t+S16*0.85);
+  }
+
+  /* ════ SCHEDULER ═══════════════════════════════════════════ */
 
   function schedStep(s,t){
-    const bar=Math.floor(s/STEPS)%BARS;
+    /* tempo dinâmico */
+    const S16=(60/currentBPM)/4;
+    const BEAT=S16*4;
+    const bar=Math.floor(s/STEPS)%16;
     const beat=s%STEPS;
     const T=t+(beat%2===1?SWING:0);
-    const chIdx=Math.floor(bar/4)%4;
-    const ch=CHORDS[chIdx];
+    const chIdx=Math.floor(bar/2)%4;
+    const arpPat=ARP[chIdx];
 
+    /* convergência suave do BPM */
+    if(Math.abs(currentBPM-targetBPM)>0.4){
+      currentBPM+=(targetBPM-currentBPM)*0.04;
+    }
+
+    /* variação de padrão a cada 8 compassos */
     if(beat===0){
-      if(bar%8===0){
-        kp=(kp+1+Math.floor(Math.random()*2))%KP.length;
-        hp=(hp+1+Math.floor(Math.random()*2))%HP.length;
-        bp=(bp+1+Math.floor(Math.random()*2))%BP.length;
-      } else if(bar%4===0&&Math.random()<.6){
-        hp=(hp+1)%HP.length;
-      } else if(bar%2===0&&Math.random()<.22){
-        if(Math.random()<.5) kp=(kp+1)%KP.length;
-        else hp=(hp+1)%HP.length;
+      barCount++;
+      if(barCount%8===0){
+        kpIdx=(kpIdx+1)%KP.length;
+        hpIdx=(hpIdx+(Math.random()<0.5?1:0))%HP.length;
+        if(streakBars>0)streakBars--;
       }
     }
 
-    /* KICK */
-    if(KP[kp][beat]){
-      kick(T+jit(.005), beat===0?.68:.56+Math.random()*.10);
+    /* ── TENSÃO — pulso duplo nos tempos 0 e 8 ── */
+    if(tensionOn){
+      if(beat===0||beat===8)tensionPulse(T,S16);
     }
 
-    /* SNARE */
+    /* ── PAD / BASE HARMÔNICA ── */
+    if(beat===0) chordPad(T,chIdx,BEAT*2,0.036);
+    if(beat===8&&Math.random()<0.30) chordPad(T,chIdx,BEAT,0.024);
+
+    /* ── ARPEJO — colcheia (a cada 2 sub-tempos) ── */
+    if(beat%2===0){
+      const aIdx=(beat/2)%arpPat.length;
+      /* velocidade do arpejo sobe com o BPM */
+      const arpV=0.038+(currentBPM-65)*0.0003;
+      arpNote(T,arpPat[aIdx],S16*2,arpV);
+    }
+
+    /* ── BEAT (kick) ── */
+    if(KP[kpIdx][beat]){
+      kick(T+jit(0.004),beat===0?0.60:0.50+Math.random()*0.08);
+    }
+
+    /* ── PERCUSSÃO (snare + hi-hat) ── */
     if(beat===4||beat===12){
-      snare(T+jit(.006),.22+Math.random()*.04);
-      if(Math.random()<.15) snare(T+S16*.5,.06); // ghost note mais raro e quieto
+      snare(T+jit(0.005),0.17+Math.random()*0.04);
+      if(Math.random()<0.12) ghostSnare(T+S16*0.5);
+    }
+    if(HP[hpIdx][beat]){
+      const isOpen=beat===10&&Math.random()<0.14;
+      const hv=(beat%4===0?0.062:0.048)+Math.random()*0.016;
+      hihat(T+jit(0.006),hv,isOpen);
     }
 
-    /* HI-HAT — volume base mais baixo */
-    if(HP[hp][beat]){
-      const isOpen=beat===10&&Math.random()<.18;
-      const hv=(beat%4===0?.09:.06)+Math.random()*.02;
-      hihat(T+jit(.007),hv,isOpen);
+    /* ── LEAD — esparso, aparece em momentos específicos ── */
+    if(bar%2===0&&beat%4===0&&Math.random()<(streakBars>0?0.62:0.40)){
+      const lIdx=(barCount*3+Math.floor(beat/4))%LEAD_SCALE.length;
+      const lv=streakBars>0?0.052:0.028;
+      leadNote(T,LEAD_SCALE[lIdx],S16*3.2,lv);
     }
-
-    /* BAIXO */
-    BP[bp].forEach(([bs,semi])=>{
-      if(beat===bs){
-        const next=BP[bp].find(([x])=>x>bs);
-        const nextS=next?next[0]:STEPS;
-        const dur=Math.max((nextS-bs)*S16*.78,S16*.45);
-        bassNote(T+jit(.004),ch.r+semi,dur,.17);
-      }
-    });
-
-    /* PAD */
-    if(beat===0) chordPad(T,ch,BEAT*4,.044);
-    if(beat===8&&Math.random()<.30) chordPad(T,ch,BEAT*2,.030);
-
-    /* MELODIA — só aparece 50% dos compassos elegíveis */
-    const mp=MP[bar%8];
-    if(mp&&Math.random()<.50) mp.forEach(([ms,pi,ds])=>{
-      if(beat===ms){
-        melodyNote(T+jit(.007),PENTA[Math.min(pi,PENTA.length-1)],ds*S16*.75,.034);
-      }
-    });
+    /* nota de lead extra no final do compasso com streak */
+    if(streakBars>0&&beat===14&&Math.random()<0.55){
+      const lIdx=(barCount*2+7)%LEAD_SCALE.length;
+      leadNote(T+jit(0.006),LEAD_SCALE[lIdx],S16*2,0.038);
+    }
   }
 
+  /* tick do scheduler */
   function tick(){
-    if(!ctx||!mGain) return;
+    if(!ctx||!masterGain)return;
+    const S16=(60/currentBPM)/4;
     while(nxt<ctx.currentTime+LOOKAHEAD){
       schedStep(step,nxt);
-      nxt+=S16; step++;
-      if(step>=STEPS*BARS) step=0;
+      nxt+=S16;step++;
     }
   }
 
-  /* ══ API PÚBLICA ══════════════════════════════════════════ */
+  /* ── Transição suave de gain de uma camada ── */
+  function setLayerGain(name,target,fadeSec=0.9){
+    const g=layerG[name];
+    if(!g||!ctx)return;
+    try{
+      g.gain.cancelScheduledValues(ctx.currentTime);
+      g.gain.setValueAtTime(g.gain.value,ctx.currentTime);
+      g.gain.linearRampToValueAtTime(clamp(target,0,1.5),ctx.currentTime+fadeSec);
+    }catch(e){}
+  }
+
+  /* ── Aplica configuração de estado ── */
+  function applyState(stateName,fadeSec=1.0){
+    const s=STATES[stateName]||STATES.home;
+    targetBPM=s.bpm;
+    Object.keys(LAYER_VOL).forEach(name=>{
+      const mul=s[name]||0;
+      setLayerGain(name,mul*LAYER_VOL[name],fadeSec);
+    });
+    /* tensão é controlada separadamente */
+    if(!tensionOn) setLayerGain('tension',0,0.5);
+  }
+
+  /* ── Evento de stinger rápido (feedback imediato) ── */
+  let _stingerBusy=false;
+  let _stopping=false;   /* flag: impede start() durante fade-out */
+  let _stingerTimer=null;
+  let _wrongTimer=null;
+
+  function playStingerCorrect(){
+    if(!ctx||_stingerBusy||_stopping)return;
+    _stingerBusy=true;
+    const prevArp=layerG.arp?layerG.arp.gain.value:0;
+    setLayerGain('arp',Math.min(prevArp+0.18,0.92),0.04);
+    clearTimeout(_stingerTimer);
+    _stingerTimer=setTimeout(()=>{
+      if(!_stopping)setLayerGain('arp',prevArp,0.7);
+      _stingerBusy=false;
+    },500);
+  }
+
+  function playStingerWrong(){
+    if(!ctx||_stopping)return;
+    const prevBase=layerG.base?layerG.base.gain.value:0;
+    if(prevBase>0.05){
+      setLayerGain('base',prevBase*0.70,0.08);
+      clearTimeout(_wrongTimer);
+      _wrongTimer=setTimeout(()=>{
+        if(!_stopping)setLayerGain('base',prevBase,0.90);
+      },750);
+    }
+  }
+
+  function _resetState(){
+    tensionOn=false;
+    streakBars=0;
+    _stingerBusy=false;
+    currentBPM=targetBPM;
+    barCount=0;
+    step=0;
+    kpIdx=0;hpIdx=0;
+    clearTimeout(_stingerTimer);
+    clearTimeout(_wrongTimer);
+  }
+
+  /* ════ API PÚBLICA ══════════════════════════════════════════ */
   return{
+
     start(){
-      if(schedT) return;
-      if(!_actx) _actx=new(window.AudioContext||window.webkitAudioContext)();
-      if(_actx.state==='suspended') _actx.resume();
+      if(schedT||_stopping)return;   /* já rodando ou no meio de um fade-out */
+
+      _resetState();
+      targetBPM=(STATES[currentState]||STATES.home).bpm;
+      currentBPM=targetBPM;
+
+      if(!_actx)_actx=new(window.AudioContext||window.webkitAudioContext)();
+      if(_actx.state==='suspended')_actx.resume();
       ctx=_actx;
 
-      /* Cadeia: mGain → LP 3800 Hz (corta agudos duros) → Compressor → saída */
-      mGain=ctx.createGain(); mGain.gain.value=0;
-      lpF=ctx.createBiquadFilter(); lpF.type='lowpass'; lpF.frequency.value=3800; lpF.Q.value=.55;
-      cmpN=ctx.createDynamicsCompressor();
-      cmpN.threshold.value=-18; cmpN.knee.value=16;
-      cmpN.ratio.value=3.5; cmpN.attack.value=.005; cmpN.release.value=.22;
-      mGain.connect(lpF); lpF.connect(cmpN); cmpN.connect(ctx.destination);
+      /* Calcula MASTER_VOL com preferência do usuário antes de criar os nós */
+      if(typeof _musicVolPct!=='undefined') MASTER_VOL=(_musicVolPct/100)*2.60;
 
-      /* Ruído de vinil — ainda mais sutil */
-      const nb=mkPinkNoise();
-      const ns=ctx.createBufferSource(); ns.buffer=nb; ns.loop=true;
-      const nlp=flt('lowpass',1200); const ng=ctx.createGain(); ng.gain.value=.009;
-      ns.connect(nlp); nlp.connect(ng); ng.connect(mGain);
-      ns.start(); noiseN=ns;
+      /* Cadeia mestra: masterGain → LP suave → Compressor → saída */
+      masterGain=ctx.createGain();masterGain.gain.value=0;
+      lpMain=ctx.createBiquadFilter();lpMain.type='lowpass';lpMain.frequency.value=3500;lpMain.Q.value=0.48;
+      cmpMain=ctx.createDynamicsCompressor();
+      cmpMain.threshold.value=-16;cmpMain.knee.value=14;
+      cmpMain.ratio.value=3.0;cmpMain.attack.value=0.006;cmpMain.release.value=0.20;
+      masterGain.connect(lpMain);lpMain.connect(cmpMain);cmpMain.connect(ctx.destination);
 
-      /* Wobble leve */
-      const wob=ctx.createOscillator(); const wobG=ctx.createGain();
-      wob.type='sine'; wob.frequency.value=.10; wobG.gain.value=.014;
-      wob.connect(wobG); wobG.connect(mGain.gain);
-      wob.start(); wobbleN=wob;
+      /* Nós de gain por camada — todos conectam ao masterGain */
+      ['base','arp','beat','perc','lead','tension'].forEach(name=>{
+        const g=ctx.createGain();g.gain.value=0;g.connect(masterGain);
+        layerG[name]=g;
+      });
 
-      /* Fade-in mais lento (3 s) — entrada mais suave */
-      mGain.gain.setValueAtTime(0,ctx.currentTime);
-      mGain.gain.linearRampToValueAtTime(.62,ctx.currentTime+3.0);
+      /* Ruído de vinil (muito sutil) */
+      const nLen=ctx.sampleRate*4;
+      const nBuf=ctx.createBuffer(1,nLen,ctx.sampleRate);
+      const nd=nBuf.getChannelData(0);
+      let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0;
+      for(let i=0;i<nLen;i++){
+        const w=Math.random()*2-1;
+        b0=.99886*b0+w*.0555179;b1=.99332*b1+w*.0750759;
+        b2=.96900*b2+w*.1538520;b3=.86650*b3+w*.3104856;
+        b4=.55000*b4+w*.5329522;b5=-.7616*b5-w*.0168980;
+        nd[i]=(b0+b1+b2+b3+b4+b5+w*.5362)*.11;
+      }
+      const nSrc=ctx.createBufferSource();nSrc.buffer=nBuf;nSrc.loop=true;
+      const nLp=ctx.createBiquadFilter();nLp.type='lowpass';nLp.frequency.value=1000;
+      const nGain=ctx.createGain();nGain.gain.value=0.007;
+      nSrc.connect(nLp);nLp.connect(nGain);nGain.connect(masterGain);
+      nSrc.start();
 
-      nxt=ctx.currentTime+.06; step=0;
-      schedT=setInterval(tick,TICK);
+      /* Aplica estado e faz fade-in */
+      applyState(currentState,0.1);   /* layers já nas posições certas antes do fade */
+      masterGain.gain.setValueAtTime(0,ctx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(MASTER_VOL,ctx.currentTime+2.5);
+
+      nxt=ctx.currentTime+0.06;
+      schedT=setInterval(tick,TICK_MS);
     },
 
     stop(){
-      if(!schedT) return;
-      clearInterval(schedT); schedT=null;
-      if(noiseN){try{noiseN.stop();}catch(e){} noiseN=null;}
-      if(wobbleN){try{wobbleN.stop();}catch(e){} wobbleN=null;}
-      if(mGain&&ctx){
-        /* Fade-out suave (1.2 s) antes de desconectar */
-        try{mGain.gain.cancelScheduledValues(ctx.currentTime);
-            mGain.gain.setValueAtTime(mGain.gain.value,ctx.currentTime);
-            mGain.gain.linearRampToValueAtTime(0,ctx.currentTime+1.2);}catch(e){}
+      if(!schedT)return;
+      clearInterval(schedT);schedT=null;
+      _stopping=true;
+      clearTimeout(_stingerTimer);
+      clearTimeout(_wrongTimer);
+      _stingerBusy=false;
+
+      if(masterGain&&ctx){
+        try{
+          masterGain.gain.cancelScheduledValues(ctx.currentTime);
+          masterGain.gain.setValueAtTime(masterGain.gain.value,ctx.currentTime);
+          masterGain.gain.linearRampToValueAtTime(0,ctx.currentTime+1.2);
+        }catch(e){}
         setTimeout(()=>{
-          try{mGain.disconnect();}catch(e){}
-          mGain=null; lpF=null; cmpN=null;
+          try{masterGain.disconnect();}catch(e){}
+          masterGain=null;lpMain=null;cmpMain=null;layerG={};
+          _stopping=false;
         },1400);
+      }else{
+        _stopping=false;
+      }
+    },
+
+    /* ── Muda o estado musical (chamado por showScreen / modos) ── */
+    setMusicState(stateName,fadeSec=1.2){
+      if(!STATES[stateName])return;
+      currentState=stateName;
+      if(!schedT)return; /* engine não está rodando */
+      applyState(stateName,fadeSec);
+    },
+
+    /* ── Dispara eventos de feedback ── */
+    triggerMusicEvent(ev){
+      if(!schedT||!ctx)return;
+      switch(ev){
+        case 'correct':
+          playStingerCorrect();
+          break;
+
+        case 'wrong':
+          playStingerWrong();
+          break;
+
+        case 'streak':{
+          /* boost do lead por 6 compassos */
+          streakBars=6;
+          setLayerGain('lead',clamp(LAYER_VOL.lead*1.55,0,0.95),0.4);
+          /* também sobe levemente o arp */
+          const prevArpS=layerG.arp?layerG.arp.gain.value:0;
+          setLayerGain('arp',Math.min(prevArpS+0.10,0.90),0.4);
+          break;
+        }
+
+        case 'streak_end':
+          streakBars=0;
+          applyState(currentState,1.5);
+          break;
+
+        case 'time_low':
+          tensionOn=true;
+          setLayerGain('tension',LAYER_VOL.tension*0.88,0.5);
+          break;
+
+        case 'time_ok':
+          tensionOn=false;
+          setLayerGain('tension',0,0.8);
+          break;
+
+        case 'finish':
+          tensionOn=false;
+          streakBars=0;
+          /* suaviza para home num fade de 2 segundos */
+          applyState('home',2.0);
+          currentState='home';
+          break;
+
+        case 'results':
+          tensionOn=false;
+          streakBars=0;
+          applyState('home',2.2);
+          currentState='home';
+          break;
+
+        case 'achievement':{
+          /* brilho fugaz: sobe lead e arp e volta */
+          const prevL=layerG.lead?layerG.lead.gain.value:0;
+          const prevA=layerG.arp?layerG.arp.gain.value:0;
+          setLayerGain('lead',clamp(prevL*2.2,0,0.95),0.08);
+          setLayerGain('arp',clamp(prevA*1.8,0,0.90),0.08);
+          setTimeout(()=>applyState(currentState,1.2),1400);
+          break;
+        }
+      }
+    },
+
+    /* ── Ajusta volume master em tempo real ── */
+    setVolume(pct){
+      /* pct: 0-100 */
+      const pct01=pct/100;
+      MASTER_VOL=pct01*2.60; /* escala: 0% → 0, 100% → gain 2.60 */
+      if(masterGain&&ctx){
+        try{
+          masterGain.gain.cancelScheduledValues(ctx.currentTime);
+          masterGain.gain.setValueAtTime(masterGain.gain.value,ctx.currentTime);
+          masterGain.gain.linearRampToValueAtTime(MASTER_VOL,ctx.currentTime+0.18);
+        }catch(e){}
       }
     }
   };
 })();
 
-function loadYTMusic(){ LOFI.start(); }
-function unloadYTMusic(){ LOFI.stop(); }
+/* ── Mapas de estado musical por tela ── */
+const _MUSIC_SCREEN_MAP={
+  'home-screen':'home','auth-screen':'home','config-screen':'home',
+  'modos-screen':'menu','setup-screen':'menu',
+  'duel-setup-screen':'menu','duel-id-screen':'menu',
+  'result-screen':'home','review-screen':'study',
+  'study-screen':'study','map-screen':'study','estudo-screen':'study',
+  'ranking-screen':'menu','ach-screen':'home','evo-screen':'home',
+  'desempenho-screen':'home','duel-leaderboard-screen':'menu',
+  'quiz-screen':'ranked'  /* substituído por modo real em _startQuizInternal */
+};
+
+/* ── API global ── */
+function setMusicState(name,fade){ if(musicOn)SCI_MUSIC.setMusicState(name,fade); }
+function triggerMusicEvent(ev){ if(musicOn)SCI_MUSIC.triggerMusicEvent(ev); }
+function loadYTMusic(){ SCI_MUSIC.start(); }
+function unloadYTMusic(){ SCI_MUSIC.stop(); }
+
+/* ── Volume da música: persistente e em tempo real ── */
+let _musicVolPct=60;
+(function(){
+  try{
+    const saved=localStorage.getItem('sci_music_vol');
+    if(saved!==null)_musicVolPct=clamp(parseInt(saved),0,100);
+  }catch(e){}
+})();
+function clamp(v,mn,mx){return Math.max(mn,Math.min(mx,v));}
+function setMusicVolume(pct){
+  _musicVolPct=clamp(parseInt(pct)||0,0,100);
+  /* Atualiza slider e label */
+  const slider=document.getElementById('cfg-vol-slider');
+  const label=document.getElementById('cfg-vol-label');
+  if(slider){slider.value=_musicVolPct;slider.style.setProperty('--vol-pct',_musicVolPct+'%');}
+  if(label)label.textContent=_musicVolPct+'%';
+  /* Aplica no engine */
+  SCI_MUSIC.setVolume(_musicVolPct);
+  /* Persiste */
+  try{localStorage.setItem('sci_music_vol',_musicVolPct);}catch(e){}
+}
 
 /* ─── Confetti ─── */
 function launchConfetti(){
@@ -6406,5 +6775,885 @@ async function renderStoredReviews(){
     <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted2);margin-bottom:8px">📋 Avaliações da turma (${reviews.length})</div>
     ${items}`;
 }
+
+
+/* ════════════════════════════════════════════════════════════════
+   S.C.I — SISTEMA QA + MODO ADMINISTRADOR
+   ─ Invisível para usuários comuns
+   ─ Ativado automaticamente no login do admin (nick: sci.admin)
+   ─ Não quebra nenhuma funcionalidade existente
+════════════════════════════════════════════════════════════════ */
+
+/* ── Credencial do admin (único) ── */
+const ADMIN_NICK = 'sci.admin';
+let isAdminUser = false;
+
+/* ── Estado interno do QA ── */
+let _qaOpen    = false;
+let _qaTab     = 'checklist';
+let _qaLogs    = [];
+let _qaErrors  = [];
+let _qaChecklist = {
+  quiz_flow:      {label:'Fluxo completo do quiz',          status:'pending'},
+  result_screen:  {label:'Transição para tela de resultado',status:'pending'},
+  wrong_review:   {label:'Botão "ver o que errei"',         status:'pending'},
+  redo_errors:    {label:'Revisar/refazer erros',           status:'pending'},
+  ranking_load:   {label:'Ranking carregando corretamente', status:'pending'},
+  flashcard_flip: {label:'Flashcards — flip',               status:'pending'},
+  flashcard_save: {label:'Flashcards — salvar/editar',      status:'pending'},
+  data_persist:   {label:'Persistência de dados',           status:'pending'},
+  achievements:   {label:'Sistema de conquistas',           status:'pending'},
+  music_adaptive: {label:'Música adaptativa',               status:'pending'},
+  duel_flow:      {label:'Duelo — ID + ranking + fluxo',   status:'pending'},
+  hub_navigation: {label:'Navegação entre hubs',            status:'pending'},
+};
+
+/* ══════════════════════════════════════════
+   ATIVAÇÃO — Hook em finishLogin existente
+══════════════════════════════════════════ */
+(function(){
+  const _origFL = finishLogin;
+  window.finishLogin = function(){
+    _origFL.apply(this, arguments);
+    if(currentUser && currentUser.nickname === ADMIN_NICK){
+      setTimeout(_activateAdminMode, 500);
+    }
+  };
+})();
+
+function _activateAdminMode(){
+  isAdminUser = true;
+  _qaLog('✅ Admin autenticado — Modo QA ativo', 'success');
+  _buildQAPanel();
+  _runAutoDetection();
+  /* Badge "ADMIN" na nav */
+  const brand = document.querySelector('.nav-brand');
+  if(brand && !document.getElementById('qa-admin-badge')){
+    const b = document.createElement('span');
+    b.id = 'qa-admin-badge';
+    b.style.cssText = 'font-size:10px;font-weight:700;background:#a78bfa;color:#07040f;padding:2px 8px;border-radius:99px;letter-spacing:.06em;margin-left:4px;cursor:pointer';
+    b.textContent = 'QA';
+    b.title = 'Abrir painel QA (Ctrl+Shift+6)';
+    b.onclick = _toggleQAPanel;
+    brand.appendChild(b);
+  }
+}
+
+/* ══════════════════════════════════════════
+   LOGGER + INTERCEPTORES
+══════════════════════════════════════════ */
+function _qaLog(msg, type='info'){
+  const ts = new Date().toLocaleTimeString('pt-BR');
+  _qaLogs.unshift({msg, type, ts});
+  if(_qaLogs.length > 150) _qaLogs.pop();
+  if(_qaOpen && _qaTab === 'logs') _renderQALogs();
+}
+
+/* Interceptar showScreen */
+(function(){
+  const orig = showScreen;
+  window.showScreen = function(id){
+    if(isAdminUser) _qaLog('🖥 Tela → ' + id);
+    orig.apply(this, arguments);
+    if(isAdminUser) setTimeout(_runAutoDetection, 400);
+  };
+})();
+
+/* Interceptar unlockAch */
+(function(){
+  const orig = unlockAch;
+  window.unlockAch = function(id){
+    if(isAdminUser){ _qaLog('🏅 Conquista: ' + id, 'success'); _qaChecklist.achievements.status = 'pass'; }
+    orig.apply(this, arguments);
+    if(isAdminUser && _qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+  };
+})();
+
+/* Interceptar saveScore */
+(function(){
+  const orig = saveScore;
+  window.saveScore = async function(...args){
+    if(isAdminUser){ _qaLog('💾 saveScore: ' + args[0] + ' = ' + args[1]); _qaChecklist.data_persist.status = 'pass'; }
+    return orig.apply(this, arguments);
+  };
+})();
+
+/* Interceptar renderResult */
+(function(){
+  const orig = renderResult;
+  window.renderResult = function(...args){
+    if(isAdminUser){ _qaLog('📊 renderResult chamado', 'success'); _qaChecklist.quiz_flow.status = 'pass'; _qaChecklist.result_screen.status = 'pass'; }
+    orig.apply(this, arguments);
+    /* Checa botão "ver o que errei" gerado dinamicamente */
+    if(isAdminUser) setTimeout(()=>{
+      const cta = document.querySelector('.review-cta button');
+      const retry = document.querySelector('.retry-errors-cta button');
+      _qaChecklist.wrong_review.status = cta ? 'pass' : (args[0]&&args[0].wrongs&&args[0].wrongs.length ? 'fail' : 'pass');
+      _qaChecklist.redo_errors.status  = retry ? 'pass' : _qaChecklist.wrong_review.status;
+      if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+    }, 300);
+  };
+})();
+
+/* Interceptar saveDuelScore */
+(function(){
+  const orig = saveDuelScore;
+  window.saveDuelScore = async function(...args){
+    if(isAdminUser){ _qaLog('⚔️ saveDuelScore: ' + args[0], 'success'); _qaChecklist.duel_flow.status = 'pass'; }
+    return orig.apply(this, arguments);
+  };
+})();
+
+/* ══════════════════════════════════════════
+   CONSTRUÇÃO DO PAINEL QA
+══════════════════════════════════════════ */
+function _buildQAPanel(){
+  if(document.getElementById('qa-panel')) return;
+
+  /* ── CSS do painel ── */
+  const style = document.createElement('style');
+  style.id = 'qa-panel-style';
+  style.textContent = `
+#qa-panel{position:fixed;bottom:80px;right:14px;width:370px;max-height:540px;
+  background:#0a0e14;border:1px solid rgba(167,139,250,0.32);border-radius:12px;
+  z-index:99000;display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.75),0 0 0 1px rgba(167,139,250,0.1);
+  font-family:'DM Sans',sans-serif;font-size:13px;color:#e8eef4;
+  transition:opacity .2s,transform .2s}
+#qa-panel.qa-hidden{display:none!important}
+#qa-header{display:flex;align-items:center;gap:8px;padding:9px 13px 9px 14px;
+  background:#0f1419;border-bottom:1px solid rgba(167,139,250,0.14);flex-shrink:0}
+#qa-header-title{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;color:#a78bfa;flex:1}
+#qa-live-badge{font-size:10px;color:#4a5a6d;background:#161d26;border:1px solid rgba(255,255,255,0.07);
+  border-radius:99px;padding:2px 9px;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+.qa-close-btn{background:transparent;border:none;color:#4a5a6d;cursor:pointer;font-size:15px;
+  line-height:1;padding:2px 4px;border-radius:4px;transition:all .12s}
+.qa-close-btn:hover{color:#e8eef4;background:rgba(255,255,255,0.07)}
+#qa-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.06);flex-shrink:0;background:#0a0e14}
+.qa-tab{flex:1;padding:7px 4px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;cursor:pointer;color:#4a5a6d;border:none;background:transparent;
+  transition:all .12s;border-bottom:2px solid transparent}
+.qa-tab:hover{color:#8a99ac}
+.qa-tab.qa-active{color:#a78bfa;border-bottom-color:#a78bfa}
+#qa-body{flex:1;overflow-y:auto;padding:11px 13px 13px}
+#qa-body::-webkit-scrollbar{width:3px}
+#qa-body::-webkit-scrollbar-thumb{background:rgba(167,139,250,0.25);border-radius:2px}
+.qa-section{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:#4a5a6d;margin:10px 0 6px}
+.qa-section:first-child{margin-top:0}
+.qa-stat-grid{display:grid;gap:5px;margin-bottom:10px}
+.qa-stat-grid-2{grid-template-columns:1fr 1fr}
+.qa-stat-grid-3{grid-template-columns:1fr 1fr 1fr}
+.qa-stat{background:#0f1419;border:1px solid rgba(255,255,255,0.06);border-radius:7px;padding:7px 9px}
+.qa-stat-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#4a5a6d;margin-bottom:1px}
+.qa-stat-val{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#e8eef4;line-height:1.2}
+.qa-stat-val.sm{font-size:11px}
+.qa-check-row{display:flex;align-items:center;gap:7px;padding:4px 0;
+  border-bottom:1px solid rgba(255,255,255,0.04)}
+.qa-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;font-size:9px;
+  display:flex;align-items:center;justify-content:center;font-weight:700}
+.qa-dot.pass{background:rgba(61,214,140,0.18);color:#3dd68c}
+.qa-dot.fail{background:rgba(255,107,107,0.18);color:#ff6b6b}
+.qa-dot.pending{background:rgba(255,255,255,0.06);color:#4a5a6d}
+.qa-check-lbl{flex:1;font-size:11px;color:#8a99ac;line-height:1.3}
+.qa-mini-btn{font-size:9px;padding:2px 6px;border-radius:99px;border:1px solid rgba(255,255,255,0.1);
+  background:transparent;color:#4a5a6d;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .1s}
+.qa-mini-btn:hover{color:#e8eef4;border-color:rgba(255,255,255,0.22)}
+.qa-err-row{display:flex;gap:6px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);align-items:flex-start}
+.qa-err-icon{color:#f5a623;flex-shrink:0;font-size:12px;margin-top:1px}
+.qa-err-txt{font-size:11px;color:#8a99ac;line-height:1.4}
+.qa-log-row{font-size:10px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);
+  display:flex;gap:6px;align-items:flex-start;line-height:1.4}
+.qa-log-ts{color:#2a3a4d;flex-shrink:0;font-variant-numeric:tabular-nums;min-width:54px}
+.qa-log-msg{flex:1;color:#6b7a8d}
+.qa-log-row.success .qa-log-msg{color:#3dd68c}
+.qa-log-row.error   .qa-log-msg{color:#ff6b6b}
+.qa-log-row.warn    .qa-log-msg{color:#f5a623}
+.qa-btn-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.qa-btn{padding:6px 11px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);color:#e8eef4;font-size:11px;cursor:pointer;
+  transition:all .12s;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap}
+.qa-btn:hover{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.2)}
+.qa-btn.g{border-color:rgba(61,214,140,0.3);color:#3dd68c;background:rgba(61,214,140,0.06)}
+.qa-btn.g:hover{background:rgba(61,214,140,0.13)}
+.qa-btn.r{border-color:rgba(255,107,107,0.3);color:#ff6b6b;background:rgba(255,107,107,0.06)}
+.qa-btn.r:hover{background:rgba(255,107,107,0.13)}
+.qa-btn.p{border-color:rgba(167,139,250,0.3);color:#a78bfa;background:rgba(167,139,250,0.06)}
+.qa-btn.p:hover{background:rgba(167,139,250,0.13)}
+.qa-btn.c{border-color:rgba(6,182,212,0.3);color:#06b6d4;background:rgba(6,182,212,0.06)}
+.qa-btn.c:hover{background:rgba(6,182,212,0.13)}
+.qa-kbd{display:inline-block;font-family:monospace;font-size:10px;background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.14);border-radius:3px;padding:1px 5px;color:#6b7a8d}
+.qa-shortcut-row{display:flex;justify-content:space-between;align-items:center;
+  padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04);gap:8px}
+.qa-shortcut-desc{font-size:11px;color:#6b7a8d}
+.qa-row-inline{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:7px}
+.qa-input{background:#0a0e14;border:1px solid rgba(255,255,255,0.1);color:#e8eef4;
+  border-radius:5px;padding:4px 8px;font-size:11px;font-family:'DM Sans',sans-serif;
+  outline:none;width:54px;text-align:center}
+.qa-input:focus{border-color:rgba(167,139,250,0.4)}
+.qa-select{background:#0a0e14;border:1px solid rgba(255,255,255,0.1);color:#e8eef4;
+  border-radius:5px;padding:4px 8px;font-size:11px;font-family:'DM Sans',sans-serif;outline:none}
+.qa-select:focus{border-color:rgba(167,139,250,0.4)}
+.qa-divider{height:1px;background:rgba(255,255,255,0.05);margin:10px 0}
+  `;
+  document.head.appendChild(style);
+
+  /* ── HTML do painel ── */
+  const panel = document.createElement('div');
+  panel.id = 'qa-panel';
+  panel.className = 'qa-hidden';
+  panel.innerHTML = `
+    <div id="qa-header">
+      <div id="qa-header-title">🧪 QA Panel</div>
+      <div id="qa-live-badge">—</div>
+      <button class="qa-close-btn" onclick="_toggleQAPanel()" title="Fechar (Ctrl+Shift+6)">✕</button>
+    </div>
+    <div id="qa-tabs">
+      <button class="qa-tab qa-active" onclick="_setQATab('checklist',this)">Checklist</button>
+      <button class="qa-tab" onclick="_setQATab('testes',this)">Testes</button>
+      <button class="qa-tab" onclick="_setQATab('logs',this)">Logs</button>
+      <button class="qa-tab" onclick="_setQATab('controles',this)">Controles</button>
+    </div>
+    <div id="qa-body"></div>
+  `;
+  document.body.appendChild(panel);
+
+  setInterval(_qaUpdateLiveBadge, 1200);
+  _renderQATab('checklist');
+}
+
+function _toggleQAPanel(){
+  if(!isAdminUser) return;
+  _qaOpen = !_qaOpen;
+  let p = document.getElementById('qa-panel');
+  if(!p){ _buildQAPanel(); p = document.getElementById('qa-panel'); _qaOpen = true; }
+  p.classList.toggle('qa-hidden', !_qaOpen);
+  if(_qaOpen){ _renderQATab(_qaTab); _runAutoDetection(); }
+}
+
+function _setQATab(tab, el){
+  _qaTab = tab;
+  document.querySelectorAll('.qa-tab').forEach(t => t.classList.remove('qa-active'));
+  if(el) el.classList.add('qa-active');
+  _renderQATab(tab);
+}
+
+function _renderQATab(tab){
+  if(tab === 'checklist') _renderQAChecklist();
+  else if(tab === 'testes')    _renderQATestes();
+  else if(tab === 'logs')      _renderQALogs();
+  else if(tab === 'controles') _renderQAControles();
+}
+
+/* ══════════════════════════════════════════
+   ABA 1 — CHECKLIST
+══════════════════════════════════════════ */
+function _renderQAChecklist(){
+  const body = document.getElementById('qa-body'); if(!body) return;
+  const vals  = Object.values(_qaChecklist);
+  const pass  = vals.filter(v => v.status === 'pass').length;
+  const fail  = vals.filter(v => v.status === 'fail').length;
+  const total = vals.length;
+
+  let h = `<div class="qa-stat-grid qa-stat-grid-2">
+    <div class="qa-stat"><div class="qa-stat-lbl">Verificados</div>
+      <div class="qa-stat-val" style="color:#3dd68c">${pass}/${total}</div></div>
+    <div class="qa-stat"><div class="qa-stat-lbl">Falhas</div>
+      <div class="qa-stat-val" style="color:${fail?'#ff6b6b':'#3dd68c'}">${fail}</div></div>
+  </div>`;
+
+  h += `<div class="qa-section">✔️ Itens de validação</div>`;
+  for(const [key, item] of Object.entries(_qaChecklist)){
+    const icon = item.status==='pass'?'✔':item.status==='fail'?'✕':'○';
+    h += `<div class="qa-check-row">
+      <div class="qa-dot ${item.status}">${icon}</div>
+      <div class="qa-check-lbl">${item.label}</div>
+      <button class="qa-mini-btn" onclick="_qaSetCheck('${key}','pass')">✔</button>
+      <button class="qa-mini-btn" onclick="_qaSetCheck('${key}','fail')">✕</button>
+      <button class="qa-mini-btn" onclick="_qaSetCheck('${key}','pending')">○</button>
+    </div>`;
+  }
+
+  if(_qaErrors.length){
+    h += `<div class="qa-section" style="margin-top:13px;color:#f5a623">🚨 Erros detectados (${_qaErrors.length})</div>`;
+    _qaErrors.forEach(e => {
+      h += `<div class="qa-err-row"><span class="qa-err-icon">⚠</span><span class="qa-err-txt">${e}</span></div>`;
+    });
+  }
+
+  h += `<div class="qa-divider"></div>
+    <div class="qa-btn-row">
+      <button class="qa-btn g" onclick="_runAutoDetection();_renderQAChecklist()">🔄 Re-verificar</button>
+      <button class="qa-btn r" onclick="_qaResetChecklist()">↩ Resetar</button>
+    </div>`;
+  body.innerHTML = h;
+}
+
+/* ══════════════════════════════════════════
+   ABA 2 — TESTES
+══════════════════════════════════════════ */
+function _renderQATestes(){
+  const body = document.getElementById('qa-body'); if(!body) return;
+  body.innerHTML = `
+    <div class="qa-section">⚡ Simulações de usuário</div>
+    <div class="qa-btn-row">
+      <button class="qa-btn g" onclick="_qaSimUser('perfect')">💯 Perfeito</button>
+      <button class="qa-btn"   onclick="_qaSimUser('medium')">📊 Médio</button>
+      <button class="qa-btn r" onclick="_qaSimUser('bad')">❌ Ruim</button>
+    </div>
+    <div class="qa-btn-row">
+      <button class="qa-btn"   onclick="_qaSimUser('timeout')">⏱ Timeout</button>
+      <button class="qa-btn p" onclick="_qaSimUser('streak')">🔥 Streak alto</button>
+    </div>
+
+    <div class="qa-divider"></div>
+    <div class="qa-section">🚀 Iniciar modo direto</div>
+    <div class="qa-btn-row">
+      <button class="qa-btn g" onclick="_qaLaunchMode('ranked')">⚡ Ranqueado</button>
+      <button class="qa-btn"   onclick="_qaLaunchMode('normal')">📝 Normal</button>
+      <button class="qa-btn r" onclick="_qaLaunchMode('survival')">💀 Survival</button>
+    </div>
+    <div class="qa-btn-row">
+      <button class="qa-btn"   onclick="_qaLaunchMode('sprint')">🏃 Sprint</button>
+      <button class="qa-btn p" onclick="_qaLaunchMode('simulado')">📋 Simulado</button>
+    </div>
+    <div class="qa-row-inline" style="margin-top:6px">
+      <span style="font-size:11px;color:#4a5a6d">Questões:</span>
+      <input class="qa-input" id="qa-qcount" type="number" value="10" min="1" max="75">
+      <span style="font-size:11px;color:#4a5a6d">Dificuldade:</span>
+      <select class="qa-select" id="qa-qdiff">
+        <option value="normal">Normal</option>
+        <option value="mixed">Misto</option>
+      </select>
+    </div>
+
+    <div class="qa-divider"></div>
+    <div class="qa-section">🃏 Flashcards</div>
+    <div class="qa-btn-row">
+      <button class="qa-btn" onclick="_qaTestFlashcards()">🔍 Testar flip</button>
+      <button class="qa-btn p" onclick="_qaGenFlashcard()">➕ Gerar fake</button>
+      <button class="qa-btn r" onclick="_qaResetFlashcards()">🗑 Limpar</button>
+    </div>
+
+    <div class="qa-divider"></div>
+    <div class="qa-section">🏆 Ranking</div>
+    <div class="qa-btn-row">
+      <button class="qa-btn" onclick="_qaInjectFakeRanking()">➕ Dados fake</button>
+      <button class="qa-btn r" onclick="_qaResetLocalRanking()">🗑 Limpar local</button>
+      <button class="qa-btn c" onclick="showRanking()">🔍 Verificar</button>
+    </div>
+
+    <div class="qa-divider"></div>
+    <div class="qa-section">⚔️ Duelo assíncrono</div>
+    <div class="qa-btn-row">
+      <button class="qa-btn c" onclick="_qaTestDuelFlow()">🎲 Gerar duelo</button>
+      <button class="qa-btn" onclick="_qaSimDuelUsers()">👥 Simular usuários</button>
+    </div>
+
+    <div class="qa-divider"></div>
+    <div class="qa-section">🎵 Música adaptativa</div>
+    <div class="qa-btn-row">
+      <button class="qa-btn" onclick="_qaTestMusicState('menu')">🏠 menu</button>
+      <button class="qa-btn g" onclick="_qaTestMusicState('ranked')">⚡ ranked</button>
+      <button class="qa-btn r" onclick="_qaTestMusicState('survival')">💀 survival</button>
+      <button class="qa-btn p" onclick="_qaTestMusicState('streak')">🔥 streak</button>
+      <button class="qa-btn" onclick="_qaTestMusicState('result_good')">🎉 resultado</button>
+    </div>
+    <div class="qa-btn-row">
+      <button class="qa-btn" onclick="_qaTestMusicEvent('correct')">✔ acerto</button>
+      <button class="qa-btn r" onclick="_qaTestMusicEvent('wrong')">✕ erro</button>
+      <button class="qa-btn" onclick="_qaTestMusicEvent('achievement')">🏅 conquista</button>
+    </div>
+  `;
+}
+
+/* ══════════════════════════════════════════
+   ABA 3 — LOGS
+══════════════════════════════════════════ */
+function _renderQALogs(){
+  const body = document.getElementById('qa-body'); if(!body) return;
+  let h = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div class="qa-section" style="margin:0">📋 ${_qaLogs.length} eventos</div>
+    <button class="qa-btn r" style="padding:3px 9px;font-size:10px" onclick="_qaLogs=[];_renderQALogs()">Limpar</button>
+  </div>`;
+  if(!_qaLogs.length){
+    h += '<div style="color:#2a3a4d;font-size:11px;padding:8px 0;text-align:center">Nenhum log registrado ainda.</div>';
+  } else {
+    _qaLogs.forEach(l => {
+      h += `<div class="qa-log-row ${l.type}">
+        <span class="qa-log-ts">${l.ts}</span>
+        <span class="qa-log-msg">${l.msg}</span>
+      </div>`;
+    });
+  }
+  body.innerHTML = h;
+}
+
+/* ══════════════════════════════════════════
+   ABA 4 — CONTROLES
+══════════════════════════════════════════ */
+function _renderQAControles(){
+  const body = document.getElementById('qa-body'); if(!body) return;
+  const s        = document.querySelector('.screen.active')?.id?.replace('-screen','') || '—';
+  const mode     = typeof currentMode  !== 'undefined' ? currentMode  : '—';
+  const qTotal   = typeof shuffled     !== 'undefined' ? shuffled.length : 0;
+  const qCur     = typeof current      !== 'undefined' ? current      : 0;
+  const scoreVal = typeof score        !== 'undefined' ? score        : 0;
+  const strkVal  = typeof streak       !== 'undefined' ? streak       : 0;
+  const livesVal = typeof lives        !== 'undefined' ? lives        : '—';
+  const timeVal  = typeof timeLeft     !== 'undefined' ? timeLeft     : '—';
+  const mState   = typeof SCI_MUSIC    !== 'undefined' ? (SCI_MUSIC.currentState||'—') : '—';
+  const dId      = typeof currentDuelId!== 'undefined' ? (currentDuelId||'—') : '—';
+  const user     = currentUser ? `@${currentUser.nickname}` : '—';
+
+  body.innerHTML = `
+    <div class="qa-section">📊 Estado em tempo real</div>
+    <div class="qa-stat-grid qa-stat-grid-3">
+      <div class="qa-stat"><div class="qa-stat-lbl">Tela</div><div class="qa-stat-val sm">${s}</div></div>
+      <div class="qa-stat"><div class="qa-stat-lbl">Modo</div><div class="qa-stat-val sm">${mode}</div></div>
+      <div class="qa-stat"><div class="qa-stat-lbl">Q atual</div><div class="qa-stat-val">${qCur}/${qTotal}</div></div>
+    </div>
+    <div class="qa-stat-grid qa-stat-grid-3">
+      <div class="qa-stat"><div class="qa-stat-lbl">Score</div><div class="qa-stat-val" style="color:#f5a623">${scoreVal}</div></div>
+      <div class="qa-stat"><div class="qa-stat-lbl">Streak</div><div class="qa-stat-val" style="color:#f97316">${strkVal}</div></div>
+      <div class="qa-stat"><div class="qa-stat-lbl">Vidas</div><div class="qa-stat-val" style="color:#ff6b6b">${livesVal}</div></div>
+    </div>
+    <div class="qa-stat-grid qa-stat-grid-3">
+      <div class="qa-stat"><div class="qa-stat-lbl">Timer</div><div class="qa-stat-val sm">${timeVal}s</div></div>
+      <div class="qa-stat"><div class="qa-stat-lbl">Música</div><div class="qa-stat-val sm" style="color:#3dd68c">${mState}</div></div>
+      <div class="qa-stat"><div class="qa-stat-lbl">Usuário</div><div class="qa-stat-val sm" style="color:#a78bfa">${user}</div></div>
+    </div>
+    <div class="qa-stat" style="margin-bottom:10px">
+      <div class="qa-stat-lbl">Duelo ID ativo</div>
+      <div style="font-size:10px;color:#06b6d4;font-weight:700;margin-top:2px;word-break:break-all">${dId}</div>
+    </div>
+
+    <div class="qa-divider"></div>
+    <div class="qa-section">⚡ Ações rápidas</div>
+    <div class="qa-btn-row">
+      <button class="qa-btn g" onclick="_qaFinishQuizNow()">⚡ Finalizar quiz</button>
+      <button class="qa-btn p" onclick="_qaUnlockAllAch()">🏅 Todas conquistas</button>
+    </div>
+    <div class="qa-btn-row">
+      <button class="qa-btn r" onclick="_qaResetAll()">⚠️ Reset completo</button>
+      <button class="qa-btn"   onclick="_qaSimError()">💥 Simular erro</button>
+    </div>
+
+    <div class="qa-divider"></div>
+    <div class="qa-section">⌨️ Atalhos</div>
+    ${[
+      ['C+S+X','Respostas aleatórias'],
+      ['C+S+Z','Todas corretas'],
+      ['C+S+1','Finalizar quiz agora'],
+      ['C+S+2','Simular médio'],
+      ['C+S+3','Simular ruim'],
+      ['C+S+4','Todas conquistas'],
+      ['C+S+5','Reset completo'],
+      ['C+S+6','Toggle painel QA'],
+      ['C+S+7','Simular erro proposital'],
+    ].map(([k,d])=>`<div class="qa-shortcut-row">
+      <span class="qa-kbd">${k}</span>
+      <span class="qa-shortcut-desc">${d}</span>
+    </div>`).join('')}
+    <div style="margin-top:6px">
+      <button class="qa-btn" style="width:100%" onclick="_renderQAControles()">🔄 Atualizar estado</button>
+    </div>
+  `;
+}
+
+/* ── Live badge no header ── */
+function _qaUpdateLiveBadge(){
+  const el = document.getElementById('qa-live-badge'); if(!el) return;
+  const s    = document.querySelector('.screen.active')?.id?.replace('-screen','') || '—';
+  const mode = typeof currentMode !== 'undefined' ? currentMode : '—';
+  el.textContent = mode + ' · ' + s;
+}
+
+/* ══════════════════════════════════════════
+   AUTO DETECÇÃO DE ERROS
+══════════════════════════════════════════ */
+function _runAutoDetection(){
+  if(!isAdminUser) return;
+  _qaErrors = [];
+  const s = document.querySelector('.screen.active')?.id;
+
+  /* Botões visíveis sem handler */
+  document.querySelectorAll('button').forEach(btn => {
+    if(btn.closest('#qa-panel')) return;
+    if(!btn.offsetParent) return;
+    const hasAct = btn.onclick || btn.getAttribute('onclick') || btn.type === 'submit';
+    if(!hasAct && btn.textContent.trim()){
+      const txt = btn.textContent.trim().slice(0, 35);
+      _qaErrors.push(`Botão sem ação: "${txt}"`);
+    }
+  });
+
+  /* localStorage disponível */
+  try {
+    const k = '_qa_probe';
+    localStorage.setItem(k,'1'); localStorage.removeItem(k);
+    _qaChecklist.data_persist.status = 'pass';
+  } catch(e) {
+    _qaErrors.push('localStorage indisponível — dados não persistem');
+    _qaChecklist.data_persist.status = 'fail';
+  }
+
+  /* Flashcards na tela de estudo */
+  if(s === 'study-screen'){
+    const c = document.querySelectorAll('.sfc-scene');
+    _qaChecklist.flashcard_flip.status = c.length ? 'pass' : 'fail';
+    if(!c.length) _qaErrors.push('Nenhum flashcard carregado em study-screen');
+    else _qaLog(`🃏 ${c.length} flashcards visíveis`, 'success');
+  }
+
+  /* Ranking */
+  if(s === 'ranking-screen'){
+    const list = document.getElementById('rank-list');
+    if(list && !list.querySelector('.rank-loading') && list.children.length > 0)
+      _qaChecklist.ranking_load.status = 'pass';
+    else if(list && !list.querySelector('.rank-loading'))
+      _qaErrors.push('rank-list vazio após carregamento');
+  }
+
+  /* Resultado */
+  if(s === 'result-screen'){
+    _qaChecklist.result_screen.status = 'pass';
+    const cta = document.querySelector('.review-cta');
+    _qaChecklist.wrong_review.status = cta ? 'pass' : 'pending';
+    const retry = document.querySelector('.retry-errors-cta');
+    _qaChecklist.redo_errors.status = retry ? 'pass' : 'pending';
+  }
+
+  /* Hub navigation */
+  const hubScreens = ['home-screen','modos-screen','estudo-screen','desempenho-screen','config-screen'];
+  if(hubScreens.includes(s)) _qaChecklist.hub_navigation.status = 'pass';
+
+  /* Música */
+  if(typeof SCI_MUSIC !== 'undefined') _qaChecklist.music_adaptive.status = 'pass';
+
+  /* Conquistas — verifica se array existe */
+  if(typeof ACHIEVEMENTS !== 'undefined' && ACHIEVEMENTS.length)
+    _qaChecklist.achievements.status = loadUnlocked().length > 0 ? 'pass' : 'pending';
+
+  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+}
+
+/* ══════════════════════════════════════════
+   HELPERS DE CHECKLIST
+══════════════════════════════════════════ */
+function _qaSetCheck(key, status){
+  _qaChecklist[key].status = status;
+  _qaLog(`${status==='pass'?'✔':status==='fail'?'✕':'○'} ${_qaChecklist[key].label}`, status==='pass'?'success':status==='fail'?'error':'info');
+  _renderQAChecklist();
+}
+function _qaResetChecklist(){
+  Object.keys(_qaChecklist).forEach(k => _qaChecklist[k].status = 'pending');
+  _qaErrors = [];
+  _qaLog('↩ Checklist resetado', 'warn');
+  _renderQAChecklist();
+}
+
+/* ══════════════════════════════════════════
+   HELPERS DE SIMULAÇÃO
+══════════════════════════════════════════ */
+function _qaEnsureOnQuiz(cb){
+  if(document.getElementById('quiz-screen').classList.contains('active')){ cb(); return; }
+  _qaLaunchMode('ranked');
+  setTimeout(cb, 900);
+}
+
+function _qaLaunchMode(mode){
+  _qaLog(`🚀 Lançando modo: ${mode}`);
+  if(!currentUser){ currentUser = {id:'qa_admin', nickname:ADMIN_NICK}; }
+  nickname = currentUser.nickname;
+  currentMode = mode;
+  selectedThemes = [0,1,2];
+  const qc = parseInt(document.getElementById('qa-qcount')?.value || 10);
+  /* sprint usa SPRINT_QUESTIONS mas podemos truncar o shuffled depois */
+  _startQuizInternal(mode);
+  if(mode !== 'sprint' && mode !== 'simulado' && qc < (shuffled||[]).length){
+    shuffled = shuffled.slice(0, qc);
+  }
+  if(_qaOpen) _toggleQAPanel(); /* fecha o painel para ver o quiz */
+}
+
+function _qaSimUser(type){
+  _qaLog(`🎮 Simulando perfil: ${type}`);
+  _qaEnsureOnQuiz(() => {
+    if(type === 'perfect'){
+      adminActive = true; runAdminSimulation(true);
+    } else if(type === 'bad'){
+      adminActive = true; runAdminSimulation(false);
+    } else if(type === 'medium'){
+      _qaRunMedium();
+    } else if(type === 'streak'){
+      /* 10 corretas seguidas */
+      adminActive = true; runAdminSimulation(true);
+    } else if(type === 'timeout'){
+      clearInterval(timerInterval);
+      let t = 3;
+      const iv = setInterval(()=>{
+        const bar = document.getElementById('timer-fill');
+        const val = document.getElementById('timer-val');
+        if(bar){ bar.style.width=(t/3*100)+'%'; bar.style.background='#ff6b6b'; }
+        if(val){ val.textContent=t; val.classList.add('urgent'); }
+        if(t-- <= 0){ clearInterval(iv); const o = document.querySelector('.opt:not(:disabled)'); if(o) o.click(); }
+      }, 1000);
+    }
+  });
+}
+
+function _qaRunMedium(){
+  if(!document.getElementById('quiz-screen').classList.contains('active')) return;
+  if(answered){
+    const nb = document.getElementById('next-btn');
+    if(nb && nb.style.display !== 'none'){ nb.click(); setTimeout(_qaRunMedium, 380); }
+    else setTimeout(_qaRunMedium, 200);
+    return;
+  }
+  clearInterval(timerInterval);
+  const btns = document.querySelectorAll('.opt:not(:disabled)');
+  if(!btns.length) return;
+  const q = shuffled[current];
+  const hit = Math.random() < 0.6;
+  if(hit && q){ btns[q.answer]?.click(); }
+  else {
+    const others = [...btns].filter((_,i) => i !== q?.answer);
+    (others[Math.floor(Math.random()*others.length)] || btns[0])?.click();
+  }
+  setTimeout(_qaRunMedium, 520);
+}
+
+/* ══════════════════════════════════════════
+   AÇÕES RÁPIDAS
+══════════════════════════════════════════ */
+function _qaFinishQuizNow(){
+  if(!document.getElementById('quiz-screen').classList.contains('active')){
+    _qaLog('⚠ Não está no quiz', 'warn'); return;
+  }
+  _qaLog('⚡ Finalizando quiz imediatamente');
+  /* pula para a última questão e clica */
+  current = Math.max(0, shuffled.length - 1);
+  if(answered){
+    const nb = document.getElementById('next-btn');
+    if(nb) nb.click();
+  } else {
+    const btns = document.querySelectorAll('.opt:not(:disabled)');
+    if(btns.length){ btns[shuffled[current]?.answer || 0]?.click(); }
+    setTimeout(()=>{ const nb = document.getElementById('next-btn'); if(nb) nb.click(); }, 300);
+  }
+}
+
+function _qaUnlockAllAch(){
+  _qaLog('🏅 Desbloqueando todas as conquistas...');
+  ACHIEVEMENTS.forEach(a => {
+    const ul = loadUnlocked();
+    if(!ul.includes(a.id)) unlockAch(a.id);
+  });
+  _qaLog('✅ Todas desbloqueadas', 'success');
+  _qaChecklist.achievements.status = 'pass';
+  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+}
+
+function _qaResetAll(){
+  showConfirm({
+    icon:'⚠️', title:'Reset completo',
+    msg:'Limpará localStorage e estado de sessão (exceto login do admin). Confirmar?',
+    confirmLabel:'Resetar tudo', confirmClass:'btn-danger',
+    onConfirm:()=>{
+      _qaLog('🔄 Executando reset completo...', 'warn');
+      const sess = localStorage.getItem('sc1_session');
+      localStorage.clear();
+      if(sess) localStorage.setItem('sc1_session', sess);
+      score=0; streak=0; maxStreak=0; current=0; shuffled=[]; answered=false; lives=3;
+      userDataCache = {};
+      _qaErrors = [];
+      _qaResetChecklist();
+      _qaLog('✅ Reset concluído (sessão preservada)', 'success');
+      showModal({icon:'✅', title:'Reset feito', msg:'Estado e localStorage limpos. Sessão do admin mantida.'});
+    }
+  });
+}
+
+function _qaSimError(){
+  _qaLog('💥 Erro proposital simulado', 'error');
+  _qaErrors.push('Erro proposital: disparado manualmente pelo admin');
+  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+  showModal({icon:'💥', title:'Erro simulado', msg:'Sistema QA: erro proposital para validação do painel de erros.'});
+}
+
+/* ══════════════════════════════════════════
+   TESTES DE FLASHCARDS
+══════════════════════════════════════════ */
+function _qaTestFlashcards(){
+  _qaLog('🃏 Testando flashcards...');
+  showScreen('study-screen');
+  setTimeout(()=>{
+    const cards = document.querySelectorAll('.sfc-scene');
+    if(cards.length){
+      _qaLog(`✅ ${cards.length} flashcards carregados`, 'success');
+      _qaChecklist.flashcard_flip.status = 'pass';
+      /* testa flip no primeiro */
+      cards[0].click();
+      setTimeout(()=>{ cards[0].click(); _qaLog('✅ Flip OK'); }, 700);
+    } else {
+      _qaLog('❌ Nenhum flashcard encontrado', 'error');
+      _qaChecklist.flashcard_flip.status = 'fail';
+    }
+    if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+  }, 500);
+}
+
+function _qaGenFlashcard(){
+  try {
+    const existing = getCache('ufc', []);
+    const fake = {id:'qa_'+Date.now(), q:'[QA] Pergunta de teste gerada automaticamente', a:'[QA] Resposta de teste', understood:false, nextReview:null};
+    setCache('ufc', [...existing, fake]);
+    _qaLog('✅ Flashcard fake gerado', 'success');
+    _qaChecklist.flashcard_save.status = 'pass';
+    if(document.getElementById('study-screen').classList.contains('active')) renderStudy();
+  } catch(e){ _qaLog('❌ Erro ao gerar flashcard: ' + e.message, 'error'); }
+}
+
+function _qaResetFlashcards(){
+  try {
+    setCache('ufc', []);
+    _qaLog('✅ Flashcards limpos', 'success');
+    if(document.getElementById('study-screen').classList.contains('active')) renderStudy();
+  } catch(e){ _qaLog('❌ Erro: ' + e.message, 'error'); }
+}
+
+/* ══════════════════════════════════════════
+   TESTES DE RANKING
+══════════════════════════════════════════ */
+function _qaInjectFakeRanking(){
+  const fakes = [
+    {nickname:'QA_Tester_A', score:1580},
+    {nickname:'QA_Tester_B', score:1210},
+    {nickname:'QA_Tester_C', score:870},
+    {nickname:'QA_Tester_D', score:540},
+  ];
+  ['ranked','survival','sprint'].forEach(m => {
+    try {
+      const key = 'sc1_local_ranking_' + m;
+      const ex  = JSON.parse(localStorage.getItem(key)||'[]');
+      localStorage.setItem(key, JSON.stringify([...fakes,...ex].slice(0,20)));
+    } catch(e){}
+  });
+  _qaLog('✅ Dados fake inseridos no ranking local', 'success');
+  showModal({icon:'✅', title:'Ranking fake', msg:'4 entradas QA inseridas nos rankings local (ranqueado, survival, sprint).'});
+}
+
+function _qaResetLocalRanking(){
+  ['ranked','survival','sprint'].forEach(m => {
+    try { localStorage.removeItem('sc1_local_ranking_'+m); } catch(e){}
+  });
+  _qaLog('✅ Rankings locais limpos', 'success');
+}
+
+/* ══════════════════════════════════════════
+   TESTES DE DUELO
+══════════════════════════════════════════ */
+function _qaTestDuelFlow(){
+  _qaLog('⚔️ Testando fluxo de duelo...');
+  openDuelSetup();
+  setTimeout(()=>{
+    generateDuelId && generateDuelId();
+    const idEl = document.getElementById('duel-id-val');
+    const id = idEl ? idEl.textContent : '—';
+    _qaLog(`✅ Duelo gerado: ${id}`, 'success');
+    _qaChecklist.duel_flow.status = 'pass';
+    if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+  }, 600);
+}
+
+async function _qaSimDuelUsers(){
+  if(!currentDuelId){ _qaLog('⚠ Nenhum duelo ativo — gere um primeiro', 'warn'); return; }
+  _qaLog('👥 Simulando usuários no duelo ' + currentDuelId + '...');
+  const nicks = ['QA_Player1','QA_Player2','QA_Player3'];
+  for(const nick of nicks){
+    const sc  = Math.floor(Math.random()*900)+200;
+    const hit = Math.floor(sc/100);
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/sci_duels`, {
+        method:'POST',
+        headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,
+          'Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify({duel_id:currentDuelId, nickname:nick, score:sc, hits:hit, total:10, acc:Math.round(hit/10*100), date:Date.now(), expires_at:Date.now()+86400000})
+      });
+      _qaLog(`  → ${nick}: ${sc} pts`, 'success');
+    } catch(e){ _qaLog(`  ❌ ${nick}: erro`, 'error'); }
+  }
+  _qaLog('✅ Simulação de usuários concluída', 'success');
+  _qaChecklist.duel_flow.status = 'pass';
+  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+}
+
+/* ══════════════════════════════════════════
+   TESTES DE ÁUDIO
+══════════════════════════════════════════ */
+function _qaTestMusicState(state){
+  if(typeof SCI_MUSIC === 'undefined'){ _qaLog('⚠ SCI_MUSIC não disponível', 'warn'); return; }
+  if(!musicOn && !SCI_MUSIC._started) SCI_MUSIC.start();
+  setMusicState(state, 0.4);
+  _qaLog(`🎵 Música → ${state}`, 'success');
+  _qaChecklist.music_adaptive.status = 'pass';
+  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+}
+
+function _qaTestMusicEvent(ev){
+  if(typeof SCI_MUSIC === 'undefined'){ _qaLog('⚠ SCI_MUSIC não disponível', 'warn'); return; }
+  triggerMusicEvent(ev);
+  _qaLog(`🎶 Evento de música: ${ev}`, 'success');
+}
+
+/* ══════════════════════════════════════════
+   NOVOS ATALHOS DE TECLADO
+══════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if(!e.ctrlKey || !e.shiftKey) return;
+
+  /* Ctrl+Shift+6 → toggle painel QA (qualquer usuário tenta, só admin abre) */
+  if(e.key === '6'){
+    e.preventDefault();
+    if(isAdminUser) _toggleQAPanel();
+    return;
+  }
+
+  /* Demais só funcionam se admin autenticado */
+  if(!isAdminUser) return;
+
+  switch(e.key){
+    case '1':
+      e.preventDefault();
+      _qaLog('⌨ Ctrl+Shift+1 — finalizar quiz');
+      _qaFinishQuizNow();
+      break;
+    case '2':
+      e.preventDefault();
+      _qaLog('⌨ Ctrl+Shift+2 — simular médio');
+      _qaSimUser('medium');
+      break;
+    case '3':
+      e.preventDefault();
+      _qaLog('⌨ Ctrl+Shift+3 — simular ruim');
+      _qaSimUser('bad');
+      break;
+    case '4':
+      e.preventDefault();
+      _qaUnlockAllAch();
+      break;
+    case '5':
+      e.preventDefault();
+      _qaResetAll();
+      break;
+    case '7':
+      e.preventDefault();
+      _qaSimError();
+      break;
+  }
+});
 
 </script>
