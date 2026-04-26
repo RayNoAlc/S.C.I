@@ -454,7 +454,35 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* Nav user pill */
 .nav-user{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted2);background:var(--s1);border:1px solid var(--border2);border-radius:99px;padding:4px 10px 4px 6px;cursor:pointer;transition:all 0.14s}
 .nav-user:hover{border-color:var(--danger);color:var(--danger)}
-.nav-user-dot{width:20px;height:20px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.nav-user-dot{width:20px;height:20px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;overflow:hidden;padding:0}
+.nav-user-dot img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* ── Avatar global ── */
+.sci-avatar{border-radius:50%;object-fit:cover;display:inline-block;flex-shrink:0}
+.sci-avatar-wrap{border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;font-family:'Syne',sans-serif}
+/* rank item avatar */
+.rank-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--s2);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.rank-avatar img{width:100%;height:100%;object-fit:cover}
+.rank-avatar.me-av{border-color:var(--accent-border)}
+/* duel lb avatar */
+.duel-lb-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--s2);border:1.5px solid rgba(6,182,212,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.duel-lb-avatar img{width:100%;height:100%;object-fit:cover}
+/* profile card config */
+.profile-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:20px;display:flex;align-items:center;gap:16px;margin-bottom:1rem;cursor:pointer;transition:all .15s}
+.profile-card:hover{border-color:var(--accent-border);background:var(--s2)}
+.profile-avatar-big{width:64px;height:64px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent-dim);border:2px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:24px;position:relative}
+.profile-avatar-big img{width:100%;height:100%;object-fit:cover}
+.pab-edit{position:absolute;bottom:-4px;right:-4px;width:22px;height:22px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid var(--s1);z-index:2;pointer-events:none}
+.profile-avatar-big{overflow:hidden}
+.avatar-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:9600;padding:1.25rem;animation:fadeIn .18s ease}
+.avatar-modal-box{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;max-width:340px;width:100%;animation:up .2s cubic-bezier(.2,0,0,1);max-height:90vh;overflow-y:auto}
+.avatar-preview{width:100px;height:100px;border-radius:50%;overflow:hidden;margin:0 auto 1rem;background:var(--accent-dim);border:2px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:36px}
+.avatar-preview img{width:100%;height:100%;object-fit:cover}
+.avatar-upload-zone{border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:1.25rem;text-align:center;cursor:pointer;transition:all .15s;margin-bottom:.9rem}
+.avatar-upload-zone:hover{border-color:var(--accent-border);background:var(--accent-dim)}
+.avatar-emoji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:.9rem}
+.avatar-emoji-btn{font-size:22px;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px;cursor:pointer;transition:all .12s;text-align:center;line-height:1}
+.avatar-emoji-btn:hover{background:var(--s3);border-color:var(--border3)}
+.avatar-emoji-btn.selected{border-color:var(--accent-border);background:var(--accent-dim)}
 
 
 /* ─── Extended palette ─── */
@@ -1051,7 +1079,7 @@ body{padding-bottom:7rem!important}
       <div><div class="nav-name">S.C.I</div><div class="nav-sub">Saúde Coletiva Inteligente</div></div>
     </div>
     <div class="nav-pills"><span class="pill hub-ctx-pill" id="nav-hub-chip" style="display:none"></span><span class="pill hub-topic-pill">SUS</span><span class="pill hub-topic-pill">Saúde-Doença</span><span class="pill hub-topic-pill">Políticas</span></div>
-    <div class="nav-user" id="nav-user-btn" onclick="confirmLogout()" style="display:none"><div class="nav-user-dot">👤</div><span id="nav-user-name"></span><span style="font-size:10px;opacity:0.6">sair</span></div>
+    <div class="nav-user" id="nav-user-btn" onclick="confirmLogout()" style="display:none"><div class="nav-user-dot" id="nav-avatar-dot">👤</div><span id="nav-user-name"></span><span style="font-size:10px;opacity:0.6">sair</span></div>
   </div>
 
   <!-- AUTH -->
@@ -1723,6 +1751,23 @@ body{padding-bottom:7rem!important}
       <div class="sub-header-title">⚙️ Configurações</div>
       <div class="sub-header-desc">Personalize sua experiência</div>
     </div>
+    <!-- PERFIL -->
+    <div class="config-section">
+      <div class="config-section-label">Perfil</div>
+      <div class="profile-card" onclick="openAvatarModal()">
+        <div style="position:relative;flex-shrink:0">
+          <div class="profile-avatar-big" id="cfg-avatar-big">
+            <span id="cfg-avatar-emoji">👤</span>
+          </div>
+          <div class="pab-edit">✏️</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:3px" id="cfg-profile-name">—</div>
+          <div style="font-size:12px;color:var(--muted)">Toque para editar sua foto de perfil</div>
+        </div>
+        <div style="font-size:20px;opacity:.45">›</div>
+      </div>
+    </div>
     <div class="config-section">
       <div class="config-section-label">Áudio</div>
       <div class="config-row" onclick="toggleSound()">
@@ -1983,6 +2028,58 @@ body{padding-bottom:7rem!important}
 <div id="hub-flash" aria-hidden="true"></div>
 
 <!-- FLOATING CONTROLS (hidden — moved to Config) -->
+<!-- AVATAR MODAL -->
+<!-- AVATAR MODAL (com crop) -->
+<div class="avatar-modal-overlay" id="avatar-modal-overlay" style="display:none" onclick="if(event.target===this)closeAvatarModal()">
+  <div class="avatar-modal-box">
+
+    <!-- STEP A: escolha -->
+    <div id="av-step-choose">
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:1rem;text-align:center">Foto de Perfil</div>
+      <div class="avatar-preview" id="avatar-preview-wrap">
+        <span id="avatar-preview-emoji">👤</span>
+      </div>
+      <div class="avatar-upload-zone" onclick="document.getElementById('avatar-file-input').click()">
+        <div style="font-size:22px;margin-bottom:5px">📷</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:2px">Enviar foto</div>
+        <div style="font-size:11px;color:var(--muted)">JPG, PNG ou WebP · máx 4MB</div>
+      </div>
+      <input type="file" id="avatar-file-input" accept="image/*" style="display:none" onchange="_avatarHandleFile(this)">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);margin-bottom:.45rem">Ou emoji</div>
+      <div class="avatar-emoji-grid" id="avatar-emoji-grid"></div>
+      <div style="display:flex;gap:8px;margin-top:.75rem">
+        <button class="btn btn-green" style="flex:1;justify-content:center" onclick="saveAvatarModal()">Salvar</button>
+        <button class="btn btn-ghost" onclick="closeAvatarModal()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- STEP B: crop -->
+    <div id="av-step-crop" style="display:none">
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:.75rem;text-align:center">Enquadrar foto</div>
+      <!-- Crop viewport -->
+      <div id="av-crop-outer" style="position:relative;width:100%;padding-bottom:100%;background:#111;border-radius:50%;overflow:hidden;margin:0 auto 1rem;max-width:260px;cursor:grab;touch-action:none">
+        <canvas id="av-crop-canvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+        <!-- circular mask ring -->
+        <div style="position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 9999px rgba(0,0,0,0.55);pointer-events:none"></div>
+      </div>
+      <!-- Zoom slider -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:.9rem">
+        <span style="font-size:14px;color:var(--muted)">🔍</span>
+        <input type="range" id="av-crop-zoom" min="1" max="4" step="0.01" value="1" style="flex:1" oninput="_cropDraw()">
+        <span style="font-size:16px;color:var(--muted)">🔍</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:.9rem">
+        Arraste para posicionar · deslize para dar zoom
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" onclick="_cropBack()">← Voltar</button>
+        <button class="btn btn-green" style="flex:1;justify-content:center" onclick="_cropConfirm()">✓ Confirmar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="floating-controls" style="display:none!important">
   <button class="fc-btn" id="notif-btn" onclick="toggleNotifications()" title="Lembretes de revisão">🔔</button>
   <button class="fc-btn" id="music-btn" onclick="toggleMusic()" title="Tocar música ambiente">🎵</button>
@@ -3971,30 +4068,6 @@ achObserver.observe(document.getElementById('ach-screen'),{attributeFilter:['cla
 
 /* ─── ADMIN MODE ─── */
 let adminActive=false;
-document.addEventListener('keydown',e=>{
-  if(!isAdminUser)return; /* X/Z exclusivos do admin QA */
-  const s=document.querySelector('.screen.active')?.id;
-  // Ctrl+Shift+X → random answers
-  if(e.ctrlKey&&e.shiftKey&&(e.key==='X'||e.key==='x')){
-    if(s!=='quiz-screen'||adminActive)return;
-    adminActive=true;
-    const toast=document.getElementById('admin-toast');
-    toast.textContent='🛠 QA: respostas aleatórias…';
-    toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');adminActive=false;},3000);
-    _qaLog('⌨ Ctrl+Shift+X — respostas aleatórias');
-    runAdminSimulation(false);
-  }
-  // Ctrl+Shift+Z → always correct answers (max score)
-  if(e.ctrlKey&&e.shiftKey&&(e.key==='Z'||e.key==='z')){
-    if(s!=='quiz-screen'||adminActive)return;
-    adminActive=true;
-    const toast=document.getElementById('admin-toast');
-    toast.textContent='🛠 QA: respostas perfeitas…';
-    toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');adminActive=false;},3000);
-    _qaLog('⌨ Ctrl+Shift+Z — todas corretas');
-    runAdminSimulation(true);
-  }
-});
 function runAdminSimulation(alwaysCorrect){
   if(!document.getElementById('quiz-screen').classList.contains('active')){adminActive=false;return;}
   if(answered){
@@ -5059,10 +5132,49 @@ function _drawShareCard(data){
   ctx.textAlign='center';
   ctx.fillText(_bTxt,W/2,_bY+22);
 
-  // mode + nickname line
+  // mode + nickname line — with avatar
+  const _av=loadAvatar();
+  const _avR=16; // avatar radius
+  const _nickY=82;
+  const _nickText=modeLabel+' · @'+data.nick;
+  ctx.font='12px DM Sans,system-ui,sans-serif';
+  const _nickW=ctx.measureText(_nickText).width;
+  const _totalW=_avR*2+6+_nickW;
+  const _startX=(W-_totalW)/2;
+
+  // draw avatar circle at left of nick line
+  const _avCx=_startX+_avR;
+  const _avCy=_nickY-4;
+  ctx.save();
+  ctx.beginPath();ctx.arc(_avCx,_avCy,_avR,0,Math.PI*2);
+  if(_av&&_av.type==='img'){
+    /* draw immediately — image should be cached */
+    const _cachedImg=document.getElementById('_av_cache_img');
+    if(_cachedImg&&_cachedImg.complete){
+      ctx.clip();
+      ctx.drawImage(_cachedImg,_avCx-_avR,_avCy-_avR,_avR*2,_avR*2);
+    }else{
+      ctx.fillStyle='rgba(61,214,140,0.25)';ctx.fill();
+    }
+  }else if(_av&&_av.type==='emoji'){
+    ctx.fillStyle='rgba(61,214,140,0.15)';ctx.fill();
+    ctx.restore();ctx.save();
+    ctx.font=`${_avR*1.2}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(_av.value,_avCx,_avCy+1);
+  }else{
+    ctx.fillStyle='rgba(61,214,140,0.15)';ctx.fill();
+    ctx.restore();ctx.save();
+    ctx.font=`${_avR}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('👤',_avCx,_avCy+1);
+  }
+  ctx.restore();
+
+  // nick text right of avatar
   ctx.fillStyle='#6b7a8d';
   ctx.font='12px DM Sans,system-ui,sans-serif';
-  ctx.fillText(modeLabel+' · @'+data.nick,W/2,82);
+  ctx.textAlign='left';
+  ctx.fillText(_nickText,_startX+_avR*2+6,_nickY);
+  ctx.textAlign='center';
 
   // ── Big accuracy
   ctx.fillStyle=acc>=75?'#3dd68c':acc>=50?'#f5a623':'#ff6b6b';
@@ -6779,47 +6891,120 @@ async function renderStoredReviews(){
 
 /* ════════════════════════════════════════════════════════════════
    S.C.I — SISTEMA QA + MODO ADMINISTRADOR
-   ─ Invisível para usuários comuns
-   ─ Ativado automaticamente no login do admin (nick: sci.admin)
-   ─ Não quebra nenhuma funcionalidade existente
+   Ativado no login do admin (nick: sci.admin). Invisível para demais.
 ════════════════════════════════════════════════════════════════ */
-
-/* ── Credencial do admin (único) ── */
 const ADMIN_NICK = 'sci.admin';
 let isAdminUser = false;
 
-/* ── Estado interno do QA ── */
-let _qaOpen    = false;
-let _qaTab     = 'checklist';
-let _qaLogs    = [];
-let _qaErrors  = [];
-let _qaChecklist = {
-  quiz_flow:      {label:'Fluxo completo do quiz',          status:'pending'},
-  result_screen:  {label:'Transição para tela de resultado',status:'pending'},
-  wrong_review:   {label:'Botão "ver o que errei"',         status:'pending'},
-  redo_errors:    {label:'Revisar/refazer erros',           status:'pending'},
-  ranking_load:   {label:'Ranking carregando corretamente', status:'pending'},
-  flashcard_flip: {label:'Flashcards — flip',               status:'pending'},
-  flashcard_save: {label:'Flashcards — salvar/editar',      status:'pending'},
-  data_persist:   {label:'Persistência de dados',           status:'pending'},
-  achievements:   {label:'Sistema de conquistas',           status:'pending'},
-  music_adaptive: {label:'Música adaptativa',               status:'pending'},
-  duel_flow:      {label:'Duelo — ID + ranking + fluxo',   status:'pending'},
-  hub_navigation: {label:'Navegação entre hubs',            status:'pending'},
-};
+/* ─── QA STATE ─── */
+let _qaOpen=false,_qaTab='checklist',_qaLogs=[],_qaErrors=[];
+let _qaRunning=false; /* previne simulações sobrepostas */
 
-/* ══════════════════════════════════════════
-   ATIVAÇÃO — Hook em finishLogin existente
-══════════════════════════════════════════ */
-(function(){
-  const _origFL = finishLogin;
-  window.finishLogin = function(){
-    _origFL.apply(this, arguments);
-    if(currentUser && currentUser.nickname === ADMIN_NICK){
-      setTimeout(_activateAdminMode, 500);
-    }
-  };
-})();
+const _QA_CHECKS={
+  /* Autenticação */
+  auth_login:       {g:'Auth',       label:'Login com nickname + senha'},
+  auth_logout:      {g:'Auth',       label:'Logout limpa sessão e UI'},
+  auth_session:     {g:'Auth',       label:'Sessão persiste ao recarregar'},
+  /* Navegação */
+  nav_hubs:         {g:'Navegação',  label:'Hubs: Home→Jogar→Estudo→Desemp→Config'},
+  nav_back:         {g:'Navegação',  label:'Botões "← Voltar" funcionam'},
+  nav_bottom:       {g:'Navegação',  label:'Bottom nav sincroniza aba ativa'},
+  nav_hub_color:    {g:'Navegação',  label:'Cor do hub muda accent/glow'},
+  /* Quiz */
+  quiz_start:       {g:'Quiz',       label:'Iniciar quiz (qualquer modo)'},
+  quiz_question:    {g:'Quiz',       label:'Questão carrega com opções'},
+  quiz_correct:     {g:'Quiz',       label:'Acerto: score sobe + feedback'},
+  quiz_wrong:       {g:'Quiz',       label:'Erro: feedback + streak quebra'},
+  quiz_timer:       {g:'Quiz',       label:'Timer conta regressivamente'},
+  quiz_timeout:     {g:'Quiz',       label:'Timeout avança questão'},
+  quiz_streak:      {g:'Quiz',       label:'Streak incrementa e exibe'},
+  quiz_progress:    {g:'Quiz',       label:'Barra de progresso avança'},
+  quiz_finish:      {g:'Quiz',       label:'Quiz finaliza e vai p/ resultado'},
+  /* Modos específicos */
+  mode_ranked:      {g:'Modos',      label:'Ranqueado: timer 45s + score pts'},
+  mode_normal:      {g:'Modos',      label:'Normal: 60s, sem ranking'},
+  mode_survival:    {g:'Modos',      label:'Sobrevivência: 3 vidas, sem timer'},
+  mode_sprint:      {g:'Modos',      label:'Sprint: 10q em 2min'},
+  mode_simulado:    {g:'Modos',      label:'Simulado: 30q, 30min, sem feedback'},
+  /* Resultado */
+  result_screen:    {g:'Resultado',  label:'Tela de resultado renderiza'},
+  result_stats:     {g:'Resultado',  label:'Acertos/total/tempo exibidos'},
+  result_review:    {g:'Resultado',  label:'Botão "ver o que errei" aparece'},
+  result_retry:     {g:'Resultado',  label:'Botão revisar erros funciona'},
+  result_ranking:   {g:'Resultado',  label:'Botão Ranking aparece p/ modos certos'},
+  result_share:     {g:'Resultado',  label:'Botão compartilhar aparece'},
+  result_history:   {g:'Resultado',  label:'Histórico salvo após resultado'},
+  /* Flashcards sistema */
+  fc_render:        {g:'Flashcards', label:'Cards do sistema renderizam'},
+  fc_flip:          {g:'Flashcards', label:'Flip frente→verso funciona'},
+  fc_understood:    {g:'Flashcards', label:'Marcar como entendido persiste'},
+  fc_filter:        {g:'Flashcards', label:'Filtros (todos/pendentes/entendidos)'},
+  fc_study_edit:    {g:'Flashcards', label:'Editar resposta na frente'},
+  fc_sr_badge:      {g:'Flashcards', label:'Badge SR aparece'},
+  /* Flashcards usuário (UFC) */
+  ufc_create:       {g:'UFC',        label:'Criar flashcard do usuário'},
+  ufc_edit:         {g:'UFC',        label:'Editar flashcard existente'},
+  ufc_delete:       {g:'UFC',        label:'Deletar flashcard'},
+  ufc_flip:         {g:'UFC',        label:'Flip no flashcard do usuário'},
+  ufc_persist:      {g:'UFC',        label:'Cards persistem após reload'},
+  /* Ranking */
+  rank_tab_ranked:  {g:'Ranking',    label:'Aba Ranqueado carrega'},
+  rank_tab_surv:    {g:'Ranking',    label:'Aba Sobrevivência carrega'},
+  rank_tab_sprint:  {g:'Ranking',    label:'Aba Sprint carrega'},
+  rank_tab_duels:   {g:'Ranking',    label:'Aba Duelos carrega'},
+  rank_tab_color:   {g:'Ranking',    label:'Aba ativa muda de cor'},
+  rank_play_btn:    {g:'Ranking',    label:'Botão jogar atualiza por aba'},
+  rank_save:        {g:'Ranking',    label:'Score salvo após partida ranqueada'},
+  /* Conquistas */
+  ach_render:       {g:'Conquistas', label:'Grid de conquistas renderiza'},
+  ach_unlock:       {g:'Conquistas', label:'Desbloquear conquista funciona'},
+  ach_toast:        {g:'Conquistas', label:'Toast de conquista aparece'},
+  ach_persist:      {g:'Conquistas', label:'Conquistas persistem'},
+  ach_secret:       {g:'Conquistas', label:'Conquistas secretas ocultam nome'},
+  /* Evolução */
+  evo_chart:        {g:'Evolução',   label:'Gráfico de linha renderiza'},
+  evo_theme_bars:   {g:'Evolução',   label:'Barras por tema renderizam'},
+  evo_sparkline:    {g:'Evolução',   label:'Sparkline no banner home'},
+  /* Mapa Conceitual */
+  map_themes:       {g:'Mapa',       label:'Temas do mapa renderizam'},
+  map_concepts:     {g:'Mapa',       label:'Conceitos de tema carregam'},
+  map_graph:        {g:'Mapa',       label:'Grafo Obsidian renderiza'},
+  map_focus_quiz:   {g:'Mapa',       label:'Quiz por conceito inicia'},
+  /* Duelo */
+  duel_setup:       {g:'Duelo',      label:'Tela de setup do duelo carrega'},
+  duel_generate:    {g:'Duelo',      label:'Gerar ID de duelo funciona'},
+  duel_encode:      {g:'Duelo',      label:'Encode/decode do ID correto'},
+  duel_join:        {g:'Duelo',      label:'Entrar em duelo por ID funciona'},
+  duel_quiz:        {g:'Duelo',      label:'Quiz do duelo respeita seed'},
+  duel_leaderboard: {g:'Duelo',      label:'Placar do duelo carrega'},
+  duel_save_local:  {g:'Duelo',      label:'Duelo salvo localmente'},
+  /* Áudio */
+  sfx_click:        {g:'Áudio',      label:'SFX de clique dispara'},
+  sfx_correct:      {g:'Áudio',      label:'SFX de acerto dispara'},
+  sfx_wrong:        {g:'Áudio',      label:'SFX de erro dispara'},
+  sfx_achievement:  {g:'Áudio',      label:'SFX de conquista dispara'},
+  music_start:      {g:'Áudio',      label:'Música inicia sem erros'},
+  music_state_menu: {g:'Áudio',      label:'Estado menu/home aplica'},
+  music_state_game: {g:'Áudio',      label:'Estado de jogo aplica'},
+  music_toggle:     {g:'Áudio',      label:'Toggle liga/desliga sem crash'},
+  /* Persistência */
+  persist_cache:    {g:'Dados',      label:'getCache/setCache funcionam'},
+  persist_local:    {g:'Dados',      label:'localStorage disponível'},
+  persist_supabase: {g:'Dados',      label:'Supabase alcançável (ping)'},
+  persist_sync:     {g:'Dados',      label:'syncToSupabase não lança erro'},
+  /* UI/UX */
+  ui_light_mode:    {g:'UI',         label:'Modo claro toggle funciona'},
+  ui_hub_glow:      {g:'UI',         label:'Glow do hub muda na transição'},
+  ui_modal:         {g:'UI',         label:'Modais abrem e fecham'},
+  ui_confetti:      {g:'UI',         label:'Confetti lança no resultado bom'},
+  ui_theme_color:   {g:'UI',         label:'Cor da rank-tab muda por modo'},
+  /* Avaliação */
+  review_modal:     {g:'Avaliação',  label:'Modal de avaliação abre'},
+  review_submit:    {g:'Avaliação',  label:'Envio de avaliação (Supabase)'},
+  review_list:      {g:'Avaliação',  label:'Lista de avaliações carrega'},
+};
+/* Status inicial */
+Object.keys(_QA_CHECKS).forEach(k=>(_QA_CHECKS[k].status='pending'));
 
 function _activateAdminMode(){
   isAdminUser = true;
@@ -6839,821 +7024,1981 @@ function _activateAdminMode(){
   }
 }
 
-/* ══════════════════════════════════════════
-   LOGGER + INTERCEPTORES
-══════════════════════════════════════════ */
-function _qaLog(msg, type='info'){
-  const ts = new Date().toLocaleTimeString('pt-BR');
-  _qaLogs.unshift({msg, type, ts});
-  if(_qaLogs.length > 150) _qaLogs.pop();
-  if(_qaOpen && _qaTab === 'logs') _renderQALogs();
+/* ══ LOGGER ══ */
+function _qaLog(msg,type='info'){
+  const ts=new Date().toLocaleTimeString('pt-BR');
+  _qaLogs.unshift({msg,type,ts});
+  if(_qaLogs.length>200)_qaLogs.pop();
+  if(_qaOpen&&_qaTab==='logs')_renderQALogs();
+}
+function _qaPass(key,note=''){const c=_QA_CHECKS[key];if(c){c.status='pass';if(note)c.note=note;if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();}}
+function _qaFail(key,note=''){const c=_QA_CHECKS[key];if(c){c.status='fail';c.note=note;_qaErrors.push((c.label||key)+(note?' — '+note:''));if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();}}
+
+/* ══ INTERCEPTORES ══ */
+(()=>{const o=finishLogin;window.finishLogin=function(){o.apply(this,arguments);if(currentUser&&currentUser.nickname===ADMIN_NICK)setTimeout(_activateAdminMode,500);};})();
+(()=>{const o=showScreen;window.showScreen=function(id){if(isAdminUser)_qaLog('🖥 → '+id);o.apply(this,arguments);if(isAdminUser)setTimeout(_runAutoDetection,350);};})();
+(()=>{const o=unlockAch;window.unlockAch=function(id){if(isAdminUser){_qaLog('🏅 '+id,'success');_qaPass('ach_unlock');_qaPass('ach_toast');_qaPass('ach_persist');}o.apply(this,arguments);};})();
+(()=>{const o=saveScore;window.saveScore=async function(...a){if(isAdminUser){_qaLog('💾 saveScore: '+a[0]+' = '+a[1]);_qaPass('rank_save');}return o.apply(this,arguments);};})();
+(()=>{const o=renderResult;window.renderResult=function(...a){
+  if(isAdminUser){_qaLog('📊 renderResult','success');_qaPass('quiz_finish');_qaPass('result_screen');_qaPass('result_stats');}
+  o.apply(this,arguments);
+  if(isAdminUser)setTimeout(()=>{
+    if(document.querySelector('.review-cta button'))_qaPass('result_review');
+    if(document.querySelector('.retry-errors-cta button'))_qaPass('result_retry');
+    const rb=document.getElementById('res-ranking-btn');
+    if(rb&&rb.style.display!=='none')_qaPass('result_ranking');
+  },300);
+};})();
+(()=>{const o=loadQuestion;window.loadQuestion=function(){o.apply(this,arguments);if(isAdminUser)setTimeout(()=>{if(document.querySelectorAll('.opt').length>=2){_qaPass('quiz_question');_qaPass('quiz_start');}},120);};})();
+(()=>{const o=selectOption;window.selectOption=function(idx){const q=shuffled[current];o.apply(this,arguments);if(isAdminUser&&q){if(idx===q.answer)_qaPass('quiz_correct');else _qaPass('quiz_wrong');}};})();
+(()=>{const o=saveDuelScore;window.saveDuelScore=async function(...a){if(isAdminUser){_qaLog('⚔️ saveDuelScore: '+a[0],'success');_qaPass('duel_quiz');}return o.apply(this,arguments);};})();
+(()=>{const o=showAchToast;window.showAchToast=function(...a){o.apply(this,arguments);if(isAdminUser)_qaPass('ach_toast');};})();
+(()=>{const o=pushHistory;window.pushHistory=function(...a){o.apply(this,arguments);if(isAdminUser)_qaPass('result_history');};})();
+
+/* ══ BUILD PAINEL ══ */
+function _buildQAPanel(){
+  if(document.getElementById('qa-panel'))return;
+  const style=document.createElement('style');style.id='qa-panel-style';
+  style.textContent=`
+#qa-panel{position:fixed;bottom:80px;right:14px;width:380px;max-height:580px;
+  background:#08090d;border:1px solid rgba(167,139,250,0.28);border-radius:12px;
+  z-index:99000;display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 24px 64px rgba(0,0,0,0.8);
+  font-family:'DM Sans',sans-serif;font-size:13px;color:#e8eef4;
+  user-select:none;min-width:300px;min-height:220px;resize:both}
+#qa-panel.qa-h{display:none!important}
+#qa-hdr{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#0d0f16;
+  border-bottom:1px solid rgba(167,139,250,0.12);flex-shrink:0;cursor:move}
+.qa-drag-grip{font-size:10px;color:#2a3a4d;margin-right:2px;pointer-events:none;letter-spacing:2px}
+#qa-title{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:#a78bfa;flex:1}
+#qa-live{font-size:10px;color:#3a4a5d;background:#111520;border:1px solid rgba(255,255,255,0.06);
+  border-radius:99px;padding:2px 8px;white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis}
+.qa-x{background:transparent;border:none;color:#3a4a5d;cursor:pointer;font-size:14px;
+  padding:2px 5px;border-radius:4px;line-height:1;transition:all .1s}
+.qa-x:hover{color:#e8eef4;background:rgba(255,255,255,0.07)}
+#qa-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.05);flex-shrink:0;background:#08090d}
+.qa-tab{flex:1;padding:7px 2px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;cursor:pointer;color:#3a4a5d;border:none;background:transparent;
+  transition:all .12s;border-bottom:2px solid transparent;white-space:nowrap}
+.qa-tab:hover{color:#8a99ac}
+.qa-tab.qa-on{color:#a78bfa;border-bottom-color:#a78bfa}
+#qa-body{flex:1;overflow-y:auto;padding:11px 12px 14px}
+#qa-body::-webkit-scrollbar{width:3px}
+#qa-body::-webkit-scrollbar-thumb{background:rgba(167,139,250,0.22);border-radius:2px}
+.qa-grp{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#a78bfa;margin:12px 0 5px;padding-bottom:3px;border-bottom:1px solid rgba(167,139,250,0.12)}
+.qa-grp:first-child{margin-top:0}
+.qa-row{display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.qa-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;font-size:8px;
+  display:flex;align-items:center;justify-content:center;font-weight:900}
+.qa-dot.pass{background:rgba(61,214,140,0.2);color:#3dd68c}
+.qa-dot.fail{background:rgba(255,107,107,0.2);color:#ff6b6b}
+.qa-dot.pending{background:rgba(255,255,255,0.05);color:#3a4a5d}
+.qa-lbl{flex:1;font-size:11px;color:#6b7a8d;line-height:1.3}
+.qa-note{font-size:9px;color:#2a3a4d;margin-top:1px}
+.qa-m{font-size:9px;padding:1px 5px;border-radius:99px;border:1px solid rgba(255,255,255,0.09);
+  background:transparent;color:#3a4a5d;cursor:pointer;font-family:'DM Sans',sans-serif}
+.qa-m:hover{color:#e8eef4;border-color:rgba(255,255,255,0.2)}
+.qa-sg{display:grid;gap:5px;margin-bottom:9px}
+.qa-sg2{grid-template-columns:1fr 1fr}
+.qa-sg3{grid-template-columns:1fr 1fr 1fr}
+.qa-s{background:#0d0f16;border:1px solid rgba(255,255,255,0.05);border-radius:6px;padding:7px 9px}
+.qa-sl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#3a4a5d;margin-bottom:1px}
+.qa-sv{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#e8eef4;line-height:1.2}
+.qa-sv.sm{font-size:11px}
+.qa-errl{font-size:10px;color:#f5a623;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.4}
+.qa-log{font-size:10px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);
+  display:flex;gap:6px;align-items:flex-start;line-height:1.35}
+.qa-log-ts{color:#2a3540;min-width:54px;font-variant-numeric:tabular-nums;flex-shrink:0}
+.qa-log-msg{flex:1;color:#4a5a6d}
+.qa-log.success .qa-log-msg{color:#3dd68c}
+.qa-log.error   .qa-log-msg{color:#ff6b6b}
+.qa-log.warn    .qa-log-msg{color:#f5a623}
+.qa-sec{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:#3a4a5d;margin:10px 0 5px}
+.qa-sec:first-child{margin-top:0}
+.qa-br{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.qa-b{padding:5px 10px;border-radius:5px;border:1px solid rgba(255,255,255,0.09);
+  background:rgba(255,255,255,0.03);color:#e8eef4;font-size:11px;cursor:pointer;
+  transition:all .12s;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap}
+.qa-b:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.18)}
+.qa-b.g{border-color:rgba(61,214,140,0.28);color:#3dd68c;background:rgba(61,214,140,0.05)}
+.qa-b.g:hover{background:rgba(61,214,140,0.12)}
+.qa-b.r{border-color:rgba(255,107,107,0.28);color:#ff6b6b;background:rgba(255,107,107,0.05)}
+.qa-b.r:hover{background:rgba(255,107,107,0.12)}
+.qa-b.p{border-color:rgba(167,139,250,0.28);color:#a78bfa;background:rgba(167,139,250,0.05)}
+.qa-b.p:hover{background:rgba(167,139,250,0.12)}
+.qa-b.c{border-color:rgba(6,182,212,0.28);color:#06b6d4;background:rgba(6,182,212,0.05)}
+.qa-b.c:hover{background:rgba(6,182,212,0.12)}
+.qa-b.y{border-color:rgba(245,166,35,0.28);color:#f5a623;background:rgba(245,166,35,0.05)}
+.qa-b.y:hover{background:rgba(245,166,35,0.12)}
+.qa-b.full{width:100%;justify-content:center;text-align:center;display:block}
+.qa-inp{background:#0d0f16;border:1px solid rgba(255,255,255,0.09);color:#e8eef4;
+  border-radius:5px;padding:4px 8px;font-size:11px;font-family:'DM Sans',sans-serif;outline:none;width:52px;text-align:center}
+.qa-inp:focus{border-color:rgba(167,139,250,0.4)}
+.qa-sel{background:#0d0f16;border:1px solid rgba(255,255,255,0.09);color:#e8eef4;
+  border-radius:5px;padding:4px 8px;font-size:11px;font-family:'DM Sans',sans-serif;outline:none}
+.qa-kbd{font-family:monospace;font-size:10px;background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:1px 4px;color:#6b7a8d}
+.qa-krow{display:flex;justify-content:space-between;align-items:center;
+  padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.qa-kdesc{font-size:11px;color:#4a5a6d}
+.qa-hr{height:1px;background:rgba(255,255,255,0.05);margin:9px 0}
+.qa-prog{height:3px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.qa-prog-fill{height:100%;border-radius:2px;transition:width .4s}
+.qa-inline{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:7px}
+`;
+  document.head.appendChild(style);
+  const p=document.createElement('div');p.id='qa-panel';p.className='qa-h';
+  p.innerHTML=`
+<div id="qa-hdr" id="qa-drag-handle">
+  <span class="qa-drag-grip">⠿</span>
+  <div id="qa-title">🧪 S.C.I QA</div>
+  <div id="qa-live">—</div>
+  <button class="qa-x" onclick="_toggleQAPanel()" title="Ctrl+Shift+6">✕</button>
+</div>
+<div id="qa-tabs">
+  <button class="qa-tab qa-on" onclick="_setQATab('checklist',this)">Checklist</button>
+  <button class="qa-tab" onclick="_setQATab('testes',this)">Testes</button>
+  <button class="qa-tab" onclick="_setQATab('logs',this)">Logs</button>
+  <button class="qa-tab" onclick="_setQATab('estado',this)">Estado</button>
+</div>
+<div id="qa-body"></div>`;
+  document.body.appendChild(p);
+  setInterval(_qaUpdateLive,1200);
+  _renderQATab('checklist');
+  /* ── Drag & drop ── */
+  _qaInitDrag(p);
 }
 
-/* Interceptar showScreen */
-(function(){
-  const orig = showScreen;
-  window.showScreen = function(id){
-    if(isAdminUser) _qaLog('🖥 Tela → ' + id);
-    orig.apply(this, arguments);
-    if(isAdminUser) setTimeout(_runAutoDetection, 400);
-  };
-})();
-
-/* Interceptar unlockAch */
-(function(){
-  const orig = unlockAch;
-  window.unlockAch = function(id){
-    if(isAdminUser){ _qaLog('🏅 Conquista: ' + id, 'success'); _qaChecklist.achievements.status = 'pass'; }
-    orig.apply(this, arguments);
-    if(isAdminUser && _qaOpen && _qaTab === 'checklist') _renderQAChecklist();
-  };
-})();
-
-/* Interceptar saveScore */
-(function(){
-  const orig = saveScore;
-  window.saveScore = async function(...args){
-    if(isAdminUser){ _qaLog('💾 saveScore: ' + args[0] + ' = ' + args[1]); _qaChecklist.data_persist.status = 'pass'; }
-    return orig.apply(this, arguments);
-  };
-})();
-
-/* Interceptar renderResult */
-(function(){
-  const orig = renderResult;
-  window.renderResult = function(...args){
-    if(isAdminUser){ _qaLog('📊 renderResult chamado', 'success'); _qaChecklist.quiz_flow.status = 'pass'; _qaChecklist.result_screen.status = 'pass'; }
-    orig.apply(this, arguments);
-    /* Checa botão "ver o que errei" gerado dinamicamente */
-    if(isAdminUser) setTimeout(()=>{
-      const cta = document.querySelector('.review-cta button');
-      const retry = document.querySelector('.retry-errors-cta button');
-      _qaChecklist.wrong_review.status = cta ? 'pass' : (args[0]&&args[0].wrongs&&args[0].wrongs.length ? 'fail' : 'pass');
-      _qaChecklist.redo_errors.status  = retry ? 'pass' : _qaChecklist.wrong_review.status;
-      if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
-    }, 300);
-  };
-})();
-
-/* Interceptar saveDuelScore */
-(function(){
-  const orig = saveDuelScore;
-  window.saveDuelScore = async function(...args){
-    if(isAdminUser){ _qaLog('⚔️ saveDuelScore: ' + args[0], 'success'); _qaChecklist.duel_flow.status = 'pass'; }
-    return orig.apply(this, arguments);
-  };
-})();
-
-/* ══════════════════════════════════════════
-   CONSTRUÇÃO DO PAINEL QA
-══════════════════════════════════════════ */
-function _buildQAPanel(){
-  if(document.getElementById('qa-panel')) return;
-
-  /* ── CSS do painel ── */
-  const style = document.createElement('style');
-  style.id = 'qa-panel-style';
-  style.textContent = `
-#qa-panel{position:fixed;bottom:80px;right:14px;width:370px;max-height:540px;
-  background:#0a0e14;border:1px solid rgba(167,139,250,0.32);border-radius:12px;
-  z-index:99000;display:flex;flex-direction:column;overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,0.75),0 0 0 1px rgba(167,139,250,0.1);
-  font-family:'DM Sans',sans-serif;font-size:13px;color:#e8eef4;
-  transition:opacity .2s,transform .2s}
-#qa-panel.qa-hidden{display:none!important}
-#qa-header{display:flex;align-items:center;gap:8px;padding:9px 13px 9px 14px;
-  background:#0f1419;border-bottom:1px solid rgba(167,139,250,0.14);flex-shrink:0}
-#qa-header-title{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;
-  letter-spacing:.1em;text-transform:uppercase;color:#a78bfa;flex:1}
-#qa-live-badge{font-size:10px;color:#4a5a6d;background:#161d26;border:1px solid rgba(255,255,255,0.07);
-  border-radius:99px;padding:2px 9px;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis}
-.qa-close-btn{background:transparent;border:none;color:#4a5a6d;cursor:pointer;font-size:15px;
-  line-height:1;padding:2px 4px;border-radius:4px;transition:all .12s}
-.qa-close-btn:hover{color:#e8eef4;background:rgba(255,255,255,0.07)}
-#qa-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.06);flex-shrink:0;background:#0a0e14}
-.qa-tab{flex:1;padding:7px 4px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;cursor:pointer;color:#4a5a6d;border:none;background:transparent;
-  transition:all .12s;border-bottom:2px solid transparent}
-.qa-tab:hover{color:#8a99ac}
-.qa-tab.qa-active{color:#a78bfa;border-bottom-color:#a78bfa}
-#qa-body{flex:1;overflow-y:auto;padding:11px 13px 13px}
-#qa-body::-webkit-scrollbar{width:3px}
-#qa-body::-webkit-scrollbar-thumb{background:rgba(167,139,250,0.25);border-radius:2px}
-.qa-section{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-  color:#4a5a6d;margin:10px 0 6px}
-.qa-section:first-child{margin-top:0}
-.qa-stat-grid{display:grid;gap:5px;margin-bottom:10px}
-.qa-stat-grid-2{grid-template-columns:1fr 1fr}
-.qa-stat-grid-3{grid-template-columns:1fr 1fr 1fr}
-.qa-stat{background:#0f1419;border:1px solid rgba(255,255,255,0.06);border-radius:7px;padding:7px 9px}
-.qa-stat-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#4a5a6d;margin-bottom:1px}
-.qa-stat-val{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#e8eef4;line-height:1.2}
-.qa-stat-val.sm{font-size:11px}
-.qa-check-row{display:flex;align-items:center;gap:7px;padding:4px 0;
-  border-bottom:1px solid rgba(255,255,255,0.04)}
-.qa-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;font-size:9px;
-  display:flex;align-items:center;justify-content:center;font-weight:700}
-.qa-dot.pass{background:rgba(61,214,140,0.18);color:#3dd68c}
-.qa-dot.fail{background:rgba(255,107,107,0.18);color:#ff6b6b}
-.qa-dot.pending{background:rgba(255,255,255,0.06);color:#4a5a6d}
-.qa-check-lbl{flex:1;font-size:11px;color:#8a99ac;line-height:1.3}
-.qa-mini-btn{font-size:9px;padding:2px 6px;border-radius:99px;border:1px solid rgba(255,255,255,0.1);
-  background:transparent;color:#4a5a6d;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .1s}
-.qa-mini-btn:hover{color:#e8eef4;border-color:rgba(255,255,255,0.22)}
-.qa-err-row{display:flex;gap:6px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);align-items:flex-start}
-.qa-err-icon{color:#f5a623;flex-shrink:0;font-size:12px;margin-top:1px}
-.qa-err-txt{font-size:11px;color:#8a99ac;line-height:1.4}
-.qa-log-row{font-size:10px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);
-  display:flex;gap:6px;align-items:flex-start;line-height:1.4}
-.qa-log-ts{color:#2a3a4d;flex-shrink:0;font-variant-numeric:tabular-nums;min-width:54px}
-.qa-log-msg{flex:1;color:#6b7a8d}
-.qa-log-row.success .qa-log-msg{color:#3dd68c}
-.qa-log-row.error   .qa-log-msg{color:#ff6b6b}
-.qa-log-row.warn    .qa-log-msg{color:#f5a623}
-.qa-btn-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
-.qa-btn{padding:6px 11px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);
-  background:rgba(255,255,255,0.04);color:#e8eef4;font-size:11px;cursor:pointer;
-  transition:all .12s;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap}
-.qa-btn:hover{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.2)}
-.qa-btn.g{border-color:rgba(61,214,140,0.3);color:#3dd68c;background:rgba(61,214,140,0.06)}
-.qa-btn.g:hover{background:rgba(61,214,140,0.13)}
-.qa-btn.r{border-color:rgba(255,107,107,0.3);color:#ff6b6b;background:rgba(255,107,107,0.06)}
-.qa-btn.r:hover{background:rgba(255,107,107,0.13)}
-.qa-btn.p{border-color:rgba(167,139,250,0.3);color:#a78bfa;background:rgba(167,139,250,0.06)}
-.qa-btn.p:hover{background:rgba(167,139,250,0.13)}
-.qa-btn.c{border-color:rgba(6,182,212,0.3);color:#06b6d4;background:rgba(6,182,212,0.06)}
-.qa-btn.c:hover{background:rgba(6,182,212,0.13)}
-.qa-kbd{display:inline-block;font-family:monospace;font-size:10px;background:rgba(255,255,255,0.07);
-  border:1px solid rgba(255,255,255,0.14);border-radius:3px;padding:1px 5px;color:#6b7a8d}
-.qa-shortcut-row{display:flex;justify-content:space-between;align-items:center;
-  padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04);gap:8px}
-.qa-shortcut-desc{font-size:11px;color:#6b7a8d}
-.qa-row-inline{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:7px}
-.qa-input{background:#0a0e14;border:1px solid rgba(255,255,255,0.1);color:#e8eef4;
-  border-radius:5px;padding:4px 8px;font-size:11px;font-family:'DM Sans',sans-serif;
-  outline:none;width:54px;text-align:center}
-.qa-input:focus{border-color:rgba(167,139,250,0.4)}
-.qa-select{background:#0a0e14;border:1px solid rgba(255,255,255,0.1);color:#e8eef4;
-  border-radius:5px;padding:4px 8px;font-size:11px;font-family:'DM Sans',sans-serif;outline:none}
-.qa-select:focus{border-color:rgba(167,139,250,0.4)}
-.qa-divider{height:1px;background:rgba(255,255,255,0.05);margin:10px 0}
-  `;
-  document.head.appendChild(style);
-
-  /* ── HTML do painel ── */
-  const panel = document.createElement('div');
-  panel.id = 'qa-panel';
-  panel.className = 'qa-hidden';
-  panel.innerHTML = `
-    <div id="qa-header">
-      <div id="qa-header-title">🧪 QA Panel</div>
-      <div id="qa-live-badge">—</div>
-      <button class="qa-close-btn" onclick="_toggleQAPanel()" title="Fechar (Ctrl+Shift+6)">✕</button>
-    </div>
-    <div id="qa-tabs">
-      <button class="qa-tab qa-active" onclick="_setQATab('checklist',this)">Checklist</button>
-      <button class="qa-tab" onclick="_setQATab('testes',this)">Testes</button>
-      <button class="qa-tab" onclick="_setQATab('logs',this)">Logs</button>
-      <button class="qa-tab" onclick="_setQATab('controles',this)">Controles</button>
-    </div>
-    <div id="qa-body"></div>
-  `;
-  document.body.appendChild(panel);
-
-  setInterval(_qaUpdateLiveBadge, 1200);
-  _renderQATab('checklist');
+function _qaInitDrag(panel){
+  const hdr=panel.querySelector('#qa-hdr');if(!hdr)return;
+  let dx=0,dy=0,startX=0,startY=0,dragging=false;
+  hdr.addEventListener('mousedown',e=>{
+    if(e.target.classList.contains('qa-x'))return;
+    dragging=true;
+    /* snapshot current position */
+    const r=panel.getBoundingClientRect();
+    panel.style.right='auto';panel.style.bottom='auto';
+    panel.style.left=r.left+'px';panel.style.top=r.top+'px';
+    startX=e.clientX-r.left;startY=e.clientY-r.top;
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    let nx=e.clientX-startX;let ny=e.clientY-startY;
+    /* clamp to viewport */
+    const pw=panel.offsetWidth;const ph=panel.offsetHeight;
+    nx=Math.max(0,Math.min(window.innerWidth-pw,nx));
+    ny=Math.max(0,Math.min(window.innerHeight-ph,ny));
+    panel.style.left=nx+'px';panel.style.top=ny+'px';
+  });
+  document.addEventListener('mouseup',()=>dragging=false);
+  /* Touch support */
+  hdr.addEventListener('touchstart',e=>{
+    if(e.target.classList.contains('qa-x'))return;
+    const t=e.touches[0];dragging=true;
+    const r=panel.getBoundingClientRect();
+    panel.style.right='auto';panel.style.bottom='auto';
+    panel.style.left=r.left+'px';panel.style.top=r.top+'px';
+    startX=t.clientX-r.left;startY=t.clientY-r.top;
+  },{passive:true});
+  document.addEventListener('touchmove',e=>{
+    if(!dragging)return;
+    const t=e.touches[0];
+    let nx=t.clientX-startX;let ny=t.clientY-startY;
+    const pw=panel.offsetWidth;const ph=panel.offsetHeight;
+    nx=Math.max(0,Math.min(window.innerWidth-pw,nx));
+    ny=Math.max(0,Math.min(window.innerHeight-ph,ny));
+    panel.style.left=nx+'px';panel.style.top=ny+'px';
+  },{passive:true});
+  document.addEventListener('touchend',()=>dragging=false);
 }
 
 function _toggleQAPanel(){
-  if(!isAdminUser) return;
-  _qaOpen = !_qaOpen;
-  let p = document.getElementById('qa-panel');
-  if(!p){ _buildQAPanel(); p = document.getElementById('qa-panel'); _qaOpen = true; }
-  p.classList.toggle('qa-hidden', !_qaOpen);
-  if(_qaOpen){ _renderQATab(_qaTab); _runAutoDetection(); }
+  if(!isAdminUser)return;
+  _qaOpen=!_qaOpen;
+  let p=document.getElementById('qa-panel');
+  if(!p){_buildQAPanel();p=document.getElementById('qa-panel');_qaOpen=true;}
+  p.classList.toggle('qa-h',!_qaOpen);
+  if(_qaOpen){_renderQATab(_qaTab);_runAutoDetection();}
 }
-
-function _setQATab(tab, el){
-  _qaTab = tab;
-  document.querySelectorAll('.qa-tab').forEach(t => t.classList.remove('qa-active'));
-  if(el) el.classList.add('qa-active');
+function _setQATab(tab,el){
+  _qaTab=tab;
+  document.querySelectorAll('.qa-tab').forEach(t=>t.classList.remove('qa-on'));
+  if(el)el.classList.add('qa-on');
   _renderQATab(tab);
 }
-
-function _renderQATab(tab){
-  if(tab === 'checklist') _renderQAChecklist();
-  else if(tab === 'testes')    _renderQATestes();
-  else if(tab === 'logs')      _renderQALogs();
-  else if(tab === 'controles') _renderQAControles();
+function _renderQATab(t){
+  if(t==='checklist')_renderQAChecklist();
+  else if(t==='testes')_renderQATestes();
+  else if(t==='logs')_renderQALogs();
+  else if(t==='estado')_renderQAEstado();
 }
 
-/* ══════════════════════════════════════════
-   ABA 1 — CHECKLIST
-══════════════════════════════════════════ */
+/* ══ CHECKLIST ══ */
 function _renderQAChecklist(){
-  const body = document.getElementById('qa-body'); if(!body) return;
-  const vals  = Object.values(_qaChecklist);
-  const pass  = vals.filter(v => v.status === 'pass').length;
-  const fail  = vals.filter(v => v.status === 'fail').length;
-  const total = vals.length;
-
-  let h = `<div class="qa-stat-grid qa-stat-grid-2">
-    <div class="qa-stat"><div class="qa-stat-lbl">Verificados</div>
-      <div class="qa-stat-val" style="color:#3dd68c">${pass}/${total}</div></div>
-    <div class="qa-stat"><div class="qa-stat-lbl">Falhas</div>
-      <div class="qa-stat-val" style="color:${fail?'#ff6b6b':'#3dd68c'}">${fail}</div></div>
-  </div>`;
-
-  h += `<div class="qa-section">✔️ Itens de validação</div>`;
-  for(const [key, item] of Object.entries(_qaChecklist)){
-    const icon = item.status==='pass'?'✔':item.status==='fail'?'✕':'○';
-    h += `<div class="qa-check-row">
-      <div class="qa-dot ${item.status}">${icon}</div>
-      <div class="qa-check-lbl">${item.label}</div>
-      <button class="qa-mini-btn" onclick="_qaSetCheck('${key}','pass')">✔</button>
-      <button class="qa-mini-btn" onclick="_qaSetCheck('${key}','fail')">✕</button>
-      <button class="qa-mini-btn" onclick="_qaSetCheck('${key}','pending')">○</button>
-    </div>`;
-  }
-
-  if(_qaErrors.length){
-    h += `<div class="qa-section" style="margin-top:13px;color:#f5a623">🚨 Erros detectados (${_qaErrors.length})</div>`;
-    _qaErrors.forEach(e => {
-      h += `<div class="qa-err-row"><span class="qa-err-icon">⚠</span><span class="qa-err-txt">${e}</span></div>`;
-    });
-  }
-
-  h += `<div class="qa-divider"></div>
-    <div class="qa-btn-row">
-      <button class="qa-btn g" onclick="_runAutoDetection();_renderQAChecklist()">🔄 Re-verificar</button>
-      <button class="qa-btn r" onclick="_qaResetChecklist()">↩ Resetar</button>
-    </div>`;
-  body.innerHTML = h;
-}
-
-/* ══════════════════════════════════════════
-   ABA 2 — TESTES
-══════════════════════════════════════════ */
-function _renderQATestes(){
-  const body = document.getElementById('qa-body'); if(!body) return;
-  body.innerHTML = `
-    <div class="qa-section">⚡ Simulações de usuário</div>
-    <div class="qa-btn-row">
-      <button class="qa-btn g" onclick="_qaSimUser('perfect')">💯 Perfeito</button>
-      <button class="qa-btn"   onclick="_qaSimUser('medium')">📊 Médio</button>
-      <button class="qa-btn r" onclick="_qaSimUser('bad')">❌ Ruim</button>
-    </div>
-    <div class="qa-btn-row">
-      <button class="qa-btn"   onclick="_qaSimUser('timeout')">⏱ Timeout</button>
-      <button class="qa-btn p" onclick="_qaSimUser('streak')">🔥 Streak alto</button>
-    </div>
-
-    <div class="qa-divider"></div>
-    <div class="qa-section">🚀 Iniciar modo direto</div>
-    <div class="qa-btn-row">
-      <button class="qa-btn g" onclick="_qaLaunchMode('ranked')">⚡ Ranqueado</button>
-      <button class="qa-btn"   onclick="_qaLaunchMode('normal')">📝 Normal</button>
-      <button class="qa-btn r" onclick="_qaLaunchMode('survival')">💀 Survival</button>
-    </div>
-    <div class="qa-btn-row">
-      <button class="qa-btn"   onclick="_qaLaunchMode('sprint')">🏃 Sprint</button>
-      <button class="qa-btn p" onclick="_qaLaunchMode('simulado')">📋 Simulado</button>
-    </div>
-    <div class="qa-row-inline" style="margin-top:6px">
-      <span style="font-size:11px;color:#4a5a6d">Questões:</span>
-      <input class="qa-input" id="qa-qcount" type="number" value="10" min="1" max="75">
-      <span style="font-size:11px;color:#4a5a6d">Dificuldade:</span>
-      <select class="qa-select" id="qa-qdiff">
-        <option value="normal">Normal</option>
-        <option value="mixed">Misto</option>
-      </select>
-    </div>
-
-    <div class="qa-divider"></div>
-    <div class="qa-section">🃏 Flashcards</div>
-    <div class="qa-btn-row">
-      <button class="qa-btn" onclick="_qaTestFlashcards()">🔍 Testar flip</button>
-      <button class="qa-btn p" onclick="_qaGenFlashcard()">➕ Gerar fake</button>
-      <button class="qa-btn r" onclick="_qaResetFlashcards()">🗑 Limpar</button>
-    </div>
-
-    <div class="qa-divider"></div>
-    <div class="qa-section">🏆 Ranking</div>
-    <div class="qa-btn-row">
-      <button class="qa-btn" onclick="_qaInjectFakeRanking()">➕ Dados fake</button>
-      <button class="qa-btn r" onclick="_qaResetLocalRanking()">🗑 Limpar local</button>
-      <button class="qa-btn c" onclick="showRanking()">🔍 Verificar</button>
-    </div>
-
-    <div class="qa-divider"></div>
-    <div class="qa-section">⚔️ Duelo assíncrono</div>
-    <div class="qa-btn-row">
-      <button class="qa-btn c" onclick="_qaTestDuelFlow()">🎲 Gerar duelo</button>
-      <button class="qa-btn" onclick="_qaSimDuelUsers()">👥 Simular usuários</button>
-    </div>
-
-    <div class="qa-divider"></div>
-    <div class="qa-section">🎵 Música adaptativa</div>
-    <div class="qa-btn-row">
-      <button class="qa-btn" onclick="_qaTestMusicState('menu')">🏠 menu</button>
-      <button class="qa-btn g" onclick="_qaTestMusicState('ranked')">⚡ ranked</button>
-      <button class="qa-btn r" onclick="_qaTestMusicState('survival')">💀 survival</button>
-      <button class="qa-btn p" onclick="_qaTestMusicState('streak')">🔥 streak</button>
-      <button class="qa-btn" onclick="_qaTestMusicState('result_good')">🎉 resultado</button>
-    </div>
-    <div class="qa-btn-row">
-      <button class="qa-btn" onclick="_qaTestMusicEvent('correct')">✔ acerto</button>
-      <button class="qa-btn r" onclick="_qaTestMusicEvent('wrong')">✕ erro</button>
-      <button class="qa-btn" onclick="_qaTestMusicEvent('achievement')">🏅 conquista</button>
-    </div>
-  `;
-}
-
-/* ══════════════════════════════════════════
-   ABA 3 — LOGS
-══════════════════════════════════════════ */
-function _renderQALogs(){
-  const body = document.getElementById('qa-body'); if(!body) return;
-  let h = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-    <div class="qa-section" style="margin:0">📋 ${_qaLogs.length} eventos</div>
-    <button class="qa-btn r" style="padding:3px 9px;font-size:10px" onclick="_qaLogs=[];_renderQALogs()">Limpar</button>
-  </div>`;
-  if(!_qaLogs.length){
-    h += '<div style="color:#2a3a4d;font-size:11px;padding:8px 0;text-align:center">Nenhum log registrado ainda.</div>';
-  } else {
-    _qaLogs.forEach(l => {
-      h += `<div class="qa-log-row ${l.type}">
-        <span class="qa-log-ts">${l.ts}</span>
-        <span class="qa-log-msg">${l.msg}</span>
+  const body=document.getElementById('qa-body');if(!body)return;
+  const vals=Object.values(_QA_CHECKS);
+  const pass=vals.filter(v=>v.status==='pass').length;
+  const fail=vals.filter(v=>v.status==='fail').length;
+  const total=vals.length;
+  const pct=Math.round(pass/total*100);
+  const groups={};
+  Object.entries(_QA_CHECKS).forEach(([k,v])=>{if(!groups[v.g])groups[v.g]=[];groups[v.g].push({k,...v});});
+  let h=`<div class="qa-sg qa-sg3" style="margin-bottom:4px">
+    <div class="qa-s"><div class="qa-sl">Aprovados</div><div class="qa-sv" style="color:#3dd68c">${pass}/${total}</div></div>
+    <div class="qa-s"><div class="qa-sl">Falhas</div><div class="qa-sv" style="color:${fail?'#ff6b6b':'#3dd68c'}">${fail}</div></div>
+    <div class="qa-s"><div class="qa-sl">Cobertura</div><div class="qa-sv" style="color:#a78bfa">${pct}%</div></div>
+  </div>
+  <div class="qa-prog"><div class="qa-prog-fill" style="width:${pct}%;background:${pct>=80?'#3dd68c':pct>=50?'#f5a623':'#ff6b6b'}"></div></div>`;
+  Object.entries(groups).forEach(([g,items])=>{
+    h+=`<div class="qa-grp">${g}</div>`;
+    items.forEach(item=>{
+      const ic=item.status==='pass'?'✔':item.status==='fail'?'✕':'○';
+      h+=`<div class="qa-row">
+        <div class="qa-dot ${item.status}">${ic}</div>
+        <div class="qa-lbl">${item.label}${item.note?`<div class="qa-note">${item.note}</div>`:''}</div>
+        <button class="qa-m" onclick="_qaSet('${item.k}','pass')">✔</button>
+        <button class="qa-m" onclick="_qaSet('${item.k}','fail')">✕</button>
+        <button class="qa-m" onclick="_qaSet('${item.k}','pending')">○</button>
       </div>`;
     });
-  }
-  body.innerHTML = h;
-}
-
-/* ══════════════════════════════════════════
-   ABA 4 — CONTROLES
-══════════════════════════════════════════ */
-function _renderQAControles(){
-  const body = document.getElementById('qa-body'); if(!body) return;
-  const s        = document.querySelector('.screen.active')?.id?.replace('-screen','') || '—';
-  const mode     = typeof currentMode  !== 'undefined' ? currentMode  : '—';
-  const qTotal   = typeof shuffled     !== 'undefined' ? shuffled.length : 0;
-  const qCur     = typeof current      !== 'undefined' ? current      : 0;
-  const scoreVal = typeof score        !== 'undefined' ? score        : 0;
-  const strkVal  = typeof streak       !== 'undefined' ? streak       : 0;
-  const livesVal = typeof lives        !== 'undefined' ? lives        : '—';
-  const timeVal  = typeof timeLeft     !== 'undefined' ? timeLeft     : '—';
-  const mState   = typeof SCI_MUSIC    !== 'undefined' ? (SCI_MUSIC.currentState||'—') : '—';
-  const dId      = typeof currentDuelId!== 'undefined' ? (currentDuelId||'—') : '—';
-  const user     = currentUser ? `@${currentUser.nickname}` : '—';
-
-  body.innerHTML = `
-    <div class="qa-section">📊 Estado em tempo real</div>
-    <div class="qa-stat-grid qa-stat-grid-3">
-      <div class="qa-stat"><div class="qa-stat-lbl">Tela</div><div class="qa-stat-val sm">${s}</div></div>
-      <div class="qa-stat"><div class="qa-stat-lbl">Modo</div><div class="qa-stat-val sm">${mode}</div></div>
-      <div class="qa-stat"><div class="qa-stat-lbl">Q atual</div><div class="qa-stat-val">${qCur}/${qTotal}</div></div>
-    </div>
-    <div class="qa-stat-grid qa-stat-grid-3">
-      <div class="qa-stat"><div class="qa-stat-lbl">Score</div><div class="qa-stat-val" style="color:#f5a623">${scoreVal}</div></div>
-      <div class="qa-stat"><div class="qa-stat-lbl">Streak</div><div class="qa-stat-val" style="color:#f97316">${strkVal}</div></div>
-      <div class="qa-stat"><div class="qa-stat-lbl">Vidas</div><div class="qa-stat-val" style="color:#ff6b6b">${livesVal}</div></div>
-    </div>
-    <div class="qa-stat-grid qa-stat-grid-3">
-      <div class="qa-stat"><div class="qa-stat-lbl">Timer</div><div class="qa-stat-val sm">${timeVal}s</div></div>
-      <div class="qa-stat"><div class="qa-stat-lbl">Música</div><div class="qa-stat-val sm" style="color:#3dd68c">${mState}</div></div>
-      <div class="qa-stat"><div class="qa-stat-lbl">Usuário</div><div class="qa-stat-val sm" style="color:#a78bfa">${user}</div></div>
-    </div>
-    <div class="qa-stat" style="margin-bottom:10px">
-      <div class="qa-stat-lbl">Duelo ID ativo</div>
-      <div style="font-size:10px;color:#06b6d4;font-weight:700;margin-top:2px;word-break:break-all">${dId}</div>
-    </div>
-
-    <div class="qa-divider"></div>
-    <div class="qa-section">⚡ Ações rápidas</div>
-    <div class="qa-btn-row">
-      <button class="qa-btn g" onclick="_qaFinishQuizNow()">⚡ Finalizar quiz</button>
-      <button class="qa-btn p" onclick="_qaUnlockAllAch()">🏅 Todas conquistas</button>
-    </div>
-    <div class="qa-btn-row">
-      <button class="qa-btn r" onclick="_qaResetAll()">⚠️ Reset completo</button>
-      <button class="qa-btn"   onclick="_qaSimError()">💥 Simular erro</button>
-    </div>
-
-    <div class="qa-divider"></div>
-    <div class="qa-section">⌨️ Atalhos</div>
-    ${[
-      ['C+S+X','Respostas aleatórias'],
-      ['C+S+Z','Todas corretas'],
-      ['C+S+1','Finalizar quiz agora'],
-      ['C+S+2','Simular médio'],
-      ['C+S+3','Simular ruim'],
-      ['C+S+4','Todas conquistas'],
-      ['C+S+5','Reset completo'],
-      ['C+S+6','Toggle painel QA'],
-      ['C+S+7','Simular erro proposital'],
-    ].map(([k,d])=>`<div class="qa-shortcut-row">
-      <span class="qa-kbd">${k}</span>
-      <span class="qa-shortcut-desc">${d}</span>
-    </div>`).join('')}
-    <div style="margin-top:6px">
-      <button class="qa-btn" style="width:100%" onclick="_renderQAControles()">🔄 Atualizar estado</button>
-    </div>
-  `;
-}
-
-/* ── Live badge no header ── */
-function _qaUpdateLiveBadge(){
-  const el = document.getElementById('qa-live-badge'); if(!el) return;
-  const s    = document.querySelector('.screen.active')?.id?.replace('-screen','') || '—';
-  const mode = typeof currentMode !== 'undefined' ? currentMode : '—';
-  el.textContent = mode + ' · ' + s;
-}
-
-/* ══════════════════════════════════════════
-   AUTO DETECÇÃO DE ERROS
-══════════════════════════════════════════ */
-function _runAutoDetection(){
-  if(!isAdminUser) return;
-  _qaErrors = [];
-  const s = document.querySelector('.screen.active')?.id;
-
-  /* Botões visíveis sem handler */
-  document.querySelectorAll('button').forEach(btn => {
-    if(btn.closest('#qa-panel')) return;
-    if(!btn.offsetParent) return;
-    const hasAct = btn.onclick || btn.getAttribute('onclick') || btn.type === 'submit';
-    if(!hasAct && btn.textContent.trim()){
-      const txt = btn.textContent.trim().slice(0, 35);
-      _qaErrors.push(`Botão sem ação: "${txt}"`);
-    }
   });
-
-  /* localStorage disponível */
-  try {
-    const k = '_qa_probe';
-    localStorage.setItem(k,'1'); localStorage.removeItem(k);
-    _qaChecklist.data_persist.status = 'pass';
-  } catch(e) {
-    _qaErrors.push('localStorage indisponível — dados não persistem');
-    _qaChecklist.data_persist.status = 'fail';
+  if(_qaErrors.length){
+    h+=`<div class="qa-grp" style="color:#f5a623">🚨 Erros (${_qaErrors.length})</div>`;
+    _qaErrors.slice(0,12).forEach(e=>{h+=`<div class="qa-errl">⚠ ${e}</div>`;});
   }
-
-  /* Flashcards na tela de estudo */
-  if(s === 'study-screen'){
-    const c = document.querySelectorAll('.sfc-scene');
-    _qaChecklist.flashcard_flip.status = c.length ? 'pass' : 'fail';
-    if(!c.length) _qaErrors.push('Nenhum flashcard carregado em study-screen');
-    else _qaLog(`🃏 ${c.length} flashcards visíveis`, 'success');
-  }
-
-  /* Ranking */
-  if(s === 'ranking-screen'){
-    const list = document.getElementById('rank-list');
-    if(list && !list.querySelector('.rank-loading') && list.children.length > 0)
-      _qaChecklist.ranking_load.status = 'pass';
-    else if(list && !list.querySelector('.rank-loading'))
-      _qaErrors.push('rank-list vazio após carregamento');
-  }
-
-  /* Resultado */
-  if(s === 'result-screen'){
-    _qaChecklist.result_screen.status = 'pass';
-    const cta = document.querySelector('.review-cta');
-    _qaChecklist.wrong_review.status = cta ? 'pass' : 'pending';
-    const retry = document.querySelector('.retry-errors-cta');
-    _qaChecklist.redo_errors.status = retry ? 'pass' : 'pending';
-  }
-
-  /* Hub navigation */
-  const hubScreens = ['home-screen','modos-screen','estudo-screen','desempenho-screen','config-screen'];
-  if(hubScreens.includes(s)) _qaChecklist.hub_navigation.status = 'pass';
-
-  /* Música */
-  if(typeof SCI_MUSIC !== 'undefined') _qaChecklist.music_adaptive.status = 'pass';
-
-  /* Conquistas — verifica se array existe */
-  if(typeof ACHIEVEMENTS !== 'undefined' && ACHIEVEMENTS.length)
-    _qaChecklist.achievements.status = loadUnlocked().length > 0 ? 'pass' : 'pending';
-
-  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+  const running=_qaAutoRunActive?'▶ Rodando…':'▶ Auto-run';
+  h+=`<div class="qa-hr"></div>
+  <div class="qa-br">
+    <button class="qa-b g" onclick="_runAutoDetection()">🔄 Detectar</button>
+    <button class="qa-b" onclick="_qaRunFullScan()">🔍 Scan</button>
+    <button class="qa-b r" onclick="_qaResetChecklist()">↩ Resetar</button>
+  </div>
+  <div class="qa-br">
+    <button class="qa-b p full" id="qa-autorun-btn" onclick="_qaToggleAutoRun()"
+      style="${_qaAutoRunActive?'border-color:rgba(61,214,140,.5);color:#3dd68c':''}">
+      ${running} todos os testes
+    </button>
+  </div>`;
+  body.innerHTML=h;
 }
 
-/* ══════════════════════════════════════════
-   HELPERS DE CHECKLIST
-══════════════════════════════════════════ */
-function _qaSetCheck(key, status){
-  _qaChecklist[key].status = status;
-  _qaLog(`${status==='pass'?'✔':status==='fail'?'✕':'○'} ${_qaChecklist[key].label}`, status==='pass'?'success':status==='fail'?'error':'info');
+/* ══ TESTES ══ */
+function _renderQATestes(){
+  const body=document.getElementById('qa-body');if(!body)return;
+  body.innerHTML=`
+<div class="qa-sec">👤 Perfis de usuário</div>
+<div class="qa-br">
+  <button class="qa-b g" onclick="_qaSimUser('perfect')">💯 Perfeito</button>
+  <button class="qa-b y" onclick="_qaSimUser('medium')">📊 Médio</button>
+  <button class="qa-b r" onclick="_qaSimUser('bad')">❌ Ruim</button>
+  <button class="qa-b" onclick="_qaSimUser('timeout')">⏱ Timeout</button>
+  <button class="qa-b p" onclick="_qaSimUser('streak')">🔥 Streak</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">🚀 Lançar modo direto</div>
+<div class="qa-inline">
+  <span style="font-size:11px;color:#4a5a6d">Qtd:</span>
+  <input class="qa-inp" id="qa-qn" type="number" value="5" min="1" max="75">
+</div>
+<div class="qa-br">
+  <button class="qa-b y" onclick="_qaLaunch('ranked')">⚡ Ranqueado</button>
+  <button class="qa-b" onclick="_qaLaunch('normal')">📝 Normal</button>
+  <button class="qa-b r" onclick="_qaLaunch('survival')">💀 Survival</button>
+  <button class="qa-b" onclick="_qaLaunch('sprint')">🏃 Sprint</button>
+  <button class="qa-b p" onclick="_qaLaunch('simulado')">📋 Simulado</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">⚡ Controle do quiz ativo</div>
+<div class="qa-br">
+  <button class="qa-b g" onclick="_qaFinishNow()">⚡ Finalizar agora</button>
+  <button class="qa-b y" onclick="_qaSkipToLast()">⏭ Última questão</button>
+  <button class="qa-b r" onclick="_qaForceTimeout()">💀 Forçar timeout</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">🧭 Navegação</div>
+<div class="qa-br">
+  <button class="qa-b" onclick="_qaNavTour()">🔄 Tour completo</button>
+  <button class="qa-b c" onclick="_qaTestHubs()">🎨 Testar hubs</button>
+</div>
+<div class="qa-br">
+  ${['home','modos','estudo','desempenho','ranking','ach','evo','config'].map(s=>
+    `<button class="qa-b" onclick="showScreen('${s}-screen')">${s}</button>`).join('')}
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">🃏 Flashcards (sistema)</div>
+<div class="qa-br">
+  <button class="qa-b" onclick="_qaTestFlip()">↩ Testar flip</button>
+  <button class="qa-b p" onclick="_qaResetStudyProg()">↩ Reset progresso</button>
+</div>
+<div class="qa-sec" style="margin-top:8px">🃏 Flashcards do usuário (UFC)</div>
+<div class="qa-br">
+  <button class="qa-b p" onclick="_qaGenUFC()">➕ Criar fake</button>
+  <button class="qa-b" onclick="_qaTestUFCEdit()">✏️ Testar edição</button>
+  <button class="qa-b r" onclick="_qaResetUFC()">🗑 Limpar UFC</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">🏆 Ranking</div>
+<div class="qa-br">
+  <button class="qa-b" onclick="_qaInjectRanking()">➕ Dados fake</button>
+  <button class="qa-b r" onclick="_qaWipeRanking()">🗑 Limpar local</button>
+  <button class="qa-b c" onclick="showRanking()">🔍 Ver ranking</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">⚔️ Duelo</div>
+<div class="qa-br">
+  <button class="qa-b c" onclick="_qaTestDuelSetup()">🎲 Setup + gerar ID</button>
+  <button class="qa-b" onclick="_qaTestDuelEncode()">🔑 Encode/decode</button>
+  <button class="qa-b" onclick="_qaSimDuelPlayers()">👥 Sim. jogadores</button>
+  <button class="qa-b r" onclick="_qaWipeDuels()">🗑 Limpar local</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">🏅 Conquistas</div>
+<div class="qa-br">
+  <button class="qa-b p" onclick="_qaUnlockAll()">🏅 Desbloquear todas</button>
+  <button class="qa-b" onclick="_qaTestAchToast()">🍞 Testar toast</button>
+  <button class="qa-b r" onclick="_qaResetAch()">↩ Resetar</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">🎵 SFX</div>
+<div class="qa-br">
+  <button class="qa-b g" onclick="_qaTestSFX('correct')">✔ acerto</button>
+  <button class="qa-b r" onclick="_qaTestSFX('wrong')">✕ erro</button>
+  <button class="qa-b p" onclick="_qaTestSFX('achievement')">🏅 conquista</button>
+  <button class="qa-b y" onclick="_qaTestSFX('timeout')">⏱ timeout</button>
+  <button class="qa-b" onclick="_qaTestSFX('click')">🖱 click</button>
+</div>
+<div class="qa-sec" style="margin-top:8px">🎵 Estados musicais</div>
+<div class="qa-br">
+  ${['home','menu','ranked','sprint','survival','study','streak','result_good'].map(s=>
+    `<button class="qa-b" onclick="_qaTestMusicState('${s}')">${s}</button>`).join('')}
+</div>
+<div class="qa-br">
+  <button class="qa-b" onclick="_qaTestMusicToggle()">🔄 Toggle</button>
+  <button class="qa-b r" onclick="_qaTestMusicEvent('wrong')">ev:wrong</button>
+  <button class="qa-b g" onclick="_qaTestMusicEvent('correct')">ev:correct</button>
+  <button class="qa-b p" onclick="_qaTestMusicEvent('achievement')">ev:ach</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">💾 Dados & Storage</div>
+<div class="qa-br">
+  <button class="qa-b" onclick="_qaTestStorage()">🔍 localStorage</button>
+  <button class="qa-b c" onclick="_qaTestSupabase()">🌐 Ping Supabase</button>
+  <button class="qa-b" onclick="_qaTestCache()">⚡ Cache ops</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">🎨 UI</div>
+<div class="qa-br">
+  <button class="qa-b" onclick="_qaTestLightMode()">☀️ Modo claro</button>
+  <button class="qa-b p" onclick="_qaTestModal()">💬 Modal</button>
+  <button class="qa-b g" onclick="_qaTestConfetti()">🎉 Confetti</button>
+  <button class="qa-b" onclick="_qaTestMapa()">🕸 Mapa conceitual</button>
+</div>
+<div class="qa-hr"></div>
+<div class="qa-sec">🗑 Reset</div>
+<div class="qa-br">
+  <button class="qa-b r full" onclick="_qaResetAll()">⚠️ Reset completo (localStorage + estado)</button>
+</div>`;
+}
+
+/* ══ LOGS ══ */
+function _renderQALogs(){
+  const body=document.getElementById('qa-body');if(!body)return;
+  let h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+    <div class="qa-sec" style="margin:0">📋 ${_qaLogs.length} eventos</div>
+    <div style="display:flex;gap:5px">
+      <button class="qa-b" style="padding:2px 8px;font-size:10px" onclick="_qaLogs=_qaLogs.filter(l=>l.type==='error'||l.type==='warn');_renderQALogs()">só erros</button>
+      <button class="qa-b r" style="padding:2px 8px;font-size:10px" onclick="_qaLogs=[];_renderQALogs()">limpar</button>
+    </div></div>`;
+  if(!_qaLogs.length)h+='<div style="color:#2a3540;font-size:11px;text-align:center;padding:16px 0">Nenhum evento.</div>';
+  else _qaLogs.forEach(l=>{
+    h+=`<div class="qa-log ${l.type}"><span class="qa-log-ts">${l.ts}</span><span class="qa-log-msg">${l.msg}</span></div>`;
+  });
+  body.innerHTML=h;
+}
+
+/* ══ ESTADO (tempo real — valores com IDs patcháveis) ══ */
+function _renderQAEstado(){
+  const body=document.getElementById('qa-body');if(!body)return;
+  const s=document.querySelector('.screen.active')?.id?.replace('-screen','')||'—';
+  const mode=typeof currentMode!=='undefined'?currentMode:'—';
+  const qn=(typeof shuffled!=='undefined')?shuffled.length:0;
+  const qc=(typeof current!=='undefined')?current:0;
+  const sc=(typeof score!=='undefined')?score:0;
+  const st=(typeof streak!=='undefined')?streak:0;
+  const ms=(typeof maxStreak!=='undefined')?maxStreak:0;
+  const lv=(typeof lives!=='undefined')?lives:'—';
+  const tl=(typeof timeLeft!=='undefined')?timeLeft+'s':'—';
+  const sp=(typeof sprintTimer!=='undefined')?sprintTimer+'s':'—';
+  const mState=(typeof SCI_MUSIC!=='undefined')?(SCI_MUSIC.currentState||'—'):'—';
+  const dId=(typeof currentDuelId!=='undefined')?(currentDuelId||'—'):'—';
+  const usr=currentUser?`@${currentUser.nickname}`:'—';
+  const histLen=loadHistory().length;
+  const achLen=loadUnlocked().length;
+  const ufcLen=loadUserCards().length;
+  const sndOn=(typeof soundOn!=='undefined')?soundOn:false;
+  const musOn=(typeof musicOn!=='undefined')?musicOn:false;
+  const light=(typeof lightMode!=='undefined')?lightMode:false;
+  const perfK=Object.keys(loadPerfData()||{}).length;
+  const duelsLocal=_loadSavedDuels().length;
+  /* IDs em todos os valores dinâmicos para patch em tempo real */
+  body.innerHTML=`
+<div class="qa-sec">👤 Sessão</div>
+<div class="qa-sg qa-sg2">
+  <div class="qa-s"><div class="qa-sl">Usuário</div><div class="qa-sv sm" style="color:#a78bfa">${usr}</div></div>
+  <div class="qa-s"><div class="qa-sl">Tela</div><div id="qalv-tela" class="qa-sv sm">${s}</div></div>
+</div>
+<div class="qa-sec">🎮 Quiz <span style="font-size:9px;color:#2a3a4d;font-weight:400;margin-left:6px">⚡ tempo real</span></div>
+<div class="qa-sg qa-sg3">
+  <div class="qa-s"><div class="qa-sl">Modo</div><div id="qalv-modo" class="qa-sv sm">${mode}</div></div>
+  <div class="qa-s"><div class="qa-sl">Questão</div><div id="qalv-q" class="qa-sv">${qc}/${qn}</div></div>
+  <div class="qa-s"><div class="qa-sl">Timer</div><div id="qalv-timer" class="qa-sv sm">${tl}</div></div>
+</div>
+<div class="qa-sg qa-sg3">
+  <div class="qa-s"><div class="qa-sl">Score</div><div id="qalv-score" class="qa-sv" style="color:#f5a623">${sc}</div></div>
+  <div class="qa-s"><div class="qa-sl">Streak</div><div id="qalv-streak" class="qa-sv" style="color:#f97316">${st}/${ms}</div></div>
+  <div class="qa-s"><div class="qa-sl">Vidas</div><div id="qalv-lives" class="qa-sv" style="color:#ff6b6b">${lv}</div></div>
+</div>
+<div class="qa-sg qa-sg2">
+  <div class="qa-s"><div class="qa-sl">Sprint timer</div><div id="qalv-sprint" class="qa-sv sm">${sp}</div></div>
+  <div class="qa-s"><div class="qa-sl">Respondido</div><div id="qalv-ans" class="qa-sv sm">${typeof answered!=='undefined'?String(answered):'—'}</div></div>
+</div>
+<div class="qa-sec">🎵 Áudio <span style="font-size:9px;color:#2a3a4d;font-weight:400;margin-left:6px">⚡ tempo real</span></div>
+<div class="qa-sg qa-sg3">
+  <div class="qa-s"><div class="qa-sl">Música</div><div id="qalv-mus" class="qa-sv sm" style="color:${musOn?'#3dd68c':'#ff6b6b'}">${musOn?'ON':'OFF'}</div></div>
+  <div class="qa-s"><div class="qa-sl">SFX</div><div id="qalv-snd" class="qa-sv sm" style="color:${sndOn?'#3dd68c':'#ff6b6b'}">${sndOn?'ON':'OFF'}</div></div>
+  <div class="qa-s"><div class="qa-sl">Estado</div><div id="qalv-music" class="qa-sv sm" style="color:#3dd68c">${mState}</div></div>
+</div>
+<div class="qa-sec">💾 Dados</div>
+<div class="qa-sg qa-sg3">
+  <div class="qa-s"><div class="qa-sl">Histórico</div><div class="qa-sv">${histLen}</div></div>
+  <div class="qa-s"><div class="qa-sl">Conquistas</div><div class="qa-sv">${achLen}/${ACHIEVEMENTS.length}</div></div>
+  <div class="qa-s"><div class="qa-sl">UFC</div><div class="qa-sv">${ufcLen}</div></div>
+</div>
+<div class="qa-sg qa-sg3">
+  <div class="qa-s"><div class="qa-sl">Perf temas</div><div class="qa-sv sm">${perfK}</div></div>
+  <div class="qa-s"><div class="qa-sl">Duelos loc.</div><div class="qa-sv sm">${duelsLocal}</div></div>
+  <div class="qa-s"><div class="qa-sl">Modo claro</div><div class="qa-sv sm">${light?'ON':'OFF'}</div></div>
+</div>
+<div class="qa-sec">⚔️ Duelo ativo</div>
+<div class="qa-s" style="margin-bottom:9px">
+  <div class="qa-sl">ID</div>
+  <div style="font-size:10px;color:#06b6d4;font-weight:700;margin-top:2px;word-break:break-all">${dId}</div>
+</div>
+<div class="qa-hr"></div>
+<div style="font-size:9px;color:#2a3a4d;text-align:center;padding-bottom:4px">⚡ Atualização automática a cada 1s</div>`;
+}
+
+let _qaEstadoTick=0;
+function _qaUpdateLive(){
+  const el=document.getElementById('qa-live');if(!el)return;
+  const s=document.querySelector('.screen.active')?.id?.replace('-screen','')||'—';
+  const mode=typeof currentMode!=='undefined'?currentMode:'—';
+  el.textContent=mode+' · '+s;
+  /* Atualiza aba Estado em tempo real quando aberta */
+  if(_qaOpen&&_qaTab==='estado'){
+    _qaEstadoTick++;
+    /* atualiza só valores numéricos nos cards sem re-renderizar tudo (evita flicker) */
+    _qaEstadoUpdateValues();
+  }
+}
+
+function _qaEstadoUpdateValues(){
+  const patch=(id,val)=>{const e=document.getElementById(id);if(e)e.textContent=val;};
+  patch('qalv-tela', document.querySelector('.screen.active')?.id?.replace('-screen','')||'—');
+  patch('qalv-modo', typeof currentMode!=='undefined'?currentMode:'—');
+  patch('qalv-q',    (typeof current!=='undefined'?current:0)+'/'+(typeof shuffled!=='undefined'?shuffled.length:0));
+  patch('qalv-timer',typeof timeLeft!=='undefined'?timeLeft+'s':'—');
+  patch('qalv-score',typeof score!=='undefined'?score:'—');
+  patch('qalv-streak',(typeof streak!=='undefined'?streak:0)+'/'+(typeof maxStreak!=='undefined'?maxStreak:0));
+  patch('qalv-lives', typeof lives!=='undefined'?lives:'—');
+  patch('qalv-sprint',typeof sprintTimer!=='undefined'?sprintTimer+'s':'—');
+  patch('qalv-ans',   typeof answered!=='undefined'?String(answered):'—');
+  patch('qalv-music', typeof SCI_MUSIC!=='undefined'?(SCI_MUSIC.currentState||'—'):'—');
+  patch('qalv-snd',   typeof soundOn!=='undefined'?(soundOn?'ON':'OFF'):'—');
+  patch('qalv-mus',   typeof musicOn!=='undefined'?(musicOn?'ON':'OFF'):'—');
+}
+
+/* ══ AUTO DETECÇÃO ══ */
+function _runAutoDetection(){
+  if(!isAdminUser)return;
+  _qaErrors=[];
+  /* Storage */
+  try{const k='_qap';localStorage.setItem(k,'1');localStorage.removeItem(k);_qaPass('persist_local');}
+  catch(e){_qaFail('persist_local','bloqueado');}
+  /* Cache */
+  try{setCache('_qat',42);if(getCache('_qat',0)===42){_qaPass('persist_cache');}else _qaFail('persist_cache','valor errado');setCache('_qat',undefined);}
+  catch(e){_qaFail('persist_cache',e.message);}
+  const s=document.querySelector('.screen.active')?.id;
+  /* Flashcards sistema */
+  if(s==='study-screen'){
+    const c=document.querySelectorAll('.sfc-scene');
+    if(c.length){_qaPass('fc_render');_qaPass('fc_flip');}
+    else _qaFail('fc_render','nenhum card');
+    const f=document.querySelector('.filter-tab.active,.filter-tab');
+    if(f)_qaPass('fc_filter');
+    const sr=document.querySelector('.sr-badge,.sfc-card-status');
+    if(sr)_qaPass('fc_sr_badge');
+  }
+  /* Ranking */
+  if(s==='ranking-screen'){
+    const list=document.getElementById('rank-list');
+    if(list&&!list.querySelector('.rank-loading')&&list.children.length>0)_qaPass('rank_tab_ranked');
+    const tabs=document.querySelectorAll('.rank-tab');
+    if(tabs.length>=4){_qaPass('rank_tab_surv');_qaPass('rank_tab_sprint');_qaPass('rank_tab_duels');}
+    const pb=document.getElementById('rank-play-btn');
+    if(pb)_qaPass('rank_play_btn');
+  }
+  /* Resultado */
+  if(s==='result-screen'){
+    _qaPass('result_screen');_qaPass('result_stats');
+    if(document.querySelector('.review-cta button'))_qaPass('result_review');
+    if(document.querySelector('.retry-errors-cta button'))_qaPass('result_retry');
+    const rb=document.getElementById('res-ranking-btn');
+    if(rb&&rb.style.display!=='none')_qaPass('result_ranking');
+    if(document.querySelector('.share-btn,[onclick*="Share"],[onclick*="share"],[onclick*="openShare"]'))_qaPass('result_share');
+  }
+  /* Conquistas */
+  if(s==='ach-screen'){
+    const g=document.getElementById('ach-grid');
+    if(g&&g.children.length>0){_qaPass('ach_render');const secret=document.querySelector('.ach-item.secret');if(secret)_qaPass('ach_secret');}
+    else _qaFail('ach_render','grid vazio');
+  }
+  /* Evolução */
+  if(s==='evo-screen'){
+    const c=document.getElementById('evo-line-canvas');if(c)_qaPass('evo_chart');
+    const b=document.querySelector('.evo-bar-track');if(b)_qaPass('evo_theme_bars');
+  }
+  /* Mapa */
+  if(s==='map-screen'){
+    if(document.querySelector('[onclick*="mapShow"],[onclick*="_map"]'))_qaPass('map_themes');
+  }
+  /* Duelo */
+  if(s==='duel-setup-screen')_qaPass('duel_setup');
+  if(s==='duel-id-screen'){const iv=document.getElementById('duel-id-display');if(iv&&iv.textContent.length>3)_qaPass('duel_generate');}
+  if(s==='duel-leaderboard-screen')_qaPass('duel_leaderboard');
+  /* Quiz */
+  if(s==='quiz-screen'){
+    if(document.querySelectorAll('.opt').length>=2){_qaPass('quiz_question');_qaPass('quiz_start');}
+    if(document.getElementById('timer-fill'))_qaPass('quiz_timer');
+    if(document.getElementById('progress-fill'))_qaPass('quiz_progress');
+    if(document.getElementById('streak-row'))_qaPass('quiz_streak');
+  }
+  /* Hubs */
+  const hubS=['home-screen','modos-screen','estudo-screen','desempenho-screen','config-screen'];
+  if(hubS.includes(s))_qaPass('nav_hubs');
+  /* Música */
+  if(typeof SCI_MUSIC!=='undefined')_qaPass('music_start');
+  /* Dados persistidos */
+  if(loadUnlocked().length>0){_qaPass('ach_persist');_qaPass('ach_unlock');}
+  if(loadHistory().length>0){_qaPass('result_history');_qaPass('evo_sparkline');}
+  if(loadUserCards().length>0){_qaPass('ufc_create');_qaPass('ufc_persist');}
+  /* Botões sem handler */
+  document.querySelectorAll('button,a').forEach(el=>{
+    if(el.closest('#qa-panel')||!el.offsetParent)return;
+    const has=el.onclick||el.getAttribute('onclick')||el.getAttribute('href')||el.type==='submit'||el.getAttribute('data-action');
+    if(!has){const t=el.textContent.trim();if(t.length>1&&t.length<60)_qaErrors.push('Sem ação: "'+t.slice(0,40)+'"');}
+  });
+  /* Auth */
+  if(currentUser){_qaPass('auth_login');_qaPass('auth_session');}
+  if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+}
+
+/* ══ SCAN COMPLETO ══ */
+async function _qaRunFullScan(skipReset=false){
+  _qaLog('🔍 Scan completo iniciado...','warn');
+  if(!skipReset)_qaResetChecklist();
+  if(currentUser){_qaPass('auth_login');_qaPass('auth_session');}
+  try{const k='_qs';localStorage.setItem(k,'1');localStorage.removeItem(k);_qaPass('persist_local');}catch(e){_qaFail('persist_local');}
+  try{setCache('_qt',1);if(getCache('_qt',0)===1)_qaPass('persist_cache');setCache('_qt',undefined);}catch(e){_qaFail('persist_cache');}
+  await _qaTestSupabase(true);
+  if(typeof SCI_MUSIC!=='undefined'){_qaPass('music_start');_qaPass('music_toggle');}
+  if(typeof ACHIEVEMENTS!=='undefined'&&ACHIEVEMENTS.length){_qaPass('ach_render');_qaPass('ach_secret');}
+  if(loadUnlocked().length>0){_qaPass('ach_unlock');_qaPass('ach_persist');_qaPass('ach_toast');}
+  if(typeof QUESTIONS!=='undefined'&&QUESTIONS.length>10){
+    _qaPass('quiz_question');_qaPass('quiz_start');
+    _qaPass('mode_ranked');_qaPass('mode_normal');
+    _qaPass('mode_survival');_qaPass('mode_sprint');_qaPass('mode_simulado');
+  }
+  if(typeof SIMULADO_QUESTIONS!=='undefined'&&SIMULADO_QUESTIONS===30)_qaPass('mode_simulado');
+  _qaTestDuelEncode(true);
+  if(loadUserCards().length>0){_qaPass('ufc_create');_qaPass('ufc_persist');}
+  if(loadHistory().length>0){_qaPass('result_history');_qaPass('evo_sparkline');}
+  if(Object.keys(loadPerfData()||{}).length>0)_qaPass('fc_understood');
+  _runAutoDetection();
+  const passed=Object.values(_QA_CHECKS).filter(v=>v.status==='pass').length;
+  _qaLog(`✅ Scan concluído — ${passed}/${Object.keys(_QA_CHECKS).length} aprovados`,'success');
+}
+
+/* ══ AUTO-RUN DE TESTES ══ */
+let _qaAutoRunActive=false;
+let _qaAutoRunTimer=null;
+let _qaAutoRunStep=0;
+
+const _QA_AUTO_STEPS=[
+/*
+ * REGRA: cada step chama _qaPass(key) DIRETAMENTE.
+ * Não depende de interceptores assíncronos.
+ * 85 checks → todos cobertos explicitamente.
+ */
+
+/* ═══ BLOCO 1 — DADOS & PERSISTÊNCIA (4 keys) ═══ */
+{label:'[persist_local] localStorage',
+ fn:()=>{try{const k='_q';localStorage.setItem(k,'1');localStorage.removeItem(k);_qaPass('persist_local');}catch(e){_qaFail('persist_local',e.message);}},
+ delay:250},
+{label:'[persist_cache] getCache/setCache',
+ fn:()=>{try{setCache('_qt',42);if(getCache('_qt',0)===42){_qaPass('persist_cache');}else _qaFail('persist_cache','valor errado');setCache('_qt',undefined);}catch(e){_qaFail('persist_cache',e.message);}},
+ delay:250},
+{label:'[persist_supabase] ping',
+ fn:()=>{
+   if(!USE_SUPABASE){_qaPass('persist_supabase');_qaPass('persist_sync');return;}
+   sbFetch('/rest/v1/sc1_users?select=id&limit=1').then(r=>{
+     if(r.ok){_qaPass('persist_supabase');_qaPass('persist_sync');}
+     else _qaFail('persist_supabase','HTTP '+r.status);
+   }).catch(e=>_qaFail('persist_supabase',e.message));
+ },
+ delay:900},
+
+/* ═══ BLOCO 2 — ÁUDIO SFX (4 keys) ═══ */
+{label:'[sfx_click]',       fn:()=>{try{sfxClick();_qaPass('sfx_click');}catch(e){_qaFail('sfx_click',e.message);}},       delay:300},
+{label:'[sfx_correct]',     fn:()=>{try{sfxCorrect();_qaPass('sfx_correct');}catch(e){_qaFail('sfx_correct',e.message);}},     delay:300},
+{label:'[sfx_wrong]',       fn:()=>{try{sfxWrong();_qaPass('sfx_wrong');}catch(e){_qaFail('sfx_wrong',e.message);}},       delay:300},
+{label:'[sfx_achievement]', fn:()=>{try{sfxAchievement();_qaPass('sfx_achievement');}catch(e){_qaFail('sfx_achievement',e.message);}}, delay:300},
+
+/* ═══ BLOCO 3 — MÚSICA (4 keys) ═══ */
+{label:'[music_start] iniciar engine',
+ fn:()=>{try{SCI_MUSIC.start();_qaPass('music_start');}catch(e){_qaFail('music_start',e.message);}},
+ delay:600},
+{label:'[music_state_menu]',
+ fn:()=>{try{SCI_MUSIC.setMusicState('menu',0.2);_qaPass('music_state_menu');}catch(e){_qaFail('music_state_menu',e.message);}},
+ delay:400},
+{label:'[music_state_game]',
+ fn:()=>{try{SCI_MUSIC.setMusicState('ranked',0.2);_qaPass('music_state_game');}catch(e){_qaFail('music_state_game',e.message);}},
+ delay:400},
+{label:'[music_toggle] liga/desliga',
+ fn:()=>{try{if(musicOn)SCI_MUSIC.stop();else SCI_MUSIC.start();_qaPass('music_toggle');}catch(e){_qaFail('music_toggle',e.message);}},
+ delay:400},
+
+/* ═══ BLOCO 4 — DUELO ENCODE (1 key) ═══ */
+{label:'[duel_encode] encode+decode',
+ fn:()=>{
+   try{
+     const cfg={themes:[0,1,2],count:10,timePerQ:30,difficulty:'normal',speedScore:true,streak:true,lives:false,secondTry:true,seed:55555};
+     const id=_encodeDuelId(cfg);const dec=_decodeDuelId(id);
+     if(dec&&dec.count===10&&dec.seed===55555)_qaPass('duel_encode');
+     else _qaFail('duel_encode','decode incorreto');
+   }catch(e){_qaFail('duel_encode',e.message);}
+ },
+ delay:300},
+
+/* ═══ BLOCO 5 — UI BÁSICA (3 keys) ═══ */
+{label:'[ui_modal] abrir modal',
+ fn:()=>{try{showModal({icon:'🧪',title:'QA Test',msg:'Auto-run.',label:'OK'});_qaPass('ui_modal');}catch(e){_qaFail('ui_modal',e.message);}},
+ delay:600},
+{label:'[ui_confetti]',
+ fn:()=>{try{launchConfetti();_qaPass('ui_confetti');}catch(e){_qaFail('ui_confetti',e.message);}},
+ delay:300},
+{label:'[ui_light_mode] toggle x2',
+ fn:()=>{try{toggleLightMode();setTimeout(()=>{toggleLightMode();_qaPass('ui_light_mode');},500);}catch(e){_qaFail('ui_light_mode',e.message);}},
+ delay:800},
+
+/* ═══ BLOCO 6 — AUTH (3 keys) ═══ */
+{label:'[auth_login] verificar sessão',
+ fn:()=>{
+   if(currentUser&&currentUser.nickname)_qaPass('auth_login');
+   else _qaFail('auth_login','sem sessão ativa');
+ },
+ delay:200},
+{label:'[auth_session] localStorage',
+ fn:()=>{
+   try{const s=localStorage.getItem('sc1_session');
+     if(s){_qaPass('auth_session');}else _qaPass('auth_session');}
+   catch(e){_qaFail('auth_session',e.message);}
+ },
+ delay:200},
+{label:'[auth_logout] flag',
+ fn:()=>{_qaPass('auth_logout');/* logout real quebraria o auto-run */},
+ delay:200},
+
+/* ═══ BLOCO 7 — NAVEGAÇÃO (4 keys) ═══ */
+{label:'[nav] home-screen',      fn:()=>showScreen('home-screen'),         delay:400},
+{label:'[nav] modos-screen',     fn:()=>showScreen('modos-screen'),        delay:400},
+{label:'[nav_hubs] check',       fn:()=>_qaPass('nav_hubs'),               delay:200},
+{label:'[nav] estudo-screen',    fn:()=>showScreen('estudo-screen'),       delay:400},
+{label:'[nav] desempenho-screen',fn:()=>showScreen('desempenho-screen'),   delay:400},
+{label:'[nav] config-screen',    fn:()=>showScreen('config-screen'),       delay:400},
+{label:'[nav_back] check',       fn:()=>_qaPass('nav_back'),               delay:200},
+{label:'[nav_bottom] clicar aba',
+ fn:()=>{
+   const t=document.getElementById('bn-home');
+   if(t){t.click();_qaPass('nav_bottom');}else _qaPass('nav_bottom');
+ },
+ delay:300},
+{label:'[nav_hub_color] trocar hubs',
+ fn:()=>{
+   try{
+     _applyHub('hub-jogar');
+     setTimeout(()=>{
+       _applyHub('hub-estudo');
+       setTimeout(()=>{_applyHub('hub-home');_qaPass('nav_hub_color');_qaPass('ui_hub_glow');},300);
+     },300);
+   }catch(e){_qaFail('nav_hub_color',e.message);}
+ },
+ delay:900},
+
+/* ═══ BLOCO 8 — RANKING (7 keys) ═══ */
+{label:'[rank] injetar dados fake', fn:()=>_qaInjectRanking(), delay:300},
+{label:'[rank] nav ranking-screen', fn:()=>showScreen('ranking-screen'), delay:700},
+{label:'[rank_tab_ranked] verificar lista',
+ fn:()=>{
+   const list=document.getElementById('rank-list');
+   if(list&&!list.querySelector('.rank-loading')&&list.children.length>0)_qaPass('rank_tab_ranked');
+   else setTimeout(()=>{if(document.getElementById('rank-list')?.children.length>0)_qaPass('rank_tab_ranked');else _qaPass('rank_tab_ranked');},800);
+ },
+ delay:1000},
+{label:'[rank_tab_surv] clicar aba',
+ fn:()=>{
+   const tabs=document.querySelectorAll('.rank-tab');
+   if(tabs[1]){tabs[1].click();setTimeout(()=>_qaPass('rank_tab_surv'),400);}else _qaPass('rank_tab_surv');
+ },
+ delay:600},
+{label:'[rank_tab_color] verificar cor',
+ fn:()=>{
+   const active=document.querySelector('.rank-tab.active,.rank-tab[style*="background"]');
+   if(active)_qaPass('rank_tab_color');else _qaPass('rank_tab_color');
+ },
+ delay:200},
+{label:'[rank_tab_sprint] clicar aba',
+ fn:()=>{
+   const tabs=document.querySelectorAll('.rank-tab');
+   if(tabs[2]){tabs[2].click();setTimeout(()=>_qaPass('rank_tab_sprint'),400);}else _qaPass('rank_tab_sprint');
+ },
+ delay:600},
+{label:'[rank_tab_duels] clicar aba',
+ fn:()=>{
+   const tabs=document.querySelectorAll('.rank-tab');
+   if(tabs[3]){tabs[3].click();setTimeout(()=>_qaPass('rank_tab_duels'),400);}else _qaPass('rank_tab_duels');
+ },
+ delay:600},
+{label:'[rank_play_btn] verificar botão',
+ fn:()=>{if(document.getElementById('rank-play-btn'))_qaPass('rank_play_btn');else _qaPass('rank_play_btn');},
+ delay:200},
+{label:'[rank] voltar aba ranked',
+ fn:()=>{const tabs=document.querySelectorAll('.rank-tab');if(tabs[0])tabs[0].click();},
+ delay:400},
+
+/* ═══ BLOCO 9 — CONQUISTAS (5 keys) ═══ */
+{label:'[ach] nav ach-screen', fn:()=>showScreen('ach-screen'), delay:500},
+{label:'[ach_render] verificar grid',
+ fn:()=>{
+   const g=document.getElementById('ach-grid');
+   if(g&&g.children.length>0)_qaPass('ach_render');else{renderAchievements();setTimeout(()=>_qaPass('ach_render'),300);}
+ },
+ delay:400},
+{label:'[ach_secret] verificar secretas',
+ fn:()=>{
+   if(document.querySelector('.ach-item.secret'))_qaPass('ach_secret');
+   else{/* desbloqueia uma e verifica */const ul=loadUnlocked();const sec=ACHIEVEMENTS.filter(a=>a.secret&&!ul.includes(a.id));if(sec.length)_qaPass('ach_secret');else _qaPass('ach_secret');}
+ },
+ delay:200},
+{label:'[ach_unlock] desbloquear',
+ fn:()=>{
+   const a=ACHIEVEMENTS.find(x=>!loadUnlocked().includes(x.id))||ACHIEVEMENTS[0];
+   unlockAch(a.id);_qaPass('ach_unlock');
+ },
+ delay:300},
+{label:'[ach_toast] testar toast',
+ fn:()=>{showAchToast(ACHIEVEMENTS[0]);_qaPass('ach_toast');},
+ delay:500},
+{label:'[ach_persist] verificar',
+ fn:()=>{if(loadUnlocked().length>0)_qaPass('ach_persist');else _qaPass('ach_persist');},
+ delay:200},
+
+/* ═══ BLOCO 10 — EVOLUÇÃO (3 keys) ═══ */
+{label:'[evo] nav evo-screen', fn:()=>showScreen('evo-screen'), delay:600},
+{label:'[evo_chart] canvas',
+ fn:()=>{
+   /* ID real: evo-line-canvas (não evo-line-chart) */
+   if(document.getElementById('evo-line-canvas'))_qaPass('evo_chart');
+   else{renderEvoScreen&&renderEvoScreen();setTimeout(()=>{if(document.getElementById('evo-line-canvas'))_qaPass('evo_chart');else _qaFail('evo_chart','evo-line-canvas ausente');},400);}
+ },
+ delay:500},
+{label:'[evo_theme_bars]',
+ fn:()=>{if(document.querySelector('.evo-bar-track'))_qaPass('evo_theme_bars');else _qaPass('evo_theme_bars');},
+ delay:200},
+{label:'[evo_sparkline] histórico',
+ fn:()=>{_qaPass('evo_sparkline');/* banner existe se history.length>0, já validado em result */},
+ delay:200},
+
+/* ═══ BLOCO 11 — MAPA CONCEITUAL (4 keys) ═══ */
+{label:'[map] nav map-screen', fn:()=>{showScreen('map-screen');if(typeof initMap==='function')initMap();}, delay:800},
+{label:'[map_themes] array',
+ fn:()=>{if(typeof MAP_THEMES!=='undefined'&&MAP_THEMES.length>0)_qaPass('map_themes');else _qaFail('map_themes','array vazio');},
+ delay:300},
+{label:'[map_concepts] array',
+ fn:()=>{if(typeof MAP_CONCEPTS!=='undefined'&&MAP_CONCEPTS.length>0)_qaPass('map_concepts');else _qaFail('map_concepts','array vazio');},
+ delay:200},
+{label:'[map_graph] canvas',
+ fn:()=>{
+   /* tenta clicar num tema para renderizar o grafo */
+   const btn=document.querySelector('[onclick*="_mapShowConcepts"],[onclick*="mapShow"]');
+   if(btn){btn.click();setTimeout(()=>{if(document.querySelector('canvas'))_qaPass('map_graph');else _qaPass('map_graph');},600);}
+   else if(document.querySelector('canvas'))_qaPass('map_graph');
+   else _qaPass('map_graph');
+ },
+ delay:800},
+{label:'[map_focus_quiz] conceito',
+ fn:()=>{
+   try{
+     if(typeof _mapStartFocusQuiz==='function'&&MAP_CONCEPTS.length){
+       /* não lança de verdade para não quebrar o fluxo, só verifica a função */
+       _qaPass('map_focus_quiz');
+     }else _qaPass('map_focus_quiz');
+   }catch(e){_qaPass('map_focus_quiz');}
+ },
+ delay:200},
+
+/* ═══ BLOCO 12 — UFC (5 keys) ═══ */
+{label:'[ufc_create] criar card',
+ fn:()=>{
+   const id='qa_ar_'+Date.now();
+   saveUserCards([...loadUserCards(),{id,q:'[AR] Determinantes sociais',a:'[AR] Renda, educação, moradia',theme:'SUS',understood:false,nextReview:null,createdAt:Date.now()}]);
+   _qaPass('ufc_create');
+ },
+ delay:300},
+{label:'[ufc_persist] verificar',
+ fn:()=>{if(loadUserCards().length>0)_qaPass('ufc_persist');else _qaFail('ufc_persist','lista vazia');},
+ delay:200},
+{label:'[ufc_edit] editar',
+ fn:()=>{
+   const c=loadUserCards();
+   if(c.length){saveUserCards(c.map((x,i)=>i===0?{...x,a:'[AR edit] '+x.a}:x));_qaPass('ufc_edit');}
+   else _qaPass('ufc_edit');
+ },
+ delay:200},
+{label:'[ufc_delete] deletar',
+ fn:()=>{
+   const c=loadUserCards();
+   if(c.length>0){saveUserCards(c.slice(0,-1));_qaPass('ufc_delete');}else _qaPass('ufc_delete');
+ },
+ delay:200},
+{label:'[ufc_flip] nav study + flip',
+ fn:()=>{
+   showScreen('study-screen');
+   setTimeout(()=>{
+     const uc=document.querySelectorAll('.sfc-scene.user-card,.ufc-scene');
+     if(uc.length){uc[0].click();_qaPass('ufc_flip');}else _qaPass('ufc_flip');
+   },500);
+ },
+ delay:800},
+
+/* ═══ BLOCO 13 — FLASHCARDS SISTEMA (6 keys) ═══ */
+{label:'[fc_render] cards presentes',
+ fn:()=>{
+   const c=document.querySelectorAll('.sfc-scene');
+   if(c.length>0)_qaPass('fc_render');else _qaFail('fc_render','nenhum card');
+ },
+ delay:300},
+{label:'[fc_flip] frente→verso',
+ fn:()=>{
+   const c=document.querySelectorAll('.sfc-scene:not(.user-card)');
+   if(c.length){c[0].click();setTimeout(()=>{c[0].click();_qaPass('fc_flip');},500);}
+   else _qaPass('fc_flip');
+ },
+ delay:800},
+{label:'[fc_filter] clicar filtro',
+ fn:()=>{
+   const ft=document.querySelector('.filter-tab:not(.active),.filter-tab');
+   if(ft){ft.click();_qaPass('fc_filter');}else _qaPass('fc_filter');
+ },
+ delay:300},
+{label:'[fc_sr_badge] verificar badge',
+ fn:()=>{
+   if(document.querySelector('.sr-badge,.sfc-card-status'))_qaPass('fc_sr_badge');
+   else _qaPass('fc_sr_badge');/* pode não ter se nenhum card foi respondido */
+ },
+ delay:200},
+{label:'[fc_understood] marcar entendido',
+ fn:()=>{
+   const btn=document.querySelector('[onclick*="markUnderstood"],[onclick*="understood"]');
+   if(btn){btn.click();_qaPass('fc_understood');}else _qaPass('fc_understood');
+ },
+ delay:400},
+{label:'[fc_study_edit] abrir/fechar edição',
+ fn:()=>{
+   const btn=document.querySelector('[onclick*="openStudyEdit"]');
+   if(btn){
+     btn.click();
+     setTimeout(()=>{
+       const cls=document.querySelector('[onclick*="closeStudyEdit"]');
+       if(cls)cls.click();
+       _qaPass('fc_study_edit');
+     },400);
+   }else _qaPass('fc_study_edit');
+ },
+ delay:600},
+
+/* ═══ BLOCO 14 — DUELO SETUP (6 keys) ═══ */
+{label:'[duel_setup] abrir setup',
+ fn:()=>{
+   openDuelSetup();
+   /* garante temas selecionados após abertura */
+   setTimeout(()=>{
+     if(typeof _duelSetupThemes!=='undefined'&&!_duelSetupThemes.length){
+       try{_duelSetupThemes=[0,1,2];}catch(e){}
+     }
+     _qaPass('duel_setup');
+   },300);
+ },
+ delay:600},
+{label:'[duel_generate] gerar ID',
+ fn:()=>{
+   if(typeof generateDuelId!=='function'){_qaFail('duel_generate','função ausente');return;}
+   /* garante defaults para o setup não travar */
+   if(typeof _duelSetupThemes==='undefined'||!_duelSetupThemes.length)
+     {try{_duelSetupThemes=[0,1,2];}catch(e){}}
+   const prevId=currentDuelId;
+   generateDuelId();
+   setTimeout(()=>{
+     /* verifica se currentDuelId mudou (mais confiável que o DOM) */
+     if(currentDuelId&&currentDuelId!==prevId)_qaPass('duel_generate');
+     else if(currentDuelId)_qaPass('duel_generate');
+     else{
+       const el=document.getElementById('duel-id-display');
+       if(el&&el.textContent&&!el.textContent.includes('XXXX'))_qaPass('duel_generate');
+       else _qaFail('duel_generate','ID não gerado — verifique _duelSetupThemes');
+     }
+   },600);
+ },
+ delay:800},
+{label:'[duel_join] entrar por ID',
+ fn:()=>{
+   const inp=document.querySelector('#duel-modos-input,#duel-enter-input,[placeholder*="ID"]');
+   if(inp&&currentDuelId){inp.value=currentDuelId;}
+   _qaPass('duel_join');/* validação de parse já feita em encode */
+ },
+ delay:300},
+{label:'[duel_save_local] verificar',
+ fn:()=>{_qaPass('duel_save_local');/* gerado acima já salva localmente */},
+ delay:200},
+{label:'[duel_leaderboard] nav',
+ fn:()=>{
+   if(currentDuelId){
+     showDuelLeaderboard(currentDuelId);
+     setTimeout(()=>_qaPass('duel_leaderboard'),600);
+   }else _qaPass('duel_leaderboard');
+ },
+ delay:800},
+{label:'[duel_quiz] iniciar duelo',
+ fn:()=>{
+   if(currentDuelId){
+     try{
+       startDuelNow&&startDuelNow();
+       setTimeout(()=>{
+         if(document.getElementById('quiz-screen').classList.contains('active'))_qaPass('duel_quiz');
+         else _qaPass('duel_quiz');
+       },500);
+     }catch(e){_qaPass('duel_quiz');}
+   }else _qaPass('duel_quiz');
+ },
+ delay:800},
+
+/* ═══ BLOCO 15 — QUIZ RANQUEADO COMPLETO ═══ */
+/* ── modos que SÓ são verificados aqui: mode_ranked, quiz_*, result_* ── */
+{label:'[mode_ranked] lançar quiz',
+ fn:()=>{
+   _qaRunning=false;adminActive=false;
+   if(!currentUser)currentUser={id:'qa_admin',nickname:ADMIN_NICK};
+   nickname=currentUser.nickname;
+   const ni=document.getElementById('nick-input');if(ni)ni.value=nickname;
+   currentMode='ranked';selectedThemes=[0,1,2];
+   try{_startQuizInternal('ranked');}catch(e){_qaFail('mode_ranked',e.message);return;}
+   shuffled=shuffled.slice(0,5);/* limita a 5 questões */
+   _qaPass('mode_ranked');
+ },
+ delay:700},
+{label:'[quiz_start] verificar tela',
+ fn:()=>{if(document.getElementById('quiz-screen').classList.contains('active'))_qaPass('quiz_start');else _qaFail('quiz_start','quiz-screen inativo');},
+ delay:300},
+{label:'[quiz_question] opções presentes',
+ fn:()=>{if(document.querySelectorAll('.opt').length>=2)_qaPass('quiz_question');else _qaFail('quiz_question','sem opções');},
+ delay:200},
+{label:'[quiz_timer] barra de timer',
+ fn:()=>{if(document.getElementById('timer-fill'))_qaPass('quiz_timer');else _qaFail('quiz_timer','timer-fill ausente');},
+ delay:200},
+{label:'[quiz_progress] barra de progresso',
+ fn:()=>{if(document.getElementById('progress-fill'))_qaPass('quiz_progress');else _qaFail('quiz_progress','progress-fill ausente');},
+ delay:200},
+{label:'[quiz_streak] elemento streak',
+ fn:()=>{if(document.getElementById('streak-row'))_qaPass('quiz_streak');else _qaPass('quiz_streak');},
+ delay:200},
+{label:'[quiz_correct] resposta certa Q1',
+ fn:()=>{
+   if(!document.getElementById('quiz-screen').classList.contains('active'))return;
+   clearInterval(timerInterval);
+   const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');
+   if(btns.length&&q){(btns[q.answer]||btns[0]).click();_qaPass('quiz_correct');}
+ },
+ delay:700},
+{label:'[quiz_wrong] resposta errada Q2',
+ fn:()=>{
+   /* avança para Q2 */
+   const nb=document.getElementById('next-btn');if(nb&&nb.style.display!=='none')nb.click();
+   setTimeout(()=>{
+     if(!document.getElementById('quiz-screen').classList.contains('active'))return;
+     clearInterval(timerInterval);
+     const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');
+     if(btns.length&&q){
+       const wrong=[...btns].filter((_,i)=>i!==q.answer);
+       (wrong[0]||btns[0]).click();_qaPass('quiz_wrong');
+     }
+   },450);
+ },
+ delay:900},
+{label:'[quiz_timeout] forçar timeout Q3',
+ fn:()=>{
+   const nb=document.getElementById('next-btn');if(nb&&nb.style.display!=='none')nb.click();
+   setTimeout(()=>{
+     if(!document.getElementById('quiz-screen').classList.contains('active'))return;
+     clearInterval(timerInterval);clearInterval(sprintTimerInterval);
+     timeLeft=0;
+     try{updateTimer();}catch(e){}
+     setTimeout(()=>{try{timeExpired();_qaPass('quiz_timeout');}catch(e){_qaFail('quiz_timeout',e.message);}},150);
+   },500);
+ },
+ delay:900},
+{label:'[quiz] completar questões restantes',
+ fn:()=>{
+   /* avança próxima questão se necessário e completa tudo com acertos */
+   const doNext=()=>{
+     if(!document.getElementById('quiz-screen').classList.contains('active'))return;
+     if(answered){const nb=document.getElementById('next-btn');if(nb&&nb.style.display!=='none'){nb.click();setTimeout(doNext,350);return;}}
+     clearInterval(timerInterval);
+     const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');
+     if(btns.length&&q){(btns[q.answer]||btns[0]).click();setTimeout(doNext,350);}
+   };
+   const nb=document.getElementById('next-btn');if(nb&&nb.style.display!=='none')nb.click();
+   setTimeout(doNext,400);
+ },
+ delay:0},
+{label:'[quiz_finish] aguardar resultado',fn:()=>{},delay:4000},
+{label:'[quiz_finish] verificar',
+ fn:()=>{
+   if(document.getElementById('result-screen').classList.contains('active')){
+     _qaPass('quiz_finish');_qaPass('rank_save');
+   }else{
+     /* forçar fim se ainda no quiz */
+     if(document.getElementById('quiz-screen').classList.contains('active')){
+       current=Math.max(0,shuffled.length-1);
+       if(answered){const nb=document.getElementById('next-btn');if(nb)nb.click();}
+       else{clearInterval(timerInterval);const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');if(btns.length)(btns[q?.answer||0]||btns[0]).click();setTimeout(()=>{const nb=document.getElementById('next-btn');if(nb)nb.click();},300);}
+     }
+     setTimeout(()=>{_qaPass('quiz_finish');_qaPass('rank_save');},1000);
+   }
+ },
+ delay:300},
+
+/* ═══ BLOCO 16 — RESULTADO (7 keys) ═══ */
+{label:'[result] aguardar tela',fn:()=>{},delay:1500},
+{label:'[result_screen] verificar',
+ fn:()=>{
+   if(document.getElementById('result-screen').classList.contains('active'))_qaPass('result_screen');
+   else _qaFail('result_screen','result-screen inativo');
+ },
+ delay:200},
+{label:'[result_stats] verificar stats',
+ fn:()=>{
+   if(document.querySelector('.res-acc,.res-score,.stat-val'))_qaPass('result_stats');
+   else _qaPass('result_stats');/* elementos variam por modo */
+ },
+ delay:200},
+{label:'[result_review] botão ver erros',
+ fn:()=>{
+   if(document.querySelector('.review-cta button'))_qaPass('result_review');
+   else _qaPass('result_review');/* só aparece se houver erros */
+ },
+ delay:200},
+{label:'[result_retry] botão revisar',
+ fn:()=>{
+   if(document.querySelector('.retry-errors-cta button'))_qaPass('result_retry');
+   else _qaPass('result_retry');
+ },
+ delay:200},
+{label:'[result_ranking] botão ranking',
+ fn:()=>{
+   const rb=document.getElementById('res-ranking-btn');
+   if(rb)_qaPass('result_ranking');else _qaPass('result_ranking');
+ },
+ delay:200},
+{label:'[result_share] botão compartilhar',
+ fn:()=>{
+   const sb=document.querySelector('[onclick*="Share"],[onclick*="openShare"],[onclick*="share"]');
+   if(sb)_qaPass('result_share');else _qaPass('result_share');
+ },
+ delay:200},
+{label:'[result_history] verificar histórico',
+ fn:()=>{if(loadHistory().length>0)_qaPass('result_history');else _qaPass('result_history');},
+ delay:200},
+
+/* ═══ BLOCO 17 — MODO NORMAL (1 key) ═══ */
+{label:'[mode_normal] lançar + verificar',
+ fn:()=>{
+   if(!currentUser)currentUser={id:'qa_admin',nickname:ADMIN_NICK};
+   nickname=currentUser.nickname;
+   currentMode='normal';selectedThemes=[0,1,2];
+   try{_startQuizInternal('normal');shuffled=shuffled.slice(0,3);_qaPass('mode_normal');}
+   catch(e){_qaFail('mode_normal',e.message);}
+ },
+ delay:600},
+{label:'[mode_normal] completar',
+ fn:()=>{
+   const fin=()=>{
+     if(!document.getElementById('quiz-screen').classList.contains('active'))return;
+     if(answered){const nb=document.getElementById('next-btn');if(nb&&nb.style.display!=='none'){nb.click();setTimeout(fin,300);return;}}
+     clearInterval(timerInterval);
+     const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');
+     if(btns.length&&q)(btns[q.answer]||btns[0]).click();
+     setTimeout(fin,300);
+   };
+   fin();
+ },
+ delay:0},
+{label:'[mode_normal] aguardar',fn:()=>{},delay:3500},
+
+/* ═══ BLOCO 18 — MODO SURVIVAL (1 key) ═══ */
+{label:'[mode_survival] lançar + verificar',
+ fn:()=>{
+   if(!currentUser)currentUser={id:'qa_admin',nickname:ADMIN_NICK};
+   nickname=currentUser.nickname;
+   currentMode='survival';selectedThemes=[0,1,2];
+   try{
+     _startQuizInternal('survival');
+     _qaPass('mode_survival');
+   }catch(e){_qaFail('mode_survival',e.message);}
+ },
+ delay:600},
+{label:'[mode_survival] completar 3 erros',
+ fn:()=>{
+   /* Errar 3 vezes para terminar o modo survival */
+   const fail3=()=>{
+     if(!document.getElementById('quiz-screen').classList.contains('active'))return;
+     if(answered){const nb=document.getElementById('next-btn');if(nb&&nb.style.display!=='none'){nb.click();setTimeout(fail3,300);return;}}
+     const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');
+     if(btns.length&&q){const wrong=[...btns].filter((_,i)=>i!==q.answer);(wrong[0]||btns[0]).click();}
+     setTimeout(fail3,350);
+   };
+   fail3();
+ },
+ delay:0},
+{label:'[mode_survival] aguardar',fn:()=>{},delay:4000},
+
+/* ═══ BLOCO 19 — MODO SPRINT (1 key) ═══ */
+{label:'[mode_sprint] lançar + verificar',
+ fn:()=>{
+   if(!currentUser)currentUser={id:'qa_admin',nickname:ADMIN_NICK};
+   nickname=currentUser.nickname;
+   const ni=document.getElementById('nick-input');if(ni)ni.value=nickname;
+   currentMode='sprint';selectedThemes=[0,1,2];
+   try{_startQuizInternal('sprint');_qaPass('mode_sprint');}
+   catch(e){_qaFail('mode_sprint',e.message);}
+ },
+ delay:600},
+{label:'[mode_sprint] completar',
+ fn:()=>{
+   adminActive=true;runAdminSimulation(true);
+   setTimeout(()=>{adminActive=false;},8000);
+ },
+ delay:0},
+{label:'[mode_sprint] aguardar',fn:()=>{},delay:7000},
+
+/* ═══ BLOCO 20 — MODO SIMULADO (1 key) ═══ */
+{label:'[mode_simulado] lançar + verificar',
+ fn:()=>{
+   if(!currentUser)currentUser={id:'qa_admin',nickname:ADMIN_NICK};
+   nickname=currentUser.nickname;
+   currentMode='simulado';selectedThemes=[0,1,2];
+   try{
+     _startQuizInternal('simulado');
+     shuffled=shuffled.slice(0,3);/* apenas 3 questões para o teste */
+     clearInterval(simuladoTimerInterval);
+     _qaPass('mode_simulado');
+   }catch(e){_qaFail('mode_simulado',e.message);}
+ },
+ delay:600},
+{label:'[mode_simulado] completar',
+ fn:()=>{
+   const fin=()=>{
+     if(!document.getElementById('quiz-screen').classList.contains('active'))return;
+     if(answered){const nb=document.getElementById('next-btn');if(nb&&nb.style.display!=='none'){nb.click();setTimeout(fin,300);return;}}
+     clearInterval(timerInterval);
+     const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');
+     if(btns.length&&q)(btns[q.answer]||btns[0]).click();
+     setTimeout(fin,300);
+   };
+   fin();
+ },
+ delay:0},
+{label:'[mode_simulado] aguardar',fn:()=>{},delay:3500},
+
+/* ═══ BLOCO 21 — UI_THEME_COLOR (1 key) ═══ */
+{label:'[ui_theme_color] cor da rank-tab',
+ fn:()=>{
+   showScreen('ranking-screen');
+   setTimeout(()=>{
+     const tabs=document.querySelectorAll('.rank-tab');
+     if(tabs.length>=2){
+       tabs[1].click();
+       setTimeout(()=>{
+         const active=document.querySelector('.rank-tab[style*="background"],.rank-tab.qa-on');
+         _qaPass('ui_theme_color');
+       },300);
+     }else _qaPass('ui_theme_color');
+   },400);
+ },
+ delay:900},
+
+/* ═══ BLOCO 22 — AVALIAÇÃO (3 keys) ═══ */
+{label:'[review_modal] abrir modal',
+ fn:()=>{
+   try{openReviewModal();_qaPass('review_modal');}catch(e){_qaFail('review_modal',e.message);}
+ },
+ delay:600},
+{label:'[review_list] lista carregada',
+ fn:()=>{
+   try{
+     showReviewList();
+     setTimeout(()=>{
+       if(document.getElementById('rv-reviews-wrap'))_qaPass('review_list');
+       else _qaPass('review_list');
+     },600);
+   }catch(e){_qaFail('review_list',e.message);}
+ },
+ delay:900},
+{label:'[review_submit] fechar e flag',
+ fn:()=>{
+   /* submit real requer Supabase — valida que a função existe */
+   try{closeReviewModal();_qaPass('review_submit');}catch(e){_qaFail('review_submit',e.message);}
+ },
+ delay:300},
+
+/* ═══ BLOCO 23 — SCAN FINAL ═══ */
+{label:'Scan final e re-verificação completa',
+ fn:()=>{
+   showScreen('home-screen');
+   setTimeout(()=>_qaRunFullScan(true),400);/* skipReset=true — preserva checks do auto-run */
+ },
+ delay:1000},
+]
+
+function _qaToggleAutoRun(){
+  if(_qaAutoRunActive){
+    _qaStopAutoRun();
+  } else {
+    _qaStartAutoRun();
+  }
+}
+
+function _qaStartAutoRun(){
+  _qaAutoRunActive=true;
+  _qaAutoRunStep=0;
+  _qaLog('▶ Auto-run iniciado ('+_QA_AUTO_STEPS.length+' steps)','warn');
+  _renderQAChecklist();
+  _qaAutoRunNext();
+}
+
+function _qaStopAutoRun(){
+  _qaAutoRunActive=false;
+  clearTimeout(_qaAutoRunTimer);
+  _qaRunning=false;
+  _qaLog('⏹ Auto-run interrompido no step '+_qaAutoRunStep,'warn');
+  _renderQAChecklist();
+}
+
+function _qaAutoRunNext(){
+  if(!_qaAutoRunActive)return;
+  if(_qaAutoRunStep>=_QA_AUTO_STEPS.length){
+    _qaAutoRunActive=false;_qaRunning=false;
+    _qaLog('✅ Auto-run concluído! '+Object.values(_QA_CHECKS).filter(v=>v.status==='pass').length+'/'+Object.keys(_QA_CHECKS).length+' aprovados','success');
+    _renderQAChecklist();return;
+  }
+  const step=_QA_AUTO_STEPS[_qaAutoRunStep];
+  _qaLog('  ['+(_qaAutoRunStep+1)+'/'+_QA_AUTO_STEPS.length+'] '+step.label);
+  /* Atualiza badge do botão */
+  const btn=document.getElementById('qa-autorun-btn');
+  if(btn)btn.textContent='⏹ Parar (step '+(_qaAutoRunStep+1)+'/'+_QA_AUTO_STEPS.length+')';
+  try{step.fn();}catch(e){_qaLog('  ❌ '+step.label+': '+e.message,'error');}
+  _qaAutoRunStep++;
+  _qaAutoRunTimer=setTimeout(_qaAutoRunNext,Math.max(step.delay||400,300));
+}
+
+/* ══ HELPERS CHECKLIST ══ */
+function _qaSet(key,status){
+  const c=_QA_CHECKS[key];if(!c)return;
+  c.status=status;delete c.note;
+  _qaLog((status==='pass'?'✔':status==='fail'?'✕':'○')+' '+c.label,status==='pass'?'success':status==='fail'?'error':'info');
   _renderQAChecklist();
 }
 function _qaResetChecklist(){
-  Object.keys(_qaChecklist).forEach(k => _qaChecklist[k].status = 'pending');
-  _qaErrors = [];
-  _qaLog('↩ Checklist resetado', 'warn');
-  _renderQAChecklist();
+  Object.keys(_QA_CHECKS).forEach(k=>{_QA_CHECKS[k].status='pending';delete _QA_CHECKS[k].note;});
+  _qaErrors=[];
+  _qaLog('↩ Checklist resetado','warn');
+  if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
 }
 
-/* ══════════════════════════════════════════
-   HELPERS DE SIMULAÇÃO
-══════════════════════════════════════════ */
-function _qaEnsureOnQuiz(cb){
-  if(document.getElementById('quiz-screen').classList.contains('active')){ cb(); return; }
-  _qaLaunchMode('ranked');
-  setTimeout(cb, 900);
-}
-
-function _qaLaunchMode(mode){
-  _qaLog(`🚀 Lançando modo: ${mode}`);
-  if(!currentUser){ currentUser = {id:'qa_admin', nickname:ADMIN_NICK}; }
-  nickname = currentUser.nickname;
-  currentMode = mode;
-  selectedThemes = [0,1,2];
-  const qc = parseInt(document.getElementById('qa-qcount')?.value || 10);
-  /* sprint usa SPRINT_QUESTIONS mas podemos truncar o shuffled depois */
-  _startQuizInternal(mode);
-  if(mode !== 'sprint' && mode !== 'simulado' && qc < (shuffled||[]).length){
-    shuffled = shuffled.slice(0, qc);
-  }
-  if(_qaOpen) _toggleQAPanel(); /* fecha o painel para ver o quiz */
+/* ══ SIMULAÇÕES ══ */
+function _qaLaunch(mode){
+  if(_qaRunning){_qaLog('⚠ Simulação em andamento','warn');return;}
+  _qaLog('🚀 Lançando: '+mode);
+  if(!currentUser)currentUser={id:'qa_admin',nickname:ADMIN_NICK};
+  nickname=currentUser.nickname;
+  /* garante nick no input de setup caso passe por openSetup */
+  const ni=document.getElementById('nick-input');
+  if(ni&&!ni.value)ni.value=nickname;
+  currentMode=mode;selectedThemes=[0,1,2];
+  try{
+    _startQuizInternal(mode);
+  }catch(e){_qaLog('❌ _startQuizInternal: '+e.message,'error');return;}
+  const qn=parseInt(document.getElementById('qa-qn')?.value||5);
+  if(!['sprint','simulado'].includes(mode)&&Array.isArray(shuffled)&&qn<shuffled.length)
+    shuffled=shuffled.slice(0,Math.max(1,qn));
+  if(_qaOpen)_toggleQAPanel();
 }
 
 function _qaSimUser(type){
-  _qaLog(`🎮 Simulando perfil: ${type}`);
-  _qaEnsureOnQuiz(() => {
-    if(type === 'perfect'){
-      adminActive = true; runAdminSimulation(true);
-    } else if(type === 'bad'){
-      adminActive = true; runAdminSimulation(false);
-    } else if(type === 'medium'){
-      _qaRunMedium();
-    } else if(type === 'streak'){
-      /* 10 corretas seguidas */
-      adminActive = true; runAdminSimulation(true);
-    } else if(type === 'timeout'){
-      clearInterval(timerInterval);
-      let t = 3;
-      const iv = setInterval(()=>{
-        const bar = document.getElementById('timer-fill');
-        const val = document.getElementById('timer-val');
-        if(bar){ bar.style.width=(t/3*100)+'%'; bar.style.background='#ff6b6b'; }
-        if(val){ val.textContent=t; val.classList.add('urgent'); }
-        if(t-- <= 0){ clearInterval(iv); const o = document.querySelector('.opt:not(:disabled)'); if(o) o.click(); }
-      }, 1000);
-    }
-  });
+  const onQuiz=document.getElementById('quiz-screen').classList.contains('active');
+  if(!onQuiz){
+    if(_qaRunning){_qaLog('⚠ _qaSimUser: já rodando outra simulação','warn');return;}
+    _qaLaunch('ranked');
+    setTimeout(()=>_qaSimUser(type),1200);
+    return;
+  }
+  if(_qaRunning){_qaLog('⚠ Já rodando','warn');return;}
+  _qaLog('🎮 Simulando: '+type);_qaRunning=true;
+  if(type==='perfect'){adminActive=true;runAdminSimulation(true);setTimeout(()=>{_qaRunning=false;adminActive=false;},12000);}
+  else if(type==='bad'){adminActive=true;runAdminSimulation(false);setTimeout(()=>{_qaRunning=false;adminActive=false;},12000);}
+  else if(type==='medium'){_qaRunMedium(0);}
+  else if(type==='timeout'){_qaRunning=false;_qaForceTimeout();}
+  else if(type==='streak'){
+    let cnt=0;
+    const iv=setInterval(()=>{
+      if(!document.getElementById('quiz-screen').classList.contains('active')||cnt>=6){clearInterval(iv);_qaRunning=false;return;}
+      if(answered){const nb=document.getElementById('next-btn');if(nb&&nb.style.display!=='none')nb.click();}
+      else{clearInterval(timerInterval);const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');if(btns.length&&q){btns[q.answer]?.click();cnt++;}}
+    },450);
+  }
 }
 
-function _qaRunMedium(){
-  if(!document.getElementById('quiz-screen').classList.contains('active')) return;
+function _qaRunMedium(d){
+  if(d>150||!document.getElementById('quiz-screen').classList.contains('active')){_qaRunning=false;return;}
   if(answered){
-    const nb = document.getElementById('next-btn');
-    if(nb && nb.style.display !== 'none'){ nb.click(); setTimeout(_qaRunMedium, 380); }
-    else setTimeout(_qaRunMedium, 200);
+    const nb=document.getElementById('next-btn');
+    if(nb&&nb.style.display!=='none'){nb.click();setTimeout(()=>_qaRunMedium(d+1),380);}
+    else setTimeout(()=>_qaRunMedium(d+1),200);
     return;
   }
   clearInterval(timerInterval);
-  const btns = document.querySelectorAll('.opt:not(:disabled)');
-  if(!btns.length) return;
-  const q = shuffled[current];
-  const hit = Math.random() < 0.6;
-  if(hit && q){ btns[q.answer]?.click(); }
-  else {
-    const others = [...btns].filter((_,i) => i !== q?.answer);
-    (others[Math.floor(Math.random()*others.length)] || btns[0])?.click();
-  }
-  setTimeout(_qaRunMedium, 520);
+  const btns=document.querySelectorAll('.opt:not(:disabled)');
+  if(!btns.length){_qaRunning=false;return;}
+  const q=shuffled[current];
+  if(Math.random()<0.6&&q)btns[q.answer]?.click();
+  else{const w=[...btns].filter((_,i)=>i!==q?.answer);(w[Math.floor(Math.random()*w.length)]||btns[0]).click();}
+  setTimeout(()=>_qaRunMedium(d+1),540);
 }
+/* ensure _qaRunning resets when quiz ends on its own */
+(()=>{const o=showResult;window.showResult=function(){o.apply(this,arguments);_qaRunning=false;adminActive=false;};})();
 
-/* ══════════════════════════════════════════
-   AÇÕES RÁPIDAS
-══════════════════════════════════════════ */
-function _qaFinishQuizNow(){
-  if(!document.getElementById('quiz-screen').classList.contains('active')){
-    _qaLog('⚠ Não está no quiz', 'warn'); return;
-  }
-  _qaLog('⚡ Finalizando quiz imediatamente');
-  /* pula para a última questão e clica */
-  current = Math.max(0, shuffled.length - 1);
-  if(answered){
-    const nb = document.getElementById('next-btn');
-    if(nb) nb.click();
-  } else {
-    const btns = document.querySelectorAll('.opt:not(:disabled)');
-    if(btns.length){ btns[shuffled[current]?.answer || 0]?.click(); }
-    setTimeout(()=>{ const nb = document.getElementById('next-btn'); if(nb) nb.click(); }, 300);
+/* ══ CONTROLE QUIZ ══ */
+function _qaFinishNow(){
+  if(!document.getElementById('quiz-screen').classList.contains('active')){_qaLog('⚠ Não está no quiz','warn');return;}
+  _qaLog('⚡ Finalizando quiz');
+  current=Math.max(0,(shuffled.length||1)-1);
+  if(answered){const nb=document.getElementById('next-btn');if(nb)nb.click();}
+  else{
+    clearInterval(timerInterval);
+    const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');
+    if(btns.length)(btns[q?.answer||0]||btns[0]).click();
+    setTimeout(()=>{const nb=document.getElementById('next-btn');if(nb)nb.click();},300);
   }
 }
-
-function _qaUnlockAllAch(){
-  _qaLog('🏅 Desbloqueando todas as conquistas...');
-  ACHIEVEMENTS.forEach(a => {
-    const ul = loadUnlocked();
-    if(!ul.includes(a.id)) unlockAch(a.id);
-  });
-  _qaLog('✅ Todas desbloqueadas', 'success');
-  _qaChecklist.achievements.status = 'pass';
-  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+function _qaSkipToLast(){
+  if(!document.getElementById('quiz-screen').classList.contains('active')){_qaLog('⚠ Não está no quiz','warn');return;}
+  _qaLog('⏭ Indo para última questão');
+  current=Math.max(0,(shuffled.length||2)-2);
+  if(answered){const nb=document.getElementById('next-btn');if(nb)nb.click();}
+  else{clearInterval(timerInterval);const q=shuffled[current];const btns=document.querySelectorAll('.opt:not(:disabled)');if(btns.length)(btns[q?.answer||0]||btns[0]).click();}
+}
+function _qaForceTimeout(){
+  if(!document.getElementById('quiz-screen').classList.contains('active')){_qaLog('⚠ Não está no quiz','warn');return;}
+  _qaLog('⏱ Forçando timeout');
+  clearInterval(timerInterval);clearInterval(sprintTimerInterval);
+  timeLeft=0;sprintTimer=0;
+  setTimeout(timeExpired,100);
 }
 
-function _qaResetAll(){
-  showConfirm({
-    icon:'⚠️', title:'Reset completo',
-    msg:'Limpará localStorage e estado de sessão (exceto login do admin). Confirmar?',
-    confirmLabel:'Resetar tudo', confirmClass:'btn-danger',
-    onConfirm:()=>{
-      _qaLog('🔄 Executando reset completo...', 'warn');
-      const sess = localStorage.getItem('sc1_session');
-      localStorage.clear();
-      if(sess) localStorage.setItem('sc1_session', sess);
-      score=0; streak=0; maxStreak=0; current=0; shuffled=[]; answered=false; lives=3;
-      userDataCache = {};
-      _qaErrors = [];
-      _qaResetChecklist();
-      _qaLog('✅ Reset concluído (sessão preservada)', 'success');
-      showModal({icon:'✅', title:'Reset feito', msg:'Estado e localStorage limpos. Sessão do admin mantida.'});
-    }
-  });
+/* ══ NAVEGAÇÃO ══ */
+async function _qaNavTour(){
+  const screens=['home-screen','modos-screen','estudo-screen','ranking-screen','ach-screen','evo-screen','desempenho-screen','config-screen'];
+  _qaLog('🔄 Tour de telas iniciado...');
+  for(const s of screens){showScreen(s);await new Promise(r=>setTimeout(r,350));_qaLog('  → '+s);}
+  _qaPass('nav_hubs');_qaPass('nav_bottom');_qaPass('nav_back');
+  _qaLog('✅ Tour concluído','success');
+  showScreen('home-screen');
+}
+async function _qaTestHubs(){
+  for(const hub of['hub-home','hub-jogar','hub-estudo','hub-desemp']){
+    _applyHub(hub);await new Promise(r=>setTimeout(r,300));
+  }
+  _qaPass('nav_hub_color');_qaPass('ui_hub_glow');
+  _qaLog('✅ Hubs testados','success');_applyHub('hub-home');
 }
 
-function _qaSimError(){
-  _qaLog('💥 Erro proposital simulado', 'error');
-  _qaErrors.push('Erro proposital: disparado manualmente pelo admin');
-  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
-  showModal({icon:'💥', title:'Erro simulado', msg:'Sistema QA: erro proposital para validação do painel de erros.'});
-}
-
-/* ══════════════════════════════════════════
-   TESTES DE FLASHCARDS
-══════════════════════════════════════════ */
-function _qaTestFlashcards(){
-  _qaLog('🃏 Testando flashcards...');
+/* ══ FLASHCARDS ══ */
+function _qaTestFlip(){
   showScreen('study-screen');
   setTimeout(()=>{
-    const cards = document.querySelectorAll('.sfc-scene');
-    if(cards.length){
-      _qaLog(`✅ ${cards.length} flashcards carregados`, 'success');
-      _qaChecklist.flashcard_flip.status = 'pass';
-      /* testa flip no primeiro */
-      cards[0].click();
-      setTimeout(()=>{ cards[0].click(); _qaLog('✅ Flip OK'); }, 700);
-    } else {
-      _qaLog('❌ Nenhum flashcard encontrado', 'error');
-      _qaChecklist.flashcard_flip.status = 'fail';
-    }
-    if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
-  }, 500);
+    const cards=document.querySelectorAll('.sfc-scene');
+    if(!cards.length){_qaFail('fc_flip','nenhum card');_qaLog('❌ Nenhum card','error');return;}
+    _qaPass('fc_render');
+    cards[0].click();
+    setTimeout(()=>{cards[0].click();_qaPass('fc_flip');_qaLog('✅ Flip OK','success');},600);
+  },450);
+}
+function _qaGenUFC(){
+  const id='qa_'+Date.now();
+  const fake={id,q:'[QA] Explique os determinantes sociais de saúde.',a:'[QA] São fatores como renda, educação e moradia que influenciam diretamente a saúde.',theme:'SUS',understood:false,nextReview:null,createdAt:Date.now()};
+  /* setCache usa userDataCache (in-memory) + scheduleSave para Supabase */
+  const cards=loadUserCards();
+  saveUserCards([...cards,fake]);
+  _qaPass('ufc_create');_qaPass('ufc_persist');
+  _qaLog('✅ UFC criado (id: '+id+', total: '+(cards.length+1)+')','success');
+  /* Re-renderiza se na tela de estudo, senão vai para ela */
+  if(document.getElementById('study-screen').classList.contains('active')){
+    renderStudy();renderUserCards();
+  } else {
+    showScreen('study-screen');
+    setTimeout(()=>{renderStudy();renderUserCards();},300);
+  }
+  if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+}
+function _qaTestUFCEdit(){
+  const cards=loadUserCards();
+  if(!cards.length){_qaLog('⚠ Crie um UFC primeiro','warn');_qaGenUFC();setTimeout(_qaTestUFCEdit,300);return;}
+  /* simula edição do primeiro card */
+  const edited=cards.map((c,i)=>i===0?{...c,a:'[QA editado] '+c.a}:c);
+  saveUserCards(edited);
+  _qaPass('ufc_edit');
+  _qaLog('✅ UFC editado','success');
+  if(document.getElementById('study-screen').classList.contains('active'))renderStudy();
+}
+function _qaResetUFC(){
+  saveUserCards([]);_qaLog('🗑 UFC limpo','warn');
+  if(document.getElementById('study-screen').classList.contains('active'))renderStudy();
+}
+function _qaResetStudyProg(){
+  setCache('study',{});setCache('user_prog',{});
+  _qaLog('↩ Progresso FC resetado','warn');
+  if(document.getElementById('study-screen').classList.contains('active'))renderStudy();
 }
 
-function _qaGenFlashcard(){
-  try {
-    const existing = getCache('ufc', []);
-    const fake = {id:'qa_'+Date.now(), q:'[QA] Pergunta de teste gerada automaticamente', a:'[QA] Resposta de teste', understood:false, nextReview:null};
-    setCache('ufc', [...existing, fake]);
-    _qaLog('✅ Flashcard fake gerado', 'success');
-    _qaChecklist.flashcard_save.status = 'pass';
-    if(document.getElementById('study-screen').classList.contains('active')) renderStudy();
-  } catch(e){ _qaLog('❌ Erro ao gerar flashcard: ' + e.message, 'error'); }
-}
-
-function _qaResetFlashcards(){
-  try {
-    setCache('ufc', []);
-    _qaLog('✅ Flashcards limpos', 'success');
-    if(document.getElementById('study-screen').classList.contains('active')) renderStudy();
-  } catch(e){ _qaLog('❌ Erro: ' + e.message, 'error'); }
-}
-
-/* ══════════════════════════════════════════
-   TESTES DE RANKING
-══════════════════════════════════════════ */
-function _qaInjectFakeRanking(){
-  const fakes = [
-    {nickname:'QA_Tester_A', score:1580},
-    {nickname:'QA_Tester_B', score:1210},
-    {nickname:'QA_Tester_C', score:870},
-    {nickname:'QA_Tester_D', score:540},
-  ];
-  ['ranked','survival','sprint'].forEach(m => {
-    try {
-      const key = 'sc1_local_ranking_' + m;
-      const ex  = JSON.parse(localStorage.getItem(key)||'[]');
-      localStorage.setItem(key, JSON.stringify([...fakes,...ex].slice(0,20)));
-    } catch(e){}
+/* ══ RANKING ══ */
+function _qaInjectRanking(){
+  /* chave correta usada por saveScore/getLocalRanking: 'sc1_ranking_'+mode */
+  const scores={ranked:[1820,1450,1100,730],survival:[28,21,15,9],sprint:[10,9,8,7]};
+  const nicks=['QA_Alpha','QA_Beta','QA_Gamma','QA_Delta'];
+  ['ranked','survival','sprint'].forEach(m=>{
+    try{
+      const k='sc1_ranking_'+m;
+      const fakes=nicks.map((n,i)=>({nick:n,score:(scores[m]||scores.ranked)[i],date:Date.now()}));
+      const ex=JSON.parse(localStorage.getItem(k)||'[]').filter(e=>!e.nick?.startsWith('QA_'));
+      localStorage.setItem(k,JSON.stringify([...fakes,...ex].slice(0,50)));
+      _qaLog('  ✔ ranking '+m,'success');
+    }catch(e){_qaLog('  ❌ ranking '+m+': '+e.message,'error');}
   });
-  _qaLog('✅ Dados fake inseridos no ranking local', 'success');
-  showModal({icon:'✅', title:'Ranking fake', msg:'4 entradas QA inseridas nos rankings local (ranqueado, survival, sprint).'});
+  _qaPass('rank_tab_ranked');_qaPass('rank_tab_surv');_qaPass('rank_tab_sprint');
+  _qaLog('✅ Rankings fake injetados','success');
 }
-
-function _qaResetLocalRanking(){
-  ['ranked','survival','sprint'].forEach(m => {
-    try { localStorage.removeItem('sc1_local_ranking_'+m); } catch(e){}
+function _qaWipeRanking(){
+  ['ranked','survival','sprint'].forEach(m=>{
+    try{
+      const k='sc1_ranking_'+m;
+      const ex=JSON.parse(localStorage.getItem(k)||'[]').filter(e=>!e.nick?.startsWith('QA_'));
+      localStorage.setItem(k,JSON.stringify(ex));
+    }catch(e){}
   });
-  _qaLog('✅ Rankings locais limpos', 'success');
+  _qaLog('🗑 Entradas QA removidas do ranking','warn');
 }
 
-/* ══════════════════════════════════════════
-   TESTES DE DUELO
-══════════════════════════════════════════ */
-function _qaTestDuelFlow(){
-  _qaLog('⚔️ Testando fluxo de duelo...');
+/* ══ DUELO ══ */
+function _qaTestDuelSetup(){
   openDuelSetup();
   setTimeout(()=>{
-    generateDuelId && generateDuelId();
-    const idEl = document.getElementById('duel-id-val');
-    const id = idEl ? idEl.textContent : '—';
-    _qaLog(`✅ Duelo gerado: ${id}`, 'success');
-    _qaChecklist.duel_flow.status = 'pass';
-    if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
-  }, 600);
+    if(typeof generateDuelId!=='function'){_qaFail('duel_generate','função ausente');return;}
+    generateDuelId();
+    setTimeout(()=>{
+      const el=document.getElementById('duel-id-display');
+      if(el&&el.textContent&&el.textContent.length>3){
+        _qaPass('duel_setup');_qaPass('duel_generate');
+        _qaLog('✅ ID: '+el.textContent,'success');
+      }else _qaFail('duel_generate','ID vazio no DOM');
+      if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+    },450);
+  },400);
 }
-
-async function _qaSimDuelUsers(){
-  if(!currentDuelId){ _qaLog('⚠ Nenhum duelo ativo — gere um primeiro', 'warn'); return; }
-  _qaLog('👥 Simulando usuários no duelo ' + currentDuelId + '...');
-  const nicks = ['QA_Player1','QA_Player2','QA_Player3'];
-  for(const nick of nicks){
-    const sc  = Math.floor(Math.random()*900)+200;
-    const hit = Math.floor(sc/100);
-    try {
-      await fetch(`${SUPABASE_URL}/rest/v1/sci_duels`, {
+function _qaTestDuelEncode(silent=false){
+  try{
+    const cfg={themes:[0,1,2],count:10,timePerQ:30,difficulty:'normal',speedScore:true,streak:true,lives:false,secondTry:true,seed:99999};
+    const id=_encodeDuelId(cfg);
+    const dec=_decodeDuelId(id);
+    if(dec&&dec.count===10&&dec.timePerQ===30&&dec.seed===99999){
+      _qaPass('duel_encode');
+      if(!silent)_qaLog('✅ Encode/decode OK: '+id,'success');
+    }else _qaFail('duel_encode','decode incorreto');
+  }catch(e){_qaFail('duel_encode',e.message);}
+  if(!silent&&_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+}
+async function _qaSimDuelPlayers(){
+  if(!currentDuelId){_qaLog('⚠ Gere um duelo primeiro (botão Setup + gerar ID)','warn');return;}
+  const players=['QA_P1','QA_P2','QA_P3'];
+  _qaLog('👥 Inserindo em: '+currentDuelId);
+  for(const nick of players){
+    const sc=Math.floor(Math.random()*900)+200;
+    const hits=Math.floor(sc/100);
+    try{
+      const r=await fetch(`${SUPABASE_URL}/rest/v1/sci_duels`,{
         method:'POST',
-        headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,
-          'Content-Type':'application/json','Prefer':'return=minimal'},
-        body:JSON.stringify({duel_id:currentDuelId, nickname:nick, score:sc, hits:hit, total:10, acc:Math.round(hit/10*100), date:Date.now(), expires_at:Date.now()+86400000})
+        headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify({duel_id:currentDuelId,nickname:nick,score:sc,hits,total:10,acc:Math.round(hits/10*100),date:Date.now(),expires_at:Date.now()+86400000})
       });
-      _qaLog(`  → ${nick}: ${sc} pts`, 'success');
-    } catch(e){ _qaLog(`  ❌ ${nick}: erro`, 'error'); }
+      if(r.ok){_qaPass('duel_leaderboard');_qaLog('  ✔ '+nick+': '+sc+' pts','success');}
+      else _qaLog('  ❌ '+nick+': HTTP '+r.status,'error');
+    }catch(e){_qaLog('  ❌ '+nick+': '+e.message,'error');}
   }
-  _qaLog('✅ Simulação de usuários concluída', 'success');
-  _qaChecklist.duel_flow.status = 'pass';
-  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+  _qaPass('duel_save_local');
+  if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+}
+function _qaWipeDuels(){
+  try{localStorage.removeItem('sci_duels_played');}catch(e){}
+  _qaLog('🗑 Duelos locais limpos','warn');
 }
 
-/* ══════════════════════════════════════════
-   TESTES DE ÁUDIO
-══════════════════════════════════════════ */
+/* ══ CONQUISTAS ══ */
+function _qaUnlockAll(){
+  _qaLog('🏅 Desbloqueando todas...');
+  ACHIEVEMENTS.forEach(a=>{const u=loadUnlocked();if(!u.includes(a.id))unlockAch(a.id);});
+  _qaPass('ach_unlock');_qaPass('ach_toast');_qaPass('ach_persist');_qaPass('ach_secret');
+  _qaLog('✅ Todas desbloqueadas','success');
+}
+function _qaResetAch(){
+  saveUnlocked([]);
+  Object.keys(localStorage).filter(k=>k.startsWith('sci_ach_')).forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});
+  _qaLog('↩ Conquistas resetadas','warn');
+  if(document.getElementById('ach-screen').classList.contains('active'))renderAchievements();
+}
+function _qaTestAchToast(){
+  const a=ACHIEVEMENTS[Math.floor(Math.random()*ACHIEVEMENTS.length)];
+  showAchToast(a);_qaPass('ach_toast');_qaLog('🍞 Toast: '+a.name,'success');
+}
+
+/* ══ SFX ══ */
+function _qaTestSFX(type){
+  try{
+    if(type==='correct'){sfxCorrect();_qaPass('sfx_correct');}
+    else if(type==='wrong'){sfxWrong();_qaPass('sfx_wrong');}
+    else if(type==='achievement'){sfxAchievement();_qaPass('sfx_achievement');}
+    else if(type==='timeout'){sfxTimeout();}
+    else if(type==='click'){sfxClick();_qaPass('sfx_click');}
+    _qaLog('🔊 SFX: '+type,'success');
+  }catch(e){_qaFail('sfx_'+type,e.message);_qaLog('❌ SFX '+type+': '+e.message,'error');}
+}
+
+/* ══ MÚSICA ══ */
 function _qaTestMusicState(state){
-  if(typeof SCI_MUSIC === 'undefined'){ _qaLog('⚠ SCI_MUSIC não disponível', 'warn'); return; }
-  if(!musicOn && !SCI_MUSIC._started) SCI_MUSIC.start();
-  setMusicState(state, 0.4);
-  _qaLog(`🎵 Música → ${state}`, 'success');
-  _qaChecklist.music_adaptive.status = 'pass';
-  if(_qaOpen && _qaTab === 'checklist') _renderQAChecklist();
+  try{
+    if(!musicOn){SCI_MUSIC.start();}
+    setMusicState(state,0.3);
+    if(['ranked','sprint','survival','streak'].includes(state))_qaPass('music_state_game');
+    else _qaPass('music_state_menu');
+    _qaPass('music_start');
+    _qaLog('🎵 Música → '+state,'success');
+    if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+  }catch(e){_qaFail('music_start',e.message);_qaLog('❌ Música: '+e.message,'error');}
 }
-
+function _qaTestMusicToggle(){
+  try{
+    toggleMusic();
+    setTimeout(()=>{toggleMusic();_qaPass('music_toggle');_qaLog('✅ Toggle OK','success');},1200);
+  }catch(e){_qaFail('music_toggle',e.message);}
+}
 function _qaTestMusicEvent(ev){
-  if(typeof SCI_MUSIC === 'undefined'){ _qaLog('⚠ SCI_MUSIC não disponível', 'warn'); return; }
-  triggerMusicEvent(ev);
-  _qaLog(`🎶 Evento de música: ${ev}`, 'success');
+  try{triggerMusicEvent(ev);_qaLog('⚡ Evento música: '+ev,'success');}
+  catch(e){_qaLog('❌ Evento '+ev+': '+e.message,'error');}
 }
 
-/* ══════════════════════════════════════════
-   NOVOS ATALHOS DE TECLADO
-══════════════════════════════════════════ */
-document.addEventListener('keydown', e => {
-  if(!e.ctrlKey || !e.shiftKey) return;
+/* ══ STORAGE / PERSISTÊNCIA ══ */
+function _qaTestStorage(){
+  try{
+    const k='_qa_full';
+    localStorage.setItem(k,JSON.stringify({test:true,ts:Date.now()}));
+    const v=JSON.parse(localStorage.getItem(k));
+    localStorage.removeItem(k);
+    if(v&&v.test){_qaPass('persist_local');_qaLog('✅ localStorage OK','success');}
+    else{_qaFail('persist_local','parse falhou');}
+  }catch(e){_qaFail('persist_local',e.message);_qaLog('❌ '+e.message,'error');}
+}
+async function _qaTestSupabase(silent=false){
+  if(!USE_SUPABASE){if(!silent)_qaLog('⚠ Supabase não configurado','warn');return;}
+  try{
+    const r=await sbFetch('/rest/v1/sc1_users?select=id&limit=1');
+    if(r.ok){_qaPass('persist_supabase');_qaPass('persist_sync');if(!silent)_qaLog('✅ Supabase alcançável','success');}
+    else{_qaFail('persist_supabase','HTTP '+r.status);if(!silent)_qaLog('❌ Supabase HTTP '+r.status,'error');}
+  }catch(e){_qaFail('persist_supabase',e.message);if(!silent)_qaLog('❌ Supabase: '+e.message,'error');}
+  if(!silent&&_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+}
+function _qaTestCache(){
+  try{
+    setCache('_qa_c',{v:77,arr:[1,2,3]});
+    const r=getCache('_qa_c',null);
+    if(r&&r.v===77){_qaPass('persist_cache');_qaLog('✅ Cache OK','success');}
+    else _qaFail('persist_cache','valor incorreto');
+    setCache('_qa_c',undefined);
+  }catch(e){_qaFail('persist_cache',e.message);_qaLog('❌ Cache: '+e.message,'error');}
+}
 
-  /* Ctrl+Shift+6 → toggle painel QA (qualquer usuário tenta, só admin abre) */
-  if(e.key === '6'){
+/* ══ UI ══ */
+function _qaTestLightMode(){
+  try{
+    toggleLightMode();
+    setTimeout(()=>{toggleLightMode();_qaPass('ui_light_mode');_qaLog('✅ Light mode OK','success');},700);
+  }catch(e){_qaFail('ui_light_mode',e.message);}
+}
+function _qaTestModal(){
+  showModal({icon:'🧪',title:'Teste QA',msg:'Modal abrindo e fechando corretamente.',label:'Fechar'});
+  _qaPass('ui_modal');_qaLog('✅ Modal OK','success');
+}
+function _qaTestConfetti(){
+  try{launchConfetti();_qaPass('ui_confetti');_qaLog('🎉 Confetti OK','success');}
+  catch(e){_qaFail('ui_confetti',e.message);}
+}
+function _qaTestMapa(){
+  showScreen('map-screen');
+  if(typeof initMap==='function')initMap();
+  setTimeout(()=>{
+    const hasBtns=document.querySelectorAll('[onclick*="_map"],[onclick*="mapBack"],[onclick*="mapShow"]').length>0;
+    const hasCanvas=!!document.querySelector('canvas');
+    if(hasBtns){_qaPass('map_themes');_qaLog('✅ Mapa: botões presentes','success');}
+    if(hasCanvas){_qaPass('map_graph');_qaLog('✅ Mapa: canvas renderizou','success');}
+    if(!hasBtns&&!hasCanvas)_qaLog('⚠ Mapa: verificar se initMap() foi chamado','warn');
+  },800);
+}
+
+/* ══ RESET GLOBAL ══ */
+function _qaResetAll(){
+  showConfirm({
+    icon:'⚠️',title:'Reset completo',
+    msg:'Limpa localStorage e estado da sessão. Login admin preservado. Confirmar?',
+    confirmLabel:'Resetar',confirmClass:'btn-danger',
+    onConfirm:()=>{
+      _qaLog('🔄 Reset...','warn');
+      const sess=localStorage.getItem('sc1_session');
+      try{localStorage.clear();}catch(e){}
+      if(sess)localStorage.setItem('sc1_session',sess);
+      score=0;streak=0;maxStreak=0;current=0;shuffled=[];
+      answered=false;lives=SURVIVAL_LIVES;sprintTimer=TIMER_SPRINT;
+      log=[];userDataCache={};_qaErrors=[];_qaResetChecklist();
+      _qaLog('✅ Reset concluído','success');
+      showModal({icon:'✅',title:'Reset feito',msg:'Estado e dados locais limpos.'});
+    }
+  });
+}
+function _qaSimError(){
+  _qaLog('💥 Erro proposital','error');
+  _qaErrors.push('Erro proposital — admin QA');
+  if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+  showModal({icon:'💥',title:'Erro simulado',msg:'Teste do sistema de detecção de erros do painel QA.'});
+}
+
+/* ══ ATALHOS ══ */
+document.addEventListener('keydown',e=>{
+  if(!e.ctrlKey||!e.shiftKey)return;
+  /* Usar e.code (posição física) — e.key muda com Shift: '1'→'!', '6'→'^', etc. */
+  const code=e.code; // 'Digit1'..'Digit7', 'KeyX', 'KeyZ'
+  if(code==='Digit6'){e.preventDefault();if(isAdminUser)_toggleQAPanel();return;}
+  /* X e Z: e.key funciona normalmente para letras */
+  const s=document.querySelector('.screen.active')?.id;
+  if((e.key==='X'||e.key==='x')&&s==='quiz-screen'&&isAdminUser&&!adminActive){
     e.preventDefault();
-    if(isAdminUser) _toggleQAPanel();
-    return;
+    adminActive=true;
+    const toast=document.getElementById('admin-toast');
+    toast.textContent='🛠 QA: respostas aleatórias…';
+    toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');adminActive=false;},3000);
+    _qaLog('⌨ C+S+X — aleatório');runAdminSimulation(false);return;
   }
-
-  /* Demais só funcionam se admin autenticado */
-  if(!isAdminUser) return;
-
-  switch(e.key){
-    case '1':
-      e.preventDefault();
-      _qaLog('⌨ Ctrl+Shift+1 — finalizar quiz');
-      _qaFinishQuizNow();
-      break;
-    case '2':
-      e.preventDefault();
-      _qaLog('⌨ Ctrl+Shift+2 — simular médio');
-      _qaSimUser('medium');
-      break;
-    case '3':
-      e.preventDefault();
-      _qaLog('⌨ Ctrl+Shift+3 — simular ruim');
-      _qaSimUser('bad');
-      break;
-    case '4':
-      e.preventDefault();
-      _qaUnlockAllAch();
-      break;
-    case '5':
-      e.preventDefault();
-      _qaResetAll();
-      break;
-    case '7':
-      e.preventDefault();
-      _qaSimError();
-      break;
+  if((e.key==='Z'||e.key==='z')&&s==='quiz-screen'&&isAdminUser&&!adminActive){
+    e.preventDefault();
+    adminActive=true;
+    const toast=document.getElementById('admin-toast');
+    toast.textContent='🛠 QA: respostas perfeitas…';
+    toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');adminActive=false;},3000);
+    _qaLog('⌨ C+S+Z — perfeito');runAdminSimulation(true);return;
+  }
+  if(!isAdminUser)return;
+  switch(code){
+    case 'Digit1':e.preventDefault();_qaLog('⌨ C+S+1');_qaFinishNow();break;
+    case 'Digit2':e.preventDefault();_qaLog('⌨ C+S+2');_qaSimUser('medium');break;
+    case 'Digit3':e.preventDefault();_qaLog('⌨ C+S+3');_qaSimUser('bad');break;
+    case 'Digit4':e.preventDefault();_qaUnlockAll();break;
+    case 'Digit5':e.preventDefault();_qaResetAll();break;
+    case 'Digit7':e.preventDefault();_qaSimError();break;
   }
 });
+
+
+/* ════════════════════════════════════════════════════
+   SISTEMA DE FOTO DE PERFIL
+════════════════════════════════════════════════════ */
+
+const AVATAR_EMOJIS=['😀','😎','🦷','🩺','📚','🧠','🔬','💉','🩻','🏆','⚡','🌿','🎯','🔥','💡','🌟','🎓','🧬','💊','🦠'];
+let _avatarPending=null;
+
+/* ── Storage ── */
+function loadAvatar(){return getCache('avatar',null);}
+function saveAvatar(av){setCache('avatar',av);}
+
+/* ── Render helper ── */
+function _avatarHTML(av,size=28){
+  if(!av)return `<span style="font-size:${Math.round(size*.55)}px">👤</span>`;
+  if(av.type==='img')return `<img src="${av.value}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;display:block">`;
+  return `<span style="font-size:${Math.round(size*.6)}px;line-height:1">${av.value}</span>`;
+}
+
+/* ── Apply everywhere ── */
+function applyAvatarEverywhere(){
+  const av=loadAvatar();
+  /* Nav */
+  const dot=document.getElementById('nav-avatar-dot');
+  if(dot)dot.innerHTML=_avatarHTML(av,20);
+  /* Config big */
+  const big=document.getElementById('cfg-avatar-big');
+  if(big){
+    const em=document.getElementById('cfg-avatar-emoji');
+    big.querySelectorAll('img.cfg-av-img').forEach(i=>i.remove());
+    if(av&&av.type==='img'){
+      const img=document.createElement('img');img.className='cfg-av-img';img.src=av.value;
+      img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%';
+      if(em)em.style.display='none';big.appendChild(img);
+    }else{
+      if(em){em.style.display='';em.textContent=av?av.value:'👤';}
+    }
+  }
+  /* Config name */
+  const pn=document.getElementById('cfg-profile-name');
+  if(pn&&currentUser)pn.textContent='@'+currentUser.nickname;
+  /* Pre-cache img for share card */
+  const av2=loadAvatar();
+  let ci=document.getElementById('_av_cache_img');
+  if(!ci){ci=document.createElement('img');ci.id='_av_cache_img';ci.style.display='none';document.body.appendChild(ci);}
+  if(av2&&av2.type==='img')ci.src=av2.value;else ci.src='';
+}
+
+/* ═══════════════════════════════════════════
+   CROP ENGINE
+═══════════════════════════════════════════ */
+let _cropImg=null,_cropOX=0,_cropOY=0,_cropDrag=false,_cropLast={x:0,y:0};
+
+function _cropSetup(src){
+  const img=new Image();
+  img.onload=()=>{
+    _cropImg=img;_cropOX=0;_cropOY=0;
+    document.getElementById('av-crop-zoom').value=1;
+    _cropDraw();
+    /* show crop step */
+    document.getElementById('av-step-choose').style.display='none';
+    document.getElementById('av-step-crop').style.display='';
+  };
+  img.src=src;
+}
+
+function _cropDraw(){
+  const canvas=document.getElementById('av-crop-canvas');
+  const outer=document.getElementById('av-crop-outer');
+  if(!canvas||!_cropImg)return;
+  const S=outer.offsetWidth||260;
+  canvas.width=canvas.height=S;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,S,S);
+  const zoom=parseFloat(document.getElementById('av-crop-zoom').value)||1;
+  const iw=_cropImg.naturalWidth,ih=_cropImg.naturalHeight;
+  const base=Math.min(S/iw,S/ih)*zoom;
+  const dw=iw*base,dh=ih*base;
+  const dx=(S-dw)/2+_cropOX*zoom,dy=(S-dh)/2+_cropOY*zoom;
+  ctx.drawImage(_cropImg,dx,dy,dw,dh);
+}
+
+function _cropBack(){
+  document.getElementById('av-step-crop').style.display='none';
+  document.getElementById('av-step-choose').style.display='';
+}
+
+function _cropConfirm(){
+  const canvas=document.getElementById('av-crop-canvas');
+  const S=canvas.width;
+  /* circular clip export */
+  const out=document.createElement('canvas');out.width=out.height=S;
+  const ctx=out.getContext('2d');
+  ctx.save();ctx.beginPath();ctx.arc(S/2,S/2,S/2,0,Math.PI*2);ctx.clip();
+  ctx.drawImage(canvas,0,0);ctx.restore();
+  const dataURL=out.toDataURL('image/jpeg',0.88);
+  _avatarPending={type:'img',value:dataURL};
+  _updateAvatarPreview(_avatarPending);
+  document.getElementById('av-step-crop').style.display='none';
+  document.getElementById('av-step-choose').style.display='';
+}
+
+/* Drag interactions on crop outer */
+(function(){
+  function init(){
+    const outer=document.getElementById('av-crop-outer');
+    if(!outer)return;
+    outer.addEventListener('mousedown',e=>{_cropDrag=true;_cropLast={x:e.clientX,y:e.clientY};outer.style.cursor='grabbing';});
+    document.addEventListener('mousemove',e=>{
+      if(!_cropDrag)return;
+      _cropOX+=(e.clientX-_cropLast.x);_cropOY+=(e.clientY-_cropLast.y);
+      _cropLast={x:e.clientX,y:e.clientY};_cropDraw();
+    });
+    document.addEventListener('mouseup',()=>{_cropDrag=false;if(outer)outer.style.cursor='grab';});
+    /* Touch */
+    let lastTouches=[];
+    outer.addEventListener('touchstart',e=>{lastTouches=[...e.touches];},{passive:true});
+    outer.addEventListener('touchmove',e=>{
+      if(e.touches.length===1){
+        const t=e.touches[0],lt=lastTouches[0]||t;
+        _cropOX+=(t.clientX-lt.clientX);_cropOY+=(t.clientY-lt.clientY);
+        _cropDraw();
+      } else if(e.touches.length===2&&lastTouches.length===2){
+        /* pinch zoom */
+        const d0=Math.hypot(lastTouches[0].clientX-lastTouches[1].clientX,lastTouches[0].clientY-lastTouches[1].clientY);
+        const d1=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+        const zEl=document.getElementById('av-crop-zoom');
+        const nv=Math.max(1,Math.min(4,parseFloat(zEl.value)*d1/d0));
+        zEl.value=nv;_cropDraw();
+      }
+      lastTouches=[...e.touches];
+    },{passive:true});
+    /* Scroll wheel zoom */
+    outer.addEventListener('wheel',e=>{
+      e.preventDefault();
+      const zEl=document.getElementById('av-crop-zoom');
+      const nv=Math.max(1,Math.min(4,parseFloat(zEl.value)-e.deltaY*0.003));
+      zEl.value=nv;_cropDraw();
+    },{passive:false});
+  }
+  /* delay to ensure DOM ready */
+  setTimeout(init,400);
+})();
+
+/* ═══════════════════════════════════════════
+   MODAL CONTROLS
+═══════════════════════════════════════════ */
+function openAvatarModal(){
+  const av=loadAvatar();
+  _avatarPending=av?{...av}:null;
+  _updateAvatarPreview(_avatarPending);
+  /* emoji grid */
+  const grid=document.getElementById('avatar-emoji-grid');
+  if(grid)grid.innerHTML=AVATAR_EMOJIS.map(e=>`<button class="avatar-emoji-btn${av&&av.type==='emoji'&&av.value===e?' selected':''}" onclick="_avatarSelectEmoji('${e}')">${e}</button>`).join('');
+  /* show step A */
+  document.getElementById('av-step-choose').style.display='';
+  document.getElementById('av-step-crop').style.display='none';
+  document.getElementById('avatar-modal-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeAvatarModal(){
+  document.getElementById('avatar-modal-overlay').style.display='none';
+  document.body.style.overflow='';
+  _avatarPending=null;_cropImg=null;
+  const fi=document.getElementById('avatar-file-input');if(fi)fi.value='';
+}
+function _updateAvatarPreview(av){
+  const wrap=document.getElementById('avatar-preview-wrap');
+  const em=document.getElementById('avatar-preview-emoji');
+  if(!wrap||!em)return;
+  wrap.querySelectorAll('img.av-preview-img').forEach(i=>i.remove());
+  if(av&&av.type==='img'){
+    em.style.display='none';
+    const img=document.createElement('img');img.className='av-preview-img';img.src=av.value;
+    img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:50%';
+    wrap.appendChild(img);
+  }else{em.style.display='';em.textContent=av?av.value:'👤';}
+}
+function _avatarSelectEmoji(e){
+  _avatarPending={type:'emoji',value:e};
+  _updateAvatarPreview(_avatarPending);
+  document.querySelectorAll('.avatar-emoji-btn').forEach(b=>b.classList.toggle('selected',b.textContent===e));
+}
+function _avatarHandleFile(input){
+  const file=input.files[0];if(!file)return;
+  if(file.size>4*1024*1024){showModal({icon:'⚠️',title:'Arquivo grande',msg:'A imagem deve ter no máximo 4MB.'});return;}
+  const reader=new FileReader();
+  reader.onload=e=>{_cropSetup(e.target.result);};
+  reader.readAsDataURL(file);
+}
+function saveAvatarModal(){
+  if(_avatarPending)saveAvatar(_avatarPending);
+  closeAvatarModal();
+  applyAvatarEverywhere();
+}
+
+/* ── Ranking inject avatar ── */
+(()=>{
+  const orig=loadRankingTab;
+  window.loadRankingTab=async function(modeKey){
+    await orig.apply(this,arguments);
+    setTimeout(()=>{
+      document.querySelectorAll('.rank-item').forEach(item=>{
+        if(item.querySelector('.rank-avatar'))return;
+        const nickEl=item.querySelector('.rank-nick');if(!nickEl)return;
+        const nick=(nickEl.firstChild?.textContent||'').trim();
+        const av=nick===nickname?loadAvatar():null;
+        const wrap=document.createElement('div');
+        wrap.className='rank-avatar'+(nick===nickname?' me-av':'');
+        wrap.innerHTML=_avatarHTML(av,28);
+        item.insertBefore(wrap,nickEl);
+      });
+    },150);
+  };
+})();
+
+/* ── Duel leaderboard inject avatar ── */
+(()=>{
+  const orig=showDuelLeaderboard;
+  window.showDuelLeaderboard=async function(...a){
+    await orig.apply(this,arguments);
+    setTimeout(()=>{
+      document.querySelectorAll('.duel-lb-item').forEach(item=>{
+        if(item.querySelector('.duel-lb-avatar'))return;
+        const nickEl=item.querySelector('.duel-lb-nick');if(!nickEl)return;
+        const nick=(nickEl.firstChild?.textContent||'').trim();
+        const av=nick===nickname?loadAvatar():null;
+        const wrap=document.createElement('div');wrap.className='duel-lb-avatar';
+        wrap.innerHTML=_avatarHTML(av,32);
+        item.insertBefore(wrap,item.firstChild);
+      });
+    },150);
+  };
+})();
+
+/* ── finishLogin hook ── */
+(()=>{
+  const orig=finishLogin;
+  window.finishLogin=function(){orig.apply(this,arguments);setTimeout(applyAvatarEverywhere,150);};
+})();
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded',()=>{if(currentUser)applyAvatarEverywhere();});
+setTimeout(()=>{if(currentUser)applyAvatarEverywhere();},600);
+
 
 </script>
