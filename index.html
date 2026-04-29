@@ -456,7 +456,102 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nav-user:hover{border-color:var(--danger);color:var(--danger)}
 .nav-user-dot{width:20px;height:20px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;overflow:hidden;padding:0}
 .nav-user-dot img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-/* ── Avatar global ── */
+/* ══ XP / NÍVEL ══ */
+.xp-bar-wrap{height:4px;background:var(--border2);border-radius:2px;overflow:hidden;margin-top:4px}
+.xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#06b6d4);border-radius:2px;transition:width .6s cubic-bezier(.2,0,0,1)}
+.xp-badge{display:inline-flex;align-items:center;gap:5px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--accent);cursor:default}
+.level-up-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#f5a623,#f97316);color:#05120a;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;border-radius:99px;padding:9px 22px;z-index:9500;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.level-up-toast.show{opacity:1}
+/* ══ DESAFIO DIÁRIO ══ */
+.daily-card{background:linear-gradient(135deg,var(--s1) 0%,rgba(245,166,35,0.06) 100%);border:1.5px solid rgba(245,166,35,0.3);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.daily-card:hover{border-color:rgba(245,166,35,0.55);transform:translateY(-1px)}
+.daily-card.done{border-color:rgba(61,214,140,0.3);background:linear-gradient(135deg,var(--s1) 0%,rgba(61,214,140,0.06) 100%);cursor:default}
+.daily-card::before{content:'';position:absolute;top:-30px;right:-30px;width:80px;height:80px;border-radius:50%;background:rgba(245,166,35,0.08)}
+.daily-streak-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);border-radius:99px;padding:2px 9px;font-size:10px;font-weight:700;color:#f5a623}
+/* ══ SR REVIEW QUEUE ══ */
+.sr-queue-badge{background:#a78bfa;color:#07040f;border-radius:99px;font-size:9px;font-weight:800;padding:1px 6px;margin-left:4px;display:inline-block;vertical-align:middle;min-width:16px;text-align:center}
+.sr-review-card{background:var(--s1);border:1px solid rgba(167,139,250,0.25);border-radius:var(--r-sm);padding:13px 15px;margin-bottom:8px;cursor:pointer;transition:all .12s}
+.sr-review-card:hover{border-color:rgba(167,139,250,0.5);background:var(--s2)}
+.sr-due-section{background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.18);border-radius:var(--r);padding:14px;margin-bottom:1rem}
+/* ══ SKELETON LOADING ══ */
+@keyframes skeleton-shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.skeleton{background:linear-gradient(90deg,var(--s2) 25%,var(--s3) 50%,var(--s2) 75%);background-size:800px 100%;animation:skeleton-shimmer 1.4s infinite;border-radius:4px}
+.rank-skeleton{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:var(--r-sm);margin-bottom:6px;background:var(--s1);border:1px solid var(--border2)}
+/* ══ MATERIAL DA AULA ══ */
+.material-prova{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:8px;overflow:hidden;transition:border-color .15s}
+.material-prova:hover{border-color:rgba(245,166,35,0.35)}
+.material-prova-hdr{display:flex;align-items:center;gap:10px;padding:14px 15px;cursor:pointer;user-select:none}
+.material-prova-icon{font-size:17px;flex-shrink:0}
+.material-prova-title{flex:1;font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.material-prova-badge{font-size:10px;background:rgba(245,166,35,0.10);color:#f5a623;border:1px solid rgba(245,166,35,0.22);border-radius:99px;padding:1px 8px;font-weight:600}
+.material-prova-arrow{font-size:16px;color:var(--muted);transition:transform .2s}
+.material-prova-body{border-top:1px solid var(--border2)}
+.material-item{display:flex;align-items:center;gap:12px;padding:12px 15px;cursor:pointer;transition:background .12s;border-bottom:1px solid var(--border2)}
+.material-item:last-child{border-bottom:none}
+.material-item:hover{background:var(--s2)}
+.material-item-icon{font-size:20px;flex-shrink:0;width:32px;text-align:center}
+.material-item-body{flex:1;min-width:0}
+.material-item-title{font-size:13px;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.material-item-sub{font-size:11px;color:var(--muted)}
+.material-item-type{font-size:9px;font-weight:800;letter-spacing:.08em;flex-shrink:0}
+/* ══ TUTOR IA ══ */
+.tutor-wrap{display:flex;flex-direction:column;height:calc(100vh - 140px);min-height:400px}
+.tutor-messages{flex:1;overflow-y:auto;padding:0 0 8px;display:flex;flex-direction:column;gap:12px}
+.tutor-messages::-webkit-scrollbar{width:3px}
+.tutor-messages::-webkit-scrollbar-thumb{background:var(--border3);border-radius:2px}
+.tutor-msg{display:flex;gap:10px;align-items:flex-start}
+.tutor-msg-user{flex-direction:row-reverse}
+.tutor-avatar{width:32px;height:32px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
+.tutor-avatar-user{background:rgba(167,139,250,0.12);border-color:rgba(167,139,250,0.3)}
+.tutor-bubble{max-width:82%;display:flex;flex-direction:column;gap:6px}
+.tutor-bubble-content{background:var(--s1);border:1px solid var(--border2);border-radius:12px 12px 12px 3px;padding:11px 14px;font-size:13px;line-height:1.6;color:var(--text)}
+.tutor-bubble-content strong{color:var(--accent)}
+.tutor-bubble-content code{background:var(--s2);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:11px}
+.tutor-msg-user .tutor-bubble-content{border-radius:12px 12px 3px 12px;background:rgba(167,139,250,0.10);border-color:rgba(167,139,250,0.22);color:var(--text)}
+.tutor-suggestions{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.tutor-sug{border:.5px solid var(--border2);background:var(--s2);color:var(--muted2);font-size:11px;border-radius:99px;padding:4px 10px;cursor:pointer;transition:all .12s;font-family:'DM Sans',sans-serif;text-align:left;line-height:1.3}
+.tutor-sug:hover{border-color:var(--accent-border);color:var(--accent);background:var(--accent-dim)}
+.tutor-ts{font-size:10px;color:var(--muted);padding:0 4px;align-self:flex-end}
+.tutor-msg-user .tutor-ts{text-align:right}
+.tutor-loading{display:flex;gap:5px;align-items:center;padding:10px 14px;background:var(--s1);border:1px solid var(--border2);border-radius:12px 12px 12px 3px}
+.tutor-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:tutor-pulse 1.2s ease-in-out infinite}
+.tutor-dot:nth-child(2){animation-delay:.2s}
+.tutor-dot:nth-child(3){animation-delay:.4s}
+@keyframes tutor-pulse{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+.tutor-input-wrap{display:flex;align-items:flex-end;gap:8px;padding:10px 0 4px;border-top:1px solid var(--border2);margin-top:8px;flex-shrink:0}
+.tutor-input{flex:1;background:var(--s1);border:1px solid var(--border2);border-radius:18px;padding:9px 14px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;resize:none;line-height:1.4;max-height:120px;transition:border-color .15s;scrollbar-width:none}
+.tutor-input:focus{border-color:var(--accent-border)}
+.tutor-input::-webkit-scrollbar{display:none}
+.tutor-send{width:38px;height:38px;border-radius:50%;background:var(--accent);border:none;color:#05120a;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
+.tutor-send:hover{transform:scale(1.07)}
+.tutor-send:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.tutor-recommend{background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;padding:9px 12px;margin-top:8px;font-size:12px;color:var(--muted2);line-height:1.5}
+.tutor-recommend strong{color:#a78bfa}
+/* ══ PWA INSTALL BANNER ══ */
+.pwa-banner{background:var(--s1);border:1px solid var(--accent-border);border-radius:var(--r);padding:13px 15px;display:flex;align-items:center;gap:12px;margin-bottom:1rem;cursor:pointer;transition:all .15s}
+.pwa-banner:hover{border-color:var(--accent);background:var(--s2)}
+/* ══ NOTIF TIME PICKER ══ */
+.notif-time-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border2);margin-top:6px}
+.notif-time-sel{background:var(--s2);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:5px 10px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer}
+.notif-time-sel:focus{border-color:var(--accent-border)}
+/* ══ PROFESSOR PANEL ══ */
+.prof-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:1rem}
+.prof-stat{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;text-align:center}
+.prof-stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent)}
+.prof-stat-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:2px}
+.prof-user-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border2)}
+.prof-user-nick{flex:1;font-size:13px;font-weight:500}
+.prof-user-stat{font-size:11px;color:var(--muted);text-align:right}
+.prof-theme-bar{height:6px;border-radius:3px;overflow:hidden;background:var(--s3);margin-top:4px}
+.prof-theme-fill{height:100%;border-radius:3px;transition:width .5s}
+/* ══ SCREEN TRANSITIONS ══ */
+.screen{animation:none}
+@keyframes screenFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.screen.active{animation:screenFadeIn .22s cubic-bezier(.2,0,0,1)}
+/* ══ ACESSIBILIDADE ══ */
+.skip-link{position:fixed;top:-40px;left:0;background:var(--accent);color:#05120a;padding:8px 16px;border-radius:0 0 var(--r-sm) 0;z-index:99999;font-weight:700;transition:top .2s}
+.skip-link:focus{top:0}
+/* ══ Avatar global ── */
 .sci-avatar{border-radius:50%;object-fit:cover;display:inline-block;flex-shrink:0}
 .sci-avatar-wrap{border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;font-family:'Syne',sans-serif}
 /* rank item avatar */
@@ -1070,7 +1165,12 @@ body{padding-bottom:7rem!important}
 .graph-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 </style>
 </head>
+<link rel="manifest" id="pwa-manifest-link">
+<meta name="theme-color" content="#080c10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <body class="hub-home">
+<a href="#main-content" class="skip-link">Pular para conteúdo</a>
 <noscript><div style="position:fixed;inset:0;background:#080c10;color:#e8eef4;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;font-family:system-ui,sans-serif;z-index:99999"><div><div style="font-size:40px;margin-bottom:1rem">🦷</div><div style="font-size:20px;font-weight:700;margin-bottom:0.5rem">S.C.I — Saúde Coletiva Inteligente</div><div style="font-size:14px;color:#6b7a8d;line-height:1.7">Esta plataforma requer JavaScript para funcionar.<br>Por favor, habilite o JavaScript no seu navegador e recarregue a página.</div></div></div></noscript>
 <div id="app">
   <div class="nav">
@@ -1131,7 +1231,7 @@ body{padding-bottom:7rem!important}
   </div>
 
   <!-- HOME (hub) -->
-  <div id="home-screen" class="screen">
+  <div id="home-screen" class="screen" id="main-content">
     <div class="home-hero">
       <div class="hero-eyebrow"><span class="hero-dot"></span>S.C.I</div>
       <div class="hero-title">Mais do que questões, uma forma de aprender.</div>
@@ -1142,7 +1242,24 @@ body{padding-bottom:7rem!important}
       <div class="lrb-arrow">›</div>
     </div>
 
-    <div id="history-banner" class="history-banner" style="display:none" onclick="showEvoScreen()">
+    <!-- XP / NÍVEL WIDGET (home) -->
+  <div id="xp-widget" style="display:none;margin-bottom:.75rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+      <span class="xp-badge" id="xp-level-badge">Nível 1</span>
+      <span style="font-size:11px;color:var(--muted)" id="xp-to-next">0 / 500 XP</span>
+    </div>
+    <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div></div>
+  </div>
+  <!-- PWA install banner (shown when installable) -->
+  <div id="pwa-banner" class="pwa-banner" style="display:none" onclick="_pwaInstall()" role="button">
+    <span style="font-size:22px">📲</span>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:600;margin-bottom:2px">Instalar o S.C.I</div>
+      <div style="font-size:11px;color:var(--muted)">Adicione à tela inicial para acesso rápido sem internet</div>
+    </div>
+    <span style="color:var(--accent);font-size:13px;font-weight:600">Instalar →</span>
+  </div>
+  <div id="history-banner" class="history-banner" style="display:none" onclick="showEvoScreen()">
       <div class="hb-top">
         <span class="hb-label">📈 Minha evolução (últimas partidas)</span>
         <div class="hb-stats">
@@ -1202,6 +1319,23 @@ body{padding-bottom:7rem!important}
       <div class="sub-header-title">🎮 Modos de Jogo</div>
       <div class="sub-header-desc">Escolha como você quer praticar hoje</div>
     </div>
+    <!-- DESAFIO DIÁRIO -->
+    <div id="daily-card" class="daily-card" onclick="startDailyChallenge()" role="button" aria-label="Desafio diário" style="margin-bottom:1rem;display:none">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+        <div>
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+            <span style="font-size:18px">🎯</span>
+            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px">Desafio do Dia</span>
+            <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('diario')" title="Como funciona?" style="margin-left:auto">?</button>
+            <span id="daily-streak-badge" class="daily-streak-badge" style="display:none">🔥 <span id="daily-streak-num">0</span> dias</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px" id="daily-desc">5 questões · Reseta à meia-noite</div>
+          <div id="daily-xp-reward" style="font-size:11px;color:#f5a623;font-weight:600">+150 XP ao completar</div>
+        </div>
+        <div id="daily-status-icon" style="font-size:28px;flex-shrink:0">🎯</div>
+      </div>
+    </div>
+
     <div class="mode-grid">
       <div class="mode-card ranked" onclick="openSetup('ranked')">
         <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('ranked')" title="Como funciona?">?</button>
@@ -1447,6 +1581,115 @@ body{padding-bottom:7rem!important}
   </div>
 
   <!-- MÉTODOS DE ESTUDO -->
+  <!-- MATERIAL DA AULA SCREEN -->
+  <div id="material-screen" class="screen">
+    <div class="sub-header">
+      <button class="sub-header-back" onclick="showScreen('estudo-screen')" aria-label="Voltar">← Estudar</button>
+      <div class="sub-header-title">📚 Material da Aula</div>
+      <div class="sub-header-desc">Materiais oficiais do professor</div>
+    </div>
+    <div id="material-content">
+      <!-- Provas accordion -->
+      <div class="material-prova" id="mat-prova-1">
+        <div class="material-prova-hdr" onclick="_toggleMatProva(1)" role="button" aria-expanded="true">
+          <span class="material-prova-icon">📋</span>
+          <span class="material-prova-title">Prova 1</span>
+          <span class="material-prova-badge" id="mat-badge-1">3 itens</span>
+          <span class="material-prova-arrow" id="mat-arrow-1">▾</span>
+        </div>
+        <div class="material-prova-body" id="mat-body-1">
+          <div class="material-item" onclick="_openMaterial('pdf','./prova1sci.pdf','Slides Prof. André — Prova 1')">
+            <div class="material-item-icon">📊</div>
+            <div class="material-item-body">
+              <div class="material-item-title">Slides do Prof. André — Prova 1</div>
+              <div class="material-item-sub">129 slides · PDF oficial · SUS, Saúde-Doença, Políticas</div>
+            </div>
+            <div class="material-item-type" style="color:#f5a623">PDF</div>
+          </div>
+          <div class="material-item" onclick="_openMaterial('link','https://www.saude.gov.br/sistema-unico-de-saude','Lei 8.080/1990 — gov.br')">
+            <div class="material-item-icon">🔗</div>
+            <div class="material-item-body">
+              <div class="material-item-title">Lei 8.080/1990</div>
+              <div class="material-item-sub">Texto completo — portal gov.br</div>
+            </div>
+            <div class="material-item-type" style="color:#06b6d4">LINK</div>
+          </div>
+          <div class="material-item" onclick="_openMaterial('link','https://www.planalto.gov.br/ccivil_03/leis/l8142.htm','Lei 8.142/1990 — planalto.gov.br')">
+            <div class="material-item-icon">🔗</div>
+            <div class="material-item-body">
+              <div class="material-item-title">Lei 8.142/1990</div>
+              <div class="material-item-sub">Controle social no SUS — planalto.gov.br</div>
+            </div>
+            <div class="material-item-type" style="color:#06b6d4">LINK</div>
+          </div>
+        </div>
+      </div>
+      <div class="material-prova" id="mat-prova-2">
+        <div class="material-prova-hdr" onclick="_toggleMatProva(2)" role="button" aria-expanded="false">
+          <span class="material-prova-icon">📋</span>
+          <span class="material-prova-title">Prova 2 <span style="font-size:10px;color:var(--muted);font-weight:400">— em breve</span></span>
+          <span class="material-prova-badge" id="mat-badge-2">0 itens</span>
+          <span class="material-prova-arrow" id="mat-arrow-2">›</span>
+        </div>
+        <div class="material-prova-body" id="mat-body-2" style="display:none">
+          <div style="padding:1rem;text-align:center;font-size:13px;color:var(--muted)">Materiais serão adicionados pelo professor.</div>
+        </div>
+      </div>
+    </div>
+    <!-- Viewer modal for slides/pdfs -->
+    <div id="material-viewer" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9800;flex-direction:column">
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;background:#0d0f16;flex-shrink:0">
+        <button onclick="closeMaterialViewer()" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:20px;line-height:1">✕</button>
+        <div id="material-viewer-title" style="font-size:13px;font-weight:600;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+        <a id="material-viewer-open" href="#" target="_blank" rel="noopener" style="font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap">Abrir →</a>
+      </div>
+      <iframe id="material-viewer-frame" src="" style="flex:1;border:none;width:100%;background:#fff"></iframe>
+    </div>
+  </div>
+
+  <!-- TUTOR IA SCREEN -->
+  <div id="tutor-screen" class="screen">
+    <div class="sub-header">
+      <button class="sub-header-back" onclick="showScreen('estudo-screen')" aria-label="Voltar">← Estudar</button>
+      <div class="sub-header-title">🧠 Tutor IA</div>
+      <div class="sub-header-desc">Assistente especializado em Saúde Coletiva I</div>
+    </div>
+    <div class="tutor-wrap">
+      <div class="tutor-messages" id="tutor-messages">
+        <div class="tutor-msg tutor-msg-ai" id="tutor-welcome">
+          <div class="tutor-avatar">🧠</div>
+          <div class="tutor-bubble">
+            <div class="tutor-bubble-content">Olá! Sou o Tutor IA da S.C.I. Estou aqui para ajudar com suas dúvidas sobre <strong>Saúde Coletiva I</strong> — SUS, políticas públicas, determinantes sociais, história da saúde no Brasil e tudo mais.<br><br>Como posso te ajudar hoje?</div>
+            <div class="tutor-suggestions">
+              <button class="tutor-sug" onclick="_tutorSuggest(this)">Explique o princípio da universalidade</button>
+              <button class="tutor-sug" onclick="_tutorSuggest(this)">Diferença entre equidade e igualdade</button>
+              <button class="tutor-sug" onclick="_tutorSuggest(this)">Resumo da Lei 8.080</button>
+              <button class="tutor-sug" onclick="_tutorSuggest(this)">O que são CAPs e IAPs?</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tutor-input-wrap">
+        <textarea id="tutor-input" class="tutor-input" placeholder="Digite sua dúvida sobre Saúde Coletiva I…" rows="1" onkeydown="_tutorKeydown(event)" oninput="_tutorAutoResize(this)" aria-label="Mensagem para o tutor"></textarea>
+        <button id="tutor-send-btn" class="tutor-send" onclick="sendTutorMessage()" aria-label="Enviar mensagem">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELA PROFESSOR -->
+  <div id="professor-screen" class="screen">
+    <div class="sub-header">
+      <button class="sub-header-back" onclick="showScreen('desempenho-screen')" aria-label="Voltar">← Desempenho</button>
+      <div class="sub-header-title">👩‍🏫 Visão da Turma</div>
+      <div class="sub-header-desc">Painel somente leitura — acesso restrito</div>
+    </div>
+    <div id="prof-content">
+      <div style="text-align:center;padding:2rem;color:var(--muted)">Carregando dados da turma…</div>
+    </div>
+  </div>
+
   <div id="estudo-screen" class="screen">
     <div class="sub-header">
       <button class="sub-header-back" onclick="showScreen('home-screen')">← Início</button>
@@ -1466,6 +1709,22 @@ body{padding-bottom:7rem!important}
         <div class="mode-card-icon">🕸️</div>
         <div class="mode-card-title">Mapa Conceitual</div>
         <div class="mode-card-desc">Visualize como os 21 conceitos dos 3 temas se interconectam.</div>
+      </div>
+      <!-- MATERIAL DA AULA -->
+      <div class="mode-card" onclick="showScreen('material-screen')" style="border-color:rgba(245,166,35,0.22);grid-column:1/-1" onmouseover="this.style.borderColor='rgba(245,166,35,0.6)'" onmouseout="this.style.borderColor='rgba(245,166,35,0.22)'">
+        <div class="mode-badge" style="background:rgba(245,166,35,0.10);color:#f5a623;border:1px solid rgba(245,166,35,0.2)">📂 Materiais</div>
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('material')" title="Como funciona?">?</button>
+        <div class="mode-card-icon">📚</div>
+        <div class="mode-card-title">Material da Aula</div>
+        <div class="mode-card-desc">Slides, PDFs e materiais oficiais do professor organizados por prova.</div>
+      </div>
+      <!-- TUTOR IA -->
+      <div class="mode-card" onclick="showScreen('tutor-screen')" style="border-color:rgba(61,214,140,0.22);grid-column:1/-1" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='rgba(61,214,140,0.22)'">
+        <div class="mode-badge" style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)">🤖 IA</div>
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('tutor')" title="Como funciona?">?</button>
+        <div class="mode-card-icon">🧠</div>
+        <div class="mode-card-title">Tutor IA</div>
+        <div class="mode-card-desc">Tire dúvidas, peça explicações e revisões com assistente especializado em Saúde Coletiva.</div>
       </div>
     </div>
   </div>
@@ -1495,6 +1754,12 @@ body{padding-bottom:7rem!important}
         <div class="mode-card-icon">🎖️</div>
         <div class="mode-card-title">Conquistas</div>
         <div class="mode-card-desc">Desbloqueie medalhas conforme você avança na plataforma.</div>
+      </div>
+      <div id="prof-turma-card" class="mode-card" onclick="showProfessorPanel()" style="border-color:rgba(245,166,35,0.22);grid-column:1/-1;display:none" onmouseover="this.style.borderColor='var(--warn)'" onmouseout="this.style.borderColor='rgba(245,166,35,0.22)'">
+        <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('professor')" title="Como funciona?">?</button>
+        <div class="mode-card-icon">👩‍🏫</div>
+        <div class="mode-card-title">Visão da Turma</div>
+        <div class="mode-card-desc">Desempenho coletivo da turma por tema, quem mais pratica e análise geral.</div>
       </div>
     </div>
   </div>
@@ -1623,6 +1888,17 @@ body{padding-bottom:7rem!important}
       <div class="study-title">🃏 Flashcards</div>
       <div class="study-sub">Clique em "Ver resposta" para virar o card e comparar com o gabarito.</div>
       <div class="study-progress" id="study-progress"></div>
+    </div>
+    <!-- SR REVIEW QUEUE BANNER -->
+    <div id="sr-queue-banner" style="display:none;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:.75rem;cursor:pointer" onclick="_showSRQueue()" role="button" aria-label="Ver fila de revisão">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:18px">📅</span>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600;margin-bottom:1px">Revisar hoje</div>
+          <div style="font-size:11px;color:var(--muted)" id="sr-queue-desc">Carregando…</div>
+        </div>
+        <span style="color:#a78bfa;font-size:13px;font-weight:600">Ver →</span>
+      </div>
     </div>
     <div class="study-filter" id="study-filter">
       <button class="filter-tab active" onclick="setStudyFilter('all',this)">Todos</button>
@@ -1823,15 +2099,26 @@ body{padding-bottom:7rem!important}
     </div>
     <div class="config-section">
       <div class="config-section-label">Notificações</div>
-      <div class="config-row" onclick="toggleNotifications()">
+      <div class="config-row" onclick="toggleNotifications()" role="button" aria-pressed="false" id="notif-config-row">
         <div class="config-row-left">
-          <div class="config-row-icon">🔕</div>
+          <div class="config-row-icon" id="cfg-notif-icon">🔕</div>
           <div class="config-row-body">
             <div class="config-row-title">Lembretes de Revisão</div>
-            <div class="config-row-sub">Aviso quando flashcards estiverem para revisar</div>
+            <div class="config-row-sub">Receba um lembrete diário para revisar flashcards e o desafio do dia</div>
           </div>
         </div>
         <div class="config-toggle" id="cfg-notif-toggle"></div>
+      </div>
+      <div id="notif-time-section" style="display:none;padding:0 4px">
+        <div class="notif-time-row">
+          <span style="font-size:12px;color:var(--muted);flex:1">Horário do lembrete</span>
+          <select class="notif-time-sel" id="notif-hour-sel" onchange="_saveNotifTime()" aria-label="Hora do lembrete">
+            <option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option>
+            <option value="10">10:00</option><option value="12">12:00</option><option value="14">14:00</option>
+            <option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option>
+            <option value="20" selected>20:00</option><option value="21">21:00</option><option value="22">22:00</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="config-section">
@@ -2494,11 +2781,89 @@ const QUESTIONS=[
   {cat:2,sub:'reforma',pool:'all',text:"A 8ª Conferência Nacional de Saúde (1986) propôs um conceito ampliado de saúde que inclui:",options:["Apenas a ausência de doenças infecciosas e parasitárias na população.","Alimentação, habitação, emprego, lazer, educação, liberdade, acesso a serviços de saúde e terra.","Exclusivamente indicadores de mortalidade infantil e expectativa de vida.","Somente o acesso a medicamentos básicos e consultas médicas gratuitas."],answer:1,target:'conf8',hint:"A 8ª CNS ampliou o conceito de saúde muito além da medicina.",explanation:"A 8ª CNS definiu saúde como resultado das condições de vida: alimentação, habitação, emprego, lazer, educação, liberdade, serviços e terra.",wrongReasons:["O conceito da 8ª CNS é muito mais amplo que ausência de infecções.",null,"Indicadores de mortalidade são ferramentas, não o conceito em si.",null]},
   {cat:2,sub:'reforma',pool:'all',text:"A 8ª Conferência Nacional de Saúde (1986) foi diretamente responsável por:",options:["Criar o INAMPS como braço assistencial da previdência social.","Subsidiar a elaboração do capítulo da saúde na Constituição Federal de 1988.","Inaugurar os primeiros Centros de Especialidades Odontológicas no Brasil.","Implantar o Sistema Incremental de odontologia nas escolas públicas."],answer:1,target:'conf8',hint:"1986 → 1988: o que foi criado na Constituição Federal com base na 8ª CNS?",explanation:"A 8ª CNS (1986) forneceu as bases para o capítulo da saúde (Art. 196-200) da CF/88.",wrongReasons:["O INAMPS foi criado em 1977, anos antes da 8ª CNS.",null,"Os CEOs foram criados pelo Brasil Sorridente em 2004.",null]},
   {cat:2,sub:'odontocoletiva',pool:'all',text:"Para ser atendido no CEO (Centro de Especialidades Odontológicas), o paciente deve:",options:["Agendar diretamente pelo telefone do CEO, sem necessidade de encaminhamento.","Ser encaminhado pela equipe de saúde bucal da Atenção Básica.","Apresentar plano de saúde odontológico ativo no momento do atendimento.","Ter sido atendido em hospital de alta complexidade anteriormente."],answer:1,target:'ceo',hint:"CEO é nível secundário — acesso regulado via encaminhamento da Atenção Básica.",explanation:"O CEO é acessado exclusivamente por encaminhamento da Atenção Básica, garantindo a hierarquização do SUS.",wrongReasons:["O acesso direto ao CEO desorganizaria a rede — é preciso encaminhamento.",null,"O CEO é público e não exige plano de saúde.",null]},
-  {cat:2,sub:'odontocoletiva',pool:'all',text:"Assinale a INCORRETA sobre o CEO (Centro de Especialidades Odontológicas):",options:["Oferece atendimento em Endodontia, Periodontia e Cirurgia oral.","Inclui atenção a Pacientes com Necessidades Especiais e Estomatologia.","Substitui completamente as Unidades Básicas de Saúde na atenção odontológica.","É financiado pelo Ministério da Saúde em parceria com estados e municípios."],answer:2,target:'ceo',hint:"O CEO COMPLEMENTA a atenção básica — não a substitui.",explanation:"O CEO é referência especializada — complementa, não substitui a UBS. As ações de básico continuam na UBS.",wrongReasons:["Correta — Endodontia, Periodontia e Cirurgia são especialidades do CEO.",null,"INCORRETA: o CEO não substitui a UBS.",null]}
+  {cat:2,sub:'odontocoletiva',pool:'all',text:"Assinale a INCORRETA sobre o CEO (Centro de Especialidades Odontológicas):",options:["Oferece atendimento em Endodontia, Periodontia e Cirurgia oral.","Inclui atenção a Pacientes com Necessidades Especiais e Estomatologia.","Substitui completamente as Unidades Básicas de Saúde na atenção odontológica.","É financiado pelo Ministério da Saúde em parceria com estados e municípios."],answer:2,target:'ceo',hint:"O CEO COMPLEMENTA a atenção básica — não a substitui.",explanation:"O CEO é referência especializada — complementa, não substitui a UBS. As ações de básico continuam na UBS.",wrongReasons:["Correta — Endodontia, Periodontia e Cirurgia são especialidades do CEO.",null,"INCORRETA: o CEO não substitui a UBS.",null]},
+
+  /* ════ NOVAS QUESTÕES — PROVA 1 ════ */
+  /* ─── cat:0 SUS — Universalidade ─── */
+  {cat:0,text:"O CPO-D médio aos 12 anos no Brasil em 1986 era 6,67. Em 2020 esse índice chegou a:",options:["3,2","1,6","4,5","0,9"],answer:1,target:'universalidade',hint:"A tendência foi de redução expressiva. O valor atual é bem menor que em 1986.",explanation:"Em 2020 o CPO-D médio aos 12 anos chegou a 1,6, evidenciando expressiva redução da prevalência de cárie em crianças brasileiras."},
+  {cat:0,text:"A criação dos Centros de Especialidades Odontológicas (CEOs) está associada principalmente a qual demanda do princípio da Universalidade?",options:["Ampliar a prevenção de cárie em escolares.","Suprir a dívida assistencial de adultos e idosos com necessidade de procedimentos especializados.","Substituir as equipes de saúde bucal na ESF.","Diminuir a fluoretação da água de abastecimento."],answer:1,target:'universalidade',hint:"Adultos e idosos necessitam de procedimentos que a atenção básica não oferece. Os CEOs foram criados para isso.",explanation:"Com o envelhecimento populacional e a dívida assistencial acumulada com adultos e idosos, os CEOs foram criados para suprir procedimentos especializados como endodontia, periodontia e cirurgia oral."},
+  {cat:0,text:"Qual a principal demanda que justificou a criação dos Laboratórios Regionais de Prótese Dentária (LRPD)?",options:["Reduzir a fluoretação de água em municípios pequenos.","Atender à alta demanda reabilitadora de adultos e idosos edêntulos.","Ampliar o sistema incremental para adolescentes.","Substituir os CEOs em municípios menores."],answer:1,target:'universalidade',hint:"Pense em qual faixa etária tem maior perda dentária e necessita de prótese.",explanation:"Os LRPDs foram criados para enfrentar a grande demanda por reabilitação protética, especialmente na população adulta e idosa, que historicamente não tinha acesso a esses serviços."},
+  {cat:0,text:"A inserção da Equipe de Saúde Bucal (ESB) na Estratégia Saúde da Família (ESF) é relevante para a Universalidade pois:",options:["Restringe o atendimento odontológico a grupos escolares.","Estende as ações de saúde bucal a toda a família e cria vínculos com a comunidade.","Substitui os CEOs no atendimento especializado.","Foca exclusivamente em urgências odontológicas."],answer:1,target:'universalidade',hint:"A ESF atende famílias — não apenas grupos etários específicos.",explanation:"A ESB na ESF permite estender ações de saúde bucal a toda a família, criar vínculos, identificar famílias vulneráveis, melhorar o acesso e reduzir urgências."},
+  {cat:0,text:"No contexto da Universalidade do SUS aplicada à odontologia, a 'dívida assistencial' com adultos e idosos refere-se a:",options:["Falta de pagamento de tributos para o SUS por essas faixas etárias.","A insuficiência histórica de serviços públicos de saúde bucal para além da infância e urgências.","O excesso de procedimentos curativos realizados nessas faixas etárias.","A ausência de programas preventivos para crianças."],answer:1,target:'universalidade',hint:"Historicamente, o sistema público atendia crianças (Sistema Incremental) e urgências. O que sobrou para adultos?",explanation:"A tradição do Sistema Incremental focava crianças de 6 a 14 anos; adultos e idosos ficaram com acesso restrito a urgências, gerando uma dívida assistencial histórica."},
+  /* ─── cat:0 SUS — Equidade ─── */
+  {cat:0,text:"O princípio da Equidade no SUS determina que:",options:["Todos recebam exatamente os mesmos serviços, sem distinção.","Serviços sejam oferecidos conforme as necessidades de cada grupo, priorizando quem mais precisa.","O sistema priorize apenas populações urbanas.","Equidade é sinônimo de igualdade absoluta de recursos."],answer:1,target:'equidade',hint:"Equidade ≠ igualdade. Reconhecer diferenças e oferecer mais a quem mais precisa.",explanation:"A Equidade reconhece que existem diferenças nas condições de vida e saúde; portanto, oferta mais serviços a quem mais necessita, não distribuindo recursos de forma idêntica."},
+  {cat:0,text:"Indivíduos de baixa renda possuem mais problemas de saúde bucal e usam menos os serviços odontológicos. No contexto do SUS, isso justifica:",options:["A extinção da atenção básica para populações pobres.","A ampliação da oferta de ações de saúde aos mais afetados por desigualdades sociais.","A cobrança de taxas para equilibrar o uso dos serviços.","A focalização dos serviços apenas em populações de alta renda."],answer:1,target:'equidade',hint:"Quem mais precisa deve receber mais. Isso é equidade em ação.",explanation:"O princípio da Equidade orienta ampliar a oferta de ações de saúde para populações mais vulneráveis, reduzindo exclusão social e desigualdades."},
+  {cat:0,text:"A diferença entre 'equidade' e 'igualdade' no contexto do SUS é que:",options:["São termos sinônimos utilizados como tal na CF/88.","Igualdade trata todos de forma idêntica; equidade distribui recursos conforme necessidades.","Equidade beneficia exclusivamente a classe alta.","Igualdade é mais justa que equidade em sistemas públicos de saúde."],answer:1,target:'equidade',hint:"O princípio da equidade identifica o espaço da diferença, não da igualdade.",explanation:"A equidade distribui de forma diferenciada conforme as necessidades; a igualdade distribui igualmente para todos, o que pode perpetuar injustiças em contextos de desigualdade."},
+  /* ─── cat:0 SUS — Integralidade ─── */
+  {cat:0,text:"No sentido histórico, a Integralidade contrapõe-se à dicotomia existente entre:",options:["Medicina pública e medicina privada.","Gestão da prevenção (SESP) e assistência médica individual (INAMPS).","Atenção básica e alta complexidade.","Saúde bucal e saúde geral."],answer:1,target:'integralidade',hint:"Antes do SUS havia dois organismos separados: um para prevenção coletiva, outro para cura individual.",explanation:"A Integralidade surgiu para superar a dicotomia histórica entre o Serviço Especial de Saúde Pública (prevenção coletiva) e o INAMPS (assistência curativa individual)."},
+  {cat:0,text:"No sentido epistemológico, o princípio da Integralidade incorpora a ideia de que a saúde resulta de:",options:["Apenas do acesso a serviços de saúde de qualidade.","Alimentação, habitação, educação, renda, meio ambiente, trabalho, transporte e acesso a serviços.","Somente fatores biológicos como genética e fisiologia.","Da ausência de doenças diagnosticadas clinicamente."],answer:1,target:'integralidade',hint:"O conceito ampliado de saúde inclui muito mais que o acesso a serviços.",explanation:"O conceito ampliado de saúde incorpora determinantes como alimentação, habitação, educação, renda, meio ambiente, trabalho e acesso a serviços de saúde."},
+  {cat:0,text:"'Da vacina ao transplante' é uma expressão que ilustra qual princípio do SUS?",options:["Equidade.","Integralidade, no sentido do planejamento em saúde.","Universalidade.","Descentralização."],answer:1,target:'integralidade',hint:"A frase representa a abrangência total de serviços disponíveis ao usuário do SUS.",explanation:"A frase representa o princípio da Integralidade: o usuário do SUS tem direito a serviços que cubram toda a gama de necessidades, da prevenção à alta complexidade."},
+  {cat:0,text:"A relação entre formação profissional, concepção de saúde-doença e prática assistencial é uma dimensão do princípio da:",options:["Equidade.","Descentralização.","Integralidade, na perspectiva das relações entre atuação profissional e formação.","Universalidade."],answer:2,target:'integralidade',hint:"A integralidade também se aplica à formação: como o profissional concebe saúde determina sua prática.",explanation:"A Integralidade exige que a formação profissional abranja as dimensões biológica, psicológica e social, pois a concepção de saúde-doença do profissional determina sua prática assistencial."},
+  /* ─── cat:0 SUS — Descentralização ─── */
+  {cat:0,text:"A descentralização do SUS, com ênfase na municipalização, significa que:",options:["O Ministério da Saúde passa a executar diretamente todas as ações locais.","O município torna-se o principal executor das ações de saúde, responsável pelo planejamento e avaliação local.","Os estados deixam de ter responsabilidade pela saúde.","A descentralização elimina a necessidade de Normas Operacionais."],answer:1,target:'descentralizacao',hint:"Qual ente federado é mais próximo da população e mais apto a identificar necessidades locais?",explanation:"Com a municipalização, o município tornou-se o executor principal, por ser o ente mais próximo da população e capaz de adaptar estratégias à realidade local."},
+  {cat:0,text:"As Normas Operacionais Básicas (NOBs) de 1991, 1992, 1993 e 1996 foram editadas para:",options:["Criar o SUS no plano constitucional.","Regular gradualmente o processo de descentralização e atribuir responsabilidades aos entes federados.","Extinguir os IAPs e criar o INPS.","Regulamentar exclusivamente o financiamento da saúde bucal."],answer:1,target:'descentralizacao',hint:"A descentralização precisou de normatizações graduais — as NOBs foram esse instrumento.",explanation:"As NOBs regulamentaram gradualmente a descentralização, definindo atribuições e responsabilidades para os diferentes níveis de governo (União, estados e municípios)."},
+  {cat:0,text:"O Decreto 7.508/2011 instituiu o COAP (Contrato Organizativo da Ação Pública da Saúde), que objetiva:",options:["Extinguir as Regiões de Saúde.","Integrar os planos municipais de saúde para estruturar as Regiões de Saúde e o planejamento interfederativo.","Centralizar toda a gestão no Ministério da Saúde.","Substituir os Conselhos de Saúde pelo controle burocrático."],answer:1,target:'descentralizacao',hint:"O COAP resulta da integração dos planos de saúde dos entes federativos nas Regiões de Saúde.",explanation:"O Decreto 7.508/2011 introduziu o COAP como instrumento que integra os planos municipais de saúde para organizar as Regiões de Saúde e o planejamento compartilhado interfederativo."},
+  {cat:0,text:"A Regionalização define Regiões de Saúde para:",options:["Garantir que cada município seja completamente autossuficiente em todos os serviços de saúde.","Organizar serviços de diferentes complexidades em territórios, permitindo que municípios referenciem usuários a outros municípios.","Concentrar todos os serviços de saúde nas capitais estaduais.","Eliminar a necessidade de hospitais regionais."],answer:1,target:'descentralizacao',hint:"Nem todo município pode ter todos os serviços — por isso existe a regionalização.",explanation:"A Regionalização organiza serviços em territórios (Regiões de Saúde) onde municípios com diferentes complexidades se complementam, garantindo o acesso por referência e contrarreferência."},
+  /* ─── cat:0 SUS — Controle Social ─── */
+  {cat:0,text:"Qual lei regulamenta as instâncias de participação da comunidade no SUS?",options:["Lei 8.080/1990, que organiza o SUS.","Lei 8.142/1990, que institui os Conselhos e Conferências de Saúde.","CF/88, diretamente, sem regulamentação infraconstitucional.","NOB 96, que define as competências municipais."],answer:1,target:'lei8142',hint:"A Lei 8.142 é a lei da participação popular no SUS.",explanation:"A Lei 8.142/1990 regulamenta as instâncias colegiadas de participação popular: os Conselhos de Saúde e as Conferências de Saúde."},
+  {cat:0,text:"'Caráter permanente e deliberativo' do Conselho de Saúde significa que:",options:["Pode ser extinto pelo prefeito quando inconveniente, e apenas aconselha o gestor.","Deve sempre existir independentemente de decisões do gestor, e suas decisões têm força normativa.","Funciona apenas durante campanhas eleitorais e emite pareceres não vinculantes.","Reúne-se uma vez por ano e pode ser extinto por lei municipal."],answer:1,target:'controle',hint:"Permanente = não pode ser extinto por nenhuma autoridade local. Deliberativo = decide com força normativa.",explanation:"O Conselho de Saúde é permanente (não pode ser extinto por lei local) e deliberativo (suas resoluções têm força normativa sobre as políticas de saúde)."},
+  {cat:0,text:"A composição do Conselho Municipal de Saúde, conforme a Lei 8.142/1990, é:",options:["50% usuários, 25% trabalhadores de saúde, 25% gestores e prestadores.","25% usuários, 25% trabalhadores, 25% gestores, 25% empresários.","75% usuários, 25% profissionais de saúde.","50% gestores, 50% trabalhadores de saúde."],answer:0,target:'controle',hint:"A fórmula clássica: metade são usuários; a outra metade divide-se entre trabalhadores e gestores/prestadores.",explanation:"Conforme a Lei 8.142/1990: 50% de usuários, 25% de trabalhadores de saúde e 25% de gestores/prestadores de serviços."},
+  {cat:0,text:"A responsabilidade do Conselho Municipal de Saúde sobre o Plano Municipal de Saúde envolve:",options:["Apenas sugerir mudanças ao prefeito, sem caráter deliberativo.","Analisar, aprovar e fiscalizar a execução do plano e do relatório de gestão.","Criar o plano de saúde sem participação do governo.","Somente fiscalizar aspectos financeiros, sem análise técnica."],answer:1,target:'controle',hint:"O CMS não só recomenda — ele aprova e fiscaliza o plano e a execução.",explanation:"O Conselho Municipal de Saúde analisa e aprova o plano municipal de saúde, bem como analisa e aprova o relatório de gestão, incluindo aspectos econômicos e financeiros."},
+  /* ─── cat:1 Saúde-Doença — Interpretações históricas ─── */
+  {cat:1,text:"A concepção Mágico-Religiosa de saúde-doença caracteriza-se por:",options:["Atribuir doenças a microrganismos descobertos por microscopia.","Entender o adoecimento como transgressão aos deuses, tratada por curandeiros e rituais.","Explicar doenças pela inalação de miasmas.","Identificar agentes etiológicos específicos para cada doença."],answer:1,target:'magicoreligioso',hint:"A doença como punição divina, tratada por feiticeiros e rituais — qual concepção é essa?",explanation:"Na concepção Mágico-Religiosa, o adoecimento era resultado de transgressão com os deuses; o tratamento envolvia curandeiros e rituais de captura de espíritos malignos."},
+  {cat:1,text:"No período Neolítico, os problemas de saúde se agravaram principalmente por:",options:["A descoberta dos antibióticos que gerou resistência microbiana.","O surgimento da agricultura, domesticação de animais, armazenamento de alimentos e comércio.","A propagação de teorias miasmáticas entre as populações.","O início das práticas de vacinação em massa."],answer:1,target:'magicoreligioso',hint:"O que o Neolítico trouxe de novo que aproximou vetores e doenças das populações humanas?",explanation:"No Neolítico, a agricultura, a domesticação de animais e o armazenamento de alimentos aproximaram vetores (mosquitos, ratos) do convívio humano, agravando os problemas de saúde."},
+  {cat:1,text:"A medicina hipocrática (460 a.C.) distingue-se da concepção mágico-religiosa por:",options:["Atribuir todas as doenças à vontade dos deuses.","Ser totalmente naturalista, relacionando doenças ao meio natural e social sem causas sobrenaturais.","Usar exclusivamente microrganismos como causa das doenças.","Ignorar as condições ambientais e sociais no adoecimento."],answer:1,target:'magicoreligioso',hint:"Hipócrates é considerado 'pai da epidemiologia'. Sua medicina era naturalista — sem causas sobrenaturais.",explanation:"A medicina hipocrática é totalmente naturalista: atribui doenças a causas do meio natural (clima, sazonalidade) e social (trabalho, moradia, nutrição), sem causas sobrenaturais."},
+  {cat:1,text:"A Teoria Miasmática (1400 d.C.) explicava o adoecimento pela:",options:["Transmissão de microrganismos por contato direto.","Inalação de miasmas — ares fétidos provenientes de matéria orgânica em decomposição.","Infecção bacteriana identificada em laboratório.","Herança genética de doenças entre gerações."],answer:1,target:'prevencoes',hint:"'Miasma' = ar fétido. A teoria culpa o ambiente insalubre, não organismos específicos.",explanation:"A Teoria Miasmática atribuía as doenças à inalação de miasmas (ares fétidos de matéria em decomposição), surgindo em um contexto de rápida urbanização e péssimas condições sanitárias."},
+  {cat:1,text:"Robert Koch e Louis Pasteur são associados ao modelo de:",options:["Unicausalidade: cada doença tem um agente etiológico específico que a causa.","Multicausalidade: agente, hospedeiro e meio ambiente interagem na produção da doença.","Saúde como resultado de determinantes sociais e econômicos.","Concepção mágico-religiosa adaptada à ciência moderna."],answer:0,target:'biomedico',hint:"Koch e Pasteur descobriram que microrganismos específicos causam doenças específicas — qual modelo?",explanation:"Koch e Pasteur estabeleceram a teoria da unicausalidade: um agente etiológico específico causa uma doença específica, base da era bacteriológica do final do século XIX."},
+  {cat:1,text:"A unicausalidade permitiu avanços como:",options:["O desenvolvimento dos Determinantes Sociais de Saúde como foco da saúde pública.","Vacinas, antissépticos e antibióticos para combater agentes etiológicos específicos.","A criação da Tríade Ecológica como modelo explicativo.","A Teoria Miasmática como base das intervenções preventivas."],answer:1,target:'biomedico',hint:"A descoberta do agente causador permite criar intervenções específicas para combatê-lo.",explanation:"A teoria da unicausalidade possibilitou o desenvolvimento de vacinas, antissépticos e antibióticos, revolucionando a prevenção e o tratamento das doenças infecciosas."},
+  {cat:1,text:"O modelo Teocêntrico (500-1500 d.C.) concebia a doença como:",options:["Resultado de desequilíbrio entre agente, hospedeiro e meio ambiente.","Castigo divino ou purificação de pecados, tratada por práticas religiosas.","Consequência de miasmas provenientes de esgoto a céu aberto.","Produto de determinantes sociais e condições de vida."],answer:1,target:'magicoreligioso',hint:"Na Idade Média, a Igreja dominava a concepção de doença — o que ela pregava sobre o adoecimento?",explanation:"No modelo Teocêntrico medieval, a doença era vista como castigo justo de Deus, punição por pecados ou possessão pelo demônio, sendo tratada por práticas religiosas."},
+  {cat:1,text:"A crise do modelo de unicausalidade ocorreu após a Segunda Guerra Mundial porque:",options:["Os antibióticos tornaram-se ineficazes contra todos os microrganismos.","Países industrializados vivenciaram transição epidemiológica com aumento de doenças crônico-degenerativas.","Robert Koch refutou sua própria teoria ao final da vida.","A OMS proibiu o modelo bacteriológico."],answer:1,target:'biomedico',hint:"Doenças crônicas como infarto e câncer não têm um único agente etiológico — isso derruba qual modelo?",explanation:"Com a transição epidemiológica pós-Segunda Guerra, doenças crônico-degenerativas tornaram-se predominantes, revelando os limites do modelo unicausal."},
+  /* ─── cat:1 Saúde-Doença — DSS e determinação social ─── */
+  {cat:1,text:"A diferença entre 'causalidade' e 'determinação' no processo saúde-doença é:",options:["São termos sinônimos aplicados da mesma forma na epidemiologia.","Causalidade identifica o agente que causa a doença; determinação explica por que grupos específicos adoecem mais.","Determinação foca apenas em fatores genéticos individuais.","Causalidade é mais ampla que determinação, pois inclui fatores sociais."],answer:1,target:'dss',hint:"O bacilo de Koch causa tuberculose (causalidade). Mas por que indigentes adoecem mais? (determinação social)",explanation:"Causalidade identifica o agente (ex: bacilo de Koch). Determinação social explica por que grupos vulneráveis (desnutridos, sem moradia) são mais propensos a adoecer, mesmo expostos ao mesmo agente."},
+  {cat:1,text:"No modelo de Dahlgren e Whitehead, a camada mais distal (externa) representa:",options:["Fatores biológicos individuais como idade e sexo.","Estilo de vida individual influenciado por comportamentos.","Condições socioeconômicas, culturais e ambientais macrodeterminantes.","Redes de suporte social e comunitário."],answer:2,target:'dss',hint:"No arco-íris de Dahlgren-Whitehead: o núcleo é o indivíduo, a periferia são os macrodeterminantes.",explanation:"A camada mais distal contém as condições macrossociais — econômicas, culturais e ambientais — que moldam todas as demais camadas e determinam as oportunidades de saúde."},
+  {cat:1,text:"A definição da OMS de 1946 descreve saúde como:",options:["A ausência de doenças clinicamente diagnosticadas.","Estado de completo bem-estar físico, psíquico e social, e não apenas a ausência de doença.","O resultado exclusivo do acesso a serviços médicos de qualidade.","A ausência de qualquer fator de risco para doenças crônicas."],answer:1,target:'oms',hint:"A OMS ampliou o conceito de saúde em 1946, indo além da ausência de doença.",explanation:"Em 1946, a OMS definiu saúde como 'estado de completo bem-estar físico, psíquico e social, e não apenas a ausência de doença', inaugurando um conceito ampliado."},
+  {cat:1,text:"A epidemiologia é definida como o estudo da frequência e distribuição dos eventos de saúde e seus determinantes, com aplicação na:",options:["Exclusivamente no tratamento clínico individualizado.","Prevenção e controle dos problemas de saúde nas populações humanas.","Identificação de agentes etiológicos em laboratório.","Criação de vacinas e medicamentos para doenças crônicas."],answer:1,target:'dss',hint:"Epidemiologia estuda populações, não apenas indivíduos — e tem foco preventivo.",explanation:"A epidemiologia estuda a frequência, distribuição e determinantes dos eventos de saúde nas populações, com aplicação direta na prevenção e no controle de problemas de saúde."},
+  {cat:1,text:"Crianças do Nordeste, em municípios rurais pequenos, escola pública e negras/pardas têm CPO-D de 3,48. Crianças do Sul, em municípios grandes, escola privada, brancas têm CPO-D de 0,70. Isso demonstra:",options:["Que a cárie é determinada exclusivamente pela genética racial.","A influência dos determinantes sociais e das desigualdades regionais na saúde bucal.","Que o clima do Sul protege contra a cárie.","Que o sistema incremental foi mais eficiente no Nordeste."],answer:1,target:'dss',hint:"Renda, educação, localização e raça são determinantes sociais — e essa diferença de CPO-D os ilustra.",explanation:"A diferença de CPO-D entre esses grupos demonstra o impacto dos determinantes sociais — renda, localização, escola, raça — na saúde bucal das crianças."},
+  {cat:1,text:"A influência do flúor na prevenção da cárie foi redefinida quando se compreendeu que seu efeito principal ocorre:",options:["Incorporado ao dente em formação, tornando-o permanentemente resistente.","Em pequenas concentrações no fluido da placa, atuando continuamente sobre a remineralização.","Apenas na fase pré-eruptiva, antes do dente erupcionar.","Exclusivamente via suplementação sistêmica durante a infância."],answer:1,target:'dss',hint:"O entendimento atual é que o flúor age topicamente de forma contínua — não só na formação do dente.",explanation:"A concepção atual é que o flúor atua em pequenas concentrações no fluido da placa, favorecendo a remineralização continuamente — e não apenas incorporado ao dente em formação."},
+  {cat:1,text:"A concepção de saúde presente na Lei 8.080/1990 inclui como determinantes e condicionantes:",options:["Exclusivamente fatores biológicos: idade, sexo e herança genética.","Meio físico, meio socioeconômico-cultural, fatores biológicos e oportunidade de acesso a serviços.","Apenas o acesso a serviços médicos e odontológicos de qualidade.","Somente renda e educação como fatores de influência."],answer:1,target:'oms',hint:"A definição da Lei 8.080 é ampla — inclui determinantes físicos, sociais e biológicos.",explanation:"A Lei 8.080/1990 reconhece como determinantes: meio físico (água, habitação), meio socioeconômico-cultural (renda, educação), fatores biológicos e oportunidade de acesso a serviços de saúde."},
+  {cat:1,text:"Países com bons índices sociais (IDH elevado) têm curvas crescentes de obesidade e doenças cardiovasculares. Isso demonstra que:",options:["O modelo de Determinantes Sociais é inválido para países ricos.","A relação entre pobreza e saúde é suficiente para explicar todas as doenças.","A determinação social vai além da pobreza, envolvendo outros fatores mesmo em países ricos.","Doenças crônicas são causadas exclusivamente por fatores genéticos."],answer:2,target:'dss',hint:"A pobreza explica parte das doenças — mas por que países ricos também enfrentam doenças crônicas?",explanation:"Os DSS não se limitam à pobreza. Fatores como estilo de vida, urbanização e desigualdades específicas geram doenças crônicas mesmo em países com bons indicadores sociais."},
+  /* ─── cat:2 Políticas — Brasil Colônia e Império ─── */
+  {cat:2,text:"No período do Brasil Colônia (1500-1808), o atendimento à saúde da população comum era realizado principalmente por:",options:["Médicos formados nas faculdades de medicina do Rio de Janeiro e Bahia.","Curandeiros e pajés, utilizando plantas, ervas, rezas e feitiços.","Estrutura hospitalar pública criada pela Coroa Portuguesa.","Agentes de saúde vinculados aos IAPs coloniais."],answer:1,target:'historia_pol',hint:"No Brasil Colônia não havia modelo de atenção à saúde — quem tratava a população?",explanation:"No período colonial não havia nenhum modelo formal de atenção à saúde; a população recorria a curandeiros e pajés (cultura negra e indígena) ou a barbeiros-cirurgiões."},
+  {cat:2,text:"A primeira faculdade de medicina do Brasil foi inaugurada em:",options:["1808, em Salvador (BA), com a vinda da Família Real.","1923, junto com as Caixas de Aposentadoria e Pensões.","1889, com a Proclamação da República.","1967, com a unificação dos IAPs."],answer:0,target:'historia_pol',hint:"A Família Real chegou ao Brasil em 1808 — e trouxe consigo as primeiras instituições modernas.",explanation:"Em 1808, com a chegada da Família Real, foi inaugurada a primeira faculdade de medicina, a Escola Médico-Cirúrgica, em Salvador."},
+  {cat:2,text:"A Fisicatura-Mor, no período imperial, era responsável por:",options:["Financiar as primeiras caixas de previdência social.","Conceder autorizações e licenças para atuação de terapeutas, como boticários e médicos.","Criar o primeiro modelo campanhista de saúde pública.","Organizar os Institutos de Aposentadoria e Pensões."],answer:1,target:'historia_pol',hint:"A Fisicatura-Mor regulava quem podia exercer atividades de cura no Brasil imperial.",explanation:"A Fisicatura-Mor era o órgão responsável por conceder autorizações e licenças para a atuação de terapeutas, incluindo boticários, médicos e outros profissionais de saúde."},
+  /* ─── cat:2 Políticas — Início da República e CAPs/IAPs ─── */
+  {cat:2,text:"O modelo Campanhista de saúde pública, implementado no início da República, ficou conhecido pela atuação de:",options:["Getúlio Vargas, com a criação dos IAPs e a unificação previdenciária.","Oswaldo Cruz, com o Código Sanitário e a campanha de vacinação anti-varíola obrigatória.","Rodrigues Alves, com a criação das CAPs em 1923.","Rocha Vaz, com o Programa de Interiorização das Ações de Saúde (PIASS)."],answer:1,target:'historia_pol',hint:"Quem liderou o combate à febre amarela e à varíola no Rio de Janeiro no início do século XX?",explanation:"Oswaldo Cruz, como diretor de Saúde Pública, propôs o Código Sanitário e implementou a campanha de vacinação anti-varíola obrigatória, gerando a 'Revolta da Vacina' em 1904."},
+  {cat:2,text:"A 'Revolta da Vacina' (1904) foi consequência direta de:",options:["A criação das CAPs e o desconto compulsório no salário dos trabalhadores.","A campanha de vacinação anti-varíola obrigatória imposta pelo governo no Rio de Janeiro.","A unificação dos IAPs em 1933 por Getúlio Vargas.","A criação do INPS e a exclusão de categorias trabalhadoras."],answer:1,target:'historia_pol',hint:"A obrigatoriedade de vacinação gerou resistência popular intensa — qual vacina e em qual governo?",explanation:"A campanha de vacinação anti-varíola obrigatória, imposta por Oswaldo Cruz no governo de Rodrigues Alves, gerou intensa insatisfação popular, culminando na Revolta da Vacina de 1904."},
+  {cat:2,text:"As Caixas de Aposentadoria e Pensões (CAPs), criadas em 1923, eram custeadas por:",options:["Exclusivamente pelo Estado, que controlava diretamente seus fundos.","Trabalhadores (3% dos vencimentos) e empresas (1% da renda bruta), sem participação direta do Estado.","Os IAPs e o Ministério da Previdência Social em conjunto.","Apenas pelos empregadores, sem contribuição dos trabalhadores."],answer:1,target:'historia_pol',hint:"As CAPs eram de caráter privado — quem as financiava?",explanation:"As CAPs eram mantidas pelos trabalhadores (3% dos vencimentos) e pelas empresas (1% da renda bruta), com o Estado apenas legalizando e controlando a distância."},
+  {cat:2,text:"Os Institutos de Aposentadoria e Pensões (IAPs), criados a partir de 1933, diferem das CAPs principalmente porque:",options:["Eram financiados exclusivamente pelos trabalhadores, sem participação do Estado.","Agrupavam categorias profissionais inteiras (não apenas empresas) e tinham participação ativa do Estado.","Eram restritos a trabalhadores rurais, excluídos das CAPs.","Extinguiram os benefícios médicos, focando apenas em aposentadorias."],answer:1,target:'historia_pol',hint:"Das CAPs (por empresa) para os IAPs (por categoria profissional) — qual a diferença principal?",explanation:"Os IAPs expandiram o modelo das CAPs ao incluir categorias profissionais inteiras (marítimos, bancários, comerciários, industriais) e com participação ativa do Estado na administração e financiamento."},
+  {cat:2,text:"No modelo dos IAPs nos anos 1950, ocorreu uma dualidade na política de saúde brasileira:",options:["MS focando em assistência curativa e IAPs em prevenção coletiva.","MS desenvolvendo ações preventivas universais; IAPs com assistência médica curativa restrita a contribuintes.","Ambos atuando de forma integrada em ações preventivas e curativas para toda a população.","IAPs financiando apenas hospitais privados e MS apenas hospitais públicos."],answer:1,target:'historia_pol',hint:"Quem cuidava da prevenção para todos? Quem cuidava da cura só para contribuintes?",explanation:"O MS desenvolvia ações preventivas e de promoção com caráter universal, enquanto os IAPs prestavam assistência médico-hospitalar curativa restrita aos seus contribuintes."},
+  {cat:2,text:"O Instituto Nacional de Previdência Social (INPS), criado em 1967, representou:",options:["A descentralização da saúde para os municípios, conforme previsto na CF/88.","A unificação dos IAPs em um único instituto, com expansão das categorias cobertas e aumento do papel do setor privado.","O fim da medicina previdenciária e início da saúde pública universal.","A criação do Sistema Incremental de atendimento odontológico."],answer:1,target:'historia_pol',hint:"Os IAPs se unificaram em 1967 — qual instituto surgiu e o que mudou?",explanation:"O INPS unificou os IAPs em 1967, expandiu categorias profissionais cobertas e, com a pressão da demanda crescente, passou a alocar recursos públicos à iniciativa privada por convênios."},
+  {cat:2,text:"O INAMPS (Instituto Nacional de Assistência Médica da Previdência Social) foi criado na:",options:["Década de 1920, junto com as CAPs.","Década de 1970, desmembrado do INPS para gerenciar a assistência médica.","Constituição Federal de 1988.","Reforma Sanitária de 1986, após a 8ª CNS."],answer:1,target:'historia_pol',hint:"O INAMPS foi criado para lidar com a crescente crise de financiamento da assistência médica nos anos 70.",explanation:"O INAMPS foi criado na década de 1970 como desmembramento do INPS, para gerenciar especificamente a assistência médica previdenciária em resposta à crise financeira e administrativa."},
+  /* ─── cat:2 Políticas — Reforma Sanitária e SUS ─── */
+  {cat:2,text:"A VIII Conferência Nacional de Saúde (1986) foi fundamental para a criação do SUS porque:",options:["Criou o INAMPS e extinguiu os IAPs.","Seu relatório final serviu de base para a reforma do setor saúde e a criação do SUS na CF/88.","Definiu as Normas Operacionais Básicas (NOBs) para a descentralização.","Aprovou o Pacto pela Saúde e o Decreto 7.508."],answer:1,target:'reforma',hint:"A 8ª CNS foi convocada em 1986, reuniu sanitaristas, trabalhadores e sociedade — e seu relatório foi histórico.",explanation:"A VIII CNS (1986) mobilizou sanitaristas, trabalhadores e sociedade civil; seu relatório tornou-se a base para a reforma do setor saúde e a criação do SUS na Constituição Federal de 1988."},
+  {cat:2,text:"O Movimento da Reforma Sanitária defendia:",options:["A saúde vinculada à contribuição previdenciária, como nos IAPs.","Saúde como direito de todo cidadão, ações descentralizadas e sujeitas ao controle social.","O setor privado com gestão exclusiva do sistema de saúde brasileiro.","A medicina curativa como prioridade absoluta do Estado."],answer:1,target:'reforma',hint:"Reforma Sanitária = saúde como direito, sistema único, descentralização, participação popular.",explanation:"O Movimento da Reforma Sanitária defendia: saúde como direito universal (não vinculada à contribuição), sistema integrado, gestão descentralizada e participação/controle social."},
+  {cat:2,text:"O CONASP (1981) e seus programas SAMHPS e PAIS são relevantes na história da saúde brasileira porque:",options:["Extinguiram os IAPs e criaram o INPS.","Criaram o primeiro movimento de descentralização e universalização do acesso antes do SUS.","Aprovaram a CF/88 e criaram formalmente o SUS.","Unificaram os planos de saúde privados no Brasil."],answer:1,target:'reforma',hint:"O PAIS foi um precursor da descentralização — comprava serviços do setor público para atender mais pessoas.",explanation:"O PAIS (vinculado ao CONASP) estabeleceu convênios com estados, municípios e hospitais públicos/universitários, iniciando a descentralização e universalização do acesso antes mesmo do SUS."},
+  {cat:2,text:"O Sistema Incremental de atenção odontológica era estruturado para atender:",options:["Toda a população com ênfase em adultos e idosos.","Exclusivamente alunos de 6 a 14 anos matriculados em escolas públicas, por grupos fechados.","Apenas gestantes e trabalhadores da indústria.","Prioritariamente idosos com necessidade de prótese dentária."],answer:1,target:'odontocoletiva',hint:"O nome 'Incremental' vem de iniciar pelo mais jovem e ir progredindo — qual era a população-alvo?",explanation:"O Sistema Incremental tinha como população-alvo escolares de 6 a 14 anos matriculados em escolas públicas, organizados em grupos fechados com Tratamento Completo Inicial (TC-I) e Manutenção (TC-M)."},
+  {cat:2,text:"Uma das principais críticas ao Sistema Incremental de atenção odontológica é que:",options:["Atendia populações muito amplas, consumindo recursos desnecessários.","Era excludente, pois focava apenas em escolares, deixando adultos, idosos e não-matriculados sem atendimento.","Era baseado apenas em prevenção, sem tratamentos restauradores.","Utilizava muitos métodos preventivos, tornando-o caro e ineficiente."],answer:1,target:'odontocoletiva',hint:"O que acontecia com quem não estava na faixa etária ou não era aluno de escola pública?",explanation:"O Sistema Incremental era excludente: atendia apenas escolares de 6 a 14 anos, excluindo adultos, idosos e crianças fora do sistema escolar público."},
+  {cat:2,text:"O Programa de Interiorização das Ações de Saúde e Saneamento (PIASS, 1976) é considerado um marco porque:",options:["Criou o INAMPS e unificou os IAPs.","Foi o primeiro programa de medicina simplificada do nível federal estendido a todo o território nacional.","Aprovou a vacina anti-varíola obrigatória no interior do Brasil.","Criou as primeiras faculdades de odontologia fora das capitais."],answer:1,target:'reforma',hint:"O PIASS foi um precursor da descentralização — o que o tornava inovador para 1976?",explanation:"O PIASS (1976) foi o primeiro programa de medicina simplificada em nível federal estendido a todo o território nacional, expandindo a rede ambulatorial pública e sinalizando o início da Reforma Sanitária."},
 ];
 
 /* ─── HARD QUESTIONS (15 — ranked only) ─── */
 const HARD_QUESTIONS=[
+  {cat:0,pool:'ranked',text:"Analise as afirmativas sobre o princípio da Integralidade no SUS:\nI. No sentido histórico, supera a dicotomia entre prevenção coletiva (SESP) e assistência curativa (INAMPS).\nII. No sentido epistemológico, reduz saúde ao acesso a serviços médicos especializados.\nIII. No sentido do planejamento, garante ao usuário acesso desde a vacina até o transplante.\nIV. No sentido formativo, exige que a atuação profissional abranja dimensões biológica, psicológica e social.\nEstão CORRETAS apenas:",options:["I, II e III.","I, III e IV.","II e IV.","I e II."],answer:1,target:'integralidade',hint:"A II está errada: integralidade não reduz saúde ao acesso a serviços — ela amplia para todos os determinantes.",explanation:"I, III e IV estão corretas. II está incorreta: no sentido epistemológico, a integralidade AMPLIA o conceito de saúde para além do acesso a serviços, incorporando todos os determinantes (alimentação, habitação, renda etc.)."},
+  {cat:0,pool:'ranked',text:"Sobre as Normas Operacionais do SUS e o Decreto 7.508/2011, assinale a sequência CRONOLÓGICA e CORRETA:",options:["NOBs → NOAS → Pacto pela Saúde → Decreto 7.508.","Decreto 7.508 → NOBs → NOAS → Pacto pela Saúde.","NOAS → NOBs → Decreto 7.508 → Pacto pela Saúde.","Pacto pela Saúde → NOBs → NOAS → Decreto 7.508."],answer:0,target:'descentralizacao',hint:"A descentralização foi regulamentada gradualmente: NOBs (1991-96), NOAS (2001-02), Pacto (2006), Decreto (2011).",explanation:"A ordem cronológica é: NOBs (1991, 92, 93, 96) → NOAS (2001, 2002) → Pacto pela Saúde (2006) → Decreto 7.508/2011 (que instituiu o COAP e as Regiões de Saúde)."},
+  {cat:0,pool:'ranked',text:"Assinale a afirmativa INCORRETA sobre o Controle Social no SUS:\nI. O conselho de saúde é permanente e deliberativo, com composição de 50% usuários.\nII. As Conferências ocorrem a cada 4 anos e podem ser convocadas extraordinariamente pelo Executivo ou pelo próprio conselho.\nIII. O Conselho Municipal só analisa o Plano Municipal de Saúde, sem competência sobre o Relatório de Gestão.\nIV. Os conselhos existem nos três níveis de governo: nacional, estadual e municipal.",options:["Apenas I.","Apenas III.","II e IV.","I e II."],answer:1,target:'controle',hint:"O Conselho Municipal analisa TANTO o Plano de Saúde QUANTO o Relatório de Gestão.",explanation:"A afirmativa III está incorreta: o Conselho Municipal de Saúde tem competência tanto para analisar e aprovar o Plano Municipal de Saúde quanto o Relatório de Gestão, incluindo seus aspectos econômicos e financeiros."},
+  {cat:0,pool:'ranked',text:"Considere o caso: um município prioriza atendimento odontológico apenas para crianças em idade escolar, deixando adultos com acesso somente a urgências. Isso viola primariamente qual(ais) princípio(s) do SUS?",options:["Apenas o princípio da Descentralização.","Universalidade (acesso restrito por faixa etária) e Integralidade (não cobre toda a gama de necessidades).","Apenas o princípio da Equidade.","Apenas o Controle Social, pois os conselhos não foram consultados."],answer:1,target:'universalidade',hint:"Acesso restrito por faixa etária viola qual princípio? Não cobrir todas as necessidades viola qual?",explanation:"Restricão por faixa etária viola a Universalidade (saúde é direito de todos). Não cobrir toda a gama de necessidades (prevenção, tratamento, reabilitação) viola a Integralidade."},
+  {cat:0,pool:'ranked',text:"A 'dívida assistencial' com adultos e idosos na odontologia pública pode ser diretamente relacionada à:\nI. Redução do CPO-D em crianças e ao envelhecimento populacional.\nII. Histórica focalização do sistema incremental em escolares de 6 a 14 anos.\nIII. Criação dos CEOs, que piorou o acesso da população adulta.\nIV. Criação dos LRPDs, que supriram integralmente a demanda por próteses.",options:["I e II apenas.","I, II e III.","II e IV apenas.","I, II e IV."],answer:0,target:'universalidade',hint:"A dívida surgiu por quem não era atendido (adultos) e se agravou com envelhecimento + redução de cárie em crianças. Os CEOs e LRPDs foram criados PARA enfrentar essa dívida.",explanation:"I e II estão corretas: a focalização histórica em escolares e o envelhecimento/redução de cárie em crianças geraram a dívida assistencial. III está errada: os CEOs foram criados para enfrentar esse problema. IV está errada: os LRPDs não supriram integralmente a demanda."},
+  {cat:1,pool:'ranked',text:"No gráfico CPO-D de adultos 35-44 anos (2003 vs 2010), observou-se diminuição do componente 'perdido' e aumento de 65-69% em dentes 'restaurados'. Qual é a explicação mais adequada para essa mudança?",options:["Melhora genética da população que tornou os dentes mais resistentes à cárie.","Impacto do SUS via fluoretação, ESF e expansão dos serviços odontológicos, refletindo melhora no acesso ao tratamento.","A cárie foi erradicada no Brasil entre 2003 e 2010.","Mudança no critério diagnóstico do CPO-D, que passou a não contabilizar perdas."],answer:1,target:'dss',hint:"Mais dentes restaurados = mais acesso ao tratamento. Menos dentes perdidos = diagnóstico e tratamento mais precoce.",explanation:"A diminuição do componente 'perdido' e o aumento de 'restaurados' reflete o impacto positivo das políticas do SUS — fluoretação, ESF, expansão dos CEOs — que ampliaram o acesso ao tratamento antes da extração."},
+  {cat:1,pool:'ranked',text:"O experimento de Rose (2001) mostrando diferença na distribuição da pressão arterial entre funcionários públicos londrinos e nômades do Quênia ilustra que:",options:["A pressão arterial é determinada exclusivamente por fatores genéticos raciais.","O contexto sociocultural e as condições de vida (DSS) influenciam a distribuição populacional de doenças crônicas.","Países africanos têm melhor saúde cardiovascular por fatores ambientais exclusivos.","A unicausalidade é o modelo mais adequado para explicar doenças cardiovasculares."],answer:1,target:'dss',hint:"Por que populações com condições de vida tão diferentes têm distribuições de pressão tão diferentes?",explanation:"O experimento de Rose demonstra que os Determinantes Sociais (contexto sociocultural, condições de vida, urbanização) moldam a distribuição de doenças crônicas nas populações, indo além dos fatores genéticos individuais."},
+  {cat:1,pool:'ranked',text:"A afirmativa 'o bacilo de Koch CAUSA tuberculose' vs 'os determinantes sociais explicam por que presidiários, indígenas e moradores de rua ADOECEM MAIS de tuberculose' illustra a diferença entre:",options:["Epidemiologia clínica e epidemiologia social, sendo a primeira mais válida.","Noção de causalidade (agente que causa a doença) e noção de determinação (o que torna grupos vulneráveis).","Unicausalidade e multicausalidade, sendo ambas complementares e equivalentes.","Prevenção primária e prevenção terciária na HND de Leavell & Clark."],answer:1,target:'dss',hint:"Um explica 'o que causa a doença em geral'; o outro explica 'por que certos grupos adoecem mais'.",explanation:"A causalidade identifica o agente etiológico (bacilo de Koch). A determinação social explica por que grupos específicos (desnutridos, sem moradia, privados de liberdade) são mais vulneráveis ao mesmo agente."},
+  {cat:1,pool:'ranked',text:"Analise as afirmativas sobre as concepções do PSD e marque as INCORRETAS:\nI. O modelo Miasmático identificava corretamente os microrganismos transmitidos pelo ar fétido.\nII. A concepção Hipocrática é totalmente naturalista, sem causas sobrenaturais.\nIII. O modelo Teocêntrico via a doença como castigo divino ou possessão demoníaca.\nIV. O abandono da unicausalidade pós-Segunda Guerra deveu-se à emergência das doenças crônico-degenerativas.\nEstão INCORRETAS:",options:["Apenas I.","Apenas II.","I e IV.","II e III."],answer:0,target:'biomedico',hint:"O modelo miasmático NÃO identificava microrganismos — culpava os 'ares fétidos', sem associação microbiana.",explanation:"Apenas I está incorreta: o modelo miasmático não identificava microrganismos — culpava o ar fétido de matéria em decomposição, sem qualquer identificação de agentes microbianos. As demais afirmativas estão corretas."},
+  {cat:1,pool:'ranked',text:"Considerando o modelo de Dahlgren-Whitehead, uma política de criação de ciclovias, espaços públicos de lazer e regulação do tabaco atua primariamente na camada de:",options:["Fatores biológicos individuais (hereditariedade, idade, sexo).","Estilo de vida individual, facilitando comportamentos saudáveis.","Redes de suporte social e comunitário.","Condições macroeconômicas e ambientais."],answer:1,target:'dss',hint:"Ciclovias e restrição de tabaco facilitam escolhas saudáveis — em qual camada do modelo isso se encaixa?",explanation:"Políticas que facilitam atividade física e restringem propaganda de tabaco atuam na camada de 'estilo de vida individual', tornando mais acessíveis comportamentos saudáveis para a população."},
+  {cat:2,pool:'ranked',text:"Sobre a evolução das políticas de saúde no Brasil, analise as afirmativas:\nI. As CAPs (1923) tinham caráter privado e eram mantidas por empresas e trabalhadores.\nII. Os IAPs (1933) agrupavam categorias profissionais com participação ativa do Estado.\nIII. O INPS (1967) unificou os IAPs e o Ministério da Saúde em um único órgão.\nIV. O INAMPS foi criado para disciplinar a crise financeira da assistência médica previdenciária.\nEstão CORRETAS apenas:",options:["I e II.","I, II e IV.","II e III.","I, III e IV."],answer:1,target:'historia_pol',hint:"O INPS não unificou com o Ministério da Saúde — ele unificou apenas os IAPs entre si.",explanation:"I, II e IV estão corretas. III está incorreta: o INPS (1967) unificou os IAPs entre si, mas não com o Ministério da Saúde. MS e INPS eram instâncias distintas — o INAMPS surgiu depois como desmembramento do INPS."},
+  {cat:2,pool:'ranked',text:"O Programa de Ações Integradas de Saúde (PAIS), vinculado ao CONASP, representou um avanço histórico porque:",options:["Criou o INAMPS e unificou definitivamente os IAPs em 1981.","Iniciou a compra de serviços de estados, municípios e hospitais públicos/universitários, pavimentando a descentralização antes mesmo do SUS.","Instituiu o Sistema Incremental de atenção odontológica para escolares.","Aprovou a participação popular nos Conselhos de Saúde antes da CF/88."],answer:1,target:'reforma',hint:"O PAIS foi um primeiro passo para pagar o setor público para prestar serviços — quem custava e quem executava antes disso?",explanation:"O PAIS foi pioneiro ao estabelecer convênios com estados, municípios e hospitais públicos/universitários para prestação de serviços, iniciando a descentralização da gestão antes mesmo da criação formal do SUS."},
+  {cat:2,pool:'ranked',text:"O Sistema Incremental de atenção odontológica foi criticado por:\nI. Ser excludente — atendia apenas escolares de 6 a 14 anos.\nII. Usar múltiplos métodos preventivos, tornando-se financeiramente insustentável.\nIII. Não considerar a atividade de cárie para determinar o tratamento.\nIV. Ser fundamentado quase exclusivamente na técnica de restauração definitiva.\nEstão CORRETAS apenas:",options:["I, III e IV.","II e III.","I, II e III.","I e IV apenas."],answer:0,target:'odontocoletiva',hint:"A crítica ao incremental: exclusão de adultos, foco restaurador, ignorava atividade de cárie. Mas ele não foi criticado por ter MUITOS métodos preventivos — tinha apenas os bochechos fluoretados.",explanation:"I, III e IV estão corretas. II está incorreta: o Sistema Incremental foi criticado por ter RESTRITO método preventivo (apenas bochechos fluoretados), não por ter múltiplos métodos."},
+  {cat:2,pool:'ranked',text:"A transferência do INAMPS do Ministério da Previdência para o Ministério da Saúde (1990) e sua posterior extinção em 1993 simbolizaram:",options:["O fim do SUS e o retorno ao modelo previdenciário.","A conclusão do processo de separação entre assistência médica e previdência, consolidando a saúde como direito universal.","A criação dos planos de saúde privados como alternativa ao SUS.","O início do modelo campanhista de saúde pública no Brasil."],answer:1,target:'reforma',hint:"Retirar a saúde da Previdência e extinguir o INAMPS consolidou qual ideia fundamental do SUS?",explanation:"A transferência e extinção do INAMPS consumaram a separação histórica entre assistência médica (agora universal via SUS) e previdência (contributiva), consolidando a saúde como direito universal e dever do Estado."},
   {cat:0,sub:'organizativos',pool:'ranked',text:"Analise as afirmativas sobre o SUS e marque as INCORRETAS:\nI. O Controle Social é deliberativo — os Conselhos podem vetar decisões do gestor.\nII. A Regionalização implica que serviços de maior complexidade ficam apenas em grandes capitais.\nIII. A Integralidade exige articulação entre promoção, prevenção, tratamento e reabilitação.\nIV. A Equidade significa oferecer atendimento idêntico a todos os cidadãos.\nEstão incorretas apenas:",options:["Apenas I.","Apenas IV.","II e IV.","I e III."],answer:2,target:'lei8080',hint:"Avalie cada afirmativa. Regionalização não concentra só em capitais; Equidade não é igualdade absoluta.",explanation:"II está incorreta: regionalização organiza serviços em territórios regionais, não concentra tudo em capitais. IV está incorreta: equidade é dar mais a quem mais precisa, não tratar todos igualmente.",wrongReasons:["I está correta — os Conselhos são deliberativos.",null,"Correta — II e IV são as afirmativas incorretas.","I e III estão corretas."]},
   {cat:0,sub:'organizativos',pool:'ranked',text:"Sobre a composição e caráter dos Conselhos de Saúde, é CORRETO afirmar que:",options:["São paritários: 50% usuários, 50% profissionais de saúde.","São consultivos; suas resoluções precisam de aprovação do Executivo.","São deliberativos; usuários têm 50% e os demais 50% dividem-se entre trabalhadores e gestores/prestadores.","São rotativos; cada categoria ocupa 25% do total de conselheiros."],answer:2,target:'controle',hint:"Lembre a fórmula: 50% usuários + 25% trabalhadores + 25% gestores/prestadores = deliberativo.",explanation:"Os Conselhos são deliberativos e a composição é: 50% usuários, 25% trabalhadores de saúde e 25% gestores/prestadores.",wrongReasons:["Errado: os 50% não usuários se dividem entre trabalhadores (25%) e gestores/prestadores (25%).",null,"Correta.","Errado: a divisão é 50/25/25."]},
   {cat:0,sub:'financiamento',pool:'ranked',text:"Sobre o financiamento do SUS, estão CORRETAS apenas:\nI. A EC 29/2000 vincula percentuais mínimos de receita à saúde para municípios e estados.\nII. O município deve aplicar no mínimo 12% de sua receita em saúde.\nIII. A participação complementar do setor privado exige preferência a entidades filantrópicas.\nIV. A tabela SIGTAP define os valores pagos pelo SUS aos prestadores privados.",options:["I, II e III.","I, III e IV.","II, III e IV.","I, II e IV."],answer:1,target:'lei8142',hint:"O piso municipal é 15%, não 12% (12% é o estadual). Verifique as demais.",explanation:"I, III e IV estão corretas. II está errada: municípios devem aplicar mínimo de 15%.",wrongReasons:["I, II e III: a II está errada — o mínimo municipal é 15%, não 12%.",null,"II, III e IV: a II está errada pelo mesmo motivo.","I, II e IV: a II está errada — 12% é o piso estadual."]},
@@ -2607,9 +2972,9 @@ let modesPlayed=new Set();
 
 /* ─── UTILS ─── */
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-const SCREEN_ICONS={'home-screen':'🦷','auth-screen':'🦷','setup-screen':'⚙️','quiz-screen':'🧠','result-screen':'📊','review-screen':'📚','study-screen':'🃏','ranking-screen':'🏆','ach-screen':'🎖️','evo-screen':'📈','map-screen':'🕸️','modos-screen':'🎮','estudo-screen':'📖','desempenho-screen':'🏆','config-screen':'⚙️','duel-setup-screen':'⚔️','duel-id-screen':'⚔️','duel-leaderboard-screen':'⚔️'};
+const SCREEN_ICONS={'professor-screen':'👩‍🏫','material-screen':'📚','tutor-screen':'🧠','home-screen':'🦷','auth-screen':'🦷','setup-screen':'⚙️','quiz-screen':'🧠','result-screen':'📊','review-screen':'📚','study-screen':'🃏','ranking-screen':'🏆','ach-screen':'🎖️','evo-screen':'📈','map-screen':'🕸️','modos-screen':'🎮','estudo-screen':'📖','desempenho-screen':'🏆','config-screen':'⚙️','duel-setup-screen':'⚔️','duel-id-screen':'⚔️','duel-leaderboard-screen':'⚔️'};
 const _NO_NAV_SCREENS=new Set(['auth-screen','quiz-screen','setup-screen']);
-const _TAB_MAP={'home-screen':'bn-home','modos-screen':'bn-jogar','setup-screen':'bn-jogar','quiz-screen':'bn-jogar','result-screen':'bn-jogar','review-screen':'bn-jogar','estudo-screen':'bn-estudo','study-screen':'bn-estudo','map-screen':'bn-estudo','desempenho-screen':'bn-desemp','ranking-screen':'bn-desemp','ach-screen':'bn-desemp','evo-screen':'bn-desemp','config-screen':'bn-config','duel-setup-screen':'bn-jogar','duel-id-screen':'bn-jogar','duel-leaderboard-screen':'bn-jogar'};
+const _TAB_MAP={'home-screen':'bn-home','modos-screen':'bn-jogar','setup-screen':'bn-jogar','quiz-screen':'bn-jogar','result-screen':'bn-jogar','review-screen':'bn-jogar','estudo-screen':'bn-estudo','study-screen':'bn-estudo','map-screen':'bn-estudo','material-screen':'bn-estudo','tutor-screen':'bn-estudo','professor-screen':'bn-desemp','desempenho-screen':'bn-desemp','ranking-screen':'bn-desemp','ach-screen':'bn-desemp','evo-screen':'bn-desemp','config-screen':'bn-config','duel-setup-screen':'bn-jogar','duel-id-screen':'bn-jogar','duel-leaderboard-screen':'bn-jogar'};
 
 function _syncBottomNav(id){
   const nav=document.getElementById('bottom-nav');
@@ -2644,8 +3009,8 @@ const _HUB_MAP={
   'home-screen':'hub-home','auth-screen':'hub-home',
   'modos-screen':'hub-jogar','setup-screen':'hub-jogar',
   'quiz-screen':'hub-jogar','result-screen':'hub-jogar','review-screen':'hub-jogar',
-  'estudo-screen':'hub-estudo','study-screen':'hub-estudo','map-screen':'hub-estudo',
-  'desempenho-screen':'hub-desemp','ranking-screen':'hub-desemp',
+  'estudo-screen':'hub-estudo','study-screen':'hub-estudo','map-screen':'hub-estudo','material-screen':'hub-estudo','tutor-screen':'hub-estudo',
+  'professor-screen':'hub-desemp','material-screen':'hub-estudo','tutor-screen':'hub-estudo','desempenho-screen':'hub-desemp','ranking-screen':'hub-desemp',
   'ach-screen':'hub-desemp','evo-screen':'hub-desemp',
   'config-screen':'hub-config',
   'duel-setup-screen':'hub-duel','duel-id-screen':'hub-duel','duel-leaderboard-screen':'hub-duel',
@@ -3983,15 +4348,22 @@ async function loadRankingTab(modeKey){
   if(USE_SUPABASE){
     try{
       const table=tableMap[modeKey];
-      const res=await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=nickname,score&order=score.desc&limit=200`,{
+      const res=await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=nickname,score,user_id&order=score.desc&limit=200`,{
         headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY}
       });
       if(!res.ok)throw new Error('HTTP '+res.status);
       const data=await res.json();
       if(!Array.isArray(data))throw new Error('Resposta inválida');
-      const best={};
-      data.forEach(r=>{if(!best[r.nickname]||r.score>best[r.nickname])best[r.nickname]=r.score;});
+      const best={};const nickUserMap={};
+      data.forEach(r=>{
+        if(!best[r.nickname]||r.score>best[r.nickname]){best[r.nickname]=r.score;}
+        if(r.user_id&&!nickUserMap[r.nickname])nickUserMap[r.nickname]=r.user_id;
+      });
       entries=Object.entries(best).map(([nick,sc])=>({nick,score:sc})).sort((a,b)=>b.score-a.score).slice(0,20);
+      /* batch-fetch avatars for all ranking users */
+      const uids=Object.values(nickUserMap).filter(Boolean);
+      const reverseMap={};Object.entries(nickUserMap).forEach(([nick,uid])=>reverseMap[uid]=nick);
+      if(uids.length)await _fetchAvatarsForNicks(uids,reverseMap);
       fromSupabase=true;
       if(modeKey==='ranked'&&entries.length&&entries[0].nick===nickname)unlockAch('ranked_top');
     }catch(e){
@@ -4014,7 +4386,8 @@ async function loadRankingTab(modeKey){
     const item=document.createElement('div');item.className='rank-item'+(entry.nick===nickname?' me':'');
     const pc=i===0?'gold':i===1?'silver':i===2?'bronze':'';
     const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
-    item.innerHTML=`<span class="rank-pos ${pc}">${medal}</span><span class="rank-nick">${entry.nick}${entry.nick===nickname?'<span class="rank-you">(você)</span>':''}</span><span class="rank-score">${entry.score}<span class="rank-pts">${suf}</span></span>`;
+    const avHtml=`<div class="rank-avatar${entry.nick===nickname?' me-av':''}" style="margin-right:2px">${_avatarHTMLForNick(entry.nick,28)}</div>`;
+    item.innerHTML=`<span class="rank-pos ${pc}">${medal}</span>${avHtml}<span class="rank-nick">${entry.nick}${entry.nick===nickname?'<span class="rank-you">(você)</span>':''}</span><span class="rank-score">${entry.score}<span class="rank-pts">${suf}</span></span>`;
     list.appendChild(item);
   });
 }
@@ -4760,7 +5133,7 @@ const _MUSIC_SCREEN_MAP={
   'modos-screen':'menu','setup-screen':'menu',
   'duel-setup-screen':'menu','duel-id-screen':'menu',
   'result-screen':'home','review-screen':'study',
-  'study-screen':'study','map-screen':'study','estudo-screen':'study',
+  'study-screen':'study','map-screen':'study','estudo-screen':'study','material-screen':'study','tutor-screen':'study',
   'ranking-screen':'menu','ach-screen':'home','evo-screen':'home',
   'desempenho-screen':'home','duel-leaderboard-screen':'menu',
   'quiz-screen':'ranked'  /* substituído por modo real em _startQuizInternal */
@@ -4886,12 +5259,24 @@ const MODE_INFO={
   evo:{icon:'📈',title:'Minha Evolução',color:'#5b9cf6',
     pedagogy:'Acompanhe sua curva de aprendizado ao longo do tempo. Ver o próprio progresso é um dos maiores motivadores para continuar estudando.',
     flow:['Gráfico de precisão por partida ao longo do tempo','Acertos acumulados por tema (SUS, Saúde-Doença, Políticas)','Histórico de partidas por modo de jogo','Atualizado automaticamente após cada quiz']},
+  professor:{icon:'👩‍🏫',title:'Visão da Turma',color:'#f5a623',
+    pedagogy:'Ferramenta de acompanhamento docente — identifica lacunas de aprendizado para orientar revisões em aula.',
+    flow:['Desempenho por tema com percentual de acertos','Alunos ativos nas últimas 48h','Score médio da turma','Top 15 do ranking geral']},
+  diario:{icon:'🎯',title:'Desafio do Dia',color:'#f5a623',
+    pedagogy:'Consistência diária supera sessões longas esporádicas. O desafio cria hábito e permite comparar desempenho com a turma no mesmo conteúdo do dia.',
+    flow:['5 questões por dia — iguais para toda a turma','Seed fixo: mesmas questões para todos','+150 XP ao concluir','Streak de dias consecutivos','Reseta automaticamente à meia-noite']},
   ach:{icon:'🎖️',title:'Conquistas',color:'#a78bfa',
     pedagogy:'Medalhas desbloqueadas conforme você avança na plataforma. Servem como marcos de progressão e motivam a explorar todos os modos.',
     flow:['Conquistas por número de partidas jogadas','Conquistas por desempenho (nota perfeita, streak longo)','Conquistas por exploração dos diferentes modos','Conquistas secretas — descubra jogando!','Cada conquista desbloqueada aparece em destaque na tela']},
   duel:{icon:'⚔️',title:'Modo Duelo',color:'#06b6d4',
     pedagogy:'Competição direta e justa entre colegas. O mesmo ID garante que todos enfrentem exatamente as mesmas questões na mesma ordem — ninguém tem vantagem de sorte, apenas de conhecimento e velocidade.',
-    flow:['Configure temas, nº de questões, tempo e mecânicas','Gere um ID único que codifica toda a configuração do quiz','Compartilhe o ID com seus colegas pelo WhatsApp ou outro canal','Todos que usarem o ID jogam exatamente o mesmo quiz (mesmas questões, mesma ordem, mesmas alternativas)','Ao final, compare os resultados no placar do duelo']}
+    flow:['Configure temas, nº de questões, tempo e mecânicas','Gere um ID único que codifica toda a configuração do quiz','Compartilhe o ID com seus colegas pelo WhatsApp ou outro canal','Todos que usarem o ID jogam exatamente o mesmo quiz (mesmas questões, mesma ordem, mesmas alternativas)','Ao final, compare os resultados no placar do duelo']},
+  material:{icon:'📚',title:'Material da Aula',color:'#f5a623',
+    pedagogy:'Centralize todo o conteúdo oficial do professor. Acesse slides e PDFs sem sair da plataforma, integrando revisão passiva ao ecossistema de estudo.',
+    flow:['Slides do professor visualizados diretamente na plataforma','PDFs e materiais complementares por prova','Links externos com visualizador embutido','Organizado por prova — escalável para toda a disciplina']},
+  tutor:{icon:'🧠',title:'Tutor IA',color:'#3dd68c',
+    pedagogy:'IA especializada em Saúde Coletiva I. Tire dúvidas, peça resumos e receba sugestões de estudo integradas aos Flashcards, Mapa Conceitual e Quiz da plataforma.',
+    flow:['Perguntas conceituais e explicações detalhadas','Resumos de leis e políticas de saúde','Sugestões de Flashcards, Mapa e Quiz conforme o tema','Histórico de conversa salvo — continue de onde parou']}
 };
 function showModeInfo(key){
   const info=MODE_INFO[key];if(!info)return;
@@ -5099,7 +5484,7 @@ function _drawShareCard(data){
   ctx.scale(DPR,DPR);
 
   const acc=data.total>0?Math.round(data.hits/data.total*100):0;
-  const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado',duel:'Duelo'};
+  const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado',duel:'Duelo',diario:'Diário'};
   const stars=acc>=90?'🏆':acc>=75?'🎯':acc>=60?'📚':'💪';
   const modeLabel=modeNames[data.mode]||data.mode;
 
@@ -5273,7 +5658,7 @@ function _roundRect(ctx,x,y,w,h,r){
 function _buildSocialBtns(data){
   const canvas=document.getElementById('share-card-canvas');
   const acc=data.total>0?Math.round(data.hits/data.total*100):0;
-  const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado',duel:'Duelo'};
+  const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado',duel:'Duelo',diario:'Diário'};
   const stars=acc>=90?'🏆':acc>=75?'🎯':acc>=60?'📚':'💪';
   const btns=document.getElementById('share-social-btns');
   btns.innerHTML='';
@@ -5368,7 +5753,7 @@ function renderEvoScreen(){
 
   // Mode breakdown
   const modeCounts={};
-  const modeNames={ranked:'⚡ Ranqueado',normal:'📝 Normal',sprint:'🏃 Sprint',survival:'💀 Sobrevivência',simulado:'📋 Simulado',duel:'⚔️ Duelo'};
+  const modeNames={ranked:'⚡ Ranqueado',normal:'📝 Normal',sprint:'🏃 Sprint',survival:'💀 Sobrevivência',simulado:'📋 Simulado',duel:'⚔️ Duelo',diario:'🎯 Diário'};
   h.forEach(e=>{modeCounts[e.mode]=(modeCounts[e.mode]||0)+1;});
   const modeList=document.getElementById('evo-mode-list');
   modeList.innerHTML='';
@@ -6491,6 +6876,11 @@ async function showDuelLeaderboard(duelId){
       if(!best[r.nickname]||r.score>best[r.nickname].score||(r.score===best[r.nickname].score&&r.acc>best[r.nickname].acc))
         best[r.nickname]=r;
     });
+    /* batch-fetch avatars for duel players */
+    const duelUids=[...new Set(valid.filter(e=>e.user_id).map(e=>e.user_id))];
+    const duelNickMap={};valid.forEach(e=>{if(e.user_id)duelNickMap[e.user_id]=e.nickname;});
+    if(duelUids.length)await _fetchAvatarsForNicks(duelUids,duelNickMap);
+
     const cfg2=currentDuelConfig||cfg;
     const useScore=cfg2&&cfg2.speedScore;
     const entries=Object.values(best).sort((a,b)=>
@@ -6510,6 +6900,7 @@ async function showDuelLeaderboard(duelId){
       item.className='duel-lb-item'+(isMe?' me':'');
       item.innerHTML=`
         <span class="duel-lb-pos">${medal}</span>
+        <div class="duel-lb-avatar">${_avatarHTMLForNick(e.nickname,32)}</div>
         <div style="flex:1;min-width:0">
           <div class="duel-lb-nick">${e.nickname}${isMe?'<span class="duel-you-tag">você</span>':''}</div>
           <div class="duel-lb-sub">${scoreSub?scoreSub+' · ':''} ${dateStr}</div>
@@ -7011,6 +7402,9 @@ function _activateAdminMode(){
   _qaLog('✅ Admin autenticado — Modo QA ativo', 'success');
   _buildQAPanel();
   _runAutoDetection();
+  /* Reveal admin-only features */
+  const _pc=document.getElementById('prof-turma-card');
+  if(_pc)_pc.style.display='';
   /* Badge "ADMIN" na nav */
   const brand = document.querySelector('.nav-brand');
   if(brand && !document.getElementById('qa-admin-badge')){
@@ -8285,10 +8679,40 @@ const _QA_AUTO_STEPS=[
  delay:300},
 
 /* ═══ BLOCO 23 — SCAN FINAL ═══ */
+{label:'[xp_system] verificar XP',
+ fn:()=>{try{const d=loadXP();if(typeof d.total==='number')_qaPass('xp_system');}catch(e){_qaFail('xp_system',e.message);}},
+ delay:200},
+{label:'[daily_challenge] verificar card',
+ fn:()=>{
+   showScreen('modos-screen');initDailyCard();
+   setTimeout(()=>{if(document.getElementById('daily-card'))_qaPass('daily_challenge');else _qaFail('daily_challenge','card não renderizado');},400);
+ },
+ delay:700},
+{label:'[sr_queue] verificar função',
+ fn:()=>{if(typeof _showSRQueue==='function')_qaPass('sr_queue');else _qaFail('sr_queue','função ausente');},
+ delay:200},
+{label:'[skeleton_rank] verificar função',
+ fn:()=>{if(typeof _showRankingSkeleton==='function')_qaPass('skeleton_rank');else _qaFail('skeleton_rank','função ausente');},
+ delay:200},
+{label:'[notif_schedule] verificar notificação',
+ fn:()=>{if(typeof _notifEnabled!=='undefined')_qaPass('notif_schedule');else _qaFail('notif_schedule','_notifEnabled ausente');},
+ delay:200},
+{label:'[pwa_manifest] verificar manifest',
+ fn:()=>{try{const ml=document.getElementById('pwa-manifest-link');if(ml&&ml.href&&!ml.href.endsWith('#'))_qaPass('pwa_manifest');else _qaFail('pwa_manifest','href não setado');}catch(e){_qaFail('pwa_manifest',e.message);}},
+ delay:300},
+{label:'[prof_panel] verificar função',
+ fn:()=>{if(typeof showProfessorPanel==='function')_qaPass('prof_panel');else _qaFail('prof_panel','função ausente');},
+ delay:200},
+{label:'[wrong_quiz] verificar função',
+ fn:()=>{if(typeof startWrongQuiz==='function')_qaPass('wrong_quiz');else _qaFail('wrong_quiz','função ausente');},
+ delay:200},
+{label:'[accessibility] aria-labels',
+ fn:()=>{const b=document.getElementById('bn-home');if(b&&b.getAttribute('aria-label'))_qaPass('accessibility');else _qaFail('accessibility','aria-label ausente em bn-home');},
+ delay:200},
 {label:'Scan final e re-verificação completa',
  fn:()=>{
    showScreen('home-screen');
-   setTimeout(()=>_qaRunFullScan(true),400);/* skipReset=true — preserva checks do auto-run */
+   setTimeout(()=>_qaRunFullScan(true),400);
  },
  delay:1000},
 ]
@@ -8760,18 +9184,68 @@ document.addEventListener('keydown',e=>{
    SISTEMA DE FOTO DE PERFIL
 ════════════════════════════════════════════════════ */
 
+/* In-memory cache of other users' avatars */
+const _avatarCache={};  /* nick → {type, value} | null */
+
+async function _fetchAvatarsForNicks(userIds, nickMap){
+  /* userIds: array of user_id strings; nickMap: {user_id→nick} */
+  if(!USE_SUPABASE||!userIds.length)return;
+  try{
+    const ids=userIds.map(id=>`"${id}"`).join(',');
+    const res=await sbFetch(`/rest/v1/sc1_user_data?user_id=in.(${ids})&select=user_id,data`);
+    if(!res.ok)return;
+    const rows=await res.json();
+    rows.forEach(row=>{
+      const nick=nickMap[row.user_id];
+      if(!nick)return;
+      const av=row.data?.avatar_pub||row.data?.avatar||null;
+      /* only cache small avatars (emoji or compressed img) */
+      if(av&&av.type==='img'&&av.value&&av.value.length>50000)
+        _avatarCache[nick]={type:'emoji',value:'👤'}; /* too large, fallback */
+      else
+        _avatarCache[nick]=av||null;
+    });
+  }catch(e){}
+}
+
 const AVATAR_EMOJIS=['😀','😎','🦷','🩺','📚','🧠','🔬','💉','🩻','🏆','⚡','🌿','🎯','🔥','💡','🌟','🎓','🧬','💊','🦠'];
 let _avatarPending=null;
 
 /* ── Storage ── */
 function loadAvatar(){return getCache('avatar',null);}
-function saveAvatar(av){setCache('avatar',av);}
+function saveAvatar(av){
+  setCache('avatar',av);
+  /* Salva thumbnail comprimida (40px) para ser visível por outros usuários */
+  _compressAvatarThumb(av).then(thumb=>{
+    if(thumb)setCache('avatar_pub',thumb);
+  });
+}
+
+async function _compressAvatarThumb(av){
+  if(!av)return null;
+  if(av.type==='emoji')return av; /* emoji é leve — salva direto */
+  if(av.type!=='img')return null;
+  try{
+    const img=new Image();
+    await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=av.value;});
+    const c=document.createElement('canvas');c.width=c.height=40;
+    const ctx=c.getContext('2d');
+    /* recorte circular */
+    ctx.beginPath();ctx.arc(20,20,20,0,Math.PI*2);ctx.clip();
+    ctx.drawImage(img,0,0,40,40);
+    return {type:'img',value:c.toDataURL('image/jpeg',0.4)}; /* ~1-2KB */
+  }catch(e){return null;}
+}
 
 /* ── Render helper ── */
 function _avatarHTML(av,size=28){
   if(!av)return `<span style="font-size:${Math.round(size*.55)}px">👤</span>`;
   if(av.type==='img')return `<img src="${av.value}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;display:block">`;
   return `<span style="font-size:${Math.round(size*.6)}px;line-height:1">${av.value}</span>`;
+}
+function _avatarHTMLForNick(nick,size=28){
+  const av=(nick===nickname)?loadAvatar():(_avatarCache[nick]||null);
+  return _avatarHTML(av,size);
 }
 
 /* ── Apply everywhere ── */
@@ -8951,44 +9425,9 @@ function saveAvatarModal(){
   applyAvatarEverywhere();
 }
 
-/* ── Ranking inject avatar ── */
-(()=>{
-  const orig=loadRankingTab;
-  window.loadRankingTab=async function(modeKey){
-    await orig.apply(this,arguments);
-    setTimeout(()=>{
-      document.querySelectorAll('.rank-item').forEach(item=>{
-        if(item.querySelector('.rank-avatar'))return;
-        const nickEl=item.querySelector('.rank-nick');if(!nickEl)return;
-        const nick=(nickEl.firstChild?.textContent||'').trim();
-        const av=nick===nickname?loadAvatar():null;
-        const wrap=document.createElement('div');
-        wrap.className='rank-avatar'+(nick===nickname?' me-av':'');
-        wrap.innerHTML=_avatarHTML(av,28);
-        item.insertBefore(wrap,nickEl);
-      });
-    },150);
-  };
-})();
+/* rank avatar now baked into loadRankingTab directly */
 
-/* ── Duel leaderboard inject avatar ── */
-(()=>{
-  const orig=showDuelLeaderboard;
-  window.showDuelLeaderboard=async function(...a){
-    await orig.apply(this,arguments);
-    setTimeout(()=>{
-      document.querySelectorAll('.duel-lb-item').forEach(item=>{
-        if(item.querySelector('.duel-lb-avatar'))return;
-        const nickEl=item.querySelector('.duel-lb-nick');if(!nickEl)return;
-        const nick=(nickEl.firstChild?.textContent||'').trim();
-        const av=nick===nickname?loadAvatar():null;
-        const wrap=document.createElement('div');wrap.className='duel-lb-avatar';
-        wrap.innerHTML=_avatarHTML(av,32);
-        item.insertBefore(wrap,item.firstChild);
-      });
-    },150);
-  };
-})();
+/* duel avatar now baked into showDuelLeaderboard directly */
 
 /* ── finishLogin hook ── */
 (()=>{
@@ -8999,6 +9438,846 @@ function saveAvatarModal(){
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded',()=>{if(currentUser)applyAvatarEverywhere();});
 setTimeout(()=>{if(currentUser)applyAvatarEverywhere();},600);
+
+
+
+/* ════════════════════════════════════════════════════════════════
+   SISTEMA XP / NÍVEL
+════════════════════════════════════════════════════════════════ */
+const XP_PER_LEVEL=[0,500,1100,1800,2600,3500,4500,5700,7100,8700,10500];
+function loadXP(){
+  const d=getCache('xp',{total:0,level:1});
+  /* sanitize — ensure numbers */
+  d.total=parseInt(d.total)||0;
+  d.level=parseInt(d.level)||1;
+  /* recalculate level from total in case cache is stale */
+  while(d.level<XP_PER_LEVEL.length-1&&d.total>=getXPForLevel(d.level))d.level++;
+  return d;
+}
+function saveXP(d){setCache('xp',d);}
+/* Call updateXPWidget whenever the xp-widget is visible */
+function refreshXPOnScreen(){
+  if(document.getElementById('xp-widget'))updateXPWidget();
+}
+function getXPForLevel(lv){return XP_PER_LEVEL[Math.min(lv,XP_PER_LEVEL.length-1)]||XP_PER_LEVEL[XP_PER_LEVEL.length-1];}
+function addXP(amount,reason=''){
+  const d=loadXP();
+  const prev=d.level;
+  d.total+=amount;
+  while(d.level<XP_PER_LEVEL.length-1&&d.total>=getXPForLevel(d.level)){d.level++;}
+  saveXP(d);
+  updateXPWidget();
+  if(d.level>prev){
+    const t=document.getElementById('level-up-toast');
+    const n=document.getElementById('level-up-num');
+    if(t&&n){n.textContent=d.level;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+    try{sfxAchievement();}catch(e){}
+  }
+  if(amount>0)_qaLog&&_qaLog(`⬆️ +${amount} XP (${reason})`,'success');
+}
+function updateXPWidget(){
+  const d=loadXP();
+  const widget=document.getElementById('xp-widget');if(!widget)return;
+  const badge=document.getElementById('xp-level-badge');
+  const toNext=document.getElementById('xp-to-next');
+  const fill=document.getElementById('xp-bar-fill');
+  const isMax=d.level>=XP_PER_LEVEL.length-1;
+  const thisLvl=getXPForLevel(d.level-1)||0;
+  const nextLvl=getXPForLevel(d.level)||getXPForLevel(XP_PER_LEVEL.length-1);
+  const range=Math.max(1,nextLvl-thisLvl);
+  const pct=isMax?100:Math.min(100,Math.max(0,Math.round((d.total-thisLvl)/range*100)));
+  if(badge)badge.textContent=`Nível ${d.level}${isMax?' ★':''}`;
+  if(toNext)toNext.textContent=isMax?`${d.total.toLocaleString('pt-BR')} XP — Nível máximo!`:`${d.total.toLocaleString('pt-BR')} / ${nextLvl.toLocaleString('pt-BR')} XP`;
+  if(fill)fill.style.width=pct+'%';
+  if(widget)widget.style.display='block';
+}
+/* XP ao finalizar partida */
+(()=>{
+  const orig=pushHistory;
+  window.pushHistory=function(data){
+    orig.apply(this,arguments);
+    const base={ranked:80,normal:40,survival:60,sprint:50,simulado:70,duel:55,diario:100};
+    const xp=Math.round((base[data.mode]||40)*(data.acc/100)*((data.hits/Math.max(data.total,1))+0.5));
+    addXP(Math.max(10,xp),data.mode);
+  };
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   DESAFIO DIÁRIO
+════════════════════════════════════════════════════════════════ */
+const DAILY_Q_COUNT=5;
+const DAILY_XP=150;
+function _dailyKey(){const d=new Date();return `daily_${d.getFullYear()}_${d.getMonth()}_${d.getDate()}`;}
+function loadDailyState(){return getCache('daily_state',{key:'',done:false,streak:0,lastDoneKey:''});}
+function saveDailyState(s){setCache('daily_state',s);}
+
+function initDailyCard(){
+  const card=document.getElementById('daily-card');if(!card)return;
+  const st=loadDailyState();
+  const key=_dailyKey();
+  if(st.key!==key){/* new day */
+    const prev=st;
+    const newStreak=prev.lastDoneKey===_prevDayKey()?prev.streak+1:0;
+    saveDailyState({key,done:false,streak:newStreak,lastDoneKey:prev.lastDoneKey});
+  }
+  const cur=loadDailyState();
+  card.style.display='';
+  const streakBadge=document.getElementById('daily-streak-badge');
+  const streakNum=document.getElementById('daily-streak-num');
+  if(cur.streak>0&&streakBadge){streakBadge.style.display='';if(streakNum)streakNum.textContent=cur.streak;}
+  if(cur.done){
+    card.classList.add('done');
+    card.onclick=null;
+    card.querySelector('.daily-desc')&&(card.querySelector('#daily-desc').textContent='Concluído hoje ✓');
+    card.querySelector('#daily-status-icon').textContent='✅';
+    card.querySelector('#daily-xp-reward').textContent=`+${DAILY_XP} XP ganhos!`;
+    card.querySelector('#daily-xp-reward').style.color='var(--accent)';
+  }
+}
+function _prevDayKey(){const d=new Date();d.setDate(d.getDate()-1);return `daily_${d.getFullYear()}_${d.getMonth()}_${d.getDate()}`;}
+
+function startDailyChallenge(){
+  const st=loadDailyState();if(st.done)return;
+  /* seed determinístico por dia — mesmas questões para todos */
+  const seed=parseInt(_dailyKey().replace(/[^0-9]/g,''))%9999||1234;
+  /* Build pool from QUESTIONS + HARD_QUESTIONS, strip pool/sub metadata that could confuse rendering */
+  const pool=[...QUESTIONS,...HARD_QUESTIONS].filter(q=>q&&q.text&&Array.isArray(q.options)&&typeof q.answer==='number');
+  /* seeded deterministic shuffle using mulberry32 */
+  const _m32=(s)=>{let t=s+0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};
+  const chosen=[];const used=new Set();
+  for(let i=0;i<pool.length*3&&chosen.length<DAILY_Q_COUNT;i++){
+    const idx=Math.floor(_m32(seed+i*7)*pool.length);
+    if(!used.has(idx)){used.add(idx);chosen.push({...pool[idx]});}
+  }
+  if(!currentUser)return showModal({icon:'⚠️',title:'Login necessário',msg:'Faça login para acessar o desafio do dia.'});
+  nickname=currentUser.nickname;
+  currentMode='diario';
+  shuffled=chosen;current=0;score=0;correctFirst=0;correctSecond=0;
+  answered=false;attempts=0;streak=0;maxStreak=0;lives=3;
+  log=[];modesPlayed.add('diario');
+  clearInterval(timerInterval);
+  showScreen('quiz-screen');
+  loadQuestion();
+  setMusicState('ranked',0.5);
+  if(_qaOpen)_toggleQAPanel();
+}
+function _finishDailyChallenge(){
+  const st=loadDailyState();
+  st.done=true;st.lastDoneKey=_dailyKey();
+  saveDailyState(st);
+  addXP(DAILY_XP,'desafio diário');
+  initDailyCard();
+  unlockAch&&unlockAch('daily_done');
+}
+/* Hook renderResult to detect daily mode */
+(()=>{
+  const orig=renderResult;
+  window.renderResult=function(data){
+    orig.apply(this,arguments);
+    if(currentMode==='diario')_finishDailyChallenge();
+  };
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   SR REVIEW QUEUE VISÍVEL
+════════════════════════════════════════════════════════════════ */
+function updateSRQueueBanner(){
+  const banner=document.getElementById('sr-queue-banner');
+  const desc=document.getElementById('sr-queue-desc');
+  if(!banner||!desc)return;
+  const prog=loadStudyProgress?.()||{};
+  const now=Date.now();
+  const due=STUDY_CARDS.filter((_,i)=>{
+    const p=prog[i];if(!p||!p.understood)return false;
+    const nxt=(p.reviewedAt||p.understoodAt||0)+((p.srInterval||1)*24*3600*1000);
+    return nxt<=now+3600000;/* due within next hour */
+  }).length;
+  if(due===0){banner.style.display='none';return;}
+  banner.style.display='';
+  desc.textContent=`${due} card${due!==1?'s':''} para revisar hoje`;
+  const badge=document.getElementById('filter-meus');
+  if(badge){
+    const existing=badge.querySelector('.sr-queue-badge');
+    if(existing)existing.remove();
+    const b=document.createElement('span');b.className='sr-queue-badge';b.textContent=due;
+    badge.appendChild(b);
+  }
+}
+function _showSRQueue(){
+  /* Launch a focused review session for due cards */
+  const prog=loadStudyProgress?.()||{};
+  const now=Date.now();
+  const dueIdxs=STUDY_CARDS.map((_,i)=>{
+    const p=prog[i];if(!p||!p.understood)return -1;
+    const nxt=(p.reviewedAt||p.understoodAt||0)+((p.srInterval||1)*24*3600*1000);
+    return nxt<=now+3600000?i:-1;
+  }).filter(i=>i>=0);
+
+  if(dueIdxs.length===0){
+    showModal({icon:'✅',title:'Tudo em dia!',msg:'Nenhum flashcard pendente para revisão hoje. Volte amanhã!'});
+    return;
+  }
+
+  /* Build review session */
+  _srReviewSession={idxs:dueIdxs,pos:0,done:0};
+  _openSRReviewModal();
+}
+
+let _srReviewSession=null;
+function _openSRReviewModal(){
+  if(!_srReviewSession||_srReviewSession.pos>=_srReviewSession.idxs.length){
+    /* Session complete */
+    showModal({icon:'🎉',title:'Revisão concluída!',
+      msg:`Você revisou ${_srReviewSession?.done||0} card${(_srReviewSession?.done||0)!==1?'s':''}. Bom trabalho!`});
+    _srReviewSession=null;
+    updateSRQueueBanner();
+    return;
+  }
+  const {idxs,pos}=_srReviewSession;
+  const cardIdx=idxs[pos];
+  const card=STUDY_CARDS[cardIdx];
+  if(!card)return;
+  const total=idxs.length;
+
+  const overlay=document.createElement('div');
+  overlay.id='sr-review-overlay';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:9700;padding:1.25rem';
+  overlay.innerHTML=`
+    <div style="background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;max-width:380px;width:100%;animation:up .2s cubic-bezier(.2,0,0,1)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2)">📅 Revisão ${pos+1} / ${total}</div>
+        <button onclick="document.getElementById('sr-review-overlay')?.remove();_srReviewSession=null;updateSRQueueBanner();" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:16px">✕</button>
+      </div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:.5rem">${['SUS','Saúde-Doença','Políticas'][card.cat]||'Geral'}</div>
+      <div id="sr-card-inner" style="background:var(--s2);border-radius:var(--r-sm);padding:1.25rem;margin-bottom:1rem;min-height:90px;cursor:pointer;transition:all .18s" onclick="_srFlipCard()">
+        <div id="sr-card-front" style="font-size:14px;line-height:1.5;font-weight:500">${card.front}</div>
+        <div id="sr-card-back" style="display:none;font-size:13px;line-height:1.5;color:var(--accent);margin-top:.75rem;border-top:1px solid var(--border2);padding-top:.75rem">${card.back}</div>
+        <div id="sr-tap-hint" style="font-size:10px;color:var(--muted);margin-top:.75rem;text-align:center">Toque para ver resposta</div>
+      </div>
+      <div id="sr-action-btns" style="display:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button class="btn btn-danger" onclick="_srRespond(false)" style="justify-content:center">Errei</button>
+        <button class="btn btn-green" onclick="_srRespond(true)" style="justify-content:center">Acertei</button>
+      </div>
+    </div>`;
+  document.getElementById('sr-review-overlay')?.remove();
+  document.body.appendChild(overlay);
+}
+let _srFlipped=false;
+function _srFlipCard(){
+  if(_srFlipped)return;
+  _srFlipped=true;
+  document.getElementById('sr-card-back').style.display='block';
+  document.getElementById('sr-tap-hint').style.display='none';
+  document.getElementById('sr-action-btns').style.display='grid';
+}
+function _srRespond(correct){
+  if(!_srReviewSession)return;
+  const {idxs,pos}=_srReviewSession;
+  const cardIdx=idxs[pos];
+  /* Update SR interval */
+  const prog=loadStudyProgress?.()||{};
+  const p=prog[cardIdx]||{};
+  p.understood=true;
+  p.srInterval=correct?Math.min((p.srInterval||1)*2,30):1;
+  p.reviewedAt=Date.now();
+  prog[cardIdx]=p;
+  setCache&&setCache('study',prog);
+  _srReviewSession.done++;
+  _srReviewSession.pos++;
+  _srFlipped=false;
+  document.getElementById('sr-review-overlay')?.remove();
+  setTimeout(_openSRReviewModal,200);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   QUIZ DE ERROS RECENTES
+════════════════════════════════════════════════════════════════ */
+function startWrongQuiz(){
+  const h=loadHistory();
+  /* collect wrong questions from last 5 sessions */
+  const wrongs=[];const seen=new Set();
+  h.slice(-5).forEach(session=>{
+    (session.wrongQs||[]).forEach(q=>{
+      if(!seen.has(q.text)){seen.add(q.text);wrongs.push(q);}
+    });
+  });
+  if(wrongs.length<3)
+    return showModal({icon:'📋',title:'Poucos erros',msg:'Você precisa de pelo menos 3 questões erradas recentes. Continue praticando!'});
+  if(!currentUser)return;
+  nickname=currentUser.nickname;
+  currentMode='normal';
+  shuffled=wrongs.slice(0,Math.min(10,wrongs.length));
+  current=0;score=0;correctFirst=0;correctSecond=0;
+  answered=false;attempts=0;streak=0;maxStreak=0;
+  log=[];clearInterval(timerInterval);
+  showScreen('quiz-screen');
+  loadQuestion();
+}
+/* Save wrong questions in history */
+(()=>{
+  const orig=pushHistory;
+  window.pushHistory=function(data){
+    if(log&&log.length){
+      data.wrongQs=log.filter(l=>!l.correct).map(l=>shuffled[l.idx]).filter(Boolean);
+    }
+    orig.apply(this,arguments);
+  };
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   NOTIFICAÇÕES REAIS COM HORÁRIO
+════════════════════════════════════════════════════════════════ */
+function _saveNotifTime(){
+  const sel=document.getElementById('notif-hour-sel');
+  if(!sel)return;
+  setCache('notif_hour',parseInt(sel.value));
+  scheduleReviewNotification();
+}
+function _loadNotifTime(){
+  const h=getCache('notif_hour',20);
+  const sel=document.getElementById('notif-hour-sel');
+  if(sel)sel.value=h;
+  return h;
+}
+/* Override toggleNotifications to show time picker */
+(()=>{
+  const orig=toggleNotifications;
+  window.toggleNotifications=async function(){
+    await orig.apply(this,arguments);
+    const section=document.getElementById('notif-time-section');
+    const icon=document.getElementById('cfg-notif-icon');
+    if(section)section.style.display=_notifEnabled?'block':'none';
+    if(icon)icon.textContent=_notifEnabled?'🔔':'🔕';
+    if(_notifEnabled)_loadNotifTime();
+  };
+})();
+/* Improved scheduleReviewNotification with real scheduled time */
+(()=>{
+  const orig=scheduleReviewNotification;
+  window.scheduleReviewNotification=function(){
+    if(!_notifEnabled||Notification.permission!=='granted')return;
+    const h=getCache('notif_hour',20);
+    const now=new Date();
+    const target=new Date();target.setHours(h,0,0,0);
+    if(target<=now)target.setDate(target.getDate()+1);
+    const delay=target.getTime()-now.getTime();
+    const prog=loadStudyProgress?.()||{};
+    const pendingSR=STUDY_CARDS.filter((_,i)=>{
+      const p=prog[i];if(!p?.understood)return false;
+      return (p.reviewedAt||p.understoodAt||0)+((p.srInterval||1)*86400000)<=Date.now();
+    }).length;
+    const dailySt=loadDailyState();
+    const msgs=[];
+    if(!dailySt.done)msgs.push('Desafio do dia aguarda você! 🎯');
+    if(pendingSR>0)msgs.push(`${pendingSR} flashcard${pendingSR!==1?'s':''} para revisar 📅`);
+    if(msgs.length===0)return;
+    setTimeout(()=>{
+      if(_notifEnabled&&Notification.permission==='granted'){
+        new Notification('S.C.I — Hora de estudar! 🦷',{body:msgs.join(' · '),icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><text y="28" font-size="28">🦷</text></svg>'});
+        scheduleReviewNotification();/* reschedule for next day */
+      }
+    },delay);
+  };
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   PWA — MANIFEST + INSTALL PROMPT
+════════════════════════════════════════════════════════════════ */
+let _pwaInstallPrompt=null;
+(function(){
+  /* Inject manifest dynamically */
+  const manifest={
+    name:'S.C.I — Saúde Coletiva Inteligente',
+    short_name:'S.C.I',
+    description:'Plataforma de estudo para Saúde Coletiva I — Odontologia',
+    start_url:'.',
+    display:'standalone',
+    background_color:'#080c10',
+    theme_color:'#080c10',
+    icons:[
+      {src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" fill="%23080c10" rx="24"/><text x="96" y="136" font-size="120" text-anchor="middle">🦷</text></svg>',sizes:'192x192',type:'image/svg+xml'},
+      {src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="%23080c10" rx="64"/><text x="256" y="360" font-size="320" text-anchor="middle">🦷</text></svg>',sizes:'512x512',type:'image/svg+xml'}
+    ]
+  };
+  const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const link=document.getElementById('pwa-manifest-link');
+  if(link)link.href=url;
+
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault();_pwaInstallPrompt=e;
+    const banner=document.getElementById('pwa-banner');
+    if(banner)banner.style.display='flex';
+  });
+  window.addEventListener('appinstalled',()=>{
+    const banner=document.getElementById('pwa-banner');
+    if(banner)banner.style.display='none';
+    _pwaInstallPrompt=null;
+    showModal({icon:'📲',title:'App instalado!',msg:'S.C.I foi adicionado à sua tela inicial. Você pode abri-lo como um app.'});
+  });
+})();
+function _pwaInstall(){
+  if(!_pwaInstallPrompt)return;
+  _pwaInstallPrompt.prompt();
+  _pwaInstallPrompt.userChoice.then(r=>{
+    if(r.outcome==='accepted'){const b=document.getElementById('pwa-banner');if(b)b.style.display='none';}
+    _pwaInstallPrompt=null;
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SKELETON LOADING no ranking
+════════════════════════════════════════════════════════════════ */
+function _showRankingSkeleton(listEl,count=5){
+  if(!listEl)return;
+  listEl.innerHTML=Array.from({length:count},()=>`
+    <div class="rank-skeleton">
+      <div class="skeleton" style="width:28px;height:28px;border-radius:50%"></div>
+      <div class="skeleton" style="width:28px;height:28px;border-radius:50%"></div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+        <div class="skeleton" style="height:12px;width:60%;border-radius:3px"></div>
+        <div class="skeleton" style="height:10px;width:40%;border-radius:3px"></div>
+      </div>
+      <div class="skeleton" style="height:14px;width:60px;border-radius:3px"></div>
+    </div>`).join('');
+}
+/* Hook loadRankingTab to show skeleton */
+(()=>{
+  const orig=loadRankingTab;
+  window.loadRankingTab=async function(modeKey){
+    const list=document.getElementById('rank-list');
+    _showRankingSkeleton(list,6);
+    return orig.apply(this,arguments);
+  };
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   PAINEL PROFESSOR
+════════════════════════════════════════════════════════════════ */
+const PROF_PASS='esqueciasenha';/* simple local password */
+let _profUnlocked=false;
+
+async function showProfessorPanel(){
+  if(!isAdminUser){/* Should not happen — card is hidden — but guard just in case */return;}
+  showScreen('professor-screen');
+  if(!_profUnlocked){
+    showConfirm({
+      icon:'👩‍🏫',title:'Acesso restrito',
+      msg:'Este painel é para uso do professor. Digite a senha de acesso.',
+      confirmLabel:'Entrar',confirmClass:'btn-green',
+      onConfirm:async()=>{
+        const pw=prompt('Senha do painel professor:');
+        if(pw===PROF_PASS){_profUnlocked=true;await _renderProfPanel();}
+        else showModal({icon:'❌',title:'Senha incorreta',msg:'Acesso negado.'});
+      },
+      onCancel:()=>showScreen('desempenho-screen')
+    });
+    return;
+  }
+  await _renderProfPanel();
+}
+
+async function _renderProfPanel(){
+  const wrap=document.getElementById('prof-content');
+  if(!wrap)return;
+  wrap.innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--muted)">📊 Carregando dados…</div>';
+  try{
+    /* Fetch all users scores */
+    const res=await sbFetch('/rest/v1/sc1_ranking?select=nickname,score,user_id&order=score.desc&limit=500');
+    const data=res.ok?await res.json():[];
+    /* Fetch user data for perf breakdown */
+    const res2=await sbFetch('/rest/v1/sc1_user_data?select=user_id,data&limit=200');
+    const userData=res2.ok?await res2.json():[];
+    /* Aggregate */
+    const nicks=new Set(data.map(r=>r.nickname));
+    const totalUsers=nicks.size;
+    const avgScore=totalUsers>0?Math.round(data.reduce((s,r)=>s+r.score,0)/data.length):0;
+    const activeToday=userData.filter(r=>{
+      const h=(r.data?.history||[]);return h.length&&(Date.now()-new Date(h[h.length-1].date||0))< 86400000*2;
+    }).length;
+    /* Theme performance */
+    const themes={0:{name:'SUS',total:0,correct:0},1:{name:'Saúde-Doença',total:0,correct:0},2:{name:'Políticas',total:0,correct:0}};
+    userData.forEach(u=>{
+      (u.data?.history||[]).forEach(h=>{(h.byTheme||[]).forEach(t=>{if(themes[t.cat]){themes[t.cat].total+=t.total||0;themes[t.cat].correct+=t.hits||0;}});});
+    });
+    const topUsers=Object.entries(data.reduce((a,r)=>{if(!a[r.nickname]||r.score>a[r.nickname])a[r.nickname]=r.score;return a;},{})).sort((a,b)=>b[1]-a[1]).slice(0,15);
+    wrap.innerHTML=`
+      <div class="prof-stat-grid">
+        <div class="prof-stat"><div class="prof-stat-val">${totalUsers}</div><div class="prof-stat-lbl">Alunos</div></div>
+        <div class="prof-stat"><div class="prof-stat-val">${activeToday}</div><div class="prof-stat-lbl">Ativos (48h)</div></div>
+        <div class="prof-stat"><div class="prof-stat-val">${avgScore}</div><div class="prof-stat-lbl">Score médio</div></div>
+        <div class="prof-stat"><div class="prof-stat-val">${data.length}</div><div class="prof-stat-lbl">Partidas</div></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:8px">📚 Desempenho por tema</div>
+      ${Object.values(themes).map(t=>{
+        const pct=t.total>0?Math.round(t.correct/t.total*100):0;
+        const col=pct>=70?'#3dd68c':pct>=50?'#f5a623':'#ff6b6b';
+        return `<div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>${t.name}</span><span style="color:${col};font-weight:700">${pct}%</span></div>
+          <div class="prof-theme-bar"><div class="prof-theme-fill" style="width:${pct}%;background:${col}"></div></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px">${t.correct}/${t.total} acertos totais</div>
+        </div>`;
+      }).join('')}
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:8px;margin-top:1rem">🏆 Top alunos</div>
+      ${topUsers.map(([nick,sc],i)=>`
+        <div class="prof-user-row">
+          <div style="font-size:14px;width:24px;text-align:center;flex-shrink:0">${['🥇','🥈','🥉'][i]||'#'+(i+1)}</div>
+          <div class="prof-user-nick">${nick}</div>
+          <div class="prof-user-stat">${sc} pts</div>
+        </div>`).join('')}`;
+  }catch(e){
+    wrap.innerHTML=`<div style="text-align:center;padding:1.5rem;color:var(--muted)">❌ Erro ao carregar dados: ${e.message}</div>`;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ACESSIBILIDADE — ARIA + TECLADO
+════════════════════════════════════════════════════════════════ */
+(function(){
+  /* Add aria-labels to key buttons */
+  const labels={
+    'notif-btn':'Ativar ou desativar lembretes de notificação',
+    'nav-user-btn':'Sair da conta',
+    'bn-home':'Ir para a tela inicial',
+    'bn-jogar':'Ir para modos de jogo',
+    'bn-estudo':'Ir para estudo',
+    'bn-desemp':'Ir para desempenho',
+    'bn-config':'Ir para configurações',
+    'rank-play-btn':'Jogar modo selecionado',
+  };
+  Object.entries(labels).forEach(([id,label])=>{
+    const el=document.getElementById(id);
+    if(el&&!el.getAttribute('aria-label'))el.setAttribute('aria-label',label);
+  });
+  /* Keyboard nav for quiz options */
+  document.addEventListener('keydown',e=>{
+    if(!document.getElementById('quiz-screen')?.classList.contains('active'))return;
+    if(e.ctrlKey||e.shiftKey||e.altKey||e.metaKey)return;
+    const keys={'1':0,'2':1,'3':2,'4':3};
+    if(keys[e.key]!==undefined){
+      const btns=document.querySelectorAll('.opt:not(:disabled)');
+      if(btns[keys[e.key]])btns[keys[e.key]].click();
+    }
+  });
+  /* Role attributes for custom interactive elements */
+  document.querySelectorAll('.mode-card').forEach(c=>c.setAttribute('role','button'));
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   INTEGRAÇÃO COM QA — novos checks
+════════════════════════════════════════════════════════════════ */
+if(typeof _QA_CHECKS!=='undefined'){
+  /* Progressão */
+  _QA_CHECKS.xp_system      ={g:'Progressão',  label:'Sistema XP/Nível funciona',          status:'pending'};
+  /* Modos */
+  _QA_CHECKS.daily_challenge={g:'Modos',        label:'Desafio do Dia carrega e inicia',    status:'pending'};
+  _QA_CHECKS.wrong_quiz     ={g:'Modos',        label:'Quiz de erros recentes funciona',    status:'pending'};
+  /* Flashcards */
+  _QA_CHECKS.sr_queue       ={g:'Flashcards',   label:'Fila SR visível com cards pendentes',status:'pending'};
+  /* Ranking */
+  _QA_CHECKS.skeleton_rank  ={g:'Ranking',      label:'Skeleton loading no ranking',        status:'pending'};
+  /* Áudio */
+  _QA_CHECKS.notif_schedule ={g:'Áudio',        label:'Notificação agendada com horário',   status:'pending'};
+  /* UI */
+  _QA_CHECKS.pwa_manifest   ={g:'UI',           label:'Manifest PWA injetado',              status:'pending'};
+  _QA_CHECKS.accessibility  ={g:'UI',           label:'Aria-labels e teclado no quiz',      status:'pending'};
+  /* Avaliação */
+  _QA_CHECKS.prof_panel     ={g:'Avaliação',    label:'Painel professor carrega',           status:'pending'};
+}
+
+/* ════════════════════════════════════════════════════════════════
+   INICIALIZAÇÃO
+════════════════════════════════════════════════════════════════ */
+(()=>{
+  const origFL=finishLogin;
+  window.finishLogin=function(){
+    origFL.apply(this,arguments);
+    setTimeout(()=>{
+      updateXPWidget();
+      initDailyCard();
+      updateSRQueueBanner();
+      _loadNotifTime();
+      /* QA auto-checks */
+      if(typeof _qaPass==='function'){
+        /* PWA */
+        try{const ml=document.getElementById('pwa-manifest-link');if(ml&&ml.href&&ml.href!==location.href)_qaPass('pwa_manifest');}catch(e){}
+        /* Desafio */
+        if(document.getElementById('daily-card'))_qaPass('daily_challenge');
+        /* XP: verify total is a number */
+        try{const xd=loadXP();if(typeof xd.total==='number'&&typeof xd.level==='number')_qaPass('xp_system');}catch(e){}
+        /* Skeleton */
+        if(typeof _showRankingSkeleton==='function')_qaPass('skeleton_rank');
+        /* Notif */
+        if(typeof _notifEnabled!=='undefined')_qaPass('notif_schedule');
+        /* Wrong quiz */
+        if(typeof startWrongQuiz==='function')_qaPass('wrong_quiz');
+        /* SR queue */
+        if(typeof _showSRQueue==='function')_qaPass('sr_queue');
+        /* Professor */
+        if(typeof showProfessorPanel==='function')_qaPass('prof_panel');
+        /* Accessibility */
+        const _testBtn=document.getElementById('bn-home');
+        if(_testBtn&&_testBtn.getAttribute('aria-label'))_qaPass('accessibility');
+      }
+    },400);
+  };
+})();
+
+/* Hook showScreen to refresh daily + XP on navigation */
+(()=>{
+  const orig=showScreen;
+  window.showScreen=function(id){
+    orig.apply(this,arguments);
+    if(id==='modos-screen')initDailyCard();
+    if(id==='home-screen')updateXPWidget();
+    if(id==='study-screen'){setTimeout(updateSRQueueBanner,250);}
+  };
+})();
+
+
+
+/* ════════════════════════════════════════════════════════════════
+   MATERIAL DA AULA
+════════════════════════════════════════════════════════════════ */
+const _matState={};
+
+function _toggleMatProva(n){
+  const body=document.getElementById('mat-body-'+n);
+  const arrow=document.getElementById('mat-arrow-'+n);
+  const hdr=document.querySelector(`#mat-prova-${n} .material-prova-hdr`);
+  if(!body)return;
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'';
+  if(arrow)arrow.textContent=open?'›':'▾';
+  if(hdr)hdr.setAttribute('aria-expanded',String(!open));
+}
+
+function _openMaterial(type,url,title){
+  if(!url){
+    showModal({icon:'📄',title:title||'Em breve',msg:'Este material ainda não está disponível. O professor adicionará em breve.'});
+    return;
+  }
+  const viewer=document.getElementById('material-viewer');
+  const frame=document.getElementById('material-viewer-frame');
+  const titleEl=document.getElementById('material-viewer-title');
+  const openLink=document.getElementById('material-viewer-open');
+  if(!viewer||!frame)return;
+  if(titleEl)titleEl.textContent=title||url;
+  if(openLink){openLink.href=url;openLink.textContent='Abrir em nova aba →';}
+  /* Build embed URL */
+  let embedUrl=url;
+  if(type==='slides'&&url.includes('docs.google.com/presentation')){
+    embedUrl=url.replace('/edit','/embed').replace('/pub','/embed');
+    if(!embedUrl.includes('?'))embedUrl+='?';
+    if(!embedUrl.includes('start='))embedUrl+='&start=false&loop=false&delayms=3000';
+  }else if(type==='pdf'){
+    embedUrl=url;/* direct PDF or Drive preview */
+  }
+  frame.src=embedUrl;
+  viewer.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function closeMaterialViewer(){
+  const viewer=document.getElementById('material-viewer');
+  const frame=document.getElementById('material-viewer-frame');
+  if(viewer)viewer.style.display='none';
+  if(frame)frame.src='';
+  document.body.style.overflow='';
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TUTOR IA — ANTHROPIC API
+════════════════════════════════════════════════════════════════ */
+const TUTOR_SYSTEM_PROMPT=`Você é o Tutor IA da plataforma S.C.I (Saúde Coletiva Inteligente), um assistente educacional especializado em Saúde Coletiva I para estudantes de Odontologia.
+
+Seu foco exclusivo é:
+- Sistema Único de Saúde (SUS): princípios, leis 8.080/1990 e 8.142/1990, estrutura, financiamento
+- História das políticas de saúde no Brasil: Colônia, Império, República, CAPs, IAPs, INPS, INAMPS, Reforma Sanitária
+- Processo saúde-doença: concepções mágico-religiosa, hipocrática, miasmática, unicausalidade, multicausalidade, determinantes sociais (DSS)
+- Epidemiologia bucal: CPO-D, fluoretação, Brasil Sorridente, Sistema Incremental, CEOs, LRPDs
+- Políticas de saúde bucal: PNAB, eSB na ESF, odontologia coletiva
+- Controle social: Conselhos e Conferências de Saúde
+
+Regras de resposta:
+- Seja claro, didático e use exemplos práticos do contexto brasileiro
+- Use markdown simples: **negrito** para termos importantes, listas com -
+- Quando relevante, mencione como este conteúdo pode aparecer em provas
+- Se o aluno demonstrar dificuldade em um tema, sugira: "Recomendo revisar este tema nos Flashcards da S.C.I" ou "Veja o Mapa Conceitual para visualizar as conexões"
+- Respostas concisas (máx 400 tokens) para facilitar leitura em mobile
+- NUNCA responda sobre temas fora de Saúde Coletiva I — redirecione gentilmente`;
+
+let _tutorHistory=[];/* {role:'user'|'assistant', content:string}[] */
+let _tutorSending=false;
+
+function loadTutorHistory(){
+  return getCache('tutor_history',[]);
+}
+function saveTutorHistory(h){
+  /* Keep last 30 messages to avoid huge cache */
+  setCache('tutor_history',h.slice(-30));
+}
+
+function initTutorScreen(){
+  _tutorHistory=loadTutorHistory();
+  const msgs=document.getElementById('tutor-messages');if(!msgs)return;
+  /* Clear except welcome message */
+  const welcome=document.getElementById('tutor-welcome');
+  msgs.innerHTML='';
+  if(welcome)msgs.appendChild(welcome);
+  /* Render saved history */
+  _tutorHistory.forEach(m=>_tutorRenderBubble(m.role,m.content,false));
+  if(_tutorHistory.length>0&&welcome)welcome.style.display='none';
+  _tutorScrollBottom();
+}
+
+function _tutorSuggest(btn){
+  const inp=document.getElementById('tutor-input');
+  if(inp){inp.value=btn.textContent;_tutorAutoResize(inp);inp.focus();}
+  /* remove suggestions after first use */
+  btn.closest('.tutor-suggestions')?.remove();
+}
+
+function _tutorKeydown(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendTutorMessage();}
+}
+
+function _tutorAutoResize(ta){
+  ta.style.height='auto';
+  ta.style.height=Math.min(ta.scrollHeight,120)+'px';
+}
+
+function _tutorScrollBottom(){
+  const msgs=document.getElementById('tutor-messages');
+  if(msgs)setTimeout(()=>msgs.scrollTo({top:msgs.scrollHeight,behavior:'smooth'}),80);
+}
+
+function _tutorRenderBubble(role,content,animate=true){
+  const msgs=document.getElementById('tutor-messages');if(!msgs)return;
+  const isUser=role==='user';
+  const ts=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  /* Convert markdown to simple HTML */
+  const formatted=content
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\n- /g,'<br>• ')
+    .replace(/\n/g,'<br>');
+
+  const div=document.createElement('div');
+  div.className='tutor-msg'+(isUser?' tutor-msg-user':'');
+  div.innerHTML=`
+    <div class="tutor-avatar${isUser?' tutor-avatar-user':''}">${isUser?'👤':'🧠'}</div>
+    <div class="tutor-bubble">
+      <div class="tutor-bubble-content">${formatted}</div>
+      <div class="tutor-ts">${ts}</div>
+    </div>`;
+  if(animate)div.style.animation='screenFadeIn .2s ease';
+  msgs.appendChild(div);
+  _tutorScrollBottom();
+  return div;
+}
+
+function _tutorRenderLoading(){
+  const msgs=document.getElementById('tutor-messages');if(!msgs)return null;
+  const div=document.createElement('div');
+  div.className='tutor-msg';div.id='tutor-loading-bubble';
+  div.innerHTML=`
+    <div class="tutor-avatar">🧠</div>
+    <div class="tutor-bubble">
+      <div class="tutor-loading">
+        <div class="tutor-dot"></div><div class="tutor-dot"></div><div class="tutor-dot"></div>
+      </div>
+    </div>`;
+  msgs.appendChild(div);_tutorScrollBottom();
+  return div;
+}
+
+function _tutorCheckRecommend(content,assistantText){
+  /* Analyse user message for topic difficulty signals and recommend tools */
+  const topicMap={
+    'universalidade|equidade|integralidade|descentralização|controle social':'SUS',
+    'koch|pasteur|miasmática|hipocrática|teocêntrico|determinante':'Saúde-Doença',
+    'caps|iaps|inps|inamps|reforma sanitária|viii conferência':'Políticas',
+    'cpo-d|fluoretação|sistema incremental|ceo|lrpd':'Epidemiologia Bucal',
+  };
+  const lowUser=content.toLowerCase();
+  let matchedTopic=null;
+  for(const[pattern,topic] of Object.entries(topicMap)){
+    if(new RegExp(pattern).test(lowUser)){matchedTopic=topic;break;}
+  }
+  if(!matchedTopic)return;
+  /* Add recommendation bubble after AI response */
+  const msgs=document.getElementById('tutor-messages');if(!msgs)return;
+  const rec=document.createElement('div');
+  rec.className='tutor-recommend';
+  rec.innerHTML=`<strong>💡 Dica de revisão:</strong> Para aprofundar em <strong>${matchedTopic}</strong>, recomendo:<br>
+    <button class="tutor-sug" style="margin-top:5px" onclick="showScreen('study-screen')">🃏 Flashcards</button>
+    <button class="tutor-sug" style="margin-top:5px" onclick="showScreen('map-screen');initMap()">🕸️ Mapa Conceitual</button>
+    <button class="tutor-sug" style="margin-top:5px" onclick="openSetup('ranked')">⚡ Quiz Ranqueado</button>`;
+  msgs.appendChild(rec);_tutorScrollBottom();
+}
+
+async function sendTutorMessage(){
+  if(_tutorSending)return;
+  const inp=document.getElementById('tutor-input');
+  const btn=document.getElementById('tutor-send-btn');
+  const text=(inp?.value||'').trim();
+  if(!text)return;
+
+  /* Clear input */
+  inp.value='';inp.style.height='auto';
+  /* Hide welcome if visible */
+  const welcome=document.getElementById('tutor-welcome');
+  if(welcome)welcome.style.display='none';
+
+  _tutorSending=true;if(btn)btn.disabled=true;
+
+  /* Render user message */
+  _tutorRenderBubble('user',text);
+  _tutorHistory.push({role:'user',content:text});
+
+  /* Show loading */
+  const loadingEl=_tutorRenderLoading();
+
+  try{
+    const messages=_tutorHistory.slice(-20).map(m=>({role:m.role,content:m.content}));
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:TUTOR_SYSTEM_PROMPT,
+        messages
+      })
+    });
+    const data=await res.json();
+    loadingEl?.remove();
+    const reply=data.content?.[0]?.text||'Desculpe, não consegui processar sua dúvida. Tente novamente.';
+    _tutorRenderBubble('assistant',reply);
+    _tutorHistory.push({role:'assistant',content:reply});
+    saveTutorHistory(_tutorHistory);
+    _tutorCheckRecommend(text,reply);
+  }catch(e){
+    loadingEl?.remove();
+    _tutorRenderBubble('assistant','❌ Erro de conexão com o Tutor IA. Verifique sua internet e tente novamente.');
+  }finally{
+    _tutorSending=false;if(btn)btn.disabled=false;
+    inp?.focus();
+  }
+}
+
+/* modeInfo entries already baked into MODE_INFO const */
+
+/* Hook showScreen to init tutor when entering */
+(()=>{
+  const orig=showScreen;
+  window.showScreen=function(id){
+    orig.apply(this,arguments);
+    if(id==='tutor-screen')setTimeout(initTutorScreen,150);
+  };
+})();
 
 
 </script>
