@@ -1594,7 +1594,7 @@ body{padding-bottom:7rem!important}
         <div class="material-prova-hdr" onclick="_toggleMatProva(1)" role="button" aria-expanded="true">
           <span class="material-prova-icon">📋</span>
           <span class="material-prova-title">Prova 1</span>
-          <span class="material-prova-badge" id="mat-badge-1">3 itens</span>
+          <span class="material-prova-badge" id="mat-badge-1">4 itens</span>
           <span class="material-prova-arrow" id="mat-arrow-1">▾</span>
         </div>
         <div class="material-prova-body" id="mat-body-1">
@@ -1606,11 +1606,19 @@ body{padding-bottom:7rem!important}
             </div>
             <div class="material-item-type" style="color:#f5a623">PDF</div>
           </div>
-          <div class="material-item" onclick="_openMaterial('link','https://www.saude.gov.br/sistema-unico-de-saude','Lei 8.080/1990 — gov.br')">
+          <div class="material-item" onclick="_openMaterial('resumo','./resumo_prova1.html','📝 Resumo Completo — Prova 1')">
+            <div class="material-item-icon">📝</div>
+            <div class="material-item-body">
+              <div class="material-item-title">Resumo Completo — Prova 1</div>
+              <div class="material-item-sub">SUS · Processo Saúde-Doença · Políticas · Pegadinhas · Macetes</div>
+            </div>
+            <div class="material-item-type" style="color:#3dd68c">RESUMO</div>
+          </div>
+          <div class="material-item" onclick="_openMaterial('link','https://www.planalto.gov.br/ccivil_03/leis/l8080.htm','Lei 8.080/1990 — planalto.gov.br')">
             <div class="material-item-icon">🔗</div>
             <div class="material-item-body">
               <div class="material-item-title">Lei 8.080/1990</div>
-              <div class="material-item-sub">Texto completo — portal gov.br</div>
+              <div class="material-item-sub">Lei Orgânica da Saúde — texto completo</div>
             </div>
             <div class="material-item-type" style="color:#06b6d4">LINK</div>
           </div>
@@ -1618,7 +1626,7 @@ body{padding-bottom:7rem!important}
             <div class="material-item-icon">🔗</div>
             <div class="material-item-body">
               <div class="material-item-title">Lei 8.142/1990</div>
-              <div class="material-item-sub">Controle social no SUS — planalto.gov.br</div>
+              <div class="material-item-sub">Controle social no SUS — texto completo</div>
             </div>
             <div class="material-item-type" style="color:#06b6d4">LINK</div>
           </div>
@@ -5979,30 +5987,31 @@ const MAP_THEMES=[
   {key:'sd', icon:'🔬',name:'Processo Saúde-Doença e Determinantes',fill:'#059669',bg:'rgba(5,150,105,0.14)',border:'rgba(52,211,153,0.35)',tc:'#6ee7b7',catIdx:1},
   {key:'pol',icon:'📜',name:'História e Políticas de Saúde',fill:'#b45309',bg:'rgba(180,83,9,0.14)',border:'rgba(245,158,11,0.35)',tc:'#fcd34d',catIdx:2},
 ];
+/* MAP_CONCEPTS — concepts have optional resumoUrl for linking to study material */
 const MAP_CONCEPTS=[
   // SUS
-  {id:'universalidade',th:'sus',name:'Universalidade',desc:'Saúde é direito de todos os cidadãos brasileiros, sem distinção de raça, classe social ou condição de vida. Princípio doutrinário fundamental do SUS.',connects:['equidade','integralidade','lei8080'],crossConnects:[]},
-  {id:'equidade',th:'sus',name:'Equidade',desc:'Tratar desigualmente os desiguais — priorizar quem mais precisa para reduzir iniquidades em saúde. Difere de igualdade (tratar todos igual).',connects:['universalidade','integralidade','controle'],crossConnects:['dss']},
-  {id:'integralidade',th:'sus',name:'Integralidade',desc:'Atenção ao ser humano em todas as suas dimensões: promoção, prevenção, cura e reabilitação. Visão integral e não fragmentada.',connects:['universalidade','equidade'],crossConnects:['oms']},
-  {id:'lei8080',th:'sus',name:'Lei 8.080 / 1990',desc:'Lei Orgânica da Saúde — regulamenta o SUS, define competências e organização do sistema. Junto com a Lei 8.142, forma o arcabouço legal do SUS.',connects:['lei8142','universalidade','descentralizacao'],crossConnects:['conf8']},
-  {id:'lei8142',th:'sus',name:'Lei 8.142 / 1990',desc:'Complementar à Lei 8.080: garante participação da comunidade via Conselhos e Conferências de Saúde, e define transferências de recursos financeiros entre entes federativos.',connects:['lei8080','controle'],crossConnects:[]},
-  {id:'descentralizacao',th:'sus',name:'Descentralização',desc:'Princípio organizativo do SUS: transferência de responsabilidades e recursos da União para estados e municípios, aumentando a autonomia local na gestão da saúde.',connects:['lei8080','controle'],crossConnects:['almaata']},
-  {id:'controle',th:'sus',name:'Controle Social',desc:'Participação da sociedade no planejamento e fiscalização das ações de saúde — exercida via Conselhos de Saúde (paritários) e Conferências de Saúde.',connects:['lei8142','descentralizacao','equidade'],crossConnects:[]},
+  {id:'universalidade',resumoUrl:'./resumo_prova1.html',th:'sus',name:'Universalidade',desc:'Saúde é direito de todos os cidadãos brasileiros, sem distinção de raça, classe social ou condição de vida. Princípio doutrinário fundamental do SUS.',connects:['equidade','integralidade','lei8080'],crossConnects:[]},
+  {id:'equidade',resumoUrl:'./resumo_prova1.html',th:'sus',name:'Equidade',desc:'Tratar desigualmente os desiguais — priorizar quem mais precisa para reduzir iniquidades em saúde. Difere de igualdade (tratar todos igual).',connects:['universalidade','integralidade','controle'],crossConnects:['dss']},
+  {id:'integralidade',resumoUrl:'./resumo_prova1.html',th:'sus',name:'Integralidade',desc:'Atenção ao ser humano em todas as suas dimensões: promoção, prevenção, cura e reabilitação. Visão integral e não fragmentada.',connects:['universalidade','equidade'],crossConnects:['oms']},
+  {id:'lei8080',resumoUrl:'./resumo_prova1.html',th:'sus',name:'Lei 8.080 / 1990',desc:'Lei Orgânica da Saúde — regulamenta o SUS, define competências e organização do sistema. Junto com a Lei 8.142, forma o arcabouço legal do SUS.',connects:['lei8142','universalidade','descentralizacao'],crossConnects:['conf8']},
+  {id:'lei8142',resumoUrl:'./resumo_prova1.html',th:'sus',name:'Lei 8.142 / 1990',desc:'Complementar à Lei 8.080: garante participação da comunidade via Conselhos e Conferências de Saúde, e define transferências de recursos financeiros entre entes federativos.',connects:['lei8080','controle'],crossConnects:[]},
+  {id:'descentralizacao',resumoUrl:'./resumo_prova1.html',th:'sus',name:'Descentralização',desc:'Princípio organizativo do SUS: transferência de responsabilidades e recursos da União para estados e municípios, aumentando a autonomia local na gestão da saúde.',connects:['lei8080','controle'],crossConnects:['almaata']},
+  {id:'controle',resumoUrl:'./resumo_prova1.html',th:'sus',name:'Controle Social',desc:'Participação da sociedade no planejamento e fiscalização das ações de saúde — exercida via Conselhos de Saúde (paritários) e Conferências de Saúde.',connects:['lei8142','descentralizacao','equidade'],crossConnects:[]},
   // SAUDE-DOENÇA
   {id:'oms',th:'sd',name:'Definição OMS (1946)',desc:'Definição utópica: "completo bem-estar físico, mental e social". Criticada por ser subjetiva, inatingível na prática e difícil de mensurar. Funciona mais como horizonte do que realidade.',connects:['biomedico','prevencoes'],crossConnects:['integralidade']},
-  {id:'biomedico',th:'sd',name:'Modelo Biomédico',desc:'Foco no biológico e na doença, visão curativa e fragmentação em especialidades. Modelo dominante até o século XX. Opõe-se ao modelo social que reconhece os determinantes ampliados.',connects:['oms','triade','dss'],crossConnects:[]},
+  {id:'biomedico',resumoUrl:'./resumo_prova1.html',th:'sd',name:'Modelo Biomédico',desc:'Foco no biológico e na doença, visão curativa e fragmentação em especialidades. Modelo dominante até o século XX. Opõe-se ao modelo social que reconhece os determinantes ampliados.',connects:['oms','triade','dss'],crossConnects:[]},
   {id:'triade',th:'sd',name:'Tríade Ecológica',desc:'Modelo multicausal: Agente + Hospedeiro + Meio Ambiente. A doença ocorre quando o equilíbrio entre esses três elementos é rompido. Base do modelo multicausal clássico.',connects:['biomedico','prevencoes'],crossConnects:[]},
   {id:'prevencoes',th:'sd',name:'Níveis de Prevenção',desc:'Primária (pré-patogênese: promoção e proteção específica), Secundária (diagnóstico precoce e tratamento imediato) e Terciária (reabilitação e limitação do dano).',connects:['oms','triade','ottawa'],crossConnects:['fluoretacao']},
-  {id:'dss',th:'sd',name:'Determinantes Sociais (DSS)',desc:'Condições em que as pessoas nascem, crescem, vivem, trabalham e envelhecem. São as causas estruturais das iniquidades em saúde — o modelo de Dahlgren e Whitehead organiza os DSS em camadas.',connects:['biomedico','almaata','ottawa'],crossConnects:['equidade']},
+  {id:'dss',resumoUrl:'./resumo_prova1.html',th:'sd',name:'Determinantes Sociais (DSS)',desc:'Condições em que as pessoas nascem, crescem, vivem, trabalham e envelhecem. São as causas estruturais das iniquidades em saúde — o modelo de Dahlgren e Whitehead organiza os DSS em camadas.',connects:['biomedico','almaata','ottawa'],crossConnects:['equidade']},
   {id:'almaata',th:'sd',name:'Alma-Ata (1978)',desc:'"Saúde para todos até 2000" — Declaração que elegeu a Atenção Primária à Saúde como estratégia central para reduzir desigualdades globais em saúde. Marco da saúde pública internacional.',connects:['dss','ottawa'],crossConnects:['descentralizacao']},
   {id:'ottawa',th:'sd',name:'Carta de Ottawa (1986)',desc:'Define Promoção da Saúde como ação sobre os determinantes amplos: paz, habitação, educação, alimentação, renda. Mais ampla que prevenção — exige ação intersetorial.',connects:['dss','almaata','prevencoes'],crossConnects:[]},
   // POLITICAS
-  {id:'inamps',th:'pol',name:'INAMPS',desc:'Instituto Nacional de Assistência Médica — modelo anterior ao SUS, excludente: cobria apenas trabalhadores formais com carteira assinada, deixando a maioria da população sem acesso.',connects:['reforma'],crossConnects:[]},
-  {id:'reforma',th:'pol',name:'Reforma Sanitária',desc:'Movimento social e intelectual dos anos 1970-80. Criticou o modelo excludente do INAMPS e culminou na criação do SUS na Constituição Federal de 1988. Pilar do SUS atual.',connects:['inamps','conf8'],crossConnects:[]},
-  {id:'conf8',th:'pol',name:'8ª Conferência de Saúde',desc:'1986 — Maior evento de saúde pública da história do Brasil. Proposta: "Saúde como direito de todos e dever do Estado". Subsidiou diretamente o capítulo da saúde na Constituição de 1988.',connects:['reforma'],crossConnects:['lei8080']},
-  {id:'bsorridente',th:'pol',name:'Brasil Sorridente (2004)',desc:'Primeira Política Nacional de Saúde Bucal do Brasil. Criou os CEOs (Centros de Especialidades Odontológicas) e os LRPDs (laboratórios de prótese dentária), ampliando cobertura para todas as faixas etárias.',connects:['ceo','cpod'],crossConnects:[]},
-  {id:'cpod',th:'pol',name:'Índice CPO-D',desc:'Cariados + Perdidos + Obturados na dentição permanente. Principal índice epidemiológico em saúde bucal coletiva. O SB Brasil 2010 mostrou queda histórica de 6,65 para 2,07 aos 12 anos.',connects:['bsorridente','fluoretacao'],crossConnects:[]},
-  {id:'ceo',th:'pol',name:'CEO',desc:'Centro de Especialidades Odontológicas — oferece Endodontia, Periodontia, Cirurgia, Estomatologia e Prótese. Acesso exclusivo por encaminhamento da atenção básica, nunca diretamente.',connects:['bsorridente'],crossConnects:[]},
+  {id:'inamps',resumoUrl:'./resumo_prova1.html',th:'pol',name:'INAMPS',desc:'Instituto Nacional de Assistência Médica — modelo anterior ao SUS, excludente: cobria apenas trabalhadores formais com carteira assinada, deixando a maioria da população sem acesso.',connects:['reforma'],crossConnects:[]},
+  {id:'reforma',resumoUrl:'./resumo_prova1.html',th:'pol',name:'Reforma Sanitária',desc:'Movimento social e intelectual dos anos 1970-80. Criticou o modelo excludente do INAMPS e culminou na criação do SUS na Constituição Federal de 1988. Pilar do SUS atual.',connects:['inamps','conf8'],crossConnects:[]},
+  {id:'conf8',resumoUrl:'./resumo_prova1.html',th:'pol',name:'8ª Conferência de Saúde',desc:'1986 — Maior evento de saúde pública da história do Brasil. Proposta: "Saúde como direito de todos e dever do Estado". Subsidiou diretamente o capítulo da saúde na Constituição de 1988.',connects:['reforma'],crossConnects:['lei8080']},
+  {id:'bsorridente',resumoUrl:'./resumo_prova1.html',th:'pol',name:'Brasil Sorridente (2004)',desc:'Primeira Política Nacional de Saúde Bucal do Brasil. Criou os CEOs (Centros de Especialidades Odontológicas) e os LRPDs (laboratórios de prótese dentária), ampliando cobertura para todas as faixas etárias.',connects:['ceo','cpod'],crossConnects:[]},
+  {id:'cpod',resumoUrl:'./resumo_prova1.html',th:'pol',name:'Índice CPO-D',desc:'Cariados + Perdidos + Obturados na dentição permanente. Principal índice epidemiológico em saúde bucal coletiva. O SB Brasil 2010 mostrou queda histórica de 6,65 para 2,07 aos 12 anos.',connects:['bsorridente','fluoretacao'],crossConnects:[]},
+  {id:'ceo',resumoUrl:'./resumo_prova1.html',th:'pol',name:'CEO',desc:'Centro de Especialidades Odontológicas — oferece Endodontia, Periodontia, Cirurgia, Estomatologia e Prótese. Acesso exclusivo por encaminhamento da atenção básica, nunca diretamente.',connects:['bsorridente'],crossConnects:[]},
   {id:'fluoretacao',th:'pol',name:'Fluoretação da Água',desc:'Lei 6.050/1974 — obriga fluoretação das águas de abastecimento público. Reconhecida pela OMS como a medida de melhor custo-benefício para prevenção coletiva de cárie. Mecanismo: remineralização do esmalte.',connects:['cpod'],crossConnects:['prevencoes']},
 ];
 
@@ -6099,6 +6108,7 @@ function _mapShowDetail(conceptId){
       <div class="map-study-cta-sub">Pratique somente as questões de <strong>${c.name}</strong> — ${focusQCount} ${focusQCount!==1?'questões':'questão'} disponíve${focusQCount!==1?'is':'l'}.</div>
       <div class="map-study-btns">
         <button class="btn btn-green btn-sm" onclick="_mapStartFocusQuiz('${c.id}')">Iniciar quiz focado →</button>
+        ${c.resumoUrl?`<button class="btn btn-ghost btn-sm" onclick="_openMaterial('resumo','${c.resumoUrl}','Resumo: ${c.name}')">📝 Ver resumo</button>`:''}
         <button class="btn btn-ghost btn-sm" onclick="mapBackToConcepts()">← Voltar</button>
       </div>
     </div>`;
@@ -10063,16 +10073,44 @@ function _openMaterial(type,url,title){
   const openLink=document.getElementById('material-viewer-open');
   if(!viewer||!frame)return;
   if(titleEl)titleEl.textContent=title||url;
-  if(openLink){openLink.href=url;openLink.textContent='Abrir em nova aba →';}
-  /* Build embed URL */
+  if(openLink){openLink.href=url;openLink.target='_blank';openLink.rel='noopener';openLink.textContent='Abrir em nova aba →';}
+
   let embedUrl=url;
-  if(type==='slides'&&url.includes('docs.google.com/presentation')){
-    embedUrl=url.replace('/edit','/embed').replace('/pub','/embed');
-    if(!embedUrl.includes('?'))embedUrl+='?';
-    if(!embedUrl.includes('start='))embedUrl+='&start=false&loop=false&delayms=3000';
-  }else if(type==='pdf'){
-    embedUrl=url;/* direct PDF or Drive preview */
+
+  if(type==='resumo'){
+    /* HTML files: load directly in iframe */
+    frame.src=embedUrl;
+    viewer.style.display='flex';
+    document.body.style.overflow='hidden';
+    return;
   }
+  if(type==='slides'&&url.includes('docs.google.com/presentation')){
+    /* Google Slides: convert to embed URL */
+    embedUrl=url.split('?')[0];
+    if(!embedUrl.endsWith('/embed'))embedUrl=embedUrl.replace(/\/(edit|pub|preview)$/,'')+ '/embed';
+    embedUrl+='?start=false&loop=false&delayms=3000';
+    frame.src=embedUrl;
+    viewer.style.display='flex';
+    document.body.style.overflow='hidden';
+    return;
+  }
+  if(type==='pdf'){
+    /* PDF: try direct iframe first; local PDFs work, remote may need special handling */
+    if(url.startsWith('http')&&!url.includes('drive.google.com')){
+      /* external PDFs: try Google Docs viewer as proxy */
+      embedUrl='https://docs.google.com/viewer?url='+encodeURIComponent(url)+'&embedded=true';
+    }
+    frame.src=embedUrl;
+    viewer.style.display='flex';
+    document.body.style.overflow='hidden';
+    return;
+  }
+  if(type==='link'){
+    /* external links: open in new tab directly, don't iframe */
+    window.open(url,'_blank','noopener,noreferrer');
+    return;
+  }
+  /* fallback */
   frame.src=embedUrl;
   viewer.style.display='flex';
   document.body.style.overflow='hidden';

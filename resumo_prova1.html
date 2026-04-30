@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo Prova 1 — Saúde Coletiva I · Prof. André Terreri</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent1: #58a6ff;   /* azul — SUS / conceitos */
+    --accent2: #3fb950;   /* verde — dicas / correto */
+    --accent3: #f0883e;   /* laranja — cuidado/pegadinhas */
+    --accent4: #bc8cff;   /* roxo — políticas */
+    --accent5: #ff7b72;   /* vermelho — muito importante */
+    --cap1: #58a6ff;
+    --cap2: #3fb950;
+    --cap3: #bc8cff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.7; }
+
+  /* ── HERO ── */
+  .hero { background: linear-gradient(135deg, #0d1117 0%, #0d2137 50%, #0d1117 100%); border-bottom: 1px solid var(--border); text-align: center; padding: 60px 24px 48px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(88,166,255,.12) 0%, transparent 70%); }
+  .hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent1); margin-bottom: 16px; position: relative; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: #fff; line-height: 1.15; position: relative; }
+  .hero h1 span { color: var(--accent1); }
+  .hero-sub { margin-top: 12px; color: var(--muted); font-size: 14px; position: relative; }
+  .chapters-nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 32px; position: relative; }
+  .chapters-nav a { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: all .2s; }
+  .chapters-nav a:hover { background: var(--surface); color: var(--text); border-color: var(--accent1); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+
+  /* ── CHAPTER BLOCK ── */
+  .chapter-block { margin-bottom: 64px; scroll-margin-top: 24px; }
+  .chapter-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .chapter-num { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .chapter-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; }
+  .chapter-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--muted); margin-bottom: 12px; padding-left: 12px; border-left: 2px solid var(--border); }
+
+  /* ── CARDS ── */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 10px; }
+  .card-title { font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent1); flex-shrink: 0; }
+  .card p, .card li { color: #c9d1d9; font-size: 14px; }
+  .card ul { padding-left: 18px; }
+  .card ul li { margin-bottom: 3px; }
+
+  /* ── GRID ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 640px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; margin-bottom: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { background: var(--surface2); color: var(--accent1); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  td { padding: 9px 14px; border: 1px solid var(--border); color: #c9d1d9; vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+
+  /* ── TIP ── */
+  .tip { background: rgba(63,185,80,.08); border: 1px solid rgba(63,185,80,.3); border-left: 3px solid var(--accent2); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; font-size: 13.5px; color: #c9d1d9; }
+  .tip strong { color: var(--accent2); }
+  .tip-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2); margin-bottom: 5px; display: block; }
+
+  /* ── WARN ── */
+  .warn { background: rgba(240,136,62,.08); border: 1px solid rgba(240,136,62,.3); border-left: 3px solid var(--accent3); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; font-size: 13.5px; color: #c9d1d9; }
+  .warn strong { color: var(--accent3); }
+  .warn-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent3); margin-bottom: 5px; display: block; }
+
+  /* ── IMPORTANT ── */
+  .important { background: rgba(255,123,114,.08); border: 1px solid rgba(255,123,114,.3); border-left: 3px solid var(--accent5); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; font-size: 13.5px; color: #c9d1d9; }
+  .important strong { color: var(--accent5); }
+
+  /* ── FLOW ── */
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 10px; }
+  .flow-step { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 13px; color: #fff; font-weight: 500; }
+  .flow-arrow { color: var(--muted); font-size: 16px; }
+
+  /* ── PILLS ── */
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .pill { padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+  .pill-blue { background: rgba(88,166,255,.15); color: var(--accent1); border: 1px solid rgba(88,166,255,.3); }
+  .pill-green { background: rgba(63,185,80,.15); color: var(--accent2); border: 1px solid rgba(63,185,80,.3); }
+  .pill-orange { background: rgba(240,136,62,.15); color: var(--accent3); border: 1px solid rgba(240,136,62,.3); }
+  .pill-purple { background: rgba(188,140,255,.15); color: var(--accent4); border: 1px solid rgba(188,140,255,.3); }
+  .pill-red { background: rgba(255,123,114,.15); color: var(--accent5); border: 1px solid rgba(255,123,114,.3); }
+
+  /* ── FLASH ── */
+  .flash { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-top: 24px; }
+  .flash-label { display: block; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent3); margin-bottom: 12px; }
+  .flash-items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .flash-item { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 13px; color: #c9d1d9; }
+  .flash-item b { color: #fff; }
+
+  /* ── MACETE ── */
+  .macete { background: rgba(188,140,255,.08); border: 1px solid rgba(188,140,255,.3); border-left: 3px solid var(--accent4); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; font-size: 13.5px; color: #c9d1d9; }
+  .macete strong { color: var(--accent4); }
+  .macete-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent4); margin-bottom: 5px; display: block; }
+
+  /* ── NUMBER BOX ── */
+  .num-box { display: inline-flex; align-items: center; gap: 8px; background: var(--surface2); border: 1px solid rgba(88,166,255,.3); border-radius: 8px; padding: 8px 14px; margin: 4px; font-size: 13px; }
+  .num-val { font-family: 'Syne', 'DM Mono', monospace; font-size: 18px; font-weight: 800; color: var(--accent1); }
+
+  /* ── DIVIDER ── */
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 56px 0; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 18px; }
+  .tl-dot { position: absolute; left: -24px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent1); border: 2px solid var(--bg); flex-shrink: 0; }
+  .tl-year { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent1); letter-spacing: 1px; margin-bottom: 3px; }
+  .tl-desc { font-size: 14px; color: #c9d1d9; }
+  .tl-desc strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">S.C.I · Prof. Dr. André Terreri · Odontologia em Saúde Coletiva</div>
+  <h1>Resumo Completo<br><span>Prova 1</span></h1>
+  <div class="hero-sub">SUS · Processo Saúde-Doença · Políticas de Saúde no Brasil</div>
+  <div class="chapters-nav">
+    <a href="#cap1">📋 SUS — Princípios</a>
+    <a href="#cap2">🔬 Processo Saúde-Doença</a>
+    <a href="#cap3">🏛 Políticas de Saúde</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════ CAP 1 ══ -->
+<div id="cap1" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap1)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 01</div>
+      <div class="chapter-title" style="color:var(--cap1)">Sistema Único de Saúde — Princípios</div>
+    </div>
+  </div>
+
+  <!-- O que é o SUS -->
+  <div class="section">
+    <div class="section-title">O que é o SUS?</div>
+    <div class="card">
+      <div class="card-title">Definição</div>
+      <p>O SUS é constituído pelo <strong style="color:#fff">conjunto de ações e serviços de saúde prestados por órgãos e instituições públicos</strong> federais, estaduais e municipais e, complementarmente, pela iniciativa privada usando as mesmas normas do serviço público.</p>
+      <p style="margin-top:8px;color:var(--muted);font-size:13px">É <strong style="color:var(--accent1)">único</strong> porque tem a mesma doutrina, filosofia e sistemática de organização em todo o território nacional.</p>
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Contexto histórico</span>
+      O SUS vem sendo implantado como um <strong>processo social em permanente construção</strong>. Sua criação formal ocorreu na Constituição Federal de 1988, mas suas origens remontam à crise do modelo médico privado vinculado à previdência.
+    </div>
+  </div>
+
+  <!-- Base Legal -->
+  <div class="section">
+    <div class="section-title">Base Legal do SUS</div>
+    <div class="grid3">
+      <div class="card">
+        <div class="card-title">CF/1988</div>
+        <p>Saúde como setor da <strong style="color:#fff">Seguridade Social</strong> (ao lado da Previdência e Assistência). Art. 196: "Saúde é direito de todos e dever do Estado".</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Lei 8.080/1990</div>
+        <p><strong style="color:#fff">Lei Orgânica da Saúde.</strong> Organização e regulação das ações e serviços de saúde. Define princípios, competências e financiamento.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Lei 8.142/1990</div>
+        <p><strong style="color:#fff">Participação popular.</strong> Estabelece Conselhos e Conferências de Saúde. Dispõe sobre transferências intergovernamentais de recursos.</p>
+      </div>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha clássica</span>
+      A CF/88 cria o SUS, a <strong>Lei 8.080</strong> organiza e regulamenta, e a <strong>Lei 8.142</strong> trata do controle social e transferências financeiras. Prova adora trocar as funções!
+    </div>
+  </div>
+
+  <!-- Princípios Doutrinários -->
+  <div class="section">
+    <div class="section-title">Princípios Doutrinários (base filosófica)</div>
+    <div class="grid3">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent1)">🌐 Universalidade</div>
+        <p>Saúde é <strong style="color:#fff">direito de cidadania</strong>, não serviço pago. Todos têm acesso, sem contribuição ou pagamento.</p>
+        <div class="pills"><span class="pill pill-blue">Art. 196 CF/88</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2)">⚖️ Equidade</div>
+        <p>Oferecer <strong style="color:#fff">mais a quem mais precisa</strong>. Reconhece diferenças; não é igualdade.</p>
+        <div class="pills"><span class="pill pill-green">≠ Igualdade</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent3)">🔗 Integralidade</div>
+        <p>Da vacina ao transplante. Atenção à <strong style="color:#fff">dimensão biológica, psicológica e social</strong>.</p>
+        <div class="pills"><span class="pill pill-orange">Prevenção + Cura</span></div>
+      </div>
+    </div>
+
+    <div class="macete">
+      <span class="macete-label">🧠 Macete</span>
+      <strong>U-E-I</strong> = "Universalidade Ente a Integralidade": lembre dos 3 princípios doutrinários nessa ordem. Nunca confunda com os princípios <em>organizativos</em> (descentralização, regionalização, participação).
+    </div>
+  </div>
+
+  <!-- Universalidade Detalhada -->
+  <div class="section">
+    <div class="section-title">Universalidade — Contexto em Odontologia</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Dado</th><th>Valor / Informação</th></tr>
+        <tr><td>CPO-D aos 12 anos em 1986</td><td><strong style="color:var(--accent5)">6,67</strong></td></tr>
+        <tr><td>CPO-D aos 12 anos em 2020</td><td><strong style="color:var(--accent2)">1,6</strong> (redução de ~76%!)</td></tr>
+        <tr><td>CEOs implantados 2004–2023</td><td><strong style="color:#fff">1.205</strong> unidades</td></tr>
+        <tr><td>% procedimentos especializados (antes CEOs)</td><td><strong style="color:var(--accent5)">≤ 3,5%</strong> do total de procedimentos</td></tr>
+        <tr><td>Tempo estimado para atender demanda 65-74 anos (sem LRPD)</td><td><strong style="color:var(--accent3)">14 anos</strong></td></tr>
+        <tr><td>Aumento de dentes restaurados 2003→2010 (adultos 35-44)</td><td><strong style="color:var(--accent2)">+69%</strong></td></tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha de prova</span>
+      A <strong>redução da cárie em crianças + envelhecimento populacional</strong> gerou uma <strong>dívida assistencial com adultos e idosos</strong>. Os CEOs e LRPDs foram criados para resolver isso. A prova pode perguntar o porquê da criação dos CEOs — a resposta é essa dívida!
+    </div>
+    <div class="grid2" style="margin-top:10px">
+      <div class="card">
+        <div class="card-title">CEOs — Centros Especializados Odontológicos</div>
+        <p>Criados para suprir <strong style="color:#fff">procedimentos mais requeridos por adultos e idosos</strong>: Endodontia, Periodontia, Cirurgia, Pacientes com necessidades especiais, Estomatologia.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">LRPDs — Lab. Regionais de Prótese</div>
+        <p>Criados para atender a <strong style="color:#fff">enorme demanda por reabilitação protética</strong> em idosos. Nordeste concentra 37,3% dos municípios atendidos.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Equidade Detalhada -->
+  <div class="section">
+    <div class="section-title">Equidade — Detalhe fundamental</div>
+    <div class="card">
+      <div class="card-title">Equidade ≠ Igualdade</div>
+      <p><strong style="color:var(--accent2)">Igualdade:</strong> dar o mesmo a todos.</p>
+      <p style="margin-top:6px"><strong style="color:var(--accent1)">Equidade:</strong> dar <strong style="color:#fff">mais a quem mais precisa</strong>, reconhecendo que existem diferenças nas condições de vida e saúde.</p>
+      <p style="margin-top:6px;font-size:13px;color:var(--muted)">"O princípio da equidade identifica o <strong style="color:var(--accent3)">espaço da diferença</strong>, não o espaço da igualdade."</p>
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Exemplo prático (Prof. André)</span>
+      Indivíduos com baixa renda têm <strong>mais problemas de saúde bucal</strong> e usam <strong>menos</strong> os serviços odontológicos → a equidade exige ampliar a oferta de ações de saúde para os <strong>mais afetados pelas desigualdades sociais</strong>.
+    </div>
+  </div>
+
+  <!-- Integralidade Detalhada -->
+  <div class="section">
+    <div class="section-title">Integralidade — 4 Dimensões (CUIDADO: cai em prova!)</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">1. Sentido histórico</div>
+        <p>Supera a <strong style="color:#fff">dicotomia</strong> entre prevenção coletiva (SESP/MS) e assistência médica individual (INAMPS). Antes eram dois sistemas separados.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">2. Sentido epistemológico</div>
+        <p>Conceito ampliado de saúde: <strong style="color:#fff">alimentação, habitação, educação, renda, meio ambiente, trabalho, transporte, lazer, acesso a serviços</strong>.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">3. Sentido do planejamento</div>
+        <p><strong style="color:#fff">"Da vacina ao transplante."</strong> O usuário do SUS tem direito a todos os serviços que atendam às suas necessidades.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">4. Sentido formativo</div>
+        <p>A <strong style="color:#fff">concepção de saúde-doença do profissional</strong> determina sua prática. A formação deve abranger dimensões biológica, psicológica e social.</p>
+      </div>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha</span>
+      A prova pode descrever uma das 4 dimensões e perguntar qual é. A mais cobrada é a diferença entre o <strong>sentido histórico</strong> (dicotomia SESP vs INAMPS) e o <strong>sentido epistemológico</strong> (conceito ampliado).
+    </div>
+  </div>
+
+  <!-- Princípios Organizativos -->
+  <div class="section">
+    <div class="section-title">Princípios Organizativos</div>
+    <div class="grid3">
+      <div class="card">
+        <div class="card-title">Descentralização</div>
+        <p><strong style="color:#fff">Municipalização</strong> — o município é o executor principal. Mais próximo da população, identifica necessidades locais.</p>
+        <p style="font-size:12px;color:var(--muted);margin-top:4px">NOBs 1991/92/93/96 → NOAS 2001/02 → Pacto 2006 → Decreto 7.508/2011</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Regionalização / Hierarquização</div>
+        <p><strong style="color:#fff">Regiões de Saúde</strong> agrupam municípios com diferentes complexidades. Decreto 7.508/2011 criou o <strong style="color:#fff">COAP</strong>.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Participação da Comunidade</div>
+        <p>Lei 8.142/1990. <strong style="color:#fff">Conselhos</strong> (permanente e deliberativo) e <strong style="color:#fff">Conferências</strong> (a cada 4 anos) de Saúde.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controle Social -->
+  <div class="section">
+    <div class="section-title">Controle Social — Detalhes que a prova ama</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Aspecto</th><th>Conselho de Saúde</th><th>Conferência de Saúde</th></tr>
+        <tr><td>Base legal</td><td>Lei 8.142/1990</td><td>Lei 8.142/1990</td></tr>
+        <tr><td>Caráter</td><td><strong style="color:var(--accent2)">Permanente e deliberativo</strong></td><td>A cada 4 anos (ou extraordinariamente)</td></tr>
+        <tr><td>Composição</td><td>50% usuários · 25% trabalhadores · 25% gestores/prestadores</td><td>Representação de diversos segmentos sociais</td></tr>
+        <tr><td>Função</td><td>Formulação de estratégias, controle da execução, aprova plano e relatório de gestão</td><td>Avalia situação e propõe diretrizes</td></tr>
+        <tr><td>Convocação</td><td>—</td><td>Poder Executivo ou extraordinariamente pelo próprio conselho</td></tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinhas sobre o Conselho</span>
+      <strong>Permanente</strong> = não pode ser extinto por lei estadual/municipal, só por outra lei federal.<br>
+      <strong>Deliberativo</strong> = as decisões têm força normativa, não são apenas consultivas.<br>
+      <strong>50%</strong> = usuários (não trabalhadores, não gestores!).
+    </div>
+  </div>
+
+  <!-- Flash Cap 1 -->
+  <div class="flash">
+    <span class="flash-label">⚡ Resumo Relâmpago — Cap. 1</span>
+    <div class="flash-items">
+      <span class="flash-item"><b>CF/88</b> = cria o SUS</span>
+      <span class="flash-item"><b>8.080</b> = organiza</span>
+      <span class="flash-item"><b>8.142</b> = controle social</span>
+      <span class="flash-item"><b>U-E-I</b> = princípios doutrinários</span>
+      <span class="flash-item"><b>Universalidade</b> ≠ prioridade</span>
+      <span class="flash-item"><b>Equidade</b> ≠ igualdade</span>
+      <span class="flash-item"><b>Integralidade</b> = da vacina ao transplante</span>
+      <span class="flash-item"><b>CPO-D</b> 1986: 6,67 → 2020: 1,6</span>
+      <span class="flash-item"><b>Conselho</b> = 50% usuários</span>
+      <span class="flash-item"><b>Conferência</b> = a cada 4 anos</span>
+      <span class="flash-item"><b>Permanente + Deliberativo</b> = conselho</span>
+      <span class="flash-item"><b>COAP</b> = Decreto 7.508/2011</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ CAP 2 ══ -->
+<div id="cap2" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap2)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 02</div>
+      <div class="chapter-title" style="color:var(--cap2)">Processo Saúde-Doença</div>
+    </div>
+  </div>
+
+  <!-- Linha do tempo -->
+  <div class="section">
+    <div class="section-title">Linha do Tempo das Concepções</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#bc8cff"></div>
+        <div class="tl-year">Pré-história → Antiguidade</div>
+        <div class="tl-desc"><strong>Interpretação Mágico-Religiosa</strong> — doença como transgressão aos deuses. Curandeiros e pajés.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent2)"></div>
+        <div class="tl-year">460 a.C.</div>
+        <div class="tl-desc"><strong>Explicações Racionais-Empíricas (Hipócrates)</strong> — medicina naturalista, sem causas sobrenaturais. Meio natural e social.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#58a6ff"></div>
+        <div class="tl-year">500–1500 d.C.</div>
+        <div class="tl-desc"><strong>Modelo Teocêntrico</strong> — doença como castigo de Deus ou possessão. Tratamento: práticas religiosas.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent3)"></div>
+        <div class="tl-year">~1400 d.C.</div>
+        <div class="tl-desc"><strong>Teoria Miasmática</strong> — ar fétido de matéria em decomposição causa doença. Contexto: urbanização, epidemias.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent5)"></div>
+        <div class="tl-year">Final séc. XIX</div>
+        <div class="tl-desc"><strong>Era Bacteriológica — Unicausalidade</strong> — Koch + Pasteur: um agente causa uma doença. Gerou vacinas, antissépticos, antibióticos.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#fff"></div>
+        <div class="tl-year">Pós-2ª Guerra Mundial</div>
+        <div class="tl-desc"><strong>Multicausalidade</strong> — doenças crônico-degenerativas não têm agente único. Tríade ecológica: agente + hospedeiro + meio ambiente.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent2)"></div>
+        <div class="tl-year">Contemporâneo</div>
+        <div class="tl-desc"><strong>Determinantes Sociais de Saúde (DSS)</strong> — fatores econômicos, políticos e sociais determinam a saúde. Modelo de Dahlgren e Whitehead.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concepções Detalhadas -->
+  <div class="section">
+    <div class="section-title">Comparativo das Concepções</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Concepção</th><th>Causa da Doença</th><th>Tratamento</th><th>Contexto</th></tr>
+        <tr>
+          <td><strong style="color:#bc8cff">Mágico-Religiosa</strong></td>
+          <td>Transgressão aos deuses / espíritos malignos</td>
+          <td>Rituais, danças, plantas, jejum, curandeiros</td>
+          <td>Paleolítico / Neolítico</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent2)">Racional-Empírica</strong></td>
+          <td>Meio natural (clima, sazonalidade) e social (trabalho, moradia)</td>
+          <td>Observação clínica, anamnese, prognóstico</td>
+          <td>Hipócrates, 460 a.C.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent1)">Teocêntrica</strong></td>
+          <td>Castigo divino ou possessão demoníaca</td>
+          <td>Práticas religiosas, bênçãos</td>
+          <td>Idade Média 500–1500 d.C.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent3)">Miasmática</strong></td>
+          <td>Inalação de miasmas (ar fétido)</td>
+          <td>Saneamento, remoção de matéria orgânica</td>
+          <td>Urbanização europeia ~1400</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent5)">Unicausalidade</strong></td>
+          <td>Agente etiológico específico (microrganismo)</td>
+          <td>Vacinas, antibióticos, antissépticos</td>
+          <td>Koch / Pasteur, séc. XIX</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">Multicausalidade</strong></td>
+          <td>Interação: agente + hospedeiro + meio ambiente</td>
+          <td>Múltiplos níveis de prevenção (HND)</td>
+          <td>Pós-2ª Guerra</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent2)">DSS</strong></td>
+          <td>Determinantes sociais, econômicos e políticos</td>
+          <td>Ações intersetoriais, políticas públicas</td>
+          <td>Contemporâneo</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha: Neolítico</span>
+      No Neolítico os problemas de saúde se acentuaram porque: surgimento da <strong>agricultura + domesticação de animais + comércio</strong> aproximaram vetores (mosquitos, ratos, carrapatos) do convívio humano. Não foi porque apareceram os microrganismos!
+    </div>
+  </div>
+
+  <!-- Unicausalidade e sua crise -->
+  <div class="section">
+    <div class="section-title">Unicausalidade — Por que entrou em crise?</div>
+    <div class="card">
+      <div class="card-title">A crise pós-2ª Guerra Mundial</div>
+      <p>Países industrializados vivenciaram a <strong style="color:#fff">transição epidemiológica</strong>: diminuição das doenças infecto-parasitárias e <strong style="color:#fff">aumento das doenças crônico-degenerativas</strong> (câncer, obesidade, doenças cardiovasculares).</p>
+      <p style="margin-top:8px;color:var(--muted);font-size:13px">Essas doenças não têm um único agente etiológico → o modelo unicausal não conseguia explicá-las.</p>
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Exemplo do Prof.</span>
+      Países com bons IDH têm curvas crescentes de obesidade e doenças cardiovasculares. Estudo de Rose (2001): funcionários públicos de Londres vs nômades do Quênia têm distribuições de pressão arterial completamente diferentes → o <strong>contexto social</strong> determina a saúde.
+    </div>
+  </div>
+
+  <!-- Causalidade vs Determinação -->
+  <div class="section">
+    <div class="section-title">Causalidade × Determinação — Conceito ESSENCIAL</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent1)">Noção de Causalidade</div>
+        <p>O <strong style="color:#fff">bacilo de Koch</strong> CAUSA a tuberculose.</p>
+        <p style="margin-top:6px;font-size:13px;color:var(--muted)">Identifica o agente responsável pela doença. Foco no agente específico.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2)">Noção de Determinação</div>
+        <p>Os <strong style="color:#fff">determinantes sociais</strong> explicam por que presidiários, indígenas e moradores de rua adoecem MAIS de tuberculose.</p>
+        <p style="margin-top:6px;font-size:13px;color:var(--muted)">Foco em por que certos grupos são mais vulneráveis: desnutrição, HIV, álcool, habitação precária.</p>
+      </div>
+    </div>
+    <div class="macete">
+      <span class="macete-label">🧠 Macete</span>
+      <strong>Causalidade = o QUÊ causa</strong> (agente). <strong>Determinação = POR QUE certos grupos</strong> adoecem mais (contexto social). Prova pode apresentar um caso e perguntar qual noção explica — pense se está falando do agente ou do grupo social.
+    </div>
+  </div>
+
+  <!-- Dahlgren e Whitehead -->
+  <div class="section">
+    <div class="section-title">Modelo de Dahlgren e Whitehead — Camadas dos DSS</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Camada (de dentro para fora)</th><th>O que inclui</th><th>Como atuar</th></tr>
+        <tr>
+          <td><strong style="color:var(--accent5)">1. Individual (núcleo)</strong></td>
+          <td>Idade, sexo, fatores hereditários</td>
+          <td>Ciclo de vida, condições crônicas individuais</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent3)">2. Estilo de vida</strong></td>
+          <td>Comportamentos individuais: dieta, atividade física, tabaco</td>
+          <td>Políticas facilitando acesso a alimentos saudáveis, espaços de lazer, restrição ao tabaco</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent2)">3. Suporte social/comunitário</strong></td>
+          <td>Redes de apoio, coesão social</td>
+          <td>Estratégia Saúde da Família, participação comunitária</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent1)">4. Condições de vida e trabalho</strong></td>
+          <td>Habitação, saneamento, educação, acesso a serviços</td>
+          <td>Ação integrada dos níveis da administração pública</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">5. Macrodeterminantes (distal)</strong></td>
+          <td>Condições socioeconômicas, culturais e ambientais</td>
+          <td>Políticas macroeconômicas, proteção ambiental, redução de desigualdades</td>
+        </tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha: distal vs proximal</span>
+      A camada mais <strong>próxima</strong> do indivíduo = fatores biológicos. A camada mais <strong>distante</strong> (distal) = macrodeterminantes sociais. Prova adora inverter isso!
+    </div>
+  </div>
+
+  <!-- Definições de Saúde -->
+  <div class="section">
+    <div class="section-title">Definições de Saúde</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">OMS — 1946</div>
+        <p>"Estado de completo <strong style="color:#fff">bem-estar físico, psíquico e social</strong>, e não apenas a ausência de doença."</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Lei 8.080/1990</div>
+        <p>Fatores determinantes: <strong style="color:#fff">meio físico</strong> (água, habitação), <strong style="color:#fff">meio socioeconômico-cultural</strong> (renda, educação), <strong style="color:#fff">fatores biológicos</strong> e acesso a serviços.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Retrato da Desigualdade -->
+  <div class="section">
+    <div class="section-title">O Retrato da Desigualdade — Dado que cai em prova</div>
+    <div class="important">
+      Crianças de 12 anos do <strong>Nordeste</strong>, município rural, escola pública, negras/pardas → CPO-D médio: <strong>3,48</strong><br>
+      Crianças do <strong>Sul</strong>, município >100 mil hab., escola privada, brancas → CPO-D médio: <strong>0,70</strong><br><br>
+      <span style="font-size:13px;color:var(--muted)">Fonte: Roncalli et al, 2004. Diferença de 5x — explicada pelos determinantes sociais.</span>
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Por que isso importa</span>
+      Esse dado ilustra a <strong>intersecção de DSS</strong>: região, renda (escola pública/privada), urbanização e raça como determinantes da saúde bucal — não a biologia individual.
+    </div>
+  </div>
+
+  <!-- Flash Cap 2 -->
+  <div class="flash">
+    <span class="flash-label">⚡ Resumo Relâmpago — Cap. 2</span>
+    <div class="flash-items">
+      <span class="flash-item"><b>Mágico-religiosa</b> = deuses/espíritos</span>
+      <span class="flash-item"><b>Hipocrática</b> = naturalista, 460 a.C.</span>
+      <span class="flash-item"><b>Teocêntrica</b> = castigo divino</span>
+      <span class="flash-item"><b>Miasmática</b> = ar fétido</span>
+      <span class="flash-item"><b>Unicausalidade</b> = Koch + Pasteur</span>
+      <span class="flash-item"><b>Multicausalidade</b> = tríade ecológica</span>
+      <span class="flash-item"><b>DSS</b> = Dahlgren e Whitehead</span>
+      <span class="flash-item"><b>Causalidade</b> = o QUÊ</span>
+      <span class="flash-item"><b>Determinação</b> = POR QUÊ</span>
+      <span class="flash-item"><b>OMS 1946</b> = bem-estar físico/psíquico/social</span>
+      <span class="flash-item"><b>Distal</b> = macrodeterminante (mais longe)</span>
+      <span class="flash-item"><b>CPO-D</b> Nordeste 3,48 × Sul 0,70</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ CAP 3 ══ -->
+<div id="cap3" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap3)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 03</div>
+      <div class="chapter-title" style="color:var(--cap3)">Políticas de Saúde no Brasil</div>
+    </div>
+  </div>
+
+  <!-- Premissas -->
+  <div class="section">
+    <div class="section-title">6 Premissas Fundamentais (Prof. André)</div>
+    <div class="card">
+      <ul>
+        <li>A evolução das políticas de saúde está diretamente ligada à <strong style="color:#fff">evolução político-social e econômica</strong> do Brasil</li>
+        <li>A lógica sempre obedeceu ao avanço do <strong style="color:#fff">capitalismo</strong></li>
+        <li>A saúde <strong style="color:#fff">nunca ocupou lugar central</strong> dentro da política do Estado</li>
+        <li>A conquista dos direitos sociais sempre foi resultante do <strong style="color:#fff">poder de luta</strong></li>
+        <li>A história da saúde permeia com a <strong style="color:#fff">história da previdência social</strong></li>
+        <li>A <strong style="color:#fff">dualidade entre medicina preventiva e curativa</strong> sempre foi uma constante</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Linha do tempo política -->
+  <div class="section">
+    <div class="section-title">Linha do Tempo Histórica Completa</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#4a5568"></div>
+        <div class="tl-year">1500–1808 — Brasil Colônia</div>
+        <div class="tl-desc"><strong>Nenhum modelo de atenção à saúde.</strong> Curandeiros/pajés (cultura negra e indígena) e barbeiros-cirurgiões para quem pagava.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#718096"></div>
+        <div class="tl-year">1808 — Chegada da Família Real</div>
+        <div class="tl-desc">Inaugurada a <strong>1ª faculdade de medicina</strong> (Escola Médico-Cirúrgica, Salvador). Criada a <strong>Fisicatura-Mor</strong> (licenças para terapeutas).</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent3)"></div>
+        <div class="tl-year">1889–1930 — Início da República</div>
+        <div class="tl-desc">Epidemias (varíola, febre amarela, malária). Rodrigues Alves (1902) + <strong>Oswaldo Cruz</strong> = Código Sanitário + campanha de vacinação obrigatória → <strong>Revolta da Vacina (1904)</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent1)"></div>
+        <div class="tl-year">1923 — Lei Eloy Chaves</div>
+        <div class="tl-desc">Criação das <strong>CAPs</strong> (Caixas de Aposentadoria e Pensões). Caráter privado. Custeio: 3% empregado + 1% empresa. Estado apenas regulava.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#38b2ac"></div>
+        <div class="tl-year">1933 — Governo Vargas</div>
+        <div class="tl-desc">Criação dos <strong>IAPs</strong> (Institutos de Aposentadoria e Pensões). Por categoria (não por empresa). IAPM, IAPC, IAPI, bancários etc. Estado participa ativamente.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent2)"></div>
+        <div class="tl-year">1967 — Regime Militar</div>
+        <div class="tl-desc">Unificação dos IAPs no <strong>INPS</strong> (Instituto Nacional de Previdência Social). Expansão de categorias. Convênios com setor privado. Recursos públicos → iniciativa privada.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent3)"></div>
+        <div class="tl-year">1975–1976</div>
+        <div class="tl-desc">Crise do INPS → criação do <strong>INAMPS</strong>. PIASS (1976): 1º programa federal de medicina simplificada estendido a todo o território.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#f6e05e"></div>
+        <div class="tl-year">1981 — CONASP</div>
+        <div class="tl-desc">Conselho Consultivo de Administração de Saúde Previdenciária. Programas: <strong>SAMHPS</strong> (disciplinar rede privada) e <strong>PAIS</strong> (revitalizar setor público → início da descentralização).</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent5)"></div>
+        <div class="tl-year">1986 — VIII CNS</div>
+        <div class="tl-desc">VIII Conferência Nacional de Saúde. Movimento da Reforma Sanitária. Relatório foi base para criação do SUS.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent2)"></div>
+        <div class="tl-year">1988 — Constituição Federal</div>
+        <div class="tl-desc">Criação formal do <strong>SUS</strong>. "Saúde é direito de todos e dever do Estado." Art. 196.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent1)"></div>
+        <div class="tl-year">1990</div>
+        <div class="tl-desc">Leis <strong>8.080</strong> e <strong>8.142</strong>. INAMPS transferido para o Ministério da Saúde.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#4a5568"></div>
+        <div class="tl-year">1993</div>
+        <div class="tl-desc">Extinção do INAMPS (Lei 8.689). Setor privado migrou para convênios/planos de saúde para classe média.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAPs vs IAPs -->
+  <div class="section">
+    <div class="section-title">CAPs × IAPs — Diferenças que sempre caem</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Aspecto</th><th style="color:var(--accent1)">CAPs (1923)</th><th style="color:var(--accent3)">IAPs (1933)</th></tr>
+        <tr><td>Criação</td><td>Lei Eloy Chaves</td><td>Governo Vargas</td></tr>
+        <tr><td>Organização</td><td>Por empresa</td><td>Por <strong style="color:#fff">categoria profissional</strong></td></tr>
+        <tr><td>Abrangência</td><td>Restrita a algumas empresas</td><td>Toda uma categoria (ex: bancários, industriais)</td></tr>
+        <tr><td>Participação Estado</td><td><strong style="color:var(--accent5)">Não — só regulava</strong></td><td><strong style="color:var(--accent2)">Sim — administra e financia</strong></td></tr>
+        <tr><td>Caráter</td><td>Privado</td><td>Público-privado</td></tr>
+        <tr><td>Custeio</td><td>3% empregado + 1% empresa</td><td>Estado + trabalhadores + empresas</td></tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha clássica</span>
+      CAPs = por empresa = <strong>sem participação do Estado</strong>.<br>
+      IAPs = por categoria = <strong>com participação ativa do Estado</strong>.<br>
+      Prova adora inverter isso!
+    </div>
+  </div>
+
+  <!-- Dualidade anos 50 -->
+  <div class="section">
+    <div class="section-title">A Dualidade dos Anos 1950</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2)">Ministério da Saúde</div>
+        <p>Desenvolvia ações de <strong style="color:#fff">promoção e prevenção</strong> com caráter <strong style="color:#fff">universal</strong> (para toda a população).</p>
+        <div class="pills"><span class="pill pill-green">Universal</span><span class="pill pill-green">Preventivo</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent3)">IAPs / INPS</div>
+        <p>Prestavam <strong style="color:#fff">assistência médico-hospitalar curativa</strong> restrita aos <strong style="color:#fff">contribuintes</strong> da previdência.</p>
+        <div class="pills"><span class="pill pill-orange">Restrito</span><span class="pill pill-orange">Curativo</span></div>
+      </div>
+    </div>
+    <div class="macete">
+      <span class="macete-label">🧠 Macete</span>
+      <strong>MS = Universal + Preventivo | INPS = Restrito + Curativo</strong><br>
+      Essa dualidade é justamente o que o princípio da <strong>Integralidade</strong> veio superar!
+    </div>
+  </div>
+
+  <!-- Reforma Sanitária -->
+  <div class="section">
+    <div class="section-title">Movimento da Reforma Sanitária — 4 Pilares</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Direito universal</div>
+        <p>Saúde como <strong style="color:#fff">direito de todo cidadão</strong>, independente de contribuição previdenciária.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Sistema único</div>
+        <p>Ações integradas em um <strong style="color:#fff">único sistema</strong>, garantindo acesso preventivo e curativo.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Descentralização</div>
+        <p>Gestão descentralizada para <strong style="color:#fff">estados e municípios</strong>.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Controle social</div>
+        <p><strong style="color:#fff">Participação popular</strong> nas decisões de saúde.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sistema Incremental -->
+  <div class="section">
+    <div class="section-title">Modelo Assistencial Odontológico — Sistema Incremental</div>
+    <div class="card">
+      <div class="card-title">O que era?</div>
+      <ul>
+        <li>População-alvo: <strong style="color:#fff">escolares de 6 a 14 anos</strong> em escolas públicas (grupos fechados)</li>
+        <li>Iniciava pelos mais jovens: <strong style="color:#fff">TC-I</strong> (Tratamento Completo Inicial)</li>
+        <li>Manutenção até sair da faixa etária: <strong style="color:#fff">TC-M</strong></li>
+        <li>Prevenção: apenas <strong style="color:#fff">bochechos com flúor</strong></li>
+        <li>Hegemônico por <strong style="color:#fff">mais de 40 anos</strong></li>
+      </ul>
+    </div>
+    <div class="table-wrap" style="margin-top:10px">
+      <table>
+        <tr><th>Crítica ao Sistema Incremental</th><th>Consequência</th></tr>
+        <tr><td>Excludente — só atendia 6 a 14 anos</td><td>Adultos, idosos e não-matriculados sem acesso</td></tr>
+        <tr><td>Baseado na restauração definitiva</td><td>Não tratava a doença, só a consequência</td></tr>
+        <tr><td>Não considerava atividade de cárie</td><td>Tratamento inadequado para o risco real</td></tr>
+        <tr><td>Único método preventivo (bochecho)</td><td>Pouco impacto na saúde bucal coletiva</td></tr>
+        <tr><td>Baixo impacto na saúde bucal</td><td>Persistência das desigualdades</td></tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha</span>
+      Prova pode descrever o Sistema Incremental de forma positiva e pedir a crítica. A principal crítica é ser <strong>excludente</strong> (só escolares de 6-14 anos) e ter <strong>baixo impacto</strong>. Não é criticado por ser preventivo!
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Evolução pós-SUS</span>
+      Com o SUS surgiram: Inversão da atenção → Odontologia para bebês → Saúde da Família → CEOs. A tendência foi <strong>ampliar para toda a família</strong> e criar atenção especializada.
+    </div>
+  </div>
+
+  <!-- Flash Cap 3 -->
+  <div class="flash">
+    <span class="flash-label">⚡ Resumo Relâmpago — Cap. 3</span>
+    <div class="flash-items">
+      <span class="flash-item"><b>Colônia</b> = curandeiros e pajés</span>
+      <span class="flash-item"><b>1808</b> = 1ª faculdade + Fisicatura-Mor</span>
+      <span class="flash-item"><b>Oswaldo Cruz</b> = código sanitário + vacina</span>
+      <span class="flash-item"><b>Revolta da Vacina</b> = 1904</span>
+      <span class="flash-item"><b>CAPs</b> = 1923, por empresa, sem Estado</span>
+      <span class="flash-item"><b>IAPs</b> = 1933, por categoria, com Estado</span>
+      <span class="flash-item"><b>INPS</b> = 1967, unifica IAPs</span>
+      <span class="flash-item"><b>INAMPS</b> = crise do INPS, ~1975</span>
+      <span class="flash-item"><b>PIASS</b> = 1976, 1º medicina simplificada federal</span>
+      <span class="flash-item"><b>CONASP</b> = 1981, PAIS + SAMHPS</span>
+      <span class="flash-item"><b>VIII CNS</b> = 1986, base do SUS</span>
+      <span class="flash-item"><b>SUS</b> = CF/88</span>
+      <span class="flash-item"><b>INAMPS extinto</b> = 1993</span>
+      <span class="flash-item"><b>Incremental</b> = 6-14 anos, excludente</span>
+      <span class="flash-item"><b>MS</b> = universal + preventivo</span>
+      <span class="flash-item"><b>INPS/IAPs</b> = restrito + curativo</span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center; padding: 48px 0 32px; color:var(--muted); font-size:12px; font-family:'DM Mono',monospace; letter-spacing:1px; border-top:1px solid var(--border); margin-top:40px;">
+  SAÚDE COLETIVA I · PROF. DR. ANDRÉ TERRERI · ODONTOLOGIA · BOA PROVA! 🦷
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
