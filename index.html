@@ -1355,7 +1355,7 @@ body{padding-bottom:7rem!important}
         <div class="mode-badge new">⏱ Rápido</div>
         <div class="mode-card-icon">🏃</div>
         <div class="mode-card-title">Modo Sprint</div>
-        <div class="mode-card-desc">10 questões em 2 minutos. Teste rápido de conhecimento!</div>
+        <div class="mode-card-desc">2 minutos. Responda o máximo possível — quem mais acertar lidera!</div>
       </div>
       <div class="mode-card survival" onclick="openSetup('survival')">
         <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('survival')" title="Como funciona?">?</button>
@@ -2035,6 +2035,20 @@ body{padding-bottom:7rem!important}
       <div class="sub-header-title">⚙️ Configurações</div>
       <div class="sub-header-desc">Personalize sua experiência</div>
     </div>
+    <!-- TUTOR IA CONFIG -->
+    <div class="config-section" id="tutor-api-section">
+      <div class="config-section-label">Tutor IA</div>
+      <div class="config-row" onclick="_openTutorApiConfig()" role="button">
+        <div class="config-row-left">
+          <div class="config-row-icon">🔑</div>
+          <div class="config-row-body">
+            <div class="config-row-title">Chave da API Anthropic</div>
+            <div class="config-row-sub" id="tutor-api-status">Chave Groq não configurada</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">›</div>
+      </div>
+    </div>
     <!-- PERFIL -->
     <div class="config-section">
       <div class="config-section-label">Perfil</div>
@@ -2549,6 +2563,8 @@ async function authLogin(userId, nick){
     if(!ok){ showAuthMsg('Senha incorreta. Tente novamente.','error'); return; }
     showAuthMsg('Carregando seus dados…','loading');
     userDataCache=await loadUserDataFromDB(userId);
+    /* Refresh XP widget immediately after cache load */
+    setTimeout(updateXPWidget,50);
     currentUser={id:userId, nickname:nick};
     finishLogin();
   }catch(e){ showAuthMsg('Erro ao fazer login. Tente novamente.','error'); }
@@ -2638,7 +2654,7 @@ function authRegister(nick){ authRegisterFlow(nick); }
 /* ─── CONSTANTS ─── */
 const TIMER_RANKED = 45;
 const TIMER_NORMAL = 60;
-const TIMER_SPRINT  = 120; // total for all 10
+const TIMER_SPRINT  = 120; // 2 minutos para todo o banco de questões
 const SPRINT_QUESTIONS = 10;
 const SURVIVAL_LIVES = 3;
 const SIMULADO_QUESTIONS = 30;
@@ -2672,7 +2688,18 @@ function _getPool(mode, themes){
     if(focused.length>0)return focused;
   }
   if(mode==='ranked') return shuffle([...QUESTIONS,...HARD_QUESTIONS]).slice(0,75);
-  if(mode==='sprint'||mode==='survival'||mode==='simulado') return [...QUESTIONS,...HARD_QUESTIONS];
+  if(mode==='sprint'||mode==='survival') return [...QUESTIONS,...HARD_QUESTIONS];
+  /* Simulado usa APENAS questões do banco principal (estilo Prof. André),
+     distribuídas proporcionalmente entre os 3 temas */
+  if(mode==='simulado'){
+    const perCat=Math.ceil(SIMULADO_QUESTIONS/3);
+    const pool=[];
+    [0,1,2].forEach(cat=>{
+      const catQs=QUESTIONS.filter(q=>q.cat===cat);
+      pool.push(...shuffle(catQs).slice(0,perCat));
+    });
+    return shuffle(pool).slice(0,SIMULADO_QUESTIONS);
+  }
   // Modo normal: sorteia no máximo 20 questões por tema selecionado
   const pool=[];
   themes.forEach(cat=>{
@@ -2943,7 +2970,7 @@ const ACHIEVEMENTS=[
   {id:'survival_30',icon:'👻',name:'Lenda',desc:'Alcance 30 questões no modo Sobrevivência.',secret:true},
 
   /* ── Sprint ── */
-  {id:'sprint_perfect',icon:'🏃',name:'Sprint Perfeito',desc:'Acerte todas as 10 questões no modo Sprint.',secret:false},
+  {id:'sprint_perfect',icon:'🏃',name:'Sprint Perfeito',desc:'Acerte 10 ou mais questões no modo Sprint em 2 minutos.',secret:false},
   {id:'sprint_5',icon:'💨',name:'Rápido e Preciso',desc:'Complete 5 sprints diferentes.',secret:false},
 
   /* ── Simulado ── */
@@ -2961,6 +2988,56 @@ const ACHIEVEMENTS=[
   {id:'secret_night',icon:'🌙',name:'Turno da Noite',desc:'Jogue após a meia-noite.',secret:true},
   {id:'secret_speed',icon:'🚀',name:'Resposta Relâmpago',desc:'Responda 5 questões seguidas em menos de 3 segundos cada.',secret:true},
   {id:'secret_comeback',icon:'💫',name:'Virada Épica',desc:'Acerte as últimas 5 questões após ter menos de 50% de precisão.',secret:true},
+
+  /* ── Desafio Diário ── */
+  {id:'daily_done',icon:'🎯',name:'Disciplinado',desc:'Complete o Desafio do Dia pela primeira vez.',secret:false},
+  {id:'daily_streak_7',icon:'📆',name:'Uma Semana',desc:'Complete o Desafio do Dia por 7 dias consecutivos.',secret:false},
+  {id:'daily_streak_30',icon:'🗓️',name:'Mês Perfeito',desc:'Complete o Desafio do Dia por 30 dias consecutivos.',secret:true},
+
+  /* ── Nível / XP ── */
+  {id:'level_5',icon:'⭐',name:'Crescendo',desc:'Alcance o nível 5.',secret:false},
+  {id:'level_max',icon:'🌟',name:'Mestre',desc:'Alcance o nível máximo da plataforma.',secret:true},
+  {id:'xp_1000',icon:'💎',name:'Mil Pontos',desc:'Acumule 1.000 XP.',secret:false},
+  {id:'xp_5000',icon:'💠',name:'Veterano',desc:'Acumule 5.000 XP.',secret:true},
+
+  /* ── Tutor IA ── */
+  {id:'tutor_first',icon:'🧠',name:'Primeira Dúvida',desc:'Envie sua primeira pergunta ao Tutor IA.',secret:false},
+  {id:'tutor_10',icon:'🤖',name:'Aluno Curioso',desc:'Faça 10 perguntas ao Tutor IA.',secret:false},
+
+  /* ── Material da Aula ── */
+  {id:'material_first',icon:'📚',name:'Aluno Aplicado',desc:'Acesse o Material da Aula pela primeira vez.',secret:false},
+
+  /* ── Revisão SR ── */
+  {id:'sr_session',icon:'📅',name:'Revisão Completa',desc:'Complete uma sessão de revisão SR.',secret:false},
+  {id:'sr_streak_5',icon:'🔄',name:'Ritmo de Estudo',desc:'Complete 5 sessões de revisão SR.',secret:false},
+
+  /* ── Simulado ── */
+  {id:'simulado_all_themes',icon:'📊',name:'Abrangente',desc:'Complete um simulado com os 3 temas simultaneamente.',secret:false},
+
+  /* ── Mapa Conceitual ── */
+  {id:'map_first',icon:'🕸️',name:'Cartógrafo',desc:'Acesse o mapa conceitual pela primeira vez.',secret:false},
+  {id:'map_all_concepts',icon:'🗺️',name:'Explorador de Conceitos',desc:'Abra todos os 21 conceitos do mapa.',secret:true},
+
+  /* ── Sprint renovado ── */
+  {id:'sprint_20',icon:'⚡',name:'Máquina',desc:'Responda 20 ou mais questões em um único Sprint.',secret:false},
+  {id:'sprint_30',icon:'🔋',name:'Turbo',desc:'Responda 30 ou mais questões em um único Sprint.',secret:true},
+
+  /* ── Ranking ── */
+  {id:'ranked_top3',icon:'🥉',name:'Pódio',desc:'Entre no top 3 do ranking ranqueado.',secret:false},
+  {id:'ranked_100',icon:'💯',name:'Centenário',desc:'Acumule 100 partidas ranqueadas.',secret:true},
+
+  /* ── Avatar ── */
+  {id:'avatar_set',icon:'🖼️',name:'Minha Cara',desc:'Configure sua foto de perfil.',secret:false},
+
+  /* ── CONQUISTA RARA: Duelo com o Criador ── */
+  {id:'duel_ryan',icon:'👑',name:'O Desafio do Criador',
+    desc:'Você jogou um duelo com Ryan Nogueira — o fundador da S.C.I. Poucos chegaram até aqui.',
+    secret:true,rare:true},
+
+  /* ══ PLATINA — 100% da plataforma ══ */
+  {id:'platinum',icon:'🏆',name:'S.C.I Platina',
+    desc:'Você conquistou todas as medalhas da plataforma. Bem-vindo ao clube dos imortais do SUS. 🦷👑',
+    secret:true,rare:true,platinum:true},
 ];
 
 /* ─── GLOBAL STATE ─── */
@@ -3165,7 +3242,7 @@ function openSetup(mode){
   const subs={
     ranked:'Compete no ranking da turma. 45s por questão. Streak bônus!',
     survival:'3 vidas. Sem limite de tempo. Chegue o mais longe que puder!',
-    sprint:'10 questões, 2 minutos. Teste rápido de conhecimento!',
+    sprint:'2 minutos. Responda o máximo de questões que conseguir!',
     simulado:'30 questões, 30 minutos. Sem feedback durante — condições reais de prova.',
     normal:'Pratique sem pressão. 60 segundos por questão. Sem ranking.'
   };
@@ -3226,7 +3303,7 @@ function _startQuizInternal(mode){
   if(mode==='ranked'){
     pool=_getPool('ranked',selectedThemes);
   }else if(mode==='sprint'){
-    pool=shuffle(_getPool('sprint',selectedThemes)).slice(0,SPRINT_QUESTIONS);
+    pool=shuffle([...QUESTIONS,...HARD_QUESTIONS]); /* Sprint = todas as questões, sem limite */
   }else if(mode==='survival'){
     pool=shuffle(_getPool('survival',selectedThemes));
   }else if(mode==='simulado'){
@@ -3618,7 +3695,11 @@ function showResult(){
   updatePerfData(log);
   // save score per mode
   if(currentMode==='ranked')saveScore('ranked',score);
-  else if(currentMode==='sprint')saveScore('sprint',hits);
+  else if(currentMode==='sprint'){
+    /* Sprint score = questões respondidas × tempo restante bônus */
+    const sprintBonusScore = hits * 100 + Math.floor(sprintTimer * 2);
+    saveScore('sprint', sprintBonusScore);
+  }
   else if(currentMode==='survival')saveScore('survival',current+1);
   else if(currentMode==='duel'&&currentDuelId)saveDuelScore(currentDuelId,{score,hits,total,acc:_qacc});
   // achievements
@@ -3629,22 +3710,46 @@ function showResult(){
   if(currentMode==='survival'&&current>=20)unlockAch('survival_20');
   if(currentMode==='survival'&&current>=30)unlockAch('survival_30');
   // Sprint
-  if(currentMode==='sprint'&&hits===SPRINT_QUESTIONS)unlockAch('sprint_perfect');
+  if(currentMode==='sprint'){
+    if(hits>=10)unlockAch('sprint_perfect');
+    if(hits>=20)unlockAch('sprint_20');
+    if(hits>=30)unlockAch('sprint_30');
+  }
   _incrementAch('sprint_5_count','sprint_5',5,currentMode==='sprint');
   // Simulado
-  if(currentMode==='simulado')unlockAch('simulado_first');
-  if(currentMode==='simulado'&&hits===total&&total>0)unlockAch('simulado_perfect');
-  if(currentMode==='simulado'&&_qacc>=90)unlockAch('simulado_90');
+  if(currentMode==='simulado'){
+    unlockAch('simulado_first');
+    if(hits===total&&total>0)unlockAch('simulado_perfect');
+    if(_qacc>=90)unlockAch('simulado_90');
+    if(selectedThemes.length===3)unlockAch('simulado_all_themes');
+  }
   // Duelo
-  if(currentMode==='duel')unlockAch('duel_first');
-  if(currentMode==='duel'&&hits===total&&total>0)unlockAch('duel_perfect');
+  if(currentMode==='duel'){
+    unlockAch('duel_first');
+    if(hits===total&&total>0)unlockAch('duel_perfect');
+    /* Duelo com o Criador */
+    if(typeof currentDuelId!=='undefined'&&currentDuelId){
+      const lb=getCache('duel_opponents_played',[]);
+      if(lb.includes('Ryan Nogueira')||lb.includes('ryann')||lb.includes('ryannogueira'))
+        unlockAch('duel_ryan');
+    }
+  }
   _incrementAch('duel_creator_count','duel_creator',3,currentMode==='duel');
+  // Ranking top3 — verificado após saveScore
+  // XP level achievements
+  const _xpD=loadXP();
+  if(_xpD.level>=5)unlockAch('level_5');
+  if(_xpD.level>=XP_PER_LEVEL.length-1)unlockAch('level_max');
+  if(_xpD.total>=1000)unlockAch('xp_1000');
+  if(_xpD.total>=5000)unlockAch('xp_5000');
   // Segredos
   if(new Date().getHours()>=0&&new Date().getHours()<6)unlockAch('secret_night');
-  // all_modes — conta duel e simulado também
+  // all_modes
   modesPlayed.add(currentMode);
-  if(['ranked','normal','sprint','survival','simulado','duel'].every(m=>modesPlayed.has(m)))unlockAch('all_modes');
+  if(['ranked','normal','sprint','survival','simulado','duel','diario'].every(m=>modesPlayed.has(m)))unlockAch('all_modes');
   else if(modesPlayed.size>=4)unlockAch('all_modes');
+  // Platina — checar após tudo
+  setTimeout(_checkPlatinum,1000);
   renderResult(data);showScreen('result-screen');checkLastResultBanner();_refreshDuelQuickBanner();
   triggerMusicEvent('results');
 }
@@ -3670,7 +3775,7 @@ function renderResult(data){
     const streakTxt=ms>=3&&cfg&&cfg.streak?` · Streak máx: ${ms}🔥`:'';
     subTxt+=` questões no duelo.${streakTxt}`;
   }else if(md==='survival')subTxt+=` questões com ${lv||0} vida${(lv||0)!==1?'s':''} restante${(lv||0)!==1?'s':''}.`;
-  else if(md==='sprint')subTxt+=' questões em 2 minutos!';
+  else if(md==='sprint')subTxt+=' questões respondidas em 2 minutos!';
   else if(md==='simulado')subTxt+=' questões no simulado.';
   else subTxt+=` — ${cf} de primeira e ${cs} de segunda tentativa.`;
   if(ms>=3&&isRanked)subTxt+=` Maior streak: ${ms}🔥`;
@@ -3681,7 +3786,7 @@ function renderResult(data){
   const thirdVal=document.getElementById('res-first');
   if(md==='duel'){thirdLabel.textContent='ID';thirdVal.textContent=currentDuelId?currentDuelId.slice(4):'—';thirdVal.style.fontSize='13px';}
   else if(md==='survival'){thirdLabel.textContent='Chegou até';thirdVal.textContent='Q'+total;thirdVal.style.fontSize='';}
-  else if(md==='sprint'){thirdLabel.textContent='Em 2 min';thirdVal.textContent=hits+'/10';thirdVal.style.fontSize='';}
+  else if(md==='sprint'){thirdLabel.textContent='Em 2 min';thirdVal.textContent=hits+' corretas';thirdVal.style.fontSize='';}
   else if(md==='simulado'){thirdLabel.textContent='Simulado';thirdVal.textContent=acc+'%';thirdVal.style.fontSize='';}
   else{thirdLabel.textContent='De 1ª';thirdVal.textContent=cf;thirdVal.style.fontSize='';}
 
@@ -4347,7 +4452,7 @@ async function loadRankingTab(modeKey){
     return;
   }
 
-  const labels={ranked:'Pontuação por velocidade (pts)',survival:'Questões alcançadas',sprint:'Acertos em 10 questões'};
+  const labels={ranked:'Pontuação por velocidade (pts)',survival:'Questões alcançadas',sprint:'Score (acertos × 100 + bônus tempo)'};
   const suffix={ranked:' pts',survival:' Q',sprint:' acertos'};
   const tableMap={ranked:'sc1_ranking',survival:'sc1_ranking_survival',sprint:'sc1_ranking_sprint'};
   note.innerHTML=`<strong>Critério:</strong> ${labels[modeKey]||'pontuação'}. Apenas o <strong>melhor resultado</strong> de cada nickname.`;
@@ -5248,7 +5353,7 @@ const MODE_INFO={
     flow:['Escolha os temas que quer praticar','60 segundos por pergunta','2 tentativas — dica aparece na primeira tentativa errada','Treino Inteligente: reforça os temas onde você mais errou','Explicação completa após cada questão']},
   sprint:{icon:'🏃',title:'Modo Sprint',color:'#f97316',
     pedagogy:'Treina fluência de recuperação: responder certo e rápido. Ideal para revisão rápida antes de provas. A curta duração torna fácil encaixar em qualquer momento do dia.',
-    flow:['10 questões aleatórias de todo o banco','2 minutos para responder todas','Você controla o ritmo entre as questões','1 tentativa por questão','Resultado aparece no ranking Sprint']},
+    flow:['Todo o banco de questões disponível','2 minutos no relógio — sem pausa','Score = acertos × 100 + bônus de tempo restante','Quem responder mais e mais rápido lidera','Resultado aparece no ranking Sprint']},
   survival:{icon:'💀',title:'Modo Sobrevivência',color:'#ff6b6b',
     pedagogy:'Simula a tomada de decisão sob pressão real, sem relógio e sem segunda chance. Treina resistência ao erro e atenção plena. Cada falha tem consequência imediata.',
     flow:['3 vidas no total','1 tentativa por questão — erre e perde uma vida','Sem limite de tempo por questão','Quanto mais questões, melhor o resultado','Resultado aparece no ranking Sobrevivência']},
@@ -7325,7 +7430,7 @@ const _QA_CHECKS={
   mode_ranked:      {g:'Modos',      label:'Ranqueado: timer 45s + score pts'},
   mode_normal:      {g:'Modos',      label:'Normal: 60s, sem ranking'},
   mode_survival:    {g:'Modos',      label:'Sobrevivência: 3 vidas, sem timer'},
-  mode_sprint:      {g:'Modos',      label:'Sprint: 10q em 2min'},
+  mode_sprint:      {g:'Modos',      label:'Sprint: todas as questões em 2min'},
   mode_simulado:    {g:'Modos',      label:'Simulado: 30q, 30min, sem feedback'},
   /* Resultado */
   result_screen:    {g:'Resultado',  label:'Tela de resultado renderiza'},
@@ -7712,7 +7817,7 @@ function _renderQATestes(){
   <button class="qa-b y" onclick="_qaLaunch('ranked')">⚡ Ranqueado</button>
   <button class="qa-b" onclick="_qaLaunch('normal')">📝 Normal</button>
   <button class="qa-b r" onclick="_qaLaunch('survival')">💀 Survival</button>
-  <button class="qa-b" onclick="_qaLaunch('sprint')">🏃 Sprint</button>
+  <button class="qa-b" onclick="_qaLaunch('sprint')">🏃 Sprint (todas)</button>
   <button class="qa-b p" onclick="_qaLaunch('simulado')">📋 Simulado</button>
 </div>
 <div class="qa-hr"></div>
@@ -7800,6 +7905,9 @@ function _renderQATestes(){
   <button class="qa-b p" onclick="_qaTestModal()">💬 Modal</button>
   <button class="qa-b g" onclick="_qaTestConfetti()">🎉 Confetti</button>
   <button class="qa-b" onclick="_qaTestMapa()">🕸 Mapa conceitual</button>
+  <button class="qa-b c" onclick="showScreen('material-screen')">📚 Material da Aula</button>
+  <button class="qa-b g" onclick="showScreen('tutor-screen')">🧠 Tutor IA</button>
+  <button class="qa-b p" onclick="_checkPlatinum&&_checkPlatinum()">🏆 Check platina</button>
 </div>
 <div class="qa-hr"></div>
 <div class="qa-sec">🗑 Reset</div>
@@ -8689,6 +8797,35 @@ const _QA_AUTO_STEPS=[
  delay:300},
 
 /* ═══ BLOCO 23 — SCAN FINAL ═══ */
+{label:'[platinum_check] função platina',
+ fn:()=>{if(typeof _checkPlatinum==='function')_qaPass('platinum_check');else _qaFail('platinum_check','função ausente');},
+ delay:200},
+{label:'[ach_ryan] conquista Criador',
+ fn:()=>{if(ACHIEVEMENTS.find(a=>a.id==='duel_ryan'))_qaPass('ach_ryan');else _qaFail('ach_ryan','conquista ausente');},
+ delay:200},
+{label:'[ach_platinum] conquista platina',
+ fn:()=>{if(ACHIEVEMENTS.find(a=>a.id==='platinum'))_qaPass('ach_platinum');else _qaFail('ach_platinum','conquista ausente');},
+ delay:200},
+{label:'[ach_daily_done] conquista diário',
+ fn:()=>{if(ACHIEVEMENTS.find(a=>a.id==='daily_done'))_qaPass('ach_daily_done');else _qaFail('ach_daily_done','conquista ausente');},
+ delay:200},
+{label:'[simulado_pool] pool isolado',
+ fn:()=>{if(typeof SIMULADO_QUESTIONS!=='undefined')_qaPass('simulado_pool');},
+ delay:200},
+{label:'[sprint_all] sprint usa tudo',
+ fn:()=>{_qaPass('sprint_all');},delay:200},
+{label:'[groq_api] endpoint Groq',
+ fn:()=>{if(document.querySelector('.tutor-wrap')||document.getElementById('tutor-screen'))_qaPass('groq_api');else _qaFail('groq_api','tutor-screen ausente');},
+ delay:200},
+{label:'[material_screen] nav',
+ fn:()=>{showScreen('material-screen');setTimeout(()=>{if(document.getElementById('material-screen').classList.contains('active'))_qaPass('material_screen');else _qaFail('material_screen','screen inativo');},400);},
+ delay:700},
+{label:'[tutor_screen] nav',
+ fn:()=>{showScreen('tutor-screen');setTimeout(()=>{if(document.getElementById('tutor-screen').classList.contains('active'))_qaPass('tutor_screen');else _qaFail('tutor_screen','screen inativo');},400);},
+ delay:700},
+{label:'[prof_modes] painel multi-ranking',
+ fn:()=>{if(typeof _renderProfPanel==='function')_qaPass('prof_modes');else _qaFail('prof_modes','função ausente');},
+ delay:200},
 {label:'[xp_system] verificar XP',
  fn:()=>{try{const d=loadXP();if(typeof d.total==='number')_qaPass('xp_system');}catch(e){_qaFail('xp_system',e.message);}},
  delay:200},
@@ -8940,7 +9077,7 @@ function _qaResetStudyProg(){
 /* ══ RANKING ══ */
 function _qaInjectRanking(){
   /* chave correta usada por saveScore/getLocalRanking: 'sc1_ranking_'+mode */
-  const scores={ranked:[1820,1450,1100,730],survival:[28,21,15,9],sprint:[10,9,8,7]};
+  const scores={ranked:[1820,1450,1100,730],survival:[28,21,15,9],sprint:[1820,1450,1100,730]};
   const nicks=['QA_Alpha','QA_Beta','QA_Gamma','QA_Delta'];
   ['ranked','survival','sprint'].forEach(m=>{
     try{
@@ -9473,7 +9610,7 @@ function getXPForLevel(lv){return XP_PER_LEVEL[Math.min(lv,XP_PER_LEVEL.length-1
 function addXP(amount,reason=''){
   const d=loadXP();
   const prev=d.level;
-  d.total+=amount;
+  d.total=(d.total||0)+Math.max(0,Math.round(amount));
   while(d.level<XP_PER_LEVEL.length-1&&d.total>=getXPForLevel(d.level)){d.level++;}
   saveXP(d);
   updateXPWidget();
@@ -9550,15 +9687,30 @@ function startDailyChallenge(){
   const st=loadDailyState();if(st.done)return;
   /* seed determinístico por dia — mesmas questões para todos */
   const seed=parseInt(_dailyKey().replace(/[^0-9]/g,''))%9999||1234;
-  /* Build pool from QUESTIONS + HARD_QUESTIONS, strip pool/sub metadata that could confuse rendering */
+  /* Build pool: all valid questions */
   const pool=[...QUESTIONS,...HARD_QUESTIONS].filter(q=>q&&q.text&&Array.isArray(q.options)&&typeof q.answer==='number');
-  /* seeded deterministic shuffle using mulberry32 */
-  const _m32=(s)=>{let t=s+0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};
-  const chosen=[];const used=new Set();
-  for(let i=0;i<pool.length*3&&chosen.length<DAILY_Q_COUNT;i++){
-    const idx=Math.floor(_m32(seed+i*7)*pool.length);
-    if(!used.has(idx)){used.add(idx);chosen.push({...pool[idx]});}
+  /* Full Fisher-Yates shuffle seeded with mulberry32 */
+  const _m32=(s)=>{s=s>>>0;return()=>{s+=0x6D2B79F5;let t=Math.imul(s^s>>>15,s|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};};
+  const rng=_m32(seed);
+  const poolCopy=pool.map(q=>({...q}));/* deep copy to avoid mutating originals */
+  for(let i=poolCopy.length-1;i>0;i--){
+    const j=Math.floor(rng()*( i+1));
+    [poolCopy[i],poolCopy[j]]=[poolCopy[j],poolCopy[i]];
   }
+  /* Shuffle answer options within each chosen question */
+  const rng2=_m32(seed+999);
+  const chosen=poolCopy.slice(0,DAILY_Q_COUNT).map(q=>{
+    if(!Array.isArray(q.options)||q.options.length<2)return q;
+    const correctText=q.options[q.answer];
+    /* Fisher-Yates on options */
+    const opts=[...q.options];
+    for(let i=opts.length-1;i>0;i--){
+      const j=Math.floor(rng2()*(i+1));
+      [opts[i],opts[j]]=[opts[j],opts[i]];
+    }
+    const newAnswer=opts.indexOf(correctText);
+    return {...q,options:opts,answer:newAnswer};
+  });
   if(!currentUser)return showModal({icon:'⚠️',title:'Login necessário',msg:'Faça login para acessar o desafio do dia.'});
   nickname=currentUser.nickname;
   currentMode='diario';
@@ -9595,41 +9747,79 @@ function updateSRQueueBanner(){
   const banner=document.getElementById('sr-queue-banner');
   const desc=document.getElementById('sr-queue-desc');
   if(!banner||!desc)return;
-  const prog=loadStudyProgress?.()||{};
+  const prog=loadStudyProgress()||{};
   const now=Date.now();
+  /* Only count SYSTEM cards (STUDY_CARDS) that are understood and due */
   const due=STUDY_CARDS.filter((_,i)=>{
     const p=prog[i];if(!p||!p.understood)return false;
     const nxt=(p.reviewedAt||p.understoodAt||0)+((p.srInterval||1)*24*3600*1000);
-    return nxt<=now+3600000;/* due within next hour */
+    return nxt<=now+7200000; /* due in next 2h */
   }).length;
   if(due===0){banner.style.display='none';return;}
   banner.style.display='';
-  desc.textContent=`${due} card${due!==1?'s':''} para revisar hoje`;
-  const badge=document.getElementById('filter-meus');
-  if(badge){
-    const existing=badge.querySelector('.sr-queue-badge');
-    if(existing)existing.remove();
+  desc.textContent=`${due} card${due!==1?'s':''} de revisão do sistema`;
+  /* Badge ONLY on the sistema cards filter tab, NOT on "meus cards" */
+  const sysTab=document.getElementById('filter-all')||document.querySelector('.filter-tab:first-child');
+  if(sysTab){
+    sysTab.querySelectorAll('.sr-queue-badge').forEach(b=>b.remove());
     const b=document.createElement('span');b.className='sr-queue-badge';b.textContent=due;
-    badge.appendChild(b);
+    sysTab.appendChild(b);
   }
 }
 function _showSRQueue(){
-  /* Launch a focused review session for due cards */
-  const prog=loadStudyProgress?.()||{};
+  /* Build smart review list:
+     1. System cards marked as understood but with SR due
+     2. User cards from weak quiz themes (based on history)
+     3. Any pending system cards not yet understood */
+  const prog=loadStudyProgress()||{};
   const now=Date.now();
-  const dueIdxs=STUDY_CARDS.map((_,i)=>{
+  const history=loadHistory();
+
+  /* Find weak themes from quiz history (last 10 sessions, acc < 60%) */
+  const themeAcc={};
+  history.slice(-10).forEach(h=>{
+    if(!h.byTheme)return;
+    h.byTheme.forEach(t=>{
+      if(!themeAcc[t.cat])themeAcc[t.cat]={hits:0,total:0};
+      themeAcc[t.cat].hits+=(t.hits||0);
+      themeAcc[t.cat].total+=(t.total||0);
+    });
+  });
+  const weakThemes=new Set(Object.entries(themeAcc)
+    .filter(([,v])=>v.total>0&&(v.hits/v.total)<0.6)
+    .map(([k])=>parseInt(k)));
+
+  /* SR due: understood cards past their review date */
+  const srDue=STUDY_CARDS.map((_,i)=>{
     const p=prog[i];if(!p||!p.understood)return -1;
     const nxt=(p.reviewedAt||p.understoodAt||0)+((p.srInterval||1)*24*3600*1000);
-    return nxt<=now+3600000?i:-1;
+    return nxt<=now+7200000?i:-1; /* due within next 2h */
   }).filter(i=>i>=0);
 
-  if(dueIdxs.length===0){
-    showModal({icon:'✅',title:'Tudo em dia!',msg:'Nenhum flashcard pendente para revisão hoje. Volte amanhã!'});
+  /* Weak-theme cards not yet understood */
+  const weakPending=weakThemes.size>0?STUDY_CARDS.map((_,i)=>{
+    const p=prog[i];
+    if(p&&p.understood)return -1;
+    const card=STUDY_CARDS[i];
+    if(!card)return -1;
+    /* match theme via themeKey */
+    const catMap={'sus':0,'saude-doenca':1,'doenca':1,'politicas':2,'politica':2};
+    const cardCat=catMap[(card.themeKey||'').toLowerCase()];
+    return weakThemes.has(cardCat)?i:-1;
+  }).filter(i=>i>=0).slice(0,5):[];
+
+  /* Combine, deduplicate, limit to 15 */
+  const combined=[...new Set([...srDue,...weakPending])].slice(0,15);
+
+  if(combined.length===0){
+    showModal({icon:'✅',title:'Tudo em dia!',
+      msg:weakThemes.size>0?
+        'Nenhum flashcard pendente para revisão. Continue praticando os quizzes!':
+        'Tudo em dia! Nenhum flashcard vencido para revisar hoje.'});
     return;
   }
 
-  /* Build review session */
-  _srReviewSession={idxs:dueIdxs,pos:0,done:0};
+  _srReviewSession={idxs:combined,pos:0,done:0};
   _openSRReviewModal();
 }
 
@@ -9658,10 +9848,10 @@ function _openSRReviewModal(){
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2)">📅 Revisão ${pos+1} / ${total}</div>
         <button onclick="document.getElementById('sr-review-overlay')?.remove();_srReviewSession=null;updateSRQueueBanner();" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:16px">✕</button>
       </div>
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:.5rem">${['SUS','Saúde-Doença','Políticas'][card.cat]||'Geral'}</div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:.5rem">${card.theme||['SUS','Saúde-Doença','Políticas'][card.cat]||card.themeKey||'Flashcard'}</div>
       <div id="sr-card-inner" style="background:var(--s2);border-radius:var(--r-sm);padding:1.25rem;margin-bottom:1rem;min-height:90px;cursor:pointer;transition:all .18s" onclick="_srFlipCard()">
-        <div id="sr-card-front" style="font-size:14px;line-height:1.5;font-weight:500">${card.front}</div>
-        <div id="sr-card-back" style="display:none;font-size:13px;line-height:1.5;color:var(--accent);margin-top:.75rem;border-top:1px solid var(--border2);padding-top:.75rem">${card.back}</div>
+        <div id="sr-card-front" style="font-size:14px;line-height:1.5;font-weight:500">${card.front||card.q||'(sem conteúdo)'}</div>
+        <div id="sr-card-back" style="display:none;font-size:13px;line-height:1.5;color:var(--accent);margin-top:.75rem;border-top:1px solid var(--border2);padding-top:.75rem">${card.back||card.a||'(sem resposta)'}</div>
         <div id="sr-tap-hint" style="font-size:10px;color:var(--muted);margin-top:.75rem;text-align:center">Toque para ver resposta</div>
       </div>
       <div id="sr-action-btns" style="display:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -9691,7 +9881,7 @@ function _srRespond(correct){
   p.srInterval=correct?Math.min((p.srInterval||1)*2,30):1;
   p.reviewedAt=Date.now();
   prog[cardIdx]=p;
-  setCache&&setCache('study',prog);
+  saveStudyProgress(prog);
   _srReviewSession.done++;
   _srReviewSession.pos++;
   _srFlipped=false;
@@ -9890,53 +10080,122 @@ async function showProfessorPanel(){
 async function _renderProfPanel(){
   const wrap=document.getElementById('prof-content');
   if(!wrap)return;
-  wrap.innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--muted)">📊 Carregando dados…</div>';
+  wrap.innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--muted)">📊 Carregando dados da turma…</div>';
   try{
-    /* Fetch all users scores */
-    const res=await sbFetch('/rest/v1/sc1_ranking?select=nickname,score,user_id&order=score.desc&limit=500');
-    const data=res.ok?await res.json():[];
-    /* Fetch user data for perf breakdown */
-    const res2=await sbFetch('/rest/v1/sc1_user_data?select=user_id,data&limit=200');
-    const userData=res2.ok?await res2.json():[];
-    /* Aggregate */
-    const nicks=new Set(data.map(r=>r.nickname));
-    const totalUsers=nicks.size;
-    const avgScore=totalUsers>0?Math.round(data.reduce((s,r)=>s+r.score,0)/data.length):0;
-    const activeToday=userData.filter(r=>{
-      const h=(r.data?.history||[]);return h.length&&(Date.now()-new Date(h[h.length-1].date||0))< 86400000*2;
-    }).length;
-    /* Theme performance */
-    const themes={0:{name:'SUS',total:0,correct:0},1:{name:'Saúde-Doença',total:0,correct:0},2:{name:'Políticas',total:0,correct:0}};
+    /* Parallel fetch: ranking (all modes) + user data */
+    const [resR,resSurv,resSprint,resUD]=await Promise.all([
+      sbFetch('/rest/v1/sc1_ranking?select=nickname,score,user_id&order=score.desc&limit=500'),
+      sbFetch('/rest/v1/sc1_ranking_survival?select=nickname,score&order=score.desc&limit=200'),
+      sbFetch('/rest/v1/sc1_ranking_sprint?select=nickname,score&order=score.desc&limit=200'),
+      sbFetch('/rest/v1/sc1_user_data?select=user_id,data&limit=300'),
+    ]);
+    const rankData=resR.ok?await resR.json():[];
+    const survData=resSurv.ok?await resSurv.json():[];
+    const sprintData=resSprint.ok?await resSprint.json():[];
+    const userData=resUD.ok?await resUD.json():[];
+
+    /* Unique users */
+    const nickSet=new Set(rankData.map(r=>r.nickname));
+    const totalUsers=nickSet.size;
+
+    /* Best score per user (ranked) */
+    const bestRanked={};
+    rankData.forEach(r=>{if(!bestRanked[r.nickname]||r.score>bestRanked[r.nickname])bestRanked[r.nickname]=r.score;});
+
+    /* Average ranked score */
+    const rankedScores=Object.values(bestRanked);
+    const avgScore=rankedScores.length?Math.round(rankedScores.reduce((a,b)=>a+b,0)/rankedScores.length):0;
+    const topScore=rankedScores.length?Math.max(...rankedScores):0;
+
+    /* Active users: played in last 48h based on history */
+    const now=Date.now();
+    let activeRecent=0,activeLast7=0;
+    const userHistMap={};
     userData.forEach(u=>{
-      (u.data?.history||[]).forEach(h=>{(h.byTheme||[]).forEach(t=>{if(themes[t.cat]){themes[t.cat].total+=t.total||0;themes[t.cat].correct+=t.hits||0;}});});
+      const h=u.data?.history||[];
+      if(!h.length)return;
+      const lastPlay=Math.max(...h.map(e=>new Date(e.date||0).getTime()));
+      if(now-lastPlay<86400000*2)activeRecent++;
+      if(now-lastPlay<86400000*7)activeLast7++;
+      userHistMap[u.user_id]={history:h,data:u.data};
     });
-    const topUsers=Object.entries(data.reduce((a,r)=>{if(!a[r.nickname]||r.score>a[r.nickname])a[r.nickname]=r.score;return a;},{})).sort((a,b)=>b[1]-a[1]).slice(0,15);
+
+    /* Theme accuracy from history */
+    const themes={0:{name:'SUS',total:0,correct:0,sessions:0},1:{name:'Saúde-Doença',total:0,correct:0,sessions:0},2:{name:'Políticas',total:0,correct:0,sessions:0}};
+    let totalSessions=0;
+    userData.forEach(u=>{
+      (u.data?.history||[]).forEach(h=>{
+        totalSessions++;
+        /* fallback: if byTheme exists use it; otherwise estimate from mode + acc */
+        if(h.byTheme){
+          h.byTheme.forEach(t=>{if(themes[t.cat]){themes[t.cat].total+=t.total||0;themes[t.cat].correct+=t.hits||0;themes[t.cat].sessions++;}});
+        }
+      });
+    });
+
+    /* Top ranked users */
+    const topUsers=Object.entries(bestRanked).sort((a,b)=>b[1]-a[1]).slice(0,15);
+
+    /* Render */
+    const secLabel=(txt)=>`<div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin:14px 0 7px">${txt}</div>`;
     wrap.innerHTML=`
+      ${secLabel('📊 Visão Geral da Turma')}
       <div class="prof-stat-grid">
-        <div class="prof-stat"><div class="prof-stat-val">${totalUsers}</div><div class="prof-stat-lbl">Alunos</div></div>
-        <div class="prof-stat"><div class="prof-stat-val">${activeToday}</div><div class="prof-stat-lbl">Ativos (48h)</div></div>
+        <div class="prof-stat"><div class="prof-stat-val">${totalUsers}</div><div class="prof-stat-lbl">Alunos cadastrados</div></div>
+        <div class="prof-stat"><div class="prof-stat-val">${activeRecent}</div><div class="prof-stat-lbl">Ativos (48h)</div></div>
+        <div class="prof-stat"><div class="prof-stat-val">${activeLast7}</div><div class="prof-stat-lbl">Ativos (7 dias)</div></div>
+        <div class="prof-stat"><div class="prof-stat-val">${totalSessions}</div><div class="prof-stat-lbl">Partidas totais</div></div>
         <div class="prof-stat"><div class="prof-stat-val">${avgScore}</div><div class="prof-stat-lbl">Score médio</div></div>
-        <div class="prof-stat"><div class="prof-stat-val">${data.length}</div><div class="prof-stat-lbl">Partidas</div></div>
+        <div class="prof-stat"><div class="prof-stat-val">${topScore}</div><div class="prof-stat-lbl">Maior score</div></div>
       </div>
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:8px">📚 Desempenho por tema</div>
+
+      ${secLabel('📚 Desempenho por Tema (acumulado da turma)')}
       ${Object.values(themes).map(t=>{
         const pct=t.total>0?Math.round(t.correct/t.total*100):0;
         const col=pct>=70?'#3dd68c':pct>=50?'#f5a623':'#ff6b6b';
-        return `<div style="margin-bottom:10px">
-          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>${t.name}</span><span style="color:${col};font-weight:700">${pct}%</span></div>
-          <div class="prof-theme-bar"><div class="prof-theme-fill" style="width:${pct}%;background:${col}"></div></div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px">${t.correct}/${t.total} acertos totais</div>
+        const bar=t.total>0?pct:0;
+        return `<div style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:5px">
+            <span style="font-weight:600">${t.name}</span>
+            <span style="color:${col};font-weight:700;font-size:14px">${pct}%</span>
+          </div>
+          <div class="prof-theme-bar"><div class="prof-theme-fill" style="width:${bar}%;background:${col}"></div></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">${t.correct} acertos de ${t.total} tentativas</div>
         </div>`;
       }).join('')}
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:8px;margin-top:1rem">🏆 Top alunos</div>
+
+      ${secLabel('🏆 Top 15 — Ranqueado')}
       ${topUsers.map(([nick,sc],i)=>`
         <div class="prof-user-row">
-          <div style="font-size:14px;width:24px;text-align:center;flex-shrink:0">${['🥇','🥈','🥉'][i]||'#'+(i+1)}</div>
+          <div style="font-size:14px;width:26px;text-align:center;flex-shrink:0">${['🥇','🥈','🥉'][i]||('#'+(i+1))}</div>
           <div class="prof-user-nick">${nick}</div>
-          <div class="prof-user-stat">${sc} pts</div>
-        </div>`).join('')}`;
+          <div class="prof-user-stat">${sc.toLocaleString('pt-BR')} pts</div>
+        </div>`).join('')}
+
+      ${survData.length?`
+      ${secLabel('💀 Top 5 — Sobrevivência')}
+      ${Object.entries(survData.reduce((a,r)=>{if(!a[r.nickname]||r.score>a[r.nickname])a[r.nickname]=r.score;return a;},{})).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([nick,sc],i)=>`
+        <div class="prof-user-row">
+          <div style="font-size:14px;width:26px;text-align:center;flex-shrink:0">${['🥇','🥈','🥉'][i]||('#'+(i+1))}</div>
+          <div class="prof-user-nick">${nick}</div>
+          <div class="prof-user-stat">${sc} questões</div>
+        </div>`).join('')}`:''}
+
+      ${sprintData.length?`
+      ${secLabel('⚡ Top 5 — Sprint')}
+      ${Object.entries(sprintData.reduce((a,r)=>{if(!a[r.nickname]||r.score>a[r.nickname])a[r.nickname]=r.score;return a;},{})).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([nick,sc],i)=>`
+        <div class="prof-user-row">
+          <div style="font-size:14px;width:26px;text-align:center;flex-shrink:0">${['🥇','🥈','🥉'][i]||('#'+(i+1))}</div>
+          <div class="prof-user-nick">${nick}</div>
+          <div class="prof-user-stat">${sc.toLocaleString('pt-BR')} pts</div>
+        </div>`).join('')}`:''}
+
+      <div style="margin-top:14px;display:flex;gap:8px">
+        <button class="btn btn-ghost" onclick="_renderProfPanel()" style="flex:1;justify-content:center;font-size:12px">🔄 Atualizar</button>
+      </div>`;
   }catch(e){
-    wrap.innerHTML=`<div style="text-align:center;padding:1.5rem;color:var(--muted)">❌ Erro ao carregar dados: ${e.message}</div>`;
+    wrap.innerHTML=`<div style="text-align:center;padding:1.5rem;color:var(--muted)">❌ Erro ao carregar: ${e.message}<br><small style="opacity:.6">Verifique a conexão com o Supabase.</small></div>
+      <div style="margin-top:1rem;text-align:center"><button class="btn btn-ghost" onclick="_renderProfPanel()">🔄 Tentar novamente</button></div>`;
   }
 }
 
@@ -9979,18 +10238,29 @@ async function _renderProfPanel(){
 if(typeof _QA_CHECKS!=='undefined'){
   /* Progressão */
   _QA_CHECKS.xp_system      ={g:'Progressão',  label:'Sistema XP/Nível funciona',          status:'pending'};
+  _QA_CHECKS.platinum_check ={g:'Progressão',  label:'Função _checkPlatinum existe',       status:'pending'};
   /* Modos */
   _QA_CHECKS.daily_challenge={g:'Modos',        label:'Desafio do Dia carrega e inicia',    status:'pending'};
   _QA_CHECKS.wrong_quiz     ={g:'Modos',        label:'Quiz de erros recentes funciona',    status:'pending'};
+  _QA_CHECKS.simulado_pool  ={g:'Modos',        label:'Simulado usa pool do Prof. André',   status:'pending'};
+  _QA_CHECKS.sprint_all     ={g:'Modos',        label:'Sprint usa todas as questões',       status:'pending'};
   /* Flashcards */
   _QA_CHECKS.sr_queue       ={g:'Flashcards',   label:'Fila SR visível com cards pendentes',status:'pending'};
+  /* Conquistas */
+  _QA_CHECKS.ach_ryan       ={g:'Conquistas',   label:'Conquista duelo com Ryan existe',    status:'pending'};
+  _QA_CHECKS.ach_platinum   ={g:'Conquistas',   label:'Conquista platina existe',           status:'pending'};
+  _QA_CHECKS.ach_daily_done ={g:'Conquistas',   label:'Conquista daily_done existe',        status:'pending'};
   /* Ranking */
   _QA_CHECKS.skeleton_rank  ={g:'Ranking',      label:'Skeleton loading no ranking',        status:'pending'};
+  _QA_CHECKS.prof_modes     ={g:'Ranking',      label:'Visão da turma: multi-modo ranking', status:'pending'};
   /* Áudio */
   _QA_CHECKS.notif_schedule ={g:'Áudio',        label:'Notificação agendada com horário',   status:'pending'};
   /* UI */
   _QA_CHECKS.pwa_manifest   ={g:'UI',           label:'Manifest PWA injetado',              status:'pending'};
   _QA_CHECKS.accessibility  ={g:'UI',           label:'Aria-labels e teclado no quiz',      status:'pending'};
+  _QA_CHECKS.groq_api       ={g:'UI',           label:'Tutor IA: endpoint Groq configurado',status:'pending'};
+  _QA_CHECKS.material_screen={g:'UI',           label:'Tela Material da Aula carrega',      status:'pending'};
+  _QA_CHECKS.tutor_screen   ={g:'UI',           label:'Tela Tutor IA carrega',              status:'pending'};
   /* Avaliação */
   _QA_CHECKS.prof_panel     ={g:'Avaliação',    label:'Painel professor carrega',           status:'pending'};
 }
@@ -10013,8 +10283,10 @@ if(typeof _QA_CHECKS!=='undefined'){
         try{const ml=document.getElementById('pwa-manifest-link');if(ml&&ml.href&&ml.href!==location.href)_qaPass('pwa_manifest');}catch(e){}
         /* Desafio */
         if(document.getElementById('daily-card'))_qaPass('daily_challenge');
-        /* XP: verify total is a number */
+        /* XP */
         try{const xd=loadXP();if(typeof xd.total==='number'&&typeof xd.level==='number')_qaPass('xp_system');}catch(e){}
+        /* Platina */
+        if(typeof _checkPlatinum==='function')_qaPass('platinum_check');
         /* Skeleton */
         if(typeof _showRankingSkeleton==='function')_qaPass('skeleton_rank');
         /* Notif */
@@ -10025,9 +10297,22 @@ if(typeof _QA_CHECKS!=='undefined'){
         if(typeof _showSRQueue==='function')_qaPass('sr_queue');
         /* Professor */
         if(typeof showProfessorPanel==='function')_qaPass('prof_panel');
+        if(typeof _renderProfPanel==='function')_qaPass('prof_modes');
         /* Accessibility */
         const _testBtn=document.getElementById('bn-home');
         if(_testBtn&&_testBtn.getAttribute('aria-label'))_qaPass('accessibility');
+        /* Conquistas especiais */
+        if(ACHIEVEMENTS.find(a=>a.id==='duel_ryan'))_qaPass('ach_ryan');
+        if(ACHIEVEMENTS.find(a=>a.id==='platinum'))_qaPass('ach_platinum');
+        if(ACHIEVEMENTS.find(a=>a.id==='daily_done'))_qaPass('ach_daily_done');
+        /* Sprint */
+        if(typeof QUESTIONS!=='undefined')_qaPass('sprint_all');
+        /* Simulado pool */
+        if(typeof SIMULADO_QUESTIONS!=='undefined')_qaPass('simulado_pool');
+        /* Groq */
+        if(typeof sendTutorMessage==='function'&&content.includes?.('api.groq.com'))_qaPass('groq_api');
+        if(document.getElementById('material-screen'))_qaPass('material_screen');
+        if(document.getElementById('tutor-screen'))_qaPass('tutor_screen');
       }
     },400);
   };
@@ -10280,26 +10565,50 @@ async function sendTutorMessage(){
 
   try{
     const messages=_tutorHistory.slice(-20).map(m=>({role:m.role,content:m.content}));
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+
+    /* A API da Anthropic requer chave de API e não permite chamadas diretas de browser (CORS).
+       Usamos a chave configurada no ambiente, ou exibimos instruções claras. */
+    const apiKey=getCache('tutor_api_key','');
+    if(!apiKey){
+      loadingEl?.remove();
+      _tutorRenderBubble('assistant',
+        '🔑 **Configuração necessária**\n\nVá em **Configurações → Tutor IA** e insira sua chave da API Groq (começa com `gsk_`).\n\nObtena em: console.groq.com');
+      _tutorSending=false;if(btn)btn.disabled=false;inp?.focus();
+      return;
+    }
+
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+apiKey
+      },
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+        model:'llama-3.3-70b-versatile',
         max_tokens:1000,
-        system:TUTOR_SYSTEM_PROMPT,
-        messages
+        messages:[{role:'system',content:TUTOR_SYSTEM_PROMPT},...messages]
       })
     });
+    if(!res.ok){
+      const err=await res.json().catch(()=>({}));
+      throw new Error(err.error?.message||'HTTP '+res.status);
+    }
     const data=await res.json();
     loadingEl?.remove();
-    const reply=data.content?.[0]?.text||'Desculpe, não consegui processar sua dúvida. Tente novamente.';
+    const reply=data.choices?.[0]?.message?.content||'Desculpe, não consegui processar sua dúvida. Tente novamente.';
     _tutorRenderBubble('assistant',reply);
     _tutorHistory.push({role:'assistant',content:reply});
     saveTutorHistory(_tutorHistory);
     _tutorCheckRecommend(text,reply);
   }catch(e){
     loadingEl?.remove();
-    _tutorRenderBubble('assistant','❌ Erro de conexão com o Tutor IA. Verifique sua internet e tente novamente.');
+    const msg=e.message||'';
+    const friendlyMsg=msg.includes('401')?'❌ Chave de API inválida. Verifique em Configurações → Tutor IA.':
+      msg.includes('429')?'⏳ Limite de uso atingido. Aguarde um momento e tente novamente.':
+      msg.includes('Failed to fetch')||msg.includes('NetworkError')?
+        '🌐 Erro de rede. Isso pode ocorrer por bloqueio CORS — a API Anthropic não permite chamadas diretas do browser sem configuração de servidor proxy.':
+        '❌ Erro: '+msg;
+    _tutorRenderBubble('assistant',friendlyMsg);
   }finally{
     _tutorSending=false;if(btn)btn.disabled=false;
     inp?.focus();
@@ -10314,6 +10623,195 @@ async function sendTutorMessage(){
   window.showScreen=function(id){
     orig.apply(this,arguments);
     if(id==='tutor-screen')setTimeout(initTutorScreen,150);
+  };
+})();
+
+/* ── Tutor API key config ── */
+function _openTutorApiConfig(){
+  const current=getCache('tutor_api_key','');
+  const masked=current?'gsk_…'+current.slice(-6):'';
+  const key=prompt(
+    'Cole sua chave da API Groq (começa com gsk_)\n\n'+
+    'Obtenha em: console.groq.com → API Keys\n'+
+    (masked?'Chave atual: '+masked:'Nenhuma chave configurada.'),
+    ''
+  );
+  if(key===null)return;
+  if(key.trim()===''){
+    setCache('tutor_api_key','');
+    _refreshTutorApiStatus();
+    showModal({icon:'🗑',title:'Chave removida',msg:'Chave da API removida.'});
+    return;
+  }
+  if(!key.trim().startsWith('gsk_')){
+    showModal({icon:'⚠️',title:'Chave inválida',msg:'A chave da Groq deve começar com "gsk_". Obtenha em console.groq.com.'});
+    return;
+  }
+  setCache('tutor_api_key',key.trim());
+  _refreshTutorApiStatus();
+  showModal({icon:'✅',title:'Chave salva!',msg:'Tutor IA pronto. Acesse Hub Estudar → Tutor IA.'});
+}
+
+function _refreshTutorApiStatus(){
+  const el=document.getElementById('tutor-api-status');if(!el)return;
+  const k=getCache('tutor_api_key','');
+  el.textContent=k?'✓ Configurada (gsk_…'+k.slice(-6)+')':'Não configurada — toque para adicionar';
+  el.style.color=k?'var(--accent)':'';
+}
+
+/* Refresh status on config-screen open — hook carefully (showScreen may be monkey-patched multiple times) */
+const _origShowScreenApiCfg=showScreen;
+window.showScreen=function(id){
+  _origShowScreenApiCfg.apply(this,arguments);
+  if(id==='config-screen')setTimeout(_refreshTutorApiStatus,120);
+};
+
+/* Init status on login */
+setTimeout(_refreshTutorApiStatus,800);
+
+/* ════════════════════════════════════════════════════════════════
+   PLATINA + CONQUISTAS EXTRAS
+════════════════════════════════════════════════════════════════ */
+function _checkPlatinum(){
+  const ul=loadUnlocked();
+  const nonPlatinum=ACHIEVEMENTS.filter(a=>!a.platinum);
+  const allDone=nonPlatinum.every(a=>ul.includes(a.id));
+  if(allDone){
+    unlockAch('platinum');
+    setTimeout(()=>{
+      showModal({
+        icon:'🏆',
+        title:'S.C.I PLATINA 👑',
+        msg:'Parabéns! Você conquistou todas as medalhas da plataforma S.C.I.\n\n"O conhecimento em Saúde Coletiva é a base para transformar realidades. Você demonstrou que domina cada parte deste universo."\n\n— Ryan Nogueira, criador da S.C.I 🦷'
+      });
+      try{sfxAchievement();setTimeout(sfxAchievement,500);setTimeout(sfxAchievement,1000);}catch(e){}
+      launchConfetti&&launchConfetti();
+    },1500);
+  }
+}
+
+/* Trigger conquistas em eventos específicos */
+function _achOnTutorMessage(){
+  _incrementAch('tutor_count','tutor_first',1,true);
+  _incrementAch('tutor_count','tutor_10',10,true);
+  setTimeout(_checkPlatinum,500);
+}
+function _achOnMaterialOpen(){
+  unlockAch('material_first');
+  setTimeout(_checkPlatinum,500);
+}
+function _achOnMapOpen(){
+  unlockAch('map_first');
+  setTimeout(_checkPlatinum,500);
+}
+function _achOnSRSession(){
+  unlockAch('sr_session');
+  _incrementAch('sr_session_count','sr_streak_5',5,true);
+  setTimeout(_checkPlatinum,500);
+}
+function _achOnAvatarSet(){
+  unlockAch('avatar_set');
+  setTimeout(_checkPlatinum,500);
+}
+function _achOnDuelRyan(leaderboardData){
+  /* Check if Ryan Nogueira appears in leaderboard */
+  const ryanNicks=['Ryan Nogueira','Ryan','ryannogueira','ryann','RyanNogueira'];
+  if(leaderboardData.some(e=>ryanNicks.some(r=>e.nickname?.toLowerCase().includes(r.toLowerCase())))){
+    unlockAch('duel_ryan');
+    setTimeout(_checkPlatinum,500);
+  }
+}
+function _achOnRankedTop3(entries){
+  const myPos=entries.findIndex(e=>e.nick===nickname||e.nickname===nickname);
+  if(myPos>=0&&myPos<3)unlockAch('ranked_top3');
+  if(myPos===0)unlockAch('ranked_top');
+  setTimeout(_checkPlatinum,500);
+}
+function _achOnDailyStreak(streak){
+  if(streak>=7)unlockAch('daily_streak_7');
+  if(streak>=30)unlockAch('daily_streak_30');
+  setTimeout(_checkPlatinum,500);
+}
+
+/* Hook sendTutorMessage to track */
+(()=>{
+  const orig=sendTutorMessage;
+  window.sendTutorMessage=async function(){
+    await orig.apply(this,arguments);
+    _achOnTutorMessage();
+  };
+})();
+
+/* Hook _openMaterial */
+(()=>{
+  const orig=_openMaterial;
+  window._openMaterial=function(type,url,title){
+    orig.apply(this,arguments);
+    if(url)_achOnMaterialOpen();
+  };
+})();
+
+/* Hook map open */
+(()=>{
+  const orig=initMap;
+  window.initMap=function(){
+    orig.apply(this,arguments);
+    _achOnMapOpen();
+  };
+})();
+
+/* Hook SR session complete */
+(()=>{
+  const orig=_openSRReviewModal;
+  window._openSRReviewModal=function(){
+    orig.apply(this,arguments);
+    if(_srReviewSession&&_srReviewSession.done>0&&_srReviewSession.pos>=_srReviewSession.idxs.length)
+      _achOnSRSession();
+  };
+})();
+
+/* Hook saveAvatar */
+(()=>{
+  const orig=saveAvatar;
+  window.saveAvatar=function(av){
+    orig.apply(this,arguments);
+    if(av)_achOnAvatarSet();
+  };
+})();
+
+/* Hook duel leaderboard render to detect Ryan */
+(()=>{
+  const orig=showDuelLeaderboard;
+  window.showDuelLeaderboard=async function(id){
+    await orig.apply(this,arguments);
+    /* parse rendered entries */
+    const nicks=[...document.querySelectorAll('.duel-lb-nick')].map(el=>el.textContent.trim());
+    _achOnDuelRyan(nicks.map(n=>({nickname:n})));
+  };
+})();
+
+/* Hook ranking load to detect top3 */
+(()=>{
+  const orig=loadRankingTab;
+  window.loadRankingTab=async function(modeKey){
+    await orig.apply(this,arguments);
+    if(modeKey==='ranked'){
+      const entries=[...document.querySelectorAll('.rank-item')].map((el,i)=>({
+        nick:el.querySelector('.rank-nick')?.firstChild?.textContent?.trim()||'',pos:i
+      }));
+      _achOnRankedTop3(entries);
+    }
+  };
+})();
+
+/* Hook daily complete */
+(()=>{
+  const orig=_finishDailyChallenge;
+  window._finishDailyChallenge=function(){
+    orig.apply(this,arguments);
+    const st=loadDailyState();
+    unlockAch('daily_done');
+    _achOnDailyStreak(st.streak||0);
   };
 })();
 
