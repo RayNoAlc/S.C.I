@@ -3321,6 +3321,7 @@ function setProva(id, opts={}){
     if(document.getElementById('map-screen')?.classList.contains('active'))initMap();
     if(document.getElementById('study-screen')?.classList.contains('active'))renderStudy();
     if(document.getElementById('tutor-screen')?.classList.contains('active'))initTutorScreen();
+    if(document.getElementById('evo-screen')?.classList.contains('active'))renderEvoScreen();
     if(document.getElementById('setup-screen')?.classList.contains('active')){
       [0,1,2].forEach(i=>{ if(document.getElementById('topt-'+i)) updateCheckUI(i,true); });
     }
@@ -6415,11 +6416,9 @@ function _renderEvoThemeBars(){
   const perf=loadPerfData();
   const container=document.getElementById('evo-theme-bars');
   container.innerHTML='';
-  const themes=[
-    {name:'SUS — Princípios',key:0,color:'#3dd68c'},
-    {name:'Saúde-Doença',key:1,color:'#5b9cf6'},
-    {name:'Políticas e Odontologia',key:2,color:'#a78bfa'},
-  ];
+  const shortLabels=(PROVAS[currentProva]&&PROVAS[currentProva].pillLabels)||CAT_NAMES;
+  const barColors=['#3dd68c','#5b9cf6','#a78bfa'];
+  const themes=[0,1,2].map(i=>({name:shortLabels[i]||('Tema '+(i+1)),full:CAT_NAMES[i]||shortLabels[i]||('Tema '+(i+1)),key:i,color:barColors[i]}));
   let hasData=false;
   themes.forEach(t=>{
     const d=perf[t.key];
@@ -6430,10 +6429,10 @@ function _renderEvoThemeBars(){
     const cls=pct>=75?'great':pct>=50?'ok':'bad';
     const fillColors={great:'#3dd68c',ok:'#f5a623',bad:'#ff6b6b'};
     const row=document.createElement('div');row.className='evo-theme-bar-row';
-    row.innerHTML=`<div class="evo-theme-name" title="${t.name}">${t.name}</div><div class="evo-bar-track"><div class="evo-bar-fill" style="width:0%;background:${fillColors[cls]}" data-target="${pct}"></div></div><div class="evo-bar-pct" style="color:${fillColors[cls]}">${pct}%</div>`;
+    row.innerHTML=`<div class="evo-theme-name" title="${t.full}">${t.name}</div><div class="evo-bar-track"><div class="evo-bar-fill" style="width:0%;background:${fillColors[cls]}" data-target="${pct}"></div></div><div class="evo-bar-pct" style="color:${fillColors[cls]}">${pct}%</div>`;
     container.appendChild(row);
   });
-  if(!hasData)container.innerHTML='<div style="font-size:13px;color:var(--muted);padding:0.5rem 0">Jogue ao menos uma partida para ver seus dados por tema.</div>';
+  if(!hasData)container.innerHTML=`<div style="font-size:13px;color:var(--muted);padding:0.5rem 0">Jogue ao menos uma partida${currentProva!=='p1'?' na '+PROVAS[currentProva].label:''} para ver seus dados por tema.</div>`;
   // animate
   setTimeout(()=>{container.querySelectorAll('[data-target]').forEach(el=>{el.style.width=el.getAttribute('data-target')+'%';});},120);
 }
