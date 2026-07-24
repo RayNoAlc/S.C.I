@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo Prova 2 — Saúde Coletiva I</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent1: #58a6ff;   /* azul — Atenção Básica/ESF */
+    --accent2: #3fb950;   /* verde — dicas / correto */
+    --accent3: #f0883e;   /* laranja — cuidado/pegadinhas */
+    --accent4: #bc8cff;   /* roxo — perfil profissional */
+    --accent5: #ff7b72;   /* vermelho — muito importante */
+    --cap1: #58a6ff;
+    --cap2: #d29922;
+    --cap3: #bc8cff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.7; }
+
+  /* ── HERO ── */
+  .hero { background: linear-gradient(135deg, #0d1117 0%, #0d2137 50%, #0d1117 100%); border-bottom: 1px solid var(--border); text-align: center; padding: 60px 24px 48px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(88,166,255,.12) 0%, transparent 70%); }
+  .hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent1); margin-bottom: 16px; position: relative; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: #fff; line-height: 1.15; position: relative; }
+  .hero h1 span { color: var(--accent1); }
+  .hero-sub { margin-top: 12px; color: var(--muted); font-size: 14px; position: relative; }
+  .chapters-nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 32px; position: relative; }
+  .chapters-nav a { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: all .2s; }
+  .chapters-nav a:hover { background: var(--surface); color: var(--text); border-color: var(--accent1); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+
+  /* ── CHAPTER BLOCK ── */
+  .chapter-block { margin-bottom: 64px; scroll-margin-top: 24px; }
+  .chapter-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .chapter-num { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .chapter-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; }
+  .chapter-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--muted); margin-bottom: 12px; padding-left: 12px; border-left: 2px solid var(--border); }
+
+  /* ── CARDS ── */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 10px; }
+  .card-title { font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent1); flex-shrink: 0; }
+  .card p, .card li { color: #c9d1d9; font-size: 14px; }
+  .card ul { padding-left: 18px; }
+  .card ul li { margin-bottom: 3px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 640px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { background: var(--surface2); color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: 1px; padding: 10px 14px; text-align: left; font-family: 'DM Mono', monospace; font-weight: 500; }
+  td { padding: 10px 14px; border-top: 1px solid var(--border); color: #c9d1d9; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── CALLOUTS ── */
+  .tip, .warn, .important { border-radius: 10px; padding: 14px 18px; margin: 14px 0; font-size: 13.5px; }
+  .tip { background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.3); }
+  .tip-label { display:block; font-weight:600; color: var(--accent2); margin-bottom: 5px; font-size: 12px; }
+  .warn { background: rgba(240,136,62,0.08); border: 1px solid rgba(240,136,62,0.3); }
+  .warn-label { display:block; font-weight:600; color: var(--accent3); margin-bottom: 5px; font-size: 12px; }
+  .important { background: rgba(255,123,114,0.08); border: 1px solid rgba(255,123,114,0.3); }
+
+  /* ── FLOW ── */
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0; }
+  .flow-step { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 500; }
+  .flow-arrow { color: var(--muted); font-size: 16px; }
+
+  /* ── PILLS ── */
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .pill-blue { background: rgba(88,166,255,0.12); color: var(--accent1); }
+  .pill-green { background: rgba(63,185,80,0.12); color: var(--accent2); }
+  .pill-orange { background: rgba(240,136,62,0.12); color: var(--accent3); }
+  .pill-purple { background: rgba(188,140,255,0.12); color: var(--accent4); }
+  .pill-red { background: rgba(255,123,114,0.12); color: var(--accent5); }
+
+  /* ── FLASH SUMMARY ── */
+  .flash { background: var(--surface2); border: 1px dashed var(--border); border-radius: 10px; padding: 18px 20px; margin-top: 20px; }
+  .flash-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--accent1); text-transform: uppercase; margin-bottom: 10px; display: block; }
+  .flash-items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .flash-item { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 12.5px; color: #c9d1d9; }
+  .flash-item b { color: #fff; }
+
+  /* ── MACETE ── */
+  .macete { background: linear-gradient(135deg, rgba(188,140,255,0.1), rgba(88,166,255,0.06)); border: 1px solid rgba(188,140,255,0.3); border-radius: 10px; padding: 14px 18px; margin: 14px 0; font-size: 13.5px; }
+  .macete-label { display:block; font-weight:600; color: var(--accent4); margin-bottom: 5px; font-size: 12px; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 18px; }
+  .tl-dot { position: absolute; left: -24px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent1); border: 2px solid var(--bg); flex-shrink: 0; }
+  .tl-year { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent1); letter-spacing: 1px; margin-bottom: 3px; }
+  .tl-desc { font-size: 14px; color: #c9d1d9; }
+  .tl-desc strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">S.C.I · Saúde Coletiva Inteligente · Odontologia em Saúde Coletiva</div>
+  <h1>Resumo Completo<br><span>Prova 2</span></h1>
+  <div class="hero-sub">Atenção Básica e ESF · Níveis de Prevenção e Promoção · Perfil Profissional em Odontologia</div>
+  <div class="chapters-nav">
+    <a href="#cap1">🏘️ Atenção Básica e ESF</a>
+    <a href="#cap2">🛡️ Prevenção e Promoção</a>
+    <a href="#cap3">🦷 Perfil Profissional</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════ CAP 1 ══ -->
+<div id="cap1" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap1)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 01</div>
+      <div class="chapter-title" style="color:var(--cap1)">Atenção Básica e Equipe de Saúde da Família</div>
+    </div>
+  </div>
+
+  <!-- Linha do tempo -->
+  <div class="section">
+    <div class="section-title">Do PAS à ESF — Linha do Tempo</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent1)"></div>
+        <div class="tl-year">1987 — Ceará</div>
+        <div class="tl-desc"><strong>PAS (Programa de Agentes de Saúde)</strong> — referência mundial reconhecida pela UNICEF. Ainda sem ações de saúde bucal.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent2)"></div>
+        <div class="tl-year">1991 — Nacional</div>
+        <div class="tl-desc"><strong>PACS</strong>, implantado primeiro no Nordeste e depois no Norte. Prioriza crianças (até 5 anos) e gestantes. ACS supervisionados por enfermeiro (máx. 30 ACS/enfermeiro).</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent3)"></div>
+        <div class="tl-year">1994</div>
+        <div class="tl-desc"><strong>PSF (hoje ESF)</strong> — não extingue o PACS. Equipe: médico + enfermeira + 1-2 auxiliares de enfermagem + até 12 ACS.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent5)"></div>
+        <div class="tl-year">1998 — PNAD/IBGE</div>
+        <div class="tl-desc">18,7% nunca foram ao dentista; 32% na área rural nunca fizeram exame bucal — dado que justificou a inclusão da odontologia na ESF.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent1)"></div>
+        <div class="tl-year">2000 — Portaria 1.444</div>
+        <div class="tl-desc"><strong>Marco oficial</strong> da inclusão da Equipe de Saúde Bucal na ESF. Cria incentivo financeiro e as Modalidades I e II.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent4)"></div>
+        <div class="tl-year">2001 — Portaria 267</div>
+        <div class="tl-desc">Documento mais fiel e explícito: caráter substitutivo, territorialização, abordagem multiprofissional.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent2)"></div>
+        <div class="tl-year">2019 — Portaria 2.539</div>
+        <div class="tl-desc">Permite Carga Horária Diferenciada de <strong>20 ou 30h</strong> para as eSB de Modalidade I.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent3)"></div>
+        <div class="tl-year">Jan/2023</div>
+        <div class="tl-desc">~<strong>31.024 ESB</strong> no Brasil, cobrindo 46,1% da população. Nordeste concentra a maioria; Sudeste tem a menor cobertura relativa.</div>
+      </div>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha clássica</span>
+      O <strong>PSF/ESF NÃO extinguiu o PACS</strong> — eles coexistem até hoje. E a odontologia <strong>não estava presente</strong> desde a criação do PACS/PSF — só entrou oficialmente com a Portaria 1.444/2000.
+    </div>
+  </div>
+
+  <!-- PNAB e tipos de equipe -->
+  <div class="section">
+    <div class="section-title">PNAB — Tipos de Equipe na Atenção Básica</div>
+    <div class="grid3">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent1)">🏠 ESF</div>
+        <p><strong style="color:#fff">Estratégia prioritária</strong> de expansão, qualificação e consolidação da Atenção Básica.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2)">👩‍⚕️ EAP</div>
+        <p>Composição <strong style="color:#fff">diferente</strong> da ESF: médico e enfermeiro <strong>preferencialmente especialistas</strong> em medicina/saúde da família.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent4)">🦷 ESB</div>
+        <p>Modalidade I (CD + ASB/TSB) ou Modalidade II (CD + TSB + ASB). Carga diferenciada de 20 ou 30h.</p>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin-top:10px">
+      <table>
+        <tr><th>EAP</th><th>Carga horária mínima</th><th>População adscrita</th></tr>
+        <tr><td>Modalidade I</td><td>20h semanais</td><td>50%</td></tr>
+        <tr><td>Modalidade II</td><td>30h semanais</td><td>75%</td></tr>
+      </table>
+    </div>
+    <div class="macete">
+      <span class="macete-label">🧠 Macete</span>
+      <strong>EAP não é ESF!</strong> A EAP tem médico/enfermeiro preferencialmente <em>especialistas</em>, e sua carga horária/adscrição varia por modalidade (20h/50% ou 30h/75%) — a ESF, por sua vez, é a estratégia prioritária, sem essa divisão em modalidades.
+    </div>
+  </div>
+
+  <!-- Caráter substitutivo e demanda -->
+  <div class="section">
+    <div class="section-title">Caráter Substitutivo e Organização da Demanda</div>
+    <div class="card">
+      <div class="card-title">Caráter Substitutivo</div>
+      <p>A ESF <strong style="color:#fff">não cria novas estruturas</strong> de serviço, exceto em áreas totalmente desprovidas de atendimento. Aplica-se também à forma de organizar a demanda.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Demanda Espontânea</div>
+        <p>Paciente comparece de forma <strong style="color:#fff">inesperada</strong>, por motivo agudo ou necessidade que ele mesmo julgue importante.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Demanda Organizada/Programada</div>
+        <p>Decorrente de <strong style="color:#fff">rastreamento e prevenção</strong> previamente planejados pela equipe (ex.: grupos prioritários).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Territorialização -->
+  <div class="section">
+    <div class="section-title">Territorialização e Diagnóstico Local</div>
+    <div class="flow">
+      <div class="flow-step" style="color:var(--accent1)">Território Área</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step" style="color:var(--accent2)">Território Microárea</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step" style="color:var(--accent4)">Moradia</div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin:-4px 0 12px">Do maior (vínculo com a US) ao menor nível de agregação social.</p>
+    <div class="card">
+      <div class="card-title">Segregação Espacial</div>
+      <p>Desigualdades de infraestrutura, saneamento e transporte tendem a <strong style="color:#fff">concentrar populações semelhantes</strong> em áreas específicas — gerando mais problemas de saúde nas camadas pobres e enfraquecendo a luta coletiva por melhorias.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Parâmetro</th><th>Valor</th></tr>
+        <tr><td>Equipes por UBS (máximo)</td><td><strong style="color:var(--accent5)">4 equipes</strong></td></tr>
+        <tr><td>População adscrita por equipe</td><td><strong style="color:#fff">2.000 a 3.500 pessoas</strong></td></tr>
+        <tr><td>Habitantes por ACS (máximo)</td><td><strong style="color:#fff">750</strong></td></tr>
+        <tr><td>Teto de equipes do município</td><td>população ÷ <strong style="color:var(--accent2)">2.000</strong></td></tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha de prova</span>
+      Não confunda: <strong>750</strong> é o teto de habitantes por <em>ACS</em>; <strong>2.000 a 3.500</strong> é a população adscrita por <em>equipe</em>; <strong>4</strong> é o número máximo de equipes por <em>UBS</em>.
+    </div>
+  </div>
+
+  <!-- Atribuições -->
+  <div class="section">
+    <div class="section-title">Atribuições da Equipe: TSB, ASB e ACS</div>
+    <div class="card">
+      <div class="card-title">Base legal</div>
+      <p>TSB e ASB são profissões regulamentadas desde dezembro de 2008 pela <strong style="color:#fff">Lei 11.889/2008</strong>, com exigência de registro no Conselho Federal e Regional de Odontologia.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent1)">✅ TSB pode</div>
+        <ul>
+          <li>Remover biofilme (indicação do CD)</li>
+          <li>Ensinar técnicas de higiene bucal</li>
+          <li>Supervisionar o ASB, sob delegação do CD</li>
+          <li>Fazer radiografias e inserir/distribuir materiais restauradores</li>
+          <li>Remover suturas e atuar em biossegurança</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent5)">🚫 TSB não pode</div>
+        <ul>
+          <li>Exercer de forma <strong style="color:#fff">autônoma</strong></li>
+          <li>Prestar assistência sem supervisão do CD</li>
+          <li>Fazer propaganda irrestrita dos seus serviços</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:10px">
+      <div class="card-title">ASB — funções mais limitadas</div>
+      <p>Preparar modelos em gesso, selecionar moldeiras, organizar higiene bucal, processar filme radiográfico, auxiliar o CD/TSB — sempre sob supervisão.</p>
+    </div>
+    <div class="macete">
+      <span class="macete-label">🧠 Macete</span>
+      <strong>"Nem TSB, nem ASB trabalham sozinhos"</strong> — a supervisão do cirurgião-dentista é indispensável em toda atividade clínica. A supervisão pode ser <em>indireta</em> apenas nas atividades extraclínicas do TSB.
+    </div>
+  </div>
+
+  <!-- Flash Cap 1 -->
+  <div class="flash">
+    <span class="flash-label">⚡ Resumo Relâmpago — Cap. 1</span>
+    <div class="flash-items">
+      <span class="flash-item"><b>PAS</b> = 1987, Ceará, UNICEF</span>
+      <span class="flash-item"><b>PACS</b> = 1991, criança + gestante</span>
+      <span class="flash-item"><b>PSF/ESF</b> = 1994, não extingue PACS</span>
+      <span class="flash-item"><b>Portaria 1.444/2000</b> = marco da odontologia na ESF</span>
+      <span class="flash-item"><b>Portaria 267/2001</b> = detalha caráter substitutivo</span>
+      <span class="flash-item"><b>Modalidade I</b> = CD + ASB/TSB</span>
+      <span class="flash-item"><b>Modalidade II</b> = CD + TSB + ASB</span>
+      <span class="flash-item"><b>EAP I</b> = 20h / 50%</span>
+      <span class="flash-item"><b>EAP II</b> = 30h / 75%</span>
+      <span class="flash-item"><b>4 equipes</b> por UBS</span>
+      <span class="flash-item"><b>2.000-3.500</b> pessoas/equipe</span>
+      <span class="flash-item"><b>750</b> hab/ACS</span>
+      <span class="flash-item"><b>TSB</b> = Lei 11.889/2008</span>
+      <span class="flash-item"><b>Vedado ao TSB</b> = autonomia</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ CAP 2 ══ -->
+<div id="cap2" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap2)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 02</div>
+      <div class="chapter-title" style="color:var(--cap2)">Níveis de Prevenção e Promoção da Saúde</div>
+    </div>
+  </div>
+
+  <!-- Movimento e HND -->
+  <div class="section">
+    <div class="section-title">Movimento da Medicina Preventiva e HND</div>
+    <div class="card">
+      <div class="card-title">Movimento da Medicina Preventiva (1920-1950)</div>
+      <p>Surgiu na Inglaterra, EUA e Canadá como <strong style="color:#fff">crítica ao modelo biomédico de Flexner</strong> (centrado na doença individual, no hospital, ignorando o social). Propôs reforma no ensino médico voltada à prevenção.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent1)">Pré-Patogênese</div>
+        <p>Fatores de risco presentes no <strong style="color:#fff">ambiente</strong>, ANTES da interação com o hospedeiro.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent5)">Patogênese</div>
+        <p>Da <strong style="color:#fff">alteração dos tecidos</strong> ao horizonte clínico e ao desfecho (cura, cronicidade, sequela ou morte).</p>
+      </div>
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Prevenção estrito x amplo (Clark, 1967)</span>
+      <strong>Sentido estrito:</strong> evitar o desenvolvimento de um estado patológico. <strong>Sentido amplo:</strong> todas as medidas — inclusive terapias definitivas — que limitam a progressão da doença em qualquer estágio.
+    </div>
+  </div>
+
+  <!-- 5 níveis -->
+  <div class="section">
+    <div class="section-title">Os 5 Níveis de Leavell & Clark (1976)</div>
+    <div class="flow">
+      <div class="flow-step" style="color:var(--accent1)">1º Promoção</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step" style="color:var(--accent2)">2º Proteção Específica</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step" style="color:var(--accent3)">3º Diagnóstico/Trat. Precoce</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step" style="color:var(--accent4)">4º Limitação do Dano</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step" style="color:var(--accent5)">5º Reabilitação</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Nível</th><th>Prevenção</th><th>Chaves (1977)</th><th>Exemplo em odontologia</th></tr>
+        <tr><td>1º Promoção da Saúde</td><td rowspan="2"><strong style="color:var(--accent1)">Primária</strong></td><td rowspan="2">Controle de Causas</td><td>Educação, alimentação, moradia adequada</td></tr>
+        <tr><td>2º Proteção Específica</td><td>Fluoretação da água, selantes, dentifrício fluoretado</td></tr>
+        <tr><td>3º Diag. e Trat. Precoce</td><td rowspan="2"><strong style="color:var(--accent3)">Secundária</strong></td><td rowspan="2">Controle de Riscos</td><td>Restauração conservadora de lesão inicial</td></tr>
+        <tr><td>4º Limitação do Dano</td><td>Endodontia, restaurações extensas, extrações</td></tr>
+        <tr><td>5º Reabilitação</td><td><strong style="color:var(--accent5)">Terciária</strong></td><td>Controle de Danos</td><td>Prótese total, implantes</td></tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha clássica</span>
+      Selante em dente <strong>hígido</strong> é <strong>Proteção Específica</strong> (2º nível) — não confundir com Limitação do Dano (4º nível), que trata de lesões <strong>já instaladas</strong> (ex.: restaurar uma cavidade progressivamente, para não chegar à polpa).
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Por que a prótese total é prevenção?</span>
+      Reabilitar com prótese total evita perda adicional de <strong>dimensão vertical</strong>, flacidez muscular, dores na <strong>ATM</strong> e dificuldades de mastigação, socialização e fonação.
+    </div>
+  </div>
+
+  <!-- Chaves - níveis de aplicação -->
+  <div class="section">
+    <div class="section-title">Classificação de Chaves — Níveis de Aplicação (1986)</div>
+    <div class="card">
+      <p>Para escolher o melhor método dentro de um mesmo nível, Chaves propõe avaliar a <strong style="color:#fff">força do método</strong> (proteção alcançada e duração) e o <strong style="color:#fff">tipo de ação exigida</strong> (coletiva, bipessoal ou individual).</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Nível</th><th>Tipo de ação</th><th>Exemplo</th></tr>
+        <tr><td>1º</td><td>Ação governamental <strong style="color:var(--accent1)">ampla</strong> (nacional)</td><td>Fluoretação das águas de abastecimento</td></tr>
+        <tr><td>2º</td><td>Ação governamental <strong style="color:var(--accent2)">restrita</strong> (municipal)</td><td>Programa municipal de flúor escolar</td></tr>
+        <tr><td>3º</td><td>Paciente + profissional <strong style="color:#fff">nível universitário</strong></td><td>Cirurgião-dentista aplica selante</td></tr>
+        <tr><td>4º</td><td>Paciente + profissional <strong style="color:#fff">nível auxiliar</strong></td><td>TSB orienta escovação supervisionada</td></tr>
+        <tr><td>5º</td><td>Ação <strong style="color:var(--accent5)">individual</strong></td><td>Escovação diária pelo próprio paciente</td></tr>
+      </table>
+    </div>
+    <div class="macete">
+      <span class="macete-label">🧠 Macete</span>
+      <strong>Do amplo para o individual:</strong> 1º Governo Federal → 2º Governo Municipal → 3º Profissional universitário → 4º Auxiliar → 5º Só o paciente.
+    </div>
+  </div>
+
+  <!-- Lalonde e Ottawa -->
+  <div class="section">
+    <div class="section-title">Informe Lalonde e Carta de Ottawa</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Informe Lalonde (déc. 1970)</div>
+        <p>Marc Lalonde, Ministro da Saúde do Canadá, constatou que <strong style="color:var(--accent5)">80%</strong> das causas de doenças relacionavam-se a <strong style="color:#fff">estilo de vida e ambiente</strong> — questionando a capacidade da assistência médica isolada de resolver os problemas de saúde.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Carta de Ottawa (1986)</div>
+        <p>Produto da <strong style="color:#fff">1ª Conferência Internacional sobre Promoção da Saúde</strong> (OMS, Canadá). Define Promoção como o processo de capacitar a comunidade para melhorar sua qualidade de vida.</p>
+      </div>
+    </div>
+    <div class="section-title" style="margin-top:16px">5 Campos de Ação da Carta de Ottawa</div>
+    <div class="pills">
+      <span class="pill pill-blue">Políticas públicas saudáveis</span>
+      <span class="pill pill-green">Ambientes favoráveis</span>
+      <span class="pill pill-orange">Ação comunitária</span>
+      <span class="pill pill-purple">Habilidades pessoais</span>
+      <span class="pill pill-red">Reorientação dos serviços de saúde</span>
+    </div>
+    <div class="warn" style="margin-top:12px">
+      <span class="warn-label">⚠️ Prevenção ≠ Promoção</span>
+      <strong>Prevenção</strong> busca evitar o desenvolvimento de uma doença específica. <strong>Promoção</strong> busca meios de melhorar a saúde e o bem-estar de forma ampla, com ações participativas e intersetoriais — mesmo sem doença ou risco evidente.
+    </div>
+    <div class="card" style="margin-top:10px">
+      <div class="card-title">HAS, DM e o custo de não promover saúde</div>
+      <p>HAS e DM respondem por <strong style="color:#fff">~65%</strong> dos óbitos entre 30-69 anos e <strong style="color:#fff">40%</strong> das aposentadorias precoces por invalidez (INSS) — reforçando por que investir em promoção é estratégico.</p>
+    </div>
+  </div>
+
+  <!-- PNPS -->
+  <div class="section">
+    <div class="section-title">Política Nacional de Promoção da Saúde (PNPS)</div>
+    <div class="pills">
+      <span class="pill pill-green">Alimentação saudável e atividade física</span>
+      <span class="pill pill-orange">Controle do tabagismo</span>
+      <span class="pill pill-red">Redução do álcool/drogas</span>
+      <span class="pill pill-blue">Redução de acidentes de trânsito</span>
+      <span class="pill pill-purple">Cultura de paz</span>
+      <span class="pill pill-green">Desenvolvimento sustentável</span>
+    </div>
+    <div class="tip" style="margin-top:12px">
+      <span class="tip-label">💡 Determinantes sob x fora do controle individual</span>
+      Falta de <strong>infraestrutura urbana</strong> (ciclovias, praças) para atividade física é um determinante <strong>fora do controle individual</strong> — exige mudança de políticas públicas, não apenas de comportamento.
+    </div>
+  </div>
+
+  <!-- Educação e Vigilância -->
+  <div class="section">
+    <div class="section-title">Educação em Saúde, Vigilância e Controle Social</div>
+    <div class="card">
+      <div class="card-title">Grupos Operativos</div>
+      <p>Sempre em formato de <strong style="color:#fff">"roda de conversa"</strong> — nunca palestra. Busca participação ativa, melhora a comunicação e fortalece a tomada de decisão em saúde.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Saber Popular x Saber Técnico</div>
+      <p>São saberes <strong style="color:#fff">distintos, mas não opostos</strong>. A relação deve ser de diálogo horizontal — nunca de imposição vertical ("eu sei, você não sabe").</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Conselho de Saúde</th><th>Característica</th></tr>
+        <tr><td>Base legal</td><td>Lei 8.142/1990</td></tr>
+        <tr><td>Caráter</td><td><strong style="color:var(--accent2)">Permanente e deliberativo</strong></td></tr>
+        <tr><td>Formato</td><td>Órgão colegiado, com participação popular</td></tr>
+      </table>
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Vigilância em Saúde Bucal</span>
+      Monitoramento <strong>contínuo</strong> na área de abrangência da UBS, identificando necessidades de tratamento e fatores de risco, com esquema de encaminhamento e ações educativas/preventivas.
+    </div>
+  </div>
+
+  <!-- Flash Cap 2 -->
+  <div class="flash">
+    <span class="flash-label">⚡ Resumo Relâmpago — Cap. 2</span>
+    <div class="flash-items">
+      <span class="flash-item"><b>Medicina Preventiva</b> = crítica a Flexner</span>
+      <span class="flash-item"><b>Pré-patogênese</b> = antes da doença</span>
+      <span class="flash-item"><b>Patogênese</b> = alteração tecidual → desfecho</span>
+      <span class="flash-item"><b>1º e 2º nível</b> = Prevenção Primária</span>
+      <span class="flash-item"><b>3º e 4º nível</b> = Prevenção Secundária</span>
+      <span class="flash-item"><b>5º nível</b> = Prevenção Terciária</span>
+      <span class="flash-item"><b>Chaves</b> = causas/riscos/danos</span>
+      <span class="flash-item"><b>Níveis de aplicação</b> = governo→individual</span>
+      <span class="flash-item"><b>Lalonde</b> = 80% estilo de vida/ambiente</span>
+      <span class="flash-item"><b>Ottawa</b> = 1986, 5 campos de ação</span>
+      <span class="flash-item"><b>PNPS</b> = tabagismo, álcool, trânsito...</span>
+      <span class="flash-item"><b>Grupo operativo</b> = roda de conversa</span>
+      <span class="flash-item"><b>Conselho</b> = permanente + deliberativo</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ CAP 3 ══ -->
+<div id="cap3" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap3)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 03</div>
+      <div class="chapter-title" style="color:var(--cap3)">Odontologia Coletiva: Perfil Profissional</div>
+    </div>
+  </div>
+
+  <!-- Mercado de trabalho -->
+  <div class="section">
+    <div class="section-title">Mercado de Trabalho Odontológico</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Dado</th><th>Valor</th></tr>
+        <tr><td>Dentistas registrados no CFO (2023)</td><td><strong style="color:var(--accent5)">+ 400 mil</strong> — o maior número do mundo</td></tr>
+        <tr><td>Relação hab./dentista no Brasil (atual)</td><td><strong style="color:#fff">1 : 489</strong></td></tr>
+        <tr><td>Relação hab./dentista no Paraná</td><td><strong style="color:var(--accent2)">1 : 458</strong></td></tr>
+        <tr><td>Brasileiros dependentes exclusivos do SUS</td><td><strong style="color:#fff">~71,5%</strong></td></tr>
+        <tr><td>Dentistas cadastrados no serviço público (SCNES)</td><td><strong style="color:var(--accent3)">~27%</strong></td></tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha</span>
+      Ter <strong>muitos dentistas</strong> não significa acesso equilibrado: há forte <strong>concentração em grandes centros</strong>, com desequilíbrio expressivo entre regiões — mesmo com a maioria da população dependendo só do SUS.
+    </div>
+  </div>
+
+  <!-- Ensino odontológico -->
+  <div class="section">
+    <div class="section-title">Ensino Odontológico no Brasil</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Crescimento das Faculdades</div>
+        <p>De <strong style="color:#fff">63 para 577</strong> faculdades de Odontologia. O Paraná é o <strong style="color:var(--accent2)">4º estado</strong> com mais faculdades do país.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Relação Habitante/Dentista</div>
+        <p><strong style="color:var(--accent5)">1999:</strong> 1.097 hab/dentista → <strong style="color:var(--accent2)">Hoje:</strong> ~489 hab/dentista.</p>
+      </div>
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 7ª CNS (1980) — a crítica que ainda ecoa</span>
+      Apontou o modelo odontológico como <strong>ineficaz, ineficiente, descoordenado</strong>, de <strong>baixa cobertura</strong>, alta complexidade tecnológica, enfoque essencialmente <strong>curativo</strong> e caráter mercantilista. A ABENO hoje sugere ampliar o uso do <strong>SUS como cenário de aprendizagem</strong> para superar esse modelo.
+    </div>
+  </div>
+
+  <!-- Brasil Sorridente e CEO -->
+  <div class="section">
+    <div class="section-title">Brasil Sorridente e Centros de Especialidades Odontológicas (CEO)</div>
+    <div class="card">
+      <div class="card-title">Antes de 2004</div>
+      <p>Apenas <strong style="color:var(--accent5)">3,3%</strong> dos atendimentos odontológicos do SUS eram especializados — dado que justificou a criação do Brasil Sorridente (2004) e dos CEO.</p>
+    </div>
+    <div class="section-title" style="margin-top:16px">5 Especialidades do CEO</div>
+    <div class="grid3">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent1)">Endodontia</div>
+        <p>Polpa e tecidos <strong style="color:#fff">perirradiculares</strong>. Preservação do dente.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2)">Periodontia</div>
+        <p>Tecidos de <strong style="color:#fff">suporte</strong> do dente: gengiva e osso alveolar.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent3)">Estomatologia</div>
+        <p><strong style="color:#fff">Diagnóstico</strong> de doenças da boca, incluindo biópsias.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent4)">Cirurgia Oral Menor</div>
+        <p>Subespecialidade da <strong style="color:#fff">bucomaxilo</strong>: extrações e pequenas lesões.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent5)">Pacientes com Necessidades Especiais</div>
+        <p>Perspectiva <strong style="color:#fff">biopsicossocial</strong> — vai além do aspecto clínico isolado.</p>
+      </div>
+    </div>
+    <div class="warn">
+      <span class="warn-label">⚠️ Pegadinha</span>
+      Não confunda <strong>Endodontia</strong> (interior do dente/polpa) com <strong>Periodontia</strong> (tecidos ao redor/suporte). Estomatologia é quem faz o <strong>diagnóstico</strong> — biópsias inclusive.
+    </div>
+  </div>
+
+  <!-- Trabalho em equipe -->
+  <div class="section">
+    <div class="section-title">Trabalho Multiprofissional — Desafios Reais</div>
+    <div class="card">
+      <div class="card-title">Da consulta isolada ao cuidado integral</div>
+      <p>O desafio é integrar a atuação da equipe de saúde bucal às demais ações da equipe multiprofissional, considerando o indivíduo em seu <strong style="color:#fff">contexto</strong> — e não apenas sua condição bucal isolada.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Estudo</th><th>Achado</th></tr>
+        <tr><td>Francisco Beltrão (PR)</td><td><strong style="color:var(--accent5)">71,4%</strong> dos ACS nunca receberam capacitação em saúde bucal; 58,9% nunca tiveram acompanhamento da ESB</td></tr>
+        <tr><td>Cascavel (PR)</td><td>Pouca articulação entre CD e ACS — <strong style="color:#fff">título de especialista não foi fator determinante</strong></td></tr>
+        <tr><td>Ciência & Saúde Coletiva (2011)</td><td>Vacinação em dia associada a ~<strong style="color:var(--accent2)">70%</strong> das crianças livres de cárie</td></tr>
+      </table>
+    </div>
+    <div class="tip">
+      <span class="tip-label">💡 Educação Permanente e UNA-SUS</span>
+      Educação permanente parte da <strong>problematização dos processos de trabalho</strong>, a partir das necessidades da prática cotidiana — não de cursos isolados. A UNA-SUS é a universidade aberta voltada a essa capacitação contínua.
+    </div>
+  </div>
+
+  <!-- Flash Cap 3 -->
+  <div class="flash">
+    <span class="flash-label">⚡ Resumo Relâmpago — Cap. 3</span>
+    <div class="flash-items">
+      <span class="flash-item"><b>+400 mil</b> dentistas no Brasil (2023)</span>
+      <span class="flash-item"><b>1:489</b> hab/dentista no Brasil</span>
+      <span class="flash-item"><b>71,5%</b> dependem só do SUS</span>
+      <span class="flash-item"><b>27%</b> dos dentistas no serviço público</span>
+      <span class="flash-item"><b>63→577</b> faculdades de Odontologia</span>
+      <span class="flash-item"><b>7ª CNS</b> (1980) = crítica ao modelo curativo</span>
+      <span class="flash-item"><b>Brasil Sorridente</b> = 2004</span>
+      <span class="flash-item"><b>3,3%</b> = especializado antes de 2004</span>
+      <span class="flash-item"><b>CEO</b> = 5 especialidades</span>
+      <span class="flash-item"><b>Endodontia</b> = polpa</span>
+      <span class="flash-item"><b>Periodontia</b> = suporte do dente</span>
+      <span class="flash-item"><b>Estomatologia</b> = diagnóstico/biópsia</span>
+      <span class="flash-item"><b>Francisco Beltrão</b> = 71,4% ACS sem capacitação</span>
+      <span class="flash-item"><b>UNA-SUS</b> = educação permanente</span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center; padding: 48px 0 32px; color:var(--muted); font-size:12px; font-family:'DM Mono',monospace; letter-spacing:1px; border-top:1px solid var(--border); margin-top:40px;">
+  SAÚDE COLETIVA I · ODONTOLOGIA · BOA PROVA! 🦷
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
