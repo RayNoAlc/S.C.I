@@ -3498,6 +3498,7 @@ let streak=0,maxStreak=0;
 let lives=SURVIVAL_LIVES;
 let sprintTimer=TIMER_SPRINT;
 let sprintTimerInterval=null;
+let sprintExpired=false; /* true assim que o cronômetro global do sprint chega a zero */
 let simuladoTimeLeft=SIMULADO_DURATION;
 let simuladoTimerInterval=null;
 let smartMode=false;
@@ -3851,11 +3852,19 @@ function _startQuizInternal(mode){
   // sprint timer
   if(mode==='sprint'){
     sprintTimer=TIMER_SPRINT;
+    sprintExpired=false;
     sprintTimerInterval=setInterval(()=>{
       sprintTimer--;
       updateSprintTimer();
       if(sprintTimer===15) triggerMusicEvent('time_low');
-      if(sprintTimer<=0){clearInterval(sprintTimerInterval);timeExpired();}
+      if(sprintTimer<=0){
+        clearInterval(sprintTimerInterval);
+        sprintExpired=true;
+        if(!answered) timeExpired(); /* revela a resposta certa da questão em andamento, se houver */
+        const nb=document.getElementById('next-btn');
+        nb.textContent='Ver resultado →';
+        nb.style.display='inline-block';
+      }
     },1000);
   }
 
@@ -4089,6 +4098,7 @@ function selectOption(idx){
 
 /* ─── NEXT QUESTION ─── */
 function nextQuestion(){
+  if(currentMode==='sprint'&&sprintExpired){showResult();return;}
   current++;
   triggerMusicEvent('time_ok'); /* reset tensão ao avançar questão */
 
