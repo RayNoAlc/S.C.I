@@ -2218,7 +2218,7 @@ body{padding-bottom:7rem!important}
         </div>
       </div>
     </div>
-    <div class="version-badge">S.C.I · v1.0β · Odontologia</div>
+    <div class="version-badge">S.C.I · v2.0β · Odontologia</div>
   </div>
 
 </div><!-- /#app -->
@@ -7970,6 +7970,22 @@ const _QA_CHECKS={
   review_modal:     {g:'Avaliação',  label:'Modal de avaliação abre'},
   review_submit:    {g:'Avaliação',  label:'Envio de avaliação (Supabase)'},
   review_list:      {g:'Avaliação',  label:'Lista de avaliações carrega'},
+  /* Multi-Prova (Prova 2) */
+  prova_registry:         {g:'Multi-Prova', label:'Registro PROVAS (p1/p2) configurado'},
+  prova_switch_data:      {g:'Multi-Prova', label:'setProva troca QUESTIONS/CAT_NAMES/SUBTOPICS'},
+  prova_switch_ui:        {g:'Multi-Prova', label:'Nav pills e grid de temas atualizam'},
+  prova_restore:          {g:'Multi-Prova', label:'Voltar p/ Prova 1 restaura dados originais'},
+  prova_lock_p2:          {g:'Multi-Prova', label:'Prova bloqueada exibe aviso e não troca'},
+  prova_map_switch:       {g:'Multi-Prova', label:'Mapa conceitual troca de tema/conceitos'},
+  prova_study_switch:     {g:'Multi-Prova', label:'Flashcards trocam de banco (STUDY_CARDS)'},
+  prova_perf_isolation:   {g:'Multi-Prova', label:'Desempenho (perf) isolado por prova'},
+  prova_ranking_isolation:{g:'Multi-Prova', label:'Ranking local separado por prova'},
+  prova_tutor_prompt:     {g:'Multi-Prova', label:'Tutor IA muda prompt conforme prova'},
+  prova_duel_encode:      {g:'Multi-Prova', label:'ID de duelo carrega a prova (bit extra)'},
+  prova_duel_legacy:      {g:'Multi-Prova', label:'ID de duelo antigo (14 char) = Prova 1'},
+  prova_quiz_guard:       {g:'Multi-Prova', label:'Aviso ao trocar de prova com quiz ativo'},
+  prova_material:         {g:'Multi-Prova', label:'Materiais da Prova 2 (PDF/resumo) presentes'},
+  prova_data_integrity:   {g:'Multi-Prova', label:'Conceitos/targets da Prova 2 sem link quebrado'},
 };
 /* Status inicial */
 Object.keys(_QA_CHECKS).forEach(k=>(_QA_CHECKS[k].status='pending'));
@@ -8004,6 +8020,211 @@ function _qaLog(msg,type='info'){
 }
 function _qaPass(key,note=''){const c=_QA_CHECKS[key];if(c){c.status='pass';if(note)c.note=note;if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();}}
 function _qaFail(key,note=''){const c=_QA_CHECKS[key];if(c){c.status='fail';c.note=note;_qaErrors.push((c.label||key)+(note?' — '+note:''));if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();}}
+
+/* ══════════════════════════════════════════════════════
+   TESTES MULTI-PROVA (Prova 2) — cada função é independente,
+   sempre restaura o estado original (currentProva/nickname/
+   _quizInProgress) ao final, mesmo em caso de falha no meio.
+══════════════════════════════════════════════════════ */
+function _qaTestProvaRegistry(){
+  try{
+    const ok = PROVAS && PROVAS.p1 && PROVAS.p2
+      && Array.isArray(PROVAS.p1.questions) && PROVAS.p1.questions.length>0
+      && Array.isArray(PROVAS.p2.questions) && PROVAS.p2.questions.length>0
+      && PROVAS.p2.ready===true;
+    if(ok){_qaPass('prova_registry');_qaLog(`✅ PROVAS OK — p1: ${PROVAS.p1.questions.length}q · p2: ${PROVAS.p2.questions.length}q`,'success');}
+    else _qaFail('prova_registry','estrutura inesperada em PROVAS (verifique p1/p2/ready)');
+  }catch(e){_qaFail('prova_registry',e.message);}
+}
+
+function _qaTestProvaSwitch(){
+  const orig=currentProva;
+  try{
+    const p1Count=QUESTIONS_P1.length, p2Count=QUESTIONS_P2.length;
+
+    /* Baseline conhecido: sempre começa a validação a partir da Prova 1,
+       independente de em qual prova o admin estava quando clicou o teste. */
+    setProva('p1',{force:true});
+
+    setProva('p2',{force:true});
+    const dataOk = currentProva==='p2' && QUESTIONS===QUESTIONS_P2 && QUESTIONS.length===p2Count
+      && CAT_NAMES===CAT_NAMES_P2 && SUBTOPICS===SUBTOPICS_P2 && HARD_QUESTIONS===HARD_QUESTIONS_P2;
+    dataOk?_qaPass('prova_switch_data'):_qaFail('prova_switch_data','ponteiros de dados não apontaram para _P2');
+
+    const pillsTxt=(document.getElementById('nav-topic-pills')||{}).textContent||'';
+    const toptName=(document.querySelector('#topt-0 .theme-name')||{}).textContent||'';
+    const uiOk = pillsTxt.includes(PROVAS.p2.pillLabels[0]) && toptName===CAT_NAMES_P2[0];
+    uiOk?_qaPass('prova_switch_ui'):_qaFail('prova_switch_ui','nav-topic-pills / theme-grid não atualizaram');
+
+    const mapOk = MAP_CONCEPTS===MAP_CONCEPTS_P2 && MAP_THEMES===MAP_THEMES_P2;
+    mapOk?_qaPass('prova_map_switch'):_qaFail('prova_map_switch','MAP_CONCEPTS/MAP_THEMES não trocaram');
+
+    const studyOk = STUDY_CARDS===STUDY_CARDS_P2;
+    studyOk?_qaPass('prova_study_switch'):_qaFail('prova_study_switch','STUDY_CARDS não trocou para STUDY_CARDS_P2');
+
+    setProva('p1',{force:true});
+    const restoreOk = currentProva==='p1' && QUESTIONS===QUESTIONS_P1 && QUESTIONS.length===p1Count
+      && CAT_NAMES===CAT_NAMES_P1 && MAP_CONCEPTS===MAP_CONCEPTS_P1 && STUDY_CARDS===STUDY_CARDS_P1;
+    restoreOk?_qaPass('prova_restore'):_qaFail('prova_restore','dados da Prova 1 não restauraram corretamente');
+    _qaLog('🔄 Troca de prova testada (ida e volta)','success');
+  }catch(e){
+    _qaFail('prova_switch_data',e.message);
+  }finally{
+    /* Devolve o admin para a prova em que estava antes de rodar o teste */
+    setProva(orig,{force:true});
+  }
+}
+
+function _qaTestProvaLock(){
+  const orig=currentProva;
+  const wasReady=PROVAS.p2.ready;
+  try{
+    PROVAS.p2.ready=false;
+    setProva('p2'); // sem force — deve ser bloqueado
+    const blocked = currentProva===orig;
+    const modalShown = document.getElementById('modal-overlay').style.display==='flex';
+    if(modalShown)closeModal();
+    if(blocked&&modalShown){_qaPass('prova_lock_p2');_qaLog('🔒 Bloqueio de prova não-pronta OK','success');}
+    else _qaFail('prova_lock_p2',`bloqueado=${blocked} modal=${modalShown}`);
+  }catch(e){_qaFail('prova_lock_p2',e.message);}
+  finally{PROVAS.p2.ready=wasReady;setProva(orig,{force:true});}
+}
+
+function _qaTestProvaDataIsolation(){
+  const orig=currentProva;
+  try{
+    const sentinelP1=1000+Math.floor(Math.random()*1000);
+    const sentinelP2=sentinelP1+1;
+    setProva('p1',{force:true});
+    savePerfData({...loadPerfData(),9:{right:sentinelP1,wrong:0}});
+    setProva('p2',{force:true});
+    savePerfData({...loadPerfData(),9:{right:sentinelP2,wrong:0}});
+    const p2Val=(loadPerfData()[9]||{}).right;
+    setProva('p1',{force:true});
+    const p1Val=(loadPerfData()[9]||{}).right;
+    const ok = p1Val===sentinelP1 && p2Val===sentinelP2;
+    if(ok){_qaPass('prova_perf_isolation');_qaLog('🧪 Isolamento de desempenho (perf) OK','success');}
+    else _qaFail('prova_perf_isolation',`esperado p1=${sentinelP1}/p2=${sentinelP2}, obtido p1=${p1Val}/p2=${p2Val}`);
+  }catch(e){_qaFail('prova_perf_isolation',e.message);}
+  finally{setProva(orig,{force:true});}
+}
+
+async function _qaTestProvaRankingIsolation(){
+  const orig=currentProva;
+  const prevNick=nickname;
+  try{
+    const testNick='_qa_'+Date.now();
+    nickname=testNick;
+    setProva('p1',{force:true});
+    await saveScore('sprint',111);
+    setProva('p2',{force:true});
+    await saveScore('sprint',222);
+    const p2Entry=getLocalRanking('sprint').find(e=>e.nick===testNick);
+    setProva('p1',{force:true});
+    const p1Entry=getLocalRanking('sprint').find(e=>e.nick===testNick);
+    const ok = p1Entry&&p1Entry.score===111 && p2Entry&&p2Entry.score===222;
+    if(ok){_qaPass('prova_ranking_isolation');_qaLog('🏆 Isolamento de ranking local OK','success');}
+    else _qaFail('prova_ranking_isolation','scores de p1/p2 se misturaram no ranking local');
+  }catch(e){_qaFail('prova_ranking_isolation',e.message);}
+  finally{nickname=prevNick;setProva(orig,{force:true});}
+}
+
+function _qaTestProvaTutorPrompt(){
+  const orig=currentProva;
+  try{
+    setProva('p1',{force:true});
+    const p1Prompt=getTutorSystemPrompt();
+    setProva('p2',{force:true});
+    const p2Prompt=getTutorSystemPrompt();
+    const ok = p1Prompt!==p2Prompt && /SUS/.test(p1Prompt) && /Atenção Básica/.test(p2Prompt);
+    if(ok){_qaPass('prova_tutor_prompt');_qaLog('🧠 Prompt do Tutor IA muda por prova','success');}
+    else _qaFail('prova_tutor_prompt','prompt idêntico ou sem palavras-chave esperadas');
+  }catch(e){_qaFail('prova_tutor_prompt',e.message);}
+  finally{setProva(orig,{force:true});}
+}
+
+function _qaTestProvaDuelEncode(){
+  try{
+    const cfg={themes:[0,1,2],count:10,timePerQ:30,difficulty:'normal',lives:false,speedScore:true,streak:true,secondTry:true,seed:54321,prova:'p2'};
+    const id=_encodeDuelId(cfg);
+    const dec=_decodeDuelId(id);
+    const newOk = !!dec && dec.prova==='p2' && id.length===15 && dec.count===10 && dec.seed===54321;
+    newOk?_qaPass('prova_duel_encode'):_qaFail('prova_duel_encode','decode não retornou prova=p2 (id: '+id+')');
+
+    /* Simula um ID no formato antigo (pré Prova 2, 14 chars / 3-char config) */
+    const themesBits=[0,1,2].reduce((a,t)=>a|(1<<t),0);
+    const countIdx=_DUEL_COUNTS.indexOf(10), timeIdx=_DUEL_TIMES.indexOf(30);
+    const legacyFlags=themesBits|((countIdx&0xF)<<3)|((timeIdx&0x7)<<7);
+    const legacyId='SCI-'+legacyFlags.toString(36).padStart(3,'0').toUpperCase()+(99999>>>0).toString(36).padStart(7,'0').toUpperCase();
+    const legacyDec=_decodeDuelId(legacyId);
+    const legacyOk = !!legacyDec && legacyDec.prova==='p1' && legacyId.length===14;
+    legacyOk?_qaPass('prova_duel_legacy'):_qaFail('prova_duel_legacy','ID legado (14 char) não decodificou como p1');
+
+    if(newOk&&legacyOk)_qaLog('⚔️ Duelo: prova no ID + retrocompatibilidade OK','success');
+  }catch(e){_qaFail('prova_duel_encode',e.message);_qaFail('prova_duel_legacy',e.message);}
+}
+
+function _qaTestProvaQuizGuard(){
+  const orig=currentProva;
+  const wasInProgress=_quizInProgress;
+  try{
+    const other=orig==='p1'?'p2':'p1';
+    _quizInProgress=true;
+    setProva(other); // sem force — deve pedir confirmação, não trocar na hora
+    const stillOnOrig = currentProva===orig;
+    const modalShown = document.getElementById('modal-overlay').style.display==='flex';
+    if(modalShown)closeModal();
+    if(stillOnOrig&&modalShown){_qaPass('prova_quiz_guard');_qaLog('⚠️ Aviso de troca com quiz ativo OK','success');}
+    else _qaFail('prova_quiz_guard',`ainda_na_original=${stillOnOrig} modal=${modalShown}`);
+  }catch(e){_qaFail('prova_quiz_guard',e.message);}
+  finally{_quizInProgress=wasInProgress;setProva(orig,{force:true});}
+}
+
+function _qaTestProvaMaterial(){
+  try{
+    const body=document.getElementById('mat-body-2');
+    const html=body?body.innerHTML:'';
+    const hasPdf=html.includes('prova2sci.pdf');
+    const hasResumo=html.includes('resumo_prova2.html');
+    if(hasPdf&&hasResumo){_qaPass('prova_material');_qaLog('📚 Materiais da Prova 2 presentes na tela','success');}
+    else _qaFail('prova_material',`pdf=${hasPdf} resumo=${hasResumo}`);
+  }catch(e){_qaFail('prova_material',e.message);}
+}
+
+function _qaTestProvaDataIntegrity(){
+  try{
+    const ids=new Set(MAP_CONCEPTS_P2.map(c=>c.id));
+    let brokenLinks=0;
+    MAP_CONCEPTS_P2.forEach(c=>{
+      (c.connects||[]).forEach(ref=>{if(!ids.has(ref))brokenLinks++;});
+      (c.crossConnects||[]).forEach(ref=>{if(!ids.has(ref))brokenLinks++;});
+    });
+    const targets=[...QUESTIONS_P2,...HARD_QUESTIONS_P2].map(q=>q.target).filter(Boolean);
+    const brokenTargets=targets.filter(t=>!ids.has(t)).length;
+    if(brokenLinks===0&&brokenTargets===0){_qaPass('prova_data_integrity');_qaLog('🔗 Nenhuma referência quebrada em conceitos/questões da Prova 2','success');}
+    else _qaFail('prova_data_integrity',`${brokenLinks} conexões e ${brokenTargets} targets quebrados`);
+  }catch(e){_qaFail('prova_data_integrity',e.message);}
+}
+
+async function _qaTestMultiProvaSuite(){
+  _qaLog('🧬 Rodando suite completa Multi-Prova (Prova 2)...','warn');
+  _qaTestProvaRegistry();
+  _qaTestProvaSwitch();
+  _qaTestProvaLock();
+  _qaTestProvaDataIsolation();
+  await _qaTestProvaRankingIsolation();
+  _qaTestProvaTutorPrompt();
+  _qaTestProvaDuelEncode();
+  _qaTestProvaQuizGuard();
+  _qaTestProvaMaterial();
+  _qaTestProvaDataIntegrity();
+  const keys=['prova_registry','prova_switch_data','prova_switch_ui','prova_restore','prova_lock_p2',
+    'prova_map_switch','prova_study_switch','prova_perf_isolation','prova_ranking_isolation',
+    'prova_tutor_prompt','prova_duel_encode','prova_duel_legacy','prova_quiz_guard','prova_material','prova_data_integrity'];
+  const passed=keys.filter(k=>_QA_CHECKS[k]&&_QA_CHECKS[k].status==='pass').length;
+  _qaLog(`🧬 Suite Multi-Prova concluída — ${passed}/${keys.length} aprovados`,passed===keys.length?'success':'warn');
+  if(_qaOpen&&_qaTab==='checklist')_renderQAChecklist();
+}
 
 /* ══ INTERCEPTORES ══ */
 (()=>{const o=finishLogin;window.finishLogin=function(){o.apply(this,arguments);if(currentUser&&currentUser.nickname===ADMIN_NICK)setTimeout(_activateAdminMode,500);};})();
@@ -8361,6 +8582,27 @@ function _renderQATestes(){
   <button class="qa-b" onclick="_qaTestCache()">⚡ Cache ops</button>
 </div>
 <div class="qa-hr"></div>
+<div class="qa-sec">🧬 Multi-Prova (Prova 2)</div>
+<div class="qa-br">
+  <button class="qa-b c" onclick="_qaTestProvaRegistry()">📋 Registro PROVAS</button>
+  <button class="qa-b" onclick="_qaTestProvaSwitch()">🔄 Troca de dados/UI</button>
+  <button class="qa-b y" onclick="_qaTestProvaLock()">🔒 Bloqueio P2</button>
+  <button class="qa-b" onclick="_qaTestProvaDataIsolation()">🧪 Isolamento perf</button>
+</div>
+<div class="qa-br">
+  <button class="qa-b" onclick="_qaTestProvaRankingIsolation()">🏆 Isolamento ranking</button>
+  <button class="qa-b" onclick="_qaTestProvaTutorPrompt()">🧠 Prompt do tutor</button>
+  <button class="qa-b" onclick="_qaTestProvaDuelEncode()">⚔️ Duelo + retrocompat</button>
+  <button class="qa-b" onclick="_qaTestProvaQuizGuard()">⚠️ Aviso mid-quiz</button>
+</div>
+<div class="qa-br">
+  <button class="qa-b" onclick="_qaTestProvaMaterial()">📚 Materiais P2</button>
+  <button class="qa-b" onclick="_qaTestProvaDataIntegrity()">🔗 Integridade de dados</button>
+</div>
+<div class="qa-br">
+  <button class="qa-b p full" onclick="_qaTestMultiProvaSuite()">🧬 Rodar tudo (Multi-Prova)</button>
+</div>
+<div class="qa-hr"></div>
 <div class="qa-sec">🎨 UI</div>
 <div class="qa-br">
   <button class="qa-b" onclick="_qaTestLightMode()">☀️ Modo claro</button>
@@ -8564,6 +8806,9 @@ function _runAutoDetection(){
   /* Hubs */
   const hubS=['home-screen','modos-screen','estudo-screen','desempenho-screen','config-screen'];
   if(hubS.includes(s))_qaPass('nav_hubs');
+  /* Multi-Prova (Prova 2) — checks que não dependem de tela específica */
+  if(typeof PROVAS!=='undefined'&&PROVAS.p1&&PROVAS.p2&&PROVAS.p2.ready)_qaPass('prova_registry');
+  if(s==='material-screen')_qaTestProvaMaterial();
   /* Música */
   if(typeof SCI_MUSIC!=='undefined')_qaPass('music_start');
   /* Dados persistidos */
@@ -8602,6 +8847,9 @@ async function _qaRunFullScan(skipReset=false){
   if(loadUserCards().length>0){_qaPass('ufc_create');_qaPass('ufc_persist');}
   if(loadHistory().length>0){_qaPass('result_history');_qaPass('evo_sparkline');}
   if(Object.keys(loadPerfData()||{}).length>0)_qaPass('fc_understood');
+  /* Multi-Prova — checagens leves, sem trocar de prova no meio do scan rápido */
+  _qaTestProvaRegistry();
+  _qaTestProvaDataIntegrity();
   _runAutoDetection();
   const passed=Object.values(_QA_CHECKS).filter(v=>v.status==='pass').length;
   _qaLog(`✅ Scan concluído — ${passed}/${Object.keys(_QA_CHECKS).length} aprovados`,'success');
@@ -8616,7 +8864,7 @@ const _QA_AUTO_STEPS=[
 /*
  * REGRA: cada step chama _qaPass(key) DIRETAMENTE.
  * Não depende de interceptores assíncronos.
- * 85 checks → todos cobertos explicitamente.
+ * 100 checks → todos cobertos explicitamente.
  */
 
 /* ═══ BLOCO 1 — DADOS & PERSISTÊNCIA (4 keys) ═══ */
@@ -9318,6 +9566,37 @@ const _QA_AUTO_STEPS=[
 {label:'[accessibility] aria-labels',
  fn:()=>{const b=document.getElementById('bn-home');if(b&&b.getAttribute('aria-label'))_qaPass('accessibility');else _qaFail('accessibility','aria-label ausente em bn-home');},
  delay:200},
+/* ═══ BLOCO MULTI-PROVA (Prova 2) — 15 keys ═══ */
+{label:'[prova_registry] registro PROVAS p1/p2',
+ fn:()=>_qaTestProvaRegistry(),
+ delay:250},
+{label:'[prova_switch_*/map/study/restore] troca de dados e UI',
+ fn:()=>_qaTestProvaSwitch(),
+ delay:500},
+{label:'[prova_lock_p2] bloqueio de prova não pronta',
+ fn:()=>_qaTestProvaLock(),
+ delay:500},
+{label:'[prova_perf_isolation] isolamento de desempenho',
+ fn:()=>_qaTestProvaDataIsolation(),
+ delay:500},
+{label:'[prova_ranking_isolation] isolamento de ranking local',
+ fn:()=>{_qaTestProvaRankingIsolation();},
+ delay:600},
+{label:'[prova_tutor_prompt] prompt do tutor muda por prova',
+ fn:()=>_qaTestProvaTutorPrompt(),
+ delay:300},
+{label:'[prova_duel_encode/legacy] duelo com prova + retrocompatibilidade',
+ fn:()=>_qaTestProvaDuelEncode(),
+ delay:300},
+{label:'[prova_quiz_guard] aviso de troca com quiz em andamento',
+ fn:()=>_qaTestProvaQuizGuard(),
+ delay:500},
+{label:'[prova_material] materiais da Prova 2 presentes',
+ fn:()=>{showScreen('material-screen');setTimeout(_qaTestProvaMaterial,200);},
+ delay:500},
+{label:'[prova_data_integrity] integridade de conceitos/questões P2',
+ fn:()=>_qaTestProvaDataIntegrity(),
+ delay:250},
 {label:'Scan final e re-verificação completa',
  fn:()=>{
    showScreen('home-screen');
