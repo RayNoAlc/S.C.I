@@ -114,6 +114,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .duel-divider::before,.duel-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .duel-divider span{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
 .duel-config-summary{background:var(--s2);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:6px}
+.duel-lobby-box{background:var(--s2);border:1px solid rgba(6,182,212,0.35);border-radius:var(--r);padding:1.3rem;margin-bottom:1.1rem}
+.duel-lobby-id-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.duel-lobby-id-row .duel-lobby-id{font-family:'Syne',sans-serif;font-weight:800;letter-spacing:0.08em;color:#06b6d4;font-size:15px}
+.duel-lobby-count{font-size:12px;color:var(--muted2);font-weight:600}
+.duel-lobby-players{display:flex;flex-direction:column;gap:7px;min-height:44px}
+.duel-lobby-player{display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--border2);border-radius:var(--r-sm);padding:9px 12px;font-size:13.5px;font-weight:500}
+.duel-lobby-you{color:#06b6d4;font-size:11px;font-weight:600}
+.duel-lobby-waiting-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#06b6d4;animation:duelPulse 1.3s ease-in-out infinite}
+@keyframes duelPulse{0%,100%{opacity:0.3;transform:scale(0.85)}50%{opacity:1;transform:scale(1.1)}}
+.duel-lobby-guest-msg{display:flex;align-items:center;gap:9px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:var(--muted2);margin-top:0.9rem}
+.duel-opponent-widget{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid rgba(6,182,212,0.35);border-radius:99px;padding:7px 16px;font-size:12px;font-weight:500;color:var(--muted2);display:flex;align-items:center;gap:8px;z-index:60;box-shadow:0 4px 16px rgba(0,0,0,0.3);max-width:90vw;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+@media(max-width:480px){.duel-opponent-widget{bottom:78px;font-size:11px}}
 .duel-cfg-tag{font-size:11px;padding:3px 9px;border-radius:99px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);color:#06b6d4;font-weight:500}
 
 /* Duel leaderboard */
@@ -734,6 +746,8 @@ body.light-mode .duel-enter-input{background:var(--s2);color:var(--text)}
 body.light-mode .sfc-textarea{background:var(--s2)}
 body.light-mode .history-banner{background:var(--s1)}
 body.light-mode .duel-id-box{background:var(--s2)}
+body.light-mode .duel-lobby-box{background:var(--s2)}
+body.light-mode .duel-lobby-player{background:var(--s1)}
 body.light-mode .duel-lb-header{background:var(--s1);border-color:rgba(6,182,212,0.28)}
 
 /* ── Modais ── */
@@ -1534,7 +1548,7 @@ body{padding-bottom:7rem!important}
     <div id="duel-id-config-summary" class="duel-config-summary"></div>
 
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.1rem">
-      <button class="btn btn-green" onclick="startDuelNow()" style="background:#06b6d4;color:#001a1f;width:100%;justify-content:center">▶️ Jogar agora</button>
+      <button class="btn btn-green" onclick="startDuelNow()" style="background:#06b6d4;color:#001a1f;width:100%;justify-content:center">🚪 Ir para a sala de espera</button>
       <button class="btn" onclick="shareDuelWhatsApp()" style="background:#25D366;color:#fff;padding:12px 22px;font-size:14px;width:100%;justify-content:center;border-radius:var(--r-sm)">💬 Convidar pelo WhatsApp</button>
     </div>
 
@@ -1550,6 +1564,38 @@ body{padding-bottom:7rem!important}
 
     <div style="margin-top:1.1rem">
       <button class="btn btn-ghost" onclick="showScreen('modos-screen')">← Modos de jogo</button>
+    </div>
+  </div>
+
+  <!-- DUELO: LOBBY (sala de espera) -->
+  <div id="duel-lobby-screen" class="screen">
+    <div class="sub-header">
+      <button class="sub-header-back" onclick="leaveDuelLobby()">← Sair da sala</button>
+      <div class="sub-header-title">⚔️ Sala de Espera</div>
+      <div class="sub-header-desc">Aguardando os jogadores entrarem</div>
+    </div>
+
+    <div class="duel-lobby-box">
+      <div class="duel-lobby-id-row">
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px">ID do duelo</div>
+          <div class="duel-lobby-id" id="duel-lobby-id">SCI-XXXXXXXXXX</div>
+        </div>
+        <div class="duel-lobby-count" id="duel-lobby-count">1 jogador</div>
+      </div>
+      <div class="duel-lobby-players" id="duel-lobby-players">
+        <div style="color:var(--muted);font-size:13px">Carregando...</div>
+      </div>
+    </div>
+
+    <div id="duel-lobby-host-actions" style="display:none">
+      <button class="btn btn-green" id="duel-lobby-start-btn" onclick="startDuelFromLobby()" style="background:#06b6d4;color:#001a1f;width:100%;justify-content:center;margin-bottom:0.6rem">🚀 Iniciar Duelo</button>
+      <button class="btn btn-ghost btn-sm" onclick="shareDuelWhatsApp()" style="width:100%;justify-content:center">💬 Convidar mais gente pelo WhatsApp</button>
+    </div>
+
+    <div id="duel-lobby-guest-wait" class="duel-lobby-guest-msg" style="display:none">
+      <span class="duel-lobby-waiting-dot"></span>
+      Aguardando o anfitrião iniciar o duelo... assim que ele começar, você entra automaticamente.
     </div>
   </div>
 
@@ -3300,6 +3346,9 @@ function _syncProvaFromCache(){
 }
 
 let _quizInProgress=false; /* impede troca de prova no meio de uma partida sem avisar */
+let _duelLobbyPollInterval=null;
+let _duelLobbyIsHost=false;
+let _duelOpponentPollInterval=null;
 
 function setProva(id, opts={}){
   const meta=PROVAS[id];
@@ -3508,9 +3557,9 @@ let modesPlayed=new Set();
 
 /* ─── UTILS ─── */
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-const SCREEN_ICONS={'professor-screen':'👩‍🏫','material-screen':'📚','tutor-screen':'🧠','home-screen':'🦷','auth-screen':'🦷','setup-screen':'⚙️','quiz-screen':'🧠','result-screen':'📊','review-screen':'📚','study-screen':'🃏','ranking-screen':'🏆','ach-screen':'🎖️','evo-screen':'📈','map-screen':'🕸️','modos-screen':'🎮','estudo-screen':'📖','desempenho-screen':'🏆','config-screen':'⚙️','duel-setup-screen':'⚔️','duel-id-screen':'⚔️','duel-leaderboard-screen':'⚔️'};
-const _NO_NAV_SCREENS=new Set(['auth-screen','quiz-screen','setup-screen']);
-const _TAB_MAP={'home-screen':'bn-home','modos-screen':'bn-jogar','setup-screen':'bn-jogar','quiz-screen':'bn-jogar','result-screen':'bn-jogar','review-screen':'bn-jogar','estudo-screen':'bn-estudo','study-screen':'bn-estudo','map-screen':'bn-estudo','material-screen':'bn-estudo','tutor-screen':'bn-estudo','professor-screen':'bn-desemp','desempenho-screen':'bn-desemp','ranking-screen':'bn-desemp','ach-screen':'bn-desemp','evo-screen':'bn-desemp','config-screen':'bn-config','duel-setup-screen':'bn-jogar','duel-id-screen':'bn-jogar','duel-leaderboard-screen':'bn-jogar'};
+const SCREEN_ICONS={'professor-screen':'👩‍🏫','material-screen':'📚','tutor-screen':'🧠','home-screen':'🦷','auth-screen':'🦷','setup-screen':'⚙️','quiz-screen':'🧠','result-screen':'📊','review-screen':'📚','study-screen':'🃏','ranking-screen':'🏆','ach-screen':'🎖️','evo-screen':'📈','map-screen':'🕸️','modos-screen':'🎮','estudo-screen':'📖','desempenho-screen':'🏆','config-screen':'⚙️','duel-setup-screen':'⚔️','duel-id-screen':'⚔️','duel-lobby-screen':'⚔️','duel-leaderboard-screen':'⚔️'};
+const _NO_NAV_SCREENS=new Set(['auth-screen','quiz-screen','setup-screen','duel-lobby-screen']);
+const _TAB_MAP={'home-screen':'bn-home','modos-screen':'bn-jogar','setup-screen':'bn-jogar','quiz-screen':'bn-jogar','result-screen':'bn-jogar','review-screen':'bn-jogar','estudo-screen':'bn-estudo','study-screen':'bn-estudo','map-screen':'bn-estudo','material-screen':'bn-estudo','tutor-screen':'bn-estudo','professor-screen':'bn-desemp','desempenho-screen':'bn-desemp','ranking-screen':'bn-desemp','ach-screen':'bn-desemp','evo-screen':'bn-desemp','config-screen':'bn-config','duel-setup-screen':'bn-jogar','duel-id-screen':'bn-jogar','duel-lobby-screen':'bn-jogar','duel-leaderboard-screen':'bn-jogar'};
 
 function _syncBottomNav(id){
   const nav=document.getElementById('bottom-nav');
@@ -3549,7 +3598,7 @@ const _HUB_MAP={
   'professor-screen':'hub-desemp','material-screen':'hub-estudo','tutor-screen':'hub-estudo','desempenho-screen':'hub-desemp','ranking-screen':'hub-desemp',
   'ach-screen':'hub-desemp','evo-screen':'hub-desemp',
   'config-screen':'hub-config',
-  'duel-setup-screen':'hub-duel','duel-id-screen':'hub-duel','duel-leaderboard-screen':'hub-duel',
+  'duel-setup-screen':'hub-duel','duel-id-screen':'hub-duel','duel-lobby-screen':'hub-duel','duel-leaderboard-screen':'hub-duel',
 };
 const _HUB_META={
   'hub-home':{icon:'🦷',label:'Início',show:false},
@@ -3584,7 +3633,8 @@ function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
-  if(id!=='quiz-screen')_quizInProgress=false;
+  if(id!=='quiz-screen'){_quizInProgress=false;_stopDuelOpponentWidget();}
+  if(id!=='duel-lobby-screen')clearInterval(_duelLobbyPollInterval);
   const _ni=document.querySelector('.nav-icon');
   if(_ni)_ni.textContent=SCREEN_ICONS[id]||'🦷';
   _syncBottomNav(id);
@@ -3795,6 +3845,7 @@ function _startQuizInternal(mode){
     document.getElementById('res-ranking-btn').style.display='none';
     document.getElementById('res-duel-lb-btn').style.display='inline-flex';
     showScreen('quiz-screen');loadQuestion();
+    _startDuelOpponentWidget();
     return;
   }else{
     pool=_getPool('normal',selectedThemes);
@@ -4102,6 +4153,7 @@ function nextQuestion(){
   if(currentMode==='sprint'&&sprintExpired){showResult();return;}
   current++;
   triggerMusicEvent('time_ok'); /* reset tensão ao avançar questão */
+  if(currentMode==='duel')_duelSyncOwnProgress();
 
   // Smart Training: when base phase ends, calculate and inject extras
   if(smartActive&&smartBaseCount>0&&!inSmartExtra&&current===smartBaseCount){
@@ -4146,6 +4198,7 @@ function showResult(){
   clearInterval(sprintTimerInterval);
   clearInterval(simuladoTimerInterval);
   _quizInProgress=false;
+  if(currentMode==='duel'){ _duelSyncOwnProgress(); _stopDuelOpponentWidget(); }
   document.getElementById('simulado-timer-row').style.display='none';
   // Garante que temas e foco de conceito nunca vazem para o próximo quiz
   _focusConceptId=null;
@@ -5710,7 +5763,7 @@ const SCI_MUSIC=(()=>{
 const _MUSIC_SCREEN_MAP={
   'home-screen':'home','auth-screen':'home','config-screen':'home',
   'modos-screen':'menu','setup-screen':'menu',
-  'duel-setup-screen':'menu','duel-id-screen':'menu',
+  'duel-setup-screen':'menu','duel-id-screen':'menu','duel-lobby-screen':'menu',
   'result-screen':'home','review-screen':'study',
   'study-screen':'study','map-screen':'study','estudo-screen':'study','material-screen':'study','tutor-screen':'study',
   'ranking-screen':'menu','ach-screen':'home','evo-screen':'home',
@@ -6931,6 +6984,207 @@ function closeCreditsModal(){
 let currentDuelConfig = null;
 let currentDuelId     = null;
 
+/* ════════════════════════════════════════════════════════════
+   LOBBY DE DUELO (sala de espera em tempo real)
+   Tabela: sci_duel_live (duel_id, user_id, nickname, q_idx,
+   score, is_host, started_at, updated_at)
+   Estratégia: polling a cada 2s via REST (sem WebSocket) —
+   simples e reaproveita o mesmo padrão de fetch já usado no
+   resto do app.
+════════════════════════════════════════════════════════════ */
+
+/* ID estável por navegador/conta, usado como user_id na sala.
+   Sem isso, dois convidados sem login colidiriam (ambos 'local'). */
+function _getLiveUserId(){
+  if(currentUser && currentUser.id && currentUser.id!=='local') return String(currentUser.id);
+  try{
+    let id=localStorage.getItem('sci_anon_id');
+    if(!id){
+      id=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():('anon-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+      localStorage.setItem('sci_anon_id',id);
+    }
+    return id;
+  }catch(e){ return 'anon-fallback'; }
+}
+
+/* Insere/atualiza a própria presença na sala (upsert) */
+let _duelLiveLastError=null; /* guarda detalhes do último erro, pra mostrar mensagem específica na UI */
+
+async function _duelLiveUpsert(duelId,fields={},_retry=true){
+  if(!USE_SUPABASE||!duelId) return false;
+  try{
+    const res=await sbFetch('/rest/v1/sci_duel_live?on_conflict=duel_id,user_id',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify({duel_id:duelId,user_id:_getLiveUserId(),nickname:nickname||'Anônimo',updated_at:new Date().toISOString(),...fields})
+    });
+    if(!res.ok){
+      const errTxt=await res.text().catch(()=>'');
+      console.warn('[duel-lobby] upsert falhou ('+res.status+'):',errTxt);
+      _duelLiveLastError={status:res.status,body:errTxt};
+      /* PGRST204 = coluna ausente no cache de schema do PostgREST. É um problema
+         persistente (config do banco), então tentar de novo não resolve. */
+      if(/PGRST204|schema cache/i.test(errTxt)) return false;
+      if(_retry) return _duelLiveUpsert(duelId,fields,false); /* uma nova tentativa */
+      return false;
+    }
+    _duelLiveLastError=null;
+    return true;
+  }catch(e){
+    console.warn('[duel-lobby] upsert — erro de rede:',e.message);
+    _duelLiveLastError={status:0,body:e.message};
+    if(_retry) return _duelLiveUpsert(duelId,fields,false);
+    return false;
+  }
+}
+
+/* Busca todos os participantes atuais da sala */
+async function _duelLiveFetch(duelId){
+  if(!USE_SUPABASE||!duelId) return [];
+  try{
+    const res=await sbFetch(`/rest/v1/sci_duel_live?duel_id=eq.${encodeURIComponent(duelId)}&select=*&order=updated_at.asc`);
+    if(!res.ok){
+      const errTxt=await res.text().catch(()=>'');
+      console.warn('[duel-lobby] fetch falhou ('+res.status+'):',errTxt);
+      return [];
+    }
+    return await res.json();
+  }catch(e){ console.warn('[duel-lobby] fetch — erro de rede:',e.message); return []; }
+}
+
+/* Sinaliza para TODOS os participantes que o duelo começou */
+async function _duelLiveSignalStart(duelId){
+  if(!USE_SUPABASE||!duelId) return;
+  try{
+    const res=await sbFetch(`/rest/v1/sci_duel_live?duel_id=eq.${encodeURIComponent(duelId)}`,{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({started_at:new Date().toISOString()})
+    });
+    if(!res.ok){
+      const errTxt=await res.text().catch(()=>'');
+      console.warn('[duel-lobby] signal-start falhou ('+res.status+'):',errTxt);
+    }
+  }catch(e){ console.warn('[duel-lobby] signal-start — erro de rede:',e.message); }
+}
+
+/* Remove a própria presença da sala (ao sair) */
+async function _duelLiveLeave(duelId){
+  if(!USE_SUPABASE||!duelId) return;
+  try{
+    await sbFetch(`/rest/v1/sci_duel_live?duel_id=eq.${encodeURIComponent(duelId)}&user_id=eq.${encodeURIComponent(_getLiveUserId())}`,{
+      method:'DELETE',headers:{'Prefer':'return=minimal'}
+    });
+  }catch(e){/* silencioso */}
+}
+
+/* Abre a sala de espera — chamada tanto pelo anfitrião quanto por quem entra com um ID */
+async function openDuelLobby(isHost){
+  if(!currentDuelId||!currentDuelConfig){
+    showModal({icon:'⚠️',title:'Erro',msg:'Configure ou insira um duelo primeiro.'});
+    return;
+  }
+  /* Sem Supabase configurado não há como sincronizar entre dispositivos —
+     preserva o comportamento antigo (começa direto) para não travar testes locais. */
+  if(!USE_SUPABASE){ _startQuizInternal('duel'); return; }
+
+  _duelLobbyIsHost=isHost;
+  document.getElementById('duel-lobby-id').textContent=currentDuelId;
+  document.getElementById('duel-lobby-host-actions').style.display=isHost?'block':'none';
+  document.getElementById('duel-lobby-guest-wait').style.display=isHost?'none':'flex';
+  document.getElementById('duel-lobby-players').innerHTML='<div style="color:var(--muted);font-size:13px">Carregando...</div>';
+  showScreen('duel-lobby-screen');
+
+  const ok=await _duelLiveUpsert(currentDuelId,{q_idx:0,score:0,is_host:isHost,started_at:null});
+  if(!ok){
+    let msg='⚠️ Não foi possível registrar sua presença na sala. Verifique sua conexão e tente sair e entrar novamente. Se persistir, confira o console do navegador (F12) para detalhes.';
+    if(_duelLiveLastError&&/PGRST204|schema cache/i.test(_duelLiveLastError.body||'')){
+      msg='⚠️ O banco de dados ainda não está pronto para o lobby: falta rodar a migração SQL (arquivo <b>migracao_duel_lobby.sql</b>) no Supabase, ou o cache de schema precisa ser recarregado (Painel do Supabase → Project Settings → API → "Reload Schema", ou execute <code>NOTIFY pgrst, \'reload schema\';</code>).';
+    }
+    document.getElementById('duel-lobby-players').innerHTML=`<div style="color:var(--danger);font-size:13px;line-height:1.5">${msg}</div>`;
+  }
+
+  clearInterval(_duelLobbyPollInterval);
+  _pollDuelLobby();
+  _duelLobbyPollInterval=setInterval(_pollDuelLobby,2000);
+}
+
+async function _pollDuelLobby(){
+  if(!document.getElementById('duel-lobby-screen').classList.contains('active')){
+    clearInterval(_duelLobbyPollInterval);
+    return;
+  }
+  const rows=await _duelLiveFetch(currentDuelId);
+  const myId=_getLiveUserId();
+
+  const list=document.getElementById('duel-lobby-players');
+  if(list){
+    list.innerHTML=rows.length?rows.map(r=>
+      `<div class="duel-lobby-player">${r.is_host?'👑':'👤'} ${r.nickname||'Anônimo'}${r.user_id===myId?' <span class="duel-lobby-you">(você)</span>':''}</div>`
+    ).join(''):'<div style="color:var(--muted);font-size:13px">Aguardando jogadores entrarem...</div>';
+  }
+  const countEl=document.getElementById('duel-lobby-count');
+  if(countEl) countEl.textContent=rows.length+(rows.length===1?' jogador':' jogadores');
+
+  const startBtn=document.getElementById('duel-lobby-start-btn');
+  if(startBtn){
+    startBtn.disabled=false; /* anfitrião sempre pode iniciar, mesmo sozinho (ex.: testar) */
+    startBtn.textContent=rows.length>1?'🚀 Iniciar Duelo':'🚀 Iniciar (ainda sem colegas)';
+  }
+
+  const started=rows.some(r=>r.started_at);
+  if(started){
+    clearInterval(_duelLobbyPollInterval);
+    _startQuizInternal('duel');
+  }
+}
+
+/* Anfitrião clica em Iniciar: sinaliza pra sala inteira e começa localmente */
+async function startDuelFromLobby(){
+  clearInterval(_duelLobbyPollInterval);
+  await _duelLiveSignalStart(currentDuelId);
+  _startQuizInternal('duel');
+}
+
+/* Sai da sala de espera sem iniciar o duelo */
+async function leaveDuelLobby(){
+  clearInterval(_duelLobbyPollInterval);
+  await _duelLiveLeave(currentDuelId);
+  showScreen(_duelLobbyIsHost?'duel-id-screen':'duel-setup-screen');
+}
+
+/* ── Progresso ao vivo do oponente durante o quiz (usa os mesmos q_idx/score) ── */
+function _duelSyncOwnProgress(){
+  if(currentMode!=='duel'||!currentDuelId||!USE_SUPABASE)return;
+  _duelLiveUpsert(currentDuelId,{q_idx:current,score:score});
+}
+
+function _startDuelOpponentWidget(){
+  if(!USE_SUPABASE||!currentDuelId)return;
+  const widget=document.createElement('div');
+  widget.className='duel-opponent-widget';
+  widget.id='duel-opponent-widget';
+  widget.textContent='🔄 Sincronizando com o oponente...';
+  document.body.appendChild(widget);
+  clearInterval(_duelOpponentPollInterval);
+  const poll=async()=>{
+    const rows=await _duelLiveFetch(currentDuelId);
+    const myId=_getLiveUserId();
+    const others=rows.filter(r=>r.user_id!==myId);
+    const el=document.getElementById('duel-opponent-widget');
+    if(!el)return;
+    if(!others.length){el.textContent='⏳ Aguardando o oponente entrar...';return;}
+    el.textContent=others.map(o=>`👤 ${o.nickname}: questão ${(o.q_idx||0)+1} · ${o.score||0} pts`).join('   ·   ');
+  };
+  poll();
+  _duelOpponentPollInterval=setInterval(poll,3000);
+}
+function _stopDuelOpponentWidget(){
+  clearInterval(_duelOpponentPollInterval);
+  const el=document.getElementById('duel-opponent-widget');
+  if(el)el.remove();
+}
+
 /* config interna do setup screen */
 let _duelSetupThemes    = [0,1,2];
 let _duelSetupCount     = 10;
@@ -7228,7 +7482,7 @@ function startDuelNow(){
     showModal({icon:'⚠️',title:'Erro',msg:'Configure e gere um duelo primeiro.'});
     return;
   }
-  _startQuizInternal('duel');
+  openDuelLobby(true);
 }
 
 /* ── Entrar num duelo pelo ID ── */
@@ -7256,7 +7510,7 @@ function enterDuelById(){
 
   currentDuelId     = raw;
   currentDuelConfig = config;
-  _startQuizInternal('duel');
+  openDuelLobby(false);
 }
 
 /* ── Entrar num duelo a partir da home screen (campo rápido) ── */
@@ -7302,7 +7556,7 @@ function enterDuelFromHomeBanner(){
   }
   currentDuelId=raw;
   currentDuelConfig=config;
-  _startQuizInternal('duel');
+  openDuelLobby(false);
 }
 
 /* _refreshDuelQuickBanner: banner removido da home — mantida para não quebrar chamadas */
@@ -7349,7 +7603,7 @@ function enterDuelFromModos(){
   }
   currentDuelId=raw;
   currentDuelConfig=config;
-  _startQuizInternal('duel');
+  openDuelLobby(false);
 }
 
 /* ── Salvar pontuação do duelo no Supabase + localmente ── */
@@ -11051,7 +11305,7 @@ if(typeof _QA_CHECKS!=='undefined'){
         /* Simulado pool */
         if(typeof SIMULADO_QUESTIONS!=='undefined')_qaPass('simulado_pool');
         /* Groq */
-        if(typeof sendTutorMessage==='function'&&content.includes?.('api.groq.com'))_qaPass('groq_api');
+        if(typeof sendTutorMessage==='function'&&sendTutorMessage.toString().includes('api.groq.com'))_qaPass('groq_api');
         if(document.getElementById('material-screen'))_qaPass('material_screen');
         if(document.getElementById('tutor-screen'))_qaPass('tutor_screen');
       }
