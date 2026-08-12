@@ -704,6 +704,17 @@ body.light-mode.hub-duel{
   --hub-glow1:rgba(6,182,212,0.28);--hub-glow2:rgba(14,165,233,0.16);
 }
 body.light-mode.hub-duel .bottom-nav{border-top-color:rgba(6,182,212,0.38)}
+/* ── Hub: Funções — Cobre (rotina, prática clínica) ── */
+body.hub-funcoes{
+  --accent:#ec4899;--accent-dim:rgba(236,72,153,0.09);--accent-border:rgba(236,72,153,0.30);
+  --hub-glow1:rgba(236,72,153,0.16);--hub-glow2:rgba(190,40,110,0.08);
+}
+body.hub-funcoes .bottom-nav{border-top-color:rgba(236,72,153,0.20)}
+body.light-mode.hub-funcoes{
+  --accent:#ec4899;--accent-dim:rgba(236,72,153,0.18);--accent-border:rgba(236,72,153,0.40);
+  --hub-glow1:rgba(236,72,153,0.30);--hub-glow2:rgba(190,40,110,0.16);
+}
+body.light-mode.hub-funcoes .bottom-nav{border-top-color:rgba(236,72,153,0.36)}
 
 /* ── Hero title: gradiente verde-brilhante → ciano ── */
 body.light-mode .hero-title{
@@ -1087,6 +1098,10 @@ body.light-mode ::-webkit-scrollbar-track{background:var(--s3)}
 .hub-card.hub-stats{border-color:rgba(251,191,36,0.22)}
 .hub-card.hub-stats:hover{border-color:#fbbf24}
 .hub-stats .hub-icon-wrap{background:rgba(251,191,36,0.09);border:1px solid rgba(251,191,36,0.28)}
+/* Funções — cobre */
+.hub-card.hub-func{border-color:rgba(236,72,153,0.22)}
+.hub-card.hub-func:hover{border-color:#ec4899}
+.hub-func .hub-icon-wrap{background:rgba(236,72,153,0.09);border:1px solid rgba(236,72,153,0.28)}
 .hub-icon-wrap{
   width:46px;height:46px;border-radius:12px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;font-size:22px;
@@ -1184,6 +1199,145 @@ body{padding-bottom:7rem!important}
 .graph-legend{display:flex;flex-wrap:wrap;gap:8px;padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted)}
 .graph-legend-item{display:flex;align-items:center;gap:4px}
 .graph-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ══════════════════════════════════════════════════════════
+   FUNÇÕES — rodízio semanal da clínica (Saúde Coletiva I)
+   Todo o CSS abaixo é escopado sob #funcoes-root para nunca
+   vazar pro resto da S.C.I. As variáveis de cor/raio/borda são
+   herdadas direto do :root da S.C.I; só as que não existem lá
+   (brand, ok, fontes, cores de função) são definidas aqui.
+══════════════════════════════════════════════════════════ */
+#funcoes-root{
+  --brand:#ec4899;--brand-dim:rgba(236,72,153,0.12);--brand-border:rgba(236,72,153,0.35);
+  --ok:var(--accent);--ok-dim:var(--accent-dim);
+  --f-display:'Syne',sans-serif;--f-body:'DM Sans',sans-serif;--f-mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+}
+#funcoes-root h1,#funcoes-root h2,#funcoes-root h3,#funcoes-root .f-display{font-family:var(--f-display)}
+#funcoes-root .f-mono{font-family:var(--f-mono)}
+#funcoes-root button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+#funcoes-root input,#funcoes-root select,#funcoes-root textarea{font-family:inherit;font-size:inherit;color:inherit;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 14px;width:100%}
+#funcoes-root input:focus,#funcoes-root select:focus,#funcoes-root textarea:focus{outline:none;border-color:var(--brand)}
+#funcoes-root input[type=color]{padding:2px}
+#funcoes-root input[type=checkbox]{width:auto;accent-color:var(--brand)}
+#funcoes-root a{color:var(--brand);text-decoration:none}
+#funcoes-root ::selection{background:var(--brand);color:#160f08}
+
+/* ── TYPOGRAPHY HELPERS ── */
+#funcoes-root .eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+#funcoes-root .page-title{font-size:1.5rem;font-weight:700;margin-bottom:6px;font-family:var(--f-display)}
+#funcoes-root .page-sub{color:var(--muted);font-size:13.5px;margin-bottom:24px}
+
+/* ── BUTTONS ── */
+#funcoes-root .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:var(--r-sm);font-weight:600;font-size:14px;transition:.15s;width:100%}
+#funcoes-root .btn-primary{background:var(--brand);color:#1a1206}
+#funcoes-root .btn-primary:hover{filter:brightness(1.08)}
+#funcoes-root .btn-ghost{background:var(--s2);border:1px solid var(--border2);color:var(--text)}
+#funcoes-root .btn-ghost:hover{border-color:var(--brand-border)}
+#funcoes-root .btn-danger{background:var(--danger-dim);color:var(--danger);border:1px solid rgba(255,107,107,0.3)}
+#funcoes-root .btn-sm{padding:9px 14px;font-size:13px;width:auto}
+#funcoes-root .btn-row{display:flex;gap:10px;justify-content:center}
+#funcoes-root .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* ── CARDS ── */
+#funcoes-root .card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:12px}
+#funcoes-root .card-title{font-weight:600;font-size:14px;margin-bottom:4px}
+#funcoes-root .card-sub{font-size:12.5px;color:var(--muted)}
+
+/* ── HERO CARD (função do dia — estilo crachá) ── */
+#funcoes-root .hero-card{border-radius:20px;padding:32px 24px;text-align:center;position:relative;overflow:hidden;margin-bottom:20px;border:1px solid var(--border2);background:var(--s1)}
+#funcoes-root .hero-card::before{content:'';position:absolute;inset:0;opacity:.5;background:radial-gradient(ellipse 120% 80% at 50% -10%,var(--_glow,var(--brand-dim)) 0%,transparent 70%)}
+#funcoes-root .hero-eyebrow{position:relative;font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-bottom:14px}
+#funcoes-root .hero-funcao{position:relative;font-family:var(--f-display);font-weight:700;font-size:2.2rem;line-height:1.05;margin-bottom:8px}
+#funcoes-root .hero-desc{position:relative;font-size:14px;color:var(--muted2)}
+#funcoes-root .hero-data{position:relative;font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:14px}
+
+/* ── RODA DO TURNO (elemento de assinatura) ── */
+#funcoes-root .roda-wrap{display:flex;align-items:center;justify-content:center;padding:20px 0 8px}
+#funcoes-root .roda-svg text{font-family:var(--f-mono);font-weight:600}
+#funcoes-root .roda-svg path{cursor:default}
+#funcoes-root .roda-legend{display:flex;flex-wrap:wrap;gap:7px 14px;justify-content:center;margin-bottom:20px;padding:0 8px}
+#funcoes-root .roda-legend-item{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted2)}
+#funcoes-root .roda-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ── FORM GROUPS ── */
+#funcoes-root .fg{margin-bottom:16px}
+#funcoes-root .fg label{display:block;font-size:12.5px;font-weight:600;color:var(--muted2);margin-bottom:6px}
+#funcoes-root .fg .hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+#funcoes-root .hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+#funcoes-root .check-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted2)}
+
+/* ── LISTS / TABLE-LIKE ── */
+#funcoes-root .list-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--s1);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:8px}
+#funcoes-root .list-item-main{flex:1;min-width:0}
+#funcoes-root .list-item-title{font-weight:600;font-size:14px}
+#funcoes-root .list-item-sub{font-size:12px;color:var(--muted)}
+#funcoes-root .badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;white-space:nowrap;display:inline-block}
+
+/* ── EMPTY STATE ── */
+#funcoes-root .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
+#funcoes-root .empty-state-icon{font-size:32px;margin-bottom:12px}
+
+/* ── TOAST ── */
+#funcoes-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:13.5px;font-weight:500;color:var(--text);opacity:0;pointer-events:none;transition:.25s;z-index:7100;max-width:90vw;font-family:'DM Sans',sans-serif}
+#funcoes-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── SEARCH ── */
+#funcoes-root .busca-resultados{margin-top:12px}
+#funcoes-root .busca-item{padding:13px 16px;background:var(--s1);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:8px;cursor:pointer;transition:.15s}
+#funcoes-root .busca-item:hover{border-color:var(--brand-border);background:var(--s2)}
+
+/* ── STEPPER (fluxo do professor) ── */
+#funcoes-root .stepper{display:flex;gap:6px;margin-bottom:28px}
+#funcoes-root .step-dot{flex:1;height:4px;border-radius:2px;background:var(--s3)}
+#funcoes-root .step-dot.active{background:var(--brand)}
+#funcoes-root .step-dot.done{background:var(--ok)}
+
+/* ── MODO CARDS (etapa 4) ── */
+#funcoes-root .modo-card{display:block;width:100%;text-align:left;background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:18px 20px;margin-bottom:12px;transition:.15s;cursor:pointer}
+#funcoes-root .modo-card:hover{border-color:var(--brand-border);background:var(--s2)}
+#funcoes-root .modo-card.selected{border-color:var(--brand);background:var(--brand-dim)}
+#funcoes-root .modo-card-icon{font-size:22px;margin-bottom:8px}
+#funcoes-root .modo-card-title{font-weight:700;font-size:15px;margin-bottom:4px;font-family:var(--f-display)}
+#funcoes-root .modo-card-sub{font-size:12.5px;color:var(--muted)}
+
+/* ── TABS (painel de gestão) ── */
+#funcoes-root .tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--border);margin-bottom:20px;padding-bottom:0}
+#funcoes-root .tab-btn{flex-shrink:0;padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+#funcoes-root .tab-btn.active{color:var(--brand);border-bottom-color:var(--brand)}
+#funcoes-root .tab-panel{display:none}
+#funcoes-root .tab-panel.active{display:block;animation:funcoesFadeIn .2s ease}
+@keyframes funcoesFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── KANBAN ── */
+#funcoes-root .kanban{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;align-items:start}
+#funcoes-root .kanban-col{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:12px;min-height:120px}
+#funcoes-root .kanban-col.dragover{border-color:var(--brand);background:var(--brand-dim)}
+#funcoes-root .kanban-col-title{font-weight:700;font-size:13px;margin-bottom:10px;display:flex;justify-content:space-between;color:var(--muted2)}
+#funcoes-root .kanban-card{background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:8px;cursor:grab;font-size:13px;font-weight:500}
+#funcoes-root .kanban-card:active{cursor:grabbing}
+#funcoes-root .kanban-card.dragging{opacity:.35}
+
+/* ── TABLE ── */
+#funcoes-root .tbl-wrap{overflow-x:auto}
+#funcoes-root table.data-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+#funcoes-root table.data-tbl th{text-align:left;padding:8px 6px;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border2);white-space:nowrap}
+#funcoes-root table.data-tbl td{padding:8px 6px;border-bottom:1px solid var(--border);white-space:nowrap}
+
+/* ── nav-pill (usado no status do professor logado) ── */
+#funcoes-root .nav-pill{font-size:12px;padding:6px 12px;border-radius:99px;border:1px solid var(--border2);color:var(--muted2);background:var(--s2)}
+
+/* ── UTIL ── */
+#funcoes-root .hidden{display:none !important}
+#funcoes-root .row-between{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#funcoes-root .text-center{text-align:center}
+#funcoes-root .mt-8{margin-top:8px}
+#funcoes-root .mt-16{margin-top:16px}
+#funcoes-root .mt-24{margin-top:24px}
+
+@media(max-width:480px){
+  #funcoes-root .hero-funcao{font-size:1.9rem}
+}
+
 </style>
 </head>
 <link rel="manifest" id="pwa-manifest-link">
@@ -1327,6 +1481,18 @@ body{padding-bottom:7rem!important}
             <span class="hub-tag">🏆 Ranking</span>
             <span class="hub-tag">🎖️ Conquistas</span>
             <span class="hub-tag">📈 Evolução</span>
+          </div>
+        </div>
+        <div class="hub-arrow">›</div>
+      </div>
+      <div class="hub-card hub-func" onclick="abrirFuncoesHub()">
+        <div class="hub-icon-wrap">🔄</div>
+        <div class="hub-body">
+          <div class="hub-title">Funções</div>
+          <div class="hub-desc">Sua função da semana na clínica</div>
+          <div class="hub-tags">
+            <span class="hub-tag">🎓 Minha turma</span>
+            <span class="hub-tag">👩‍🏫 Área do professor</span>
           </div>
         </div>
         <div class="hub-arrow">›</div>
@@ -2265,6 +2431,127 @@ body{padding-bottom:7rem!important}
       </div>
     </div>
     <div class="version-badge">S.C.I · v2.0β · Odontologia</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FUNÇÕES — rodízio semanal de funções da clínica
+       (parte prática de Saúde Coletiva I)
+  ═══════════════════════════════════════════════════════ -->
+  <div id="funcoes-root">
+
+
+
+
+<!-- ═══ FUNÇÕES — ENTRADA (escolha aluno/professor) ═══ -->
+<div id="funcoes-screen" class="screen">
+  <div class="sub-header">
+    <button class="sub-header-back" onclick="showScreen('home-screen')" aria-label="Voltar">← Início</button>
+    <div class="sub-header-title">🔄 Funções</div>
+    <div class="sub-header-desc">O rodízio semanal da clínica — veja sua função ou gerencie sua turma</div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">🎓 Sou aluno</div>
+    <div class="card-sub mt-8" style="margin-bottom:12px">Digite o código da sua turma (seu professor compartilhou esse código).</div>
+    <input id="entrada-codigo-input" placeholder="Ex: KKM4H2" maxlength="10" style="text-transform:uppercase;font-family:var(--f-mono);letter-spacing:.05em" onkeydown="if(event.key==='Enter')entrarComoAluno()">
+    <button class="btn btn-primary mt-16" onclick="entrarComoAluno()">Entrar →</button>
+    <div id="entrada-erro" class="hint" style="color:var(--danger)"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👩‍🏫 Sou professor</div>
+    <div class="card-sub mt-8" style="margin-bottom:12px">Gerencie sua turma e o rodízio de funções.</div>
+    <button class="btn btn-ghost" onclick="showScreen('prof-login-screen')">Entrar como professor</button>
+  </div>
+</div>
+
+<!-- ═══ FUNÇÕES — PROFESSOR: LOGIN ═══ -->
+<div id="prof-login-screen" class="screen">
+  <div class="sub-header">
+    <button class="sub-header-back" onclick="showScreen('funcoes-screen')" aria-label="Voltar">← Funções</button>
+    <div class="sub-header-title">👩‍🏫 Área do professor</div>
+    <div class="sub-header-desc">Use seu e-mail e senha cadastrados</div>
+  </div>
+  <div class="fg">
+    <label>E-mail</label>
+    <input id="login-email" type="email" placeholder="voce@email.com">
+  </div>
+  <div class="fg">
+    <label>Senha</label>
+    <input id="login-senha" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLogin()">
+  </div>
+  <button class="btn btn-primary" onclick="fazerLogin()">Entrar</button>
+  <div id="login-erro" class="hint" style="color:var(--danger);margin-top:10px"></div>
+  <div class="text-center mt-24" style="font-size:13px;color:var(--muted)">
+    Primeiro acesso? <a href="#" onclick="event.preventDefault();showScreen('prof-cadastro-screen')">Criar conta</a>
+  </div>
+</div>
+
+<!-- ═══ FUNÇÕES — PROFESSOR: CADASTRO ═══ -->
+<div id="prof-cadastro-screen" class="screen">
+  <div class="sub-header">
+    <button class="sub-header-back" onclick="showScreen('prof-login-screen')" aria-label="Voltar">← Voltar</button>
+    <div class="sub-header-title">👩‍🏫 Criar conta</div>
+    <div class="sub-header-desc">Leva menos de um minuto</div>
+  </div>
+  <div class="fg"><label>E-mail</label><input id="cad-email" type="email" placeholder="voce@email.com"></div>
+  <div class="fg"><label>Senha</label><input id="cad-senha" type="password" placeholder="Mínimo 6 caracteres"></div>
+  <button class="btn btn-primary" onclick="fazerCadastro()">Criar conta</button>
+  <div id="cad-erro" class="hint" style="color:var(--danger);margin-top:10px"></div>
+</div>
+
+<!-- ═══ FUNÇÕES — PROFESSOR: LISTA DE TURMAS ═══ -->
+<div id="prof-turmas-screen" class="screen">
+  <div class="sub-header">
+    <button class="sub-header-back" onclick="showScreen('funcoes-screen')" aria-label="Voltar">← Funções</button>
+    <div class="sub-header-title">👩‍🏫 Painel do professor</div>
+    <div class="sub-header-desc">Escolha uma turma ou crie uma nova</div>
+  </div>
+  <div class="row-between" id="funcoes-nav-actions" style="margin-bottom:14px"></div>
+  <button class="btn btn-primary" onclick="abrirCriarTurma()" style="margin-bottom:20px">+ Nova turma</button>
+  <div id="prof-turmas-lista"></div>
+</div>
+
+<!-- ═══ FUNÇÕES — PROFESSOR: CRIAR TURMA (fluxo em etapas) ═══ -->
+<div id="prof-criar-screen" class="screen">
+  <button class="btn btn-ghost btn-sm" onclick="showScreen('prof-turmas-screen')" style="margin-bottom:16px">← Cancelar</button>
+  <div class="stepper" id="criar-stepper"></div>
+  <div id="criar-etapa-content"></div>
+</div>
+
+<!-- ═══ FUNÇÕES — PROFESSOR: GESTÃO DA TURMA (dashboard pós-publicação, com abas) ═══ -->
+<div id="prof-gestao-screen" class="screen">
+  <button class="btn btn-ghost btn-sm" onclick="showScreen('prof-turmas-screen')" style="margin-bottom:16px">← Todas as turmas</button>
+  <div id="gestao-header"></div>
+  <div class="tabs" id="gestao-tabs"></div>
+  <div id="gestao-tab-hoje" class="tab-panel"></div>
+  <div id="gestao-tab-alunos" class="tab-panel"></div>
+  <div id="gestao-tab-cancelamentos" class="tab-panel"></div>
+  <div id="gestao-tab-notificacoes" class="tab-panel"></div>
+  <div id="gestao-tab-historico" class="tab-panel"></div>
+</div>
+
+<!-- ═══ FUNÇÕES — ALUNO: BUSCA ═══ -->
+<div id="aluno-busca-screen" class="screen">
+  <button class="btn btn-ghost btn-sm" onclick="showScreen('funcoes-screen')" style="margin-bottom:16px">← Voltar</button>
+  <div class="eyebrow" id="aluno-turma-nome">Turma</div>
+  <div class="page-title">Qual é o seu nome?</div>
+  <div class="page-sub">Digite pra encontrar seu nome na lista.</div>
+  <input id="aluno-busca-input" placeholder="Comece a digitar..." oninput="buscarAluno()" autofocus>
+  <div id="aluno-busca-resultados" class="busca-resultados"></div>
+</div>
+
+<!-- ═══ FUNÇÕES — ALUNO: FUNÇÃO DE HOJE + sub-telas (próximas semanas / notificações / histórico) ═══ -->
+<div id="aluno-funcao-screen" class="screen">
+  <button class="btn btn-ghost btn-sm" onclick="trocarAluno()" style="margin-bottom:16px">← Não sou eu</button>
+  <div id="aluno-funcao-content"></div>
+</div>
+
+<div id="funcoes-toast"></div>
+
+<!-- canvas invisível usado só pra gerar a imagem de exportação -->
+<canvas id="funcoes-export-canvas" style="display:none"></canvas>
+
+
   </div>
 
 </div><!-- /#app -->
@@ -11838,6 +12125,2288 @@ function _achOnDailyStreak(streak){
     _achOnDailyStreak(st.streak||0);
   };
 })();
+
+
+</script>
+<script>
+
+/* ══════════════════════════════════════════════════════════
+   FUNÇÕES — integração com o shell da S.C.I
+   (ícones de tela, tema do hub e ponto de entrada)
+══════════════════════════════════════════════════════════ */
+Object.assign(SCREEN_ICONS, {
+  'funcoes-screen':'🔄','prof-login-screen':'👩‍🏫','prof-cadastro-screen':'👩‍🏫',
+  'prof-turmas-screen':'👩‍🏫','prof-criar-screen':'👩‍🏫','prof-gestao-screen':'👩‍🏫',
+  'aluno-busca-screen':'🎓','aluno-funcao-screen':'🎓'
+});
+Object.assign(_HUB_MAP, {
+  'funcoes-screen':'hub-funcoes','prof-login-screen':'hub-funcoes','prof-cadastro-screen':'hub-funcoes',
+  'prof-turmas-screen':'hub-funcoes','prof-criar-screen':'hub-funcoes','prof-gestao-screen':'hub-funcoes',
+  'aluno-busca-screen':'hub-funcoes','aluno-funcao-screen':'hub-funcoes'
+});
+if (typeof _HUB_META !== 'undefined') {
+  _HUB_META['hub-funcoes'] = {icon:'🔄', label:'Funções', show:true};
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   MOTOR DE RODÍZIO v2 — fila rotativa com capacidades por função
+   ════════════════════════════════════════════════════════════
+   Mudança de modelo em relação à v1: em vez de um "ciclo" (array
+   de nomes de função, possivelmente repetidos), cada aluno tem um
+   NÚMERO DE FILA fixo dentro do seu turno (P). A cada sexta-feira
+   letiva, a fila inteira desloca uma posição; a posição efetiva de
+   cada aluno cai numa faixa de capacidade (ex: posições 0-5 = EXA,
+   6-7 = BOC, 8-15 = ESC, resto = MON) — sempre calculada sobre o
+   TAMANHO ATUAL do turno (quantos alunos ativos ele tem agora).
+
+   Isso significa que os alunos de um mesmo turno deixam de ser
+   100% independentes entre si (as vagas de cada função são um
+   recurso compartilhado) — mas cada TURNO continua independente
+   dos demais.
+
+   Nenhuma dependência de DOM ou banco. Datas são "YYYY-MM-DD",
+   tratadas como dias de calendário puros em UTC.
+════════════════════════════════════════════════════════════ */
+
+const MS_POR_DIA = 24 * 60 * 60 * 1000;
+const DIAS_POR_SEMANA = 7;
+
+function _paraTimestamp(isoDate) {
+  const [y, m, d] = isoDate.split('-').map(Number);
+  return Date.UTC(y, m - 1, d);
+}
+function _paraIso(ts) {
+  const dt = new Date(ts);
+  const y = dt.getUTCFullYear();
+  const m = String(dt.getUTCMonth() + 1).padStart(2, '0');
+  const d = String(dt.getUTCDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+function _paraTimstampOuThrow(isoDate) {
+  const ts = _paraTimestamp(isoDate);
+  if (Number.isNaN(ts)) throw new Error(`Data inválida: "${isoDate}"`);
+  return ts;
+}
+function ehSexta(isoDate) {
+  const dt = new Date(_paraTimstampOuThrow(isoDate));
+  return dt.getUTCDay() === 5;
+}
+function dataEhSextaFeira(iso) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return false;
+  return ehSexta(iso);
+}
+
+/** Índice do "slot semanal" de uma data em relação à primeira sexta da turma. */
+function slotDaData(dataPrimeiraSexta, dataAlvo) {
+  const tsPrimeira = _paraTimstampOuThrow(dataPrimeiraSexta);
+  const tsAlvo = _paraTimstampOuThrow(dataAlvo);
+  const diffDias = Math.round((tsAlvo - tsPrimeira) / MS_POR_DIA);
+  if (diffDias % DIAS_POR_SEMANA !== 0) {
+    throw new Error(`Data "${dataAlvo}" não está alinhada à cadência semanal a partir de "${dataPrimeiraSexta}" (diferença de ${diffDias} dias não é múltiplo de 7).`);
+  }
+  return diffDias / DIAS_POR_SEMANA;
+}
+function gerarSlots(dataPrimeiraSexta, slotFinal) {
+  const tsPrimeira = _paraTimstampOuThrow(dataPrimeiraSexta);
+  const slots = [];
+  for (let i = 0; i <= slotFinal; i++) slots.push(_paraIso(tsPrimeira + i * DIAS_POR_SEMANA * MS_POR_DIA));
+  return slots;
+}
+function mod(n, m) { return ((n % m) + m) % m; }
+
+function contarAvancosReais(slotAlvo, slotsCanceladosColetivo, slotsCanceladosIndividual) {
+  let avancos = 0;
+  for (let s = 0; s < slotAlvo; s++) {
+    if (!slotsCanceladosColetivo.has(s) && !slotsCanceladosIndividual.has(s)) avancos++;
+  }
+  return avancos;
+}
+function temAtividadeNoSlot(slot, slotsCanceladosColetivo, slotsCanceladosIndividual) {
+  if (slotsCanceladosColetivo.has(slot)) return { tem: false, motivo: 'coletivo' };
+  if (slotsCanceladosIndividual.has(slot)) return { tem: false, motivo: 'individual' };
+  return { tem: true, motivo: null };
+}
+
+/* ════════════════════════════════════════════════════════════
+   CAPACIDADES POR FUNÇÃO
+   Um array ordenado de {funcao, capacidade}. `capacidade: null`
+   significa "absorve o resto" (deve ser a ÚLTIMA entrada da lista).
+════════════════════════════════════════════════════════════ */
+
+function somaCapacidadesFixas(capacidades) {
+  return capacidades.reduce((acc, c) => acc + (c.capacidade == null ? 0 : c.capacidade), 0);
+}
+
+function validarCapacidades(capacidades, totalAtivos) {
+  const semLimite = capacidades.filter(c => c.capacidade == null);
+  const avisos = [];
+  if (semLimite.length === 0) {
+    avisos.push('Nenhuma função está marcada como "sem limite" (absorve o resto) — sobra ninguém pra cobrir se a soma não bater exatamente.');
+  } else if (semLimite.length > 1) {
+    avisos.push('Mais de uma função está marcada como "sem limite" — apenas a última será usada dessa forma.');
+  }
+  const soma = somaCapacidadesFixas(capacidades);
+  if (soma > totalAtivos) {
+    avisos.push(`A soma das capacidades fixas (${soma}) é maior que o total de alunos ativos nesse turno (${totalAtivos}). Algumas funções não vão fechar a cota toda semana.`);
+  }
+  return { valido: avisos.length === 0, avisos, soma };
+}
+
+function mapearPosicaoParaFuncao(posicao, capacidades) {
+  let acumulado = 0;
+  for (const c of capacidades) {
+    if (c.capacidade == null) return c.funcao;
+    if (posicao < acumulado + c.capacidade) return c.funcao;
+    acumulado += c.capacidade;
+  }
+  return capacidades[capacidades.length - 1].funcao;
+}
+
+function calcularFuncaoAluno({
+  numeroFila,
+  totalAtivosNoTurno,
+  capacidades,
+  dataPrimeiraSexta,
+  dataAlvo,
+  datasCanceladasColetivo = new Set(),
+  datasCanceladasIndividual = new Set(),
+  trocaManual = null,
+}) {
+  if (!Array.isArray(capacidades) || capacidades.length === 0) {
+    throw new Error('Capacidades inválidas: precisa ser um array não vazio de {funcao, capacidade}.');
+  }
+  if (!totalAtivosNoTurno || totalAtivosNoTurno < 1) {
+    throw new Error('totalAtivosNoTurno precisa ser >= 1.');
+  }
+  const slotAlvo = slotDaData(dataPrimeiraSexta, dataAlvo);
+  const slotsCanceladosColetivo = new Set([...datasCanceladasColetivo].map(d => slotDaData(dataPrimeiraSexta, d)));
+  const slotsCanceladosIndividual = new Set([...datasCanceladasIndividual].map(d => slotDaData(dataPrimeiraSexta, d)));
+
+  const { tem, motivo } = temAtividadeNoSlot(slotAlvo, slotsCanceladosColetivo, slotsCanceladosIndividual);
+  if (!tem) {
+    return { funcao: null, semAtividade: true, motivo, trocaManual: false, posicaoEfetiva: null, avancos: null };
+  }
+  if (trocaManual && trocaManual.data === dataAlvo) {
+    return { funcao: trocaManual.funcao, semAtividade: false, motivo: null, trocaManual: true, posicaoEfetiva: null, avancos: null };
+  }
+  const avancos = contarAvancosReais(slotAlvo, slotsCanceladosColetivo, slotsCanceladosIndividual);
+  const posicaoEfetiva = mod(numeroFila + avancos, totalAtivosNoTurno);
+  const funcao = mapearPosicaoParaFuncao(posicaoEfetiva, capacidades);
+  return { funcao, semAtividade: false, motivo: null, trocaManual: false, posicaoEfetiva, avancos };
+}
+
+function calcularFilaNovoAluno({ dataPrimeiraSexta, dataEntrada, totalAtivosAposEntrada, datasCanceladasColetivo = new Set() }) {
+  const slotEntrada = slotDaData(dataPrimeiraSexta, dataEntrada);
+  const slotsColetivo = new Set([...datasCanceladasColetivo].map(d => slotDaData(dataPrimeiraSexta, d)));
+  const avancos = contarAvancosReais(slotEntrada, slotsColetivo, new Set());
+  const numeroFila = mod((totalAtivosAposEntrada - 1) - avancos, totalAtivosAposEntrada);
+  return numeroFila;
+}
+
+function _funcoesMulberry32(seed) {
+  let a = seed;
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function sortearFilaInicial(alunoIds, seed) {
+  const rng = _funcoesMulberry32(seed);
+  const embaralhados = [...alunoIds];
+  for (let i = embaralhados.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [embaralhados[i], embaralhados[j]] = [embaralhados[j], embaralhados[i]];
+  }
+  const filas = {};
+  embaralhados.forEach((id, idx) => { filas[id] = idx; });
+  return filas;
+}
+
+function calcularFilaImportacao({ alunos, capacidades, dataPrimeiraSexta, dataReferencia }) {
+  const slotRef = slotDaData(dataPrimeiraSexta, dataReferencia);
+  const porFuncao = {};
+  capacidades.forEach(c => { porFuncao[c.funcao] = []; });
+  alunos.forEach(a => {
+    if (!porFuncao[a.funcao]) porFuncao[a.funcao] = [];
+    porFuncao[a.funcao].push(a);
+  });
+  Object.keys(porFuncao).forEach(f => porFuncao[f].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')));
+
+  const filas = {};
+  let posicaoBase = 0;
+  const N = alunos.length;
+  capacidades.forEach(c => {
+    const grupo = porFuncao[c.funcao] || [];
+    grupo.forEach((aluno, i) => {
+      const posicaoEfetivaDesejada = posicaoBase + i;
+      const avancos = slotRef;
+      filas[aluno.id] = mod(posicaoEfetivaDesejada - avancos, N);
+    });
+    posicaoBase += grupo.length;
+  });
+  return filas;
+}
+
+function contarHistoricoFuncoes({
+  numeroFila, dataPrimeiraSexta, dataEntradaAluno, dataLimite, capacidades,
+  totalAtivosNaData, datasCanceladasColetivo = new Set(), datasCanceladasIndividual = new Set(), trocasManuais = [],
+}) {
+  const contagem = {};
+  capacidades.forEach(c => { contagem[c.funcao] = 0; });
+  const slotEntrada = slotDaData(dataPrimeiraSexta, dataEntradaAluno);
+  const slotLimite = slotDaData(dataPrimeiraSexta, dataLimite);
+  if (slotLimite < slotEntrada) return contagem;
+  const datas = gerarSlots(dataPrimeiraSexta, slotLimite).slice(slotEntrada);
+  datas.forEach(data => {
+    const totalAtivos = totalAtivosNaData(data);
+    if (!totalAtivos) return;
+    const trocaData = trocasManuais.find(t => t.data === data);
+    const r = calcularFuncaoAluno({
+      numeroFila, totalAtivosNoTurno: totalAtivos, capacidades, dataPrimeiraSexta, dataAlvo: data,
+      datasCanceladasColetivo, datasCanceladasIndividual,
+      trocaManual: trocaData ? { data: trocaData.data, funcao: trocaData.funcao } : null,
+    });
+    if (!r.semAtividade) contagem[r.funcao] = (contagem[r.funcao] || 0) + 1;
+  });
+  return contagem;
+}
+
+/* ════════════════════════════════════════════════════════════
+   MOTOR DE RODÍZIO v3 — rodada por FUNÇÃO ATUAL, com quotas exatas
+   ════════════════════════════════════════════════════════════
+   Este bloco resolve um problema diferente do modelo de fila (v2):
+   em vez de calcular a função a partir de um número de fila fixo,
+   ele parte da FUNÇÃO QUE O ALUNO EXERCEU NA RODADA ANTERIOR e
+   decide a função da PRÓXIMA rodada, obedecendo três regras, nesta
+   ordem de prioridade (conforme definido com a coordenação):
+
+     1) Quotas exatas por função na rodada nova (ex: 6 EXA, 8 ESC,
+        2 BOC, resto MON) — nunca sobra nem falta vaga.
+     2) Nenhum aluno repete a MESMA função por mais de 2 rodadas
+        REAIS seguidas (rodadas com atividade; cancelamentos não
+        contam).
+     3) Sempre que possível, seguir a "rotação natural" observada
+        no histórico: MON→ESC, BOC→EXA, EXA→MON, e ESC→(EXA, BOC
+        ou permanece ESC) — evitando repetir a função mais recente
+        do aluno quando existir alternativa compatível com as
+        quotas.
+
+   Isso é útil para turmas que preenchem manualmente a lista de
+   presença e só depois formalizam o rodízio (como no caso real
+   observado: rodadas puladas por feriado, CEAPAC, aula teórica
+   etc. não entram na contagem de "rodadas seguidas").
+════════════════════════════════════════════════════════════ */
+
+const PROXIMA_FUNCAO_PADRAO = {
+  MON: 'ESC',
+  BOC: 'EXA',
+  EXA: 'MON',
+  // ESC não tem destino único — é resolvido dinamicamente (ver _resolverGrupoEsc)
+};
+
+/** Resolve um array de capacidades-alvo (com no máx. 1 entrada `capacidade: null`)
+ *  em um objeto {funcao: quantidadeExata}, calculado sobre `totalAlunos`. */
+function resolverCapacidadeAlvo(capacidadesAlvo, totalAlunos) {
+  const fixo = somaCapacidadesFixas(capacidadesAlvo);
+  if (fixo > totalAlunos) {
+    throw new Error(`Soma das capacidades-alvo fixas (${fixo}) excede o total de alunos (${totalAlunos}).`);
+  }
+  const resolvido = {};
+  capacidadesAlvo.forEach(c => {
+    resolvido[c.funcao] = c.capacidade == null ? (totalAlunos - fixo) : c.capacidade;
+  });
+  return resolvido;
+}
+
+/** Quantas rodadas REAIS seguidas (mais recentes primeiro) o aluno já fez
+ *  na função `funcao`, dado seu histórico recente (array, mais recente por
+ *  último). Cancelamentos não devem aparecer no array — filtre antes. */
+function contarSequenciaAtual(historicoRecente, funcao) {
+  let n = 0;
+  for (let i = historicoRecente.length - 1; i >= 0; i--) {
+    if (historicoRecente[i] !== funcao) break;
+    n++;
+  }
+  return n;
+}
+
+/**
+ * Calcula a função de cada aluno na PRÓXIMA rodada, a partir da função
+ * atual de cada um, respeitando quotas exatas e o limite de repetição.
+ *
+ * @param {Array<{id, funcaoAtual, historicoRecente?: string[]}>} alunos
+ *        historicoRecente é opcional; se ausente, assume-se [funcaoAtual]
+ *        (ou seja, sem informação sobre rodadas anteriores a essa).
+ * @param {Array<{funcao, capacidade:number|null}>} capacidadesAlvo
+ *        Igual ao formato usado em `calcularFuncaoAluno` — capacidade:null
+ *        absorve o restante (deve ser a última entrada).
+ * @returns {{
+ *   atribuicoes: Array<{id, funcaoAnterior, funcaoNova, ajustado:boolean, motivoAjuste:string|null}>,
+ *   conferencia: Record<string, number>,
+ *   avisos: string[],
+ * }}
+ */
+function calcularProximaRodada({ alunos, capacidadesAlvo }) {
+  if (!Array.isArray(alunos) || alunos.length === 0) {
+    throw new Error('Lista de alunos vazia ou inválida.');
+  }
+  const total = alunos.length;
+  const alvo = resolverCapacidadeAlvo(capacidadesAlvo, total);
+  const avisos = [];
+
+  const registros = alunos.map(a => {
+    const historico = a.historicoRecente && a.historicoRecente.length
+      ? a.historicoRecente
+      : [a.funcaoAtual];
+    const seq = contarSequenciaAtual(historico, a.funcaoAtual);
+    return {
+      id: a.id,
+      funcaoAnterior: a.funcaoAtual,
+      bloqueadoNaMesma: seq >= 2, // já fez 2x seguidas -> não pode fazer a 3ª
+      vezesPorFuncao: _contarVezesPorFuncao(historico),
+      funcaoNova: null,
+      ajustado: false,
+      motivoAjuste: null,
+    };
+  });
+
+  // 1) Transições determinísticas e seguras (nunca repetem a função atual,
+  //    então nunca esbarram na regra de "não mais que 2 seguidas").
+  registros.forEach(r => {
+    if (r.funcaoAnterior === 'MON') r.funcaoNova = 'ESC';
+    else if (r.funcaoAnterior === 'BOC') r.funcaoNova = 'EXA';
+    else if (r.funcaoAnterior === 'EXA') r.funcaoNova = 'MON';
+    // ESC fica em aberto (grupo "flexível", resolvido a seguir)
+  });
+
+  // 2) Quanto já está "gasto" de cada quota pelas transições fixas.
+  const usado = { EXA: 0, ESC: 0, BOC: 0, MON: 0 };
+  registros.forEach(r => { if (r.funcaoNova) usado[r.funcaoNova] = (usado[r.funcaoNova] || 0) + 1; });
+
+  const grupoEsc = registros.filter(r => r.funcaoAnterior === 'ESC');
+  const grupoExa = registros.filter(r => r.funcaoAnterior === 'EXA'); // já atribuídos a MON, mas podem ceder 1 vaga
+
+  // 3) Se MON (vindo de EXA) ultrapassar a quota de MON, alguns desses
+  //    precisam ir para ESC no lugar (única alternativa segura, já que
+  //    vinham de EXA e portanto não violam "2 seguidas" ao virar ESC).
+  let excedenteMon = usado.MON - (alvo.MON || 0);
+  if (excedenteMon > 0) {
+    const candidatosDesvio = [...grupoExa].sort((a, b) =>
+      (a.vezesPorFuncao.MON || 0) - (b.vezesPorFuncao.MON || 0) || // quem já fez menos MON, evita desviar (prioriza deixar MON pra quem tem menos histórico dele)
+      0
+    ).reverse(); // prioriza desviar quem JÁ tem mais MON no histórico (mais "justo" tirar dele)
+    for (let i = 0; i < excedenteMon && i < candidatosDesvio.length; i++) {
+      const r = candidatosDesvio[i];
+      r.funcaoNova = 'ESC';
+      r.ajustado = true;
+      r.motivoAjuste = 'Quota de MON já fechada; redirecionado para ESC (vinha de EXA, então não fere a regra de repetição).';
+      usado.MON--; usado.ESC++;
+    }
+  } else if (excedenteMon < 0) {
+    avisos.push(`Faltam ${-excedenteMon} aluno(s) para fechar a quota de MON — nenhuma transição natural (EXA→MON) preenche todas as vagas. Ajuste manual necessário.`);
+  }
+
+  // 4) Resolve o grupo ESC (flexível): parte deve virar EXA, parte BOC,
+  //    parte permanece ESC — nas quantidades que sobraram nas quotas.
+  const faltamExa = Math.max(0, (alvo.EXA || 0) - usado.EXA);
+  const faltamBoc = Math.max(0, (alvo.BOC || 0) - usado.BOC);
+  const faltamEsc = Math.max(0, (alvo.ESC || 0) - usado.ESC);
+
+  const bloqueados = grupoEsc.filter(r => r.bloqueadoNaMesma && r.funcaoNova === null);
+  const livres = grupoEsc.filter(r => !r.bloqueadoNaMesma && r.funcaoNova === null);
+
+  if (bloqueados.length > faltamExa + faltamBoc) {
+    avisos.push(`${bloqueados.length} aluno(s) não podem continuar em ESC (regra de 2 seguidas), mas só há ${faltamExa + faltamBoc} vaga(s) livre(s) em EXA/BOC para recebê-los. Ajuste manual necessário.`);
+  }
+
+  // Prioriza alocar os "bloqueados" primeiro (são obrigatórios), preferindo
+  // a função que fecham (BOC antes de EXA, pois BOC costuma ter só 2 vagas
+  // e é mais fácil ficar sem candidato disponível).
+  let restBoc = faltamBoc, restExa = faltamExa, restEsc = faltamEsc;
+
+  const alocar = (r, funcao) => {
+    r.funcaoNova = funcao;
+    usado[funcao]++;
+  };
+
+  // Ordena por "quem fez menos vezes essa função recentemente" para reforçar
+  // rotação justa quando há empate.
+  const ordenarPorMenosHistorico = (lista, funcao) =>
+    [...lista].sort((a, b) => (a.vezesPorFuncao[funcao] || 0) - (b.vezesPorFuncao[funcao] || 0));
+
+  ordenarPorMenosHistorico(bloqueados, 'BOC').forEach(r => {
+    if (r.funcaoNova) return;
+    if (restBoc > 0) { alocar(r, 'BOC'); restBoc--; }
+  });
+  bloqueados.forEach(r => {
+    if (r.funcaoNova) return;
+    if (restExa > 0) { alocar(r, 'EXA'); restExa--; }
+    else {
+      // não deveria acontecer se os avisos acima não dispararam; força EXA mesmo assim
+      alocar(r, 'EXA');
+      r.ajustado = true;
+      r.motivoAjuste = 'Sem vaga sobrando em EXA/BOC — alocado em EXA mesmo com quota já cheia. Revisar manualmente.';
+    }
+  });
+
+  ordenarPorMenosHistorico(livres, 'BOC').forEach(r => {
+    if (r.funcaoNova) return;
+    if (restBoc > 0) { alocar(r, 'BOC'); restBoc--; }
+  });
+  ordenarPorMenosHistorico(livres, 'EXA').forEach(r => {
+    if (r.funcaoNova) return;
+    if (restExa > 0) { alocar(r, 'EXA'); restExa--; }
+  });
+  livres.forEach(r => {
+    if (r.funcaoNova) return;
+    if (restEsc > 0) { alocar(r, 'ESC'); restEsc--; }
+    else {
+      // sobrou alguém sem vaga em ESC (quota fechada) — só pode acontecer
+      // se as quotas não baterem com o tamanho dos grupos; sinaliza.
+      avisos.push(`Aluno ${r.id} ficou sem função possível dentro das quotas informadas — revisar quotas manualmente.`);
+    }
+  });
+
+  // Marca como "ajustado" (para destaque na UI) qualquer aluno cuja função
+  // nova é igual à mais recente do histórico onde isso só foi evitado
+  // pela regra de quotas (ex.: teve que sair de ESC mesmo sem estar
+  // bloqueado, porque não havia mais vaga de EXA/BOC/MON compatível) —
+  // aqui sinalizamos especificamente os que estavam bloqueados.
+  registros.forEach(r => {
+    if (r.bloqueadoNaMesma) {
+      r.ajustado = true;
+      r.motivoAjuste = r.motivoAjuste || `Já estava 2 rodadas seguidas em ${r.funcaoAnterior}; redirecionado para ${r.funcaoNova}.`;
+    }
+  });
+
+  const conferencia = { EXA: 0, ESC: 0, BOC: 0, MON: 0 };
+  registros.forEach(r => { conferencia[r.funcaoNova] = (conferencia[r.funcaoNova] || 0) + 1; });
+  Object.keys(alvo).forEach(f => {
+    if (conferencia[f] !== alvo[f]) {
+      avisos.push(`Quota de ${f} não fechou: esperado ${alvo[f]}, obtido ${conferencia[f] || 0}.`);
+    }
+  });
+
+  return {
+    atribuicoes: registros.map(r => ({
+      id: r.id,
+      funcaoAnterior: r.funcaoAnterior,
+      funcaoNova: r.funcaoNova,
+      ajustado: r.ajustado,
+      motivoAjuste: r.motivoAjuste,
+    })),
+    conferencia,
+    avisos,
+  };
+}
+
+function _contarVezesPorFuncao(historico) {
+  const c = { EXA: 0, ESC: 0, BOC: 0, MON: 0 };
+  historico.forEach(f => { if (c[f] !== undefined) c[f]++; });
+  return c;
+}
+
+/**
+ * Encadeia `calcularProximaRodada` a partir de um estado inicial (a função
+ * mais recente + histórico curto de cada aluno), projetando N rodadas reais
+ * para a frente. Cada rodada usa o resultado da anterior como ponto de
+ * partida — é isso que faz a regra de "não repetir 2x seguidas" funcionar
+ * de verdade ao longo de várias semanas (em vez de cada semana ser
+ * calculada isoladamente, que é o bug que fazia um aluno aparecer 3
+ * semanas seguidas na mesma função).
+ *
+ * @param {Array<{id, funcaoAtual, historicoRecente?: string[]}>} estadoInicial
+ * @param {Array<{funcao, capacidade:number|null}>} capacidadesAlvo
+ * @param {number} quantidadeRodadas
+ * @returns {Array<{atribuicoes, conferencia, avisos}>} uma entrada por rodada projetada
+ */
+function projetarRodadas({ estadoInicial, capacidadesAlvo, quantidadeRodadas }) {
+  let estado = estadoInicial.map(e => ({
+    id: e.id,
+    funcaoAtual: e.funcaoAtual,
+    historicoRecente: [...(e.historicoRecente || [e.funcaoAtual])],
+  }));
+  const rodadas = [];
+  for (let i = 0; i < quantidadeRodadas; i++) {
+    const alunosParaMotor = estado.map(e => ({ id: e.id, funcaoAtual: e.funcaoAtual, historicoRecente: e.historicoRecente }));
+    const r = calcularProximaRodada({ alunos: alunosParaMotor, capacidadesAlvo });
+    rodadas.push(r);
+    const porId = {};
+    r.atribuicoes.forEach(a => { porId[a.id] = a.funcaoNova; });
+    estado = estado.map(e => {
+      const nova = porId[e.id];
+      return { id: e.id, funcaoAtual: nova, historicoRecente: [...e.historicoRecente, nova].slice(-3) };
+    });
+  }
+  return rodadas;
+}
+
+/* ── Exports (Node) ── */
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    ehSexta, dataEhSextaFeira, slotDaData, gerarSlots, mod,
+    contarAvancosReais, temAtividadeNoSlot,
+    somaCapacidadesFixas, validarCapacidades, mapearPosicaoParaFuncao,
+    calcularFuncaoAluno, calcularFilaNovoAluno, sortearFilaInicial,
+    calcularFilaImportacao, contarHistoricoFuncoes,
+    _funcoesMulberry32,
+    resolverCapacidadeAlvo, contarSequenciaAtual, calcularProximaRodada,
+    PROXIMA_FUNCAO_PADRAO, projetarRodadas,
+  };
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   CONFIGURAÇÃO DO SUPABASE
+   Troque pelos valores do SEU projeto (Settings → API no painel).
+════════════════════════════════════════════════════════════ */
+const FUNCOES_SUPABASE_URL = 'https://nyuzpkzwnbhheiapbhet.supabase.co';
+const FUNCOES_SUPABASE_ANON_KEY = 'sb_publishable_NkiheIZsK09J8TCkPJunkA_tz-KoKW1';
+
+const TURNOS = [
+  { id: 'manha_p1', label: 'Manhã — P1' },
+  { id: 'manha_p2', label: 'Manhã — P2' },
+  { id: 'tarde_p3', label: 'Tarde — P3' },
+  { id: 'tarde_p4', label: 'Tarde — P4' },
+];
+function labelTurno(id){ return (TURNOS.find(t=>t.id===id)||{}).label || id; }
+
+/* ── Estado em memória ── */
+let sessaoProfessor = null;   // {access_token, user:{id,email}}
+let turmaAtual = null;        // objeto turma sendo visualizada/editada
+let alunoAtual = null;        // aluno selecionado (fluxo do aluno)
+let criarTurmaState = null;   // estado do wizard de criação
+let gestaoTabAtiva = 'hoje';  // aba ativa no painel de gestão
+
+/* ════════════════════════════════════════════════════════════
+   CLIENTE SUPABASE (REST puro via fetch — sem lib externa)
+════════════════════════════════════════════════════════════ */
+function _configuracaoValida() {
+  return FUNCOES_SUPABASE_URL.startsWith('https://') &&
+         !FUNCOES_SUPABASE_URL.includes('SEU-') &&
+         !FUNCOES_SUPABASE_URL.includes('SUA-') &&
+         FUNCOES_SUPABASE_URL.includes('.supabase.co') &&
+         !FUNCOES_SUPABASE_ANON_KEY.includes('SUA-ANON-KEY');
+}
+function _erroDeConfiguracao(e) {
+  if (!_configuracaoValida()) {
+    return new Error('A plataforma ainda não está configurada: verifique as constantes FUNCOES_SUPABASE_URL e FUNCOES_SUPABASE_ANON_KEY no topo do arquivo.');
+  }
+  if (e.message && e.message.includes('Failed to fetch')) {
+    return new Error('Não foi possível conectar ao Supabase. Confira sua internet e se a FUNCOES_SUPABASE_URL está correta (sem espaços ou texto extra colado).');
+  }
+  return e;
+}
+async function sb(path, opts = {}) {
+  await garantirSessaoValida();
+  const headers = {
+    'apikey': FUNCOES_SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + (sessaoProfessor?.access_token || FUNCOES_SUPABASE_ANON_KEY),
+    'Content-Type': 'application/json',
+    ...opts.headers,
+  };
+  try {
+    return await fetch(`${FUNCOES_SUPABASE_URL}${path}`, { ...opts, headers });
+  } catch (e) {
+    throw _erroDeConfiguracao(e);
+  }
+}
+async function sbJson(path, opts = {}) {
+  let res = await sb(path, opts);
+  if (res.status === 401) {
+    // Token pode ter expirado entre a checagem proativa e a resposta chegar;
+    // tenta renovar uma vez e repetir a chamada antes de desistir.
+    const renovou = await renovarSessao();
+    if (renovou) res = await sb(path, opts);
+  }
+  if (!res.ok) {
+    const txt = await res.text().catch(() => '');
+    if (res.status === 401 && sessaoProfessor) {
+      // Sessão não pôde ser renovada: força novo login em vez de deixar
+      // o app preso em erros 401 silenciosos.
+      sairProfessor();
+      throw new Error('Sua sessão expirou. Faça login novamente.');
+    }
+    throw new Error(`Supabase ${res.status}: ${txt}`);
+  }
+  const txt = await res.text();
+  return txt ? JSON.parse(txt) : null;
+}
+
+/* ── Auth ── */
+async function authFetch(path, body) {
+  let res;
+  try {
+    res = await fetch(`${FUNCOES_SUPABASE_URL}/auth/v1/${path}`, {
+      method: 'POST',
+      headers: { 'apikey': FUNCOES_SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  } catch (e) {
+    throw _erroDeConfiguracao(e);
+  }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error_description || data.msg || data.error || 'Falha na autenticação');
+  return data;
+}
+
+async function fazerCadastro() {
+  const email = document.getElementById('cad-email').value.trim();
+  const senha = document.getElementById('cad-senha').value;
+  const erroEl = document.getElementById('cad-erro');
+  erroEl.textContent = '';
+  if (!email || senha.length < 6) { erroEl.textContent = 'Preencha e-mail e senha (mínimo 6 caracteres).'; return; }
+  try {
+    const data = await authFetch('signup', { email, password: senha });
+    if (data.access_token) {
+      sessaoProfessor = {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        user: data.user,
+        expira_em: Date.now() + (data.expires_in || 3600) * 1000,
+      };
+      salvarSessao();
+      await entrarPainelProfessor();
+    } else {
+      mostrarToast('Conta criada! Verifique seu e-mail para confirmar o acesso.');
+      showScreen('prof-login-screen');
+    }
+  } catch (e) { erroEl.textContent = e.message; }
+}
+
+async function fazerLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const senha = document.getElementById('login-senha').value;
+  const erroEl = document.getElementById('login-erro');
+  erroEl.textContent = '';
+  if (!email || !senha) { erroEl.textContent = 'Preencha e-mail e senha.'; return; }
+  try {
+    const data = await authFetch('token?grant_type=password', { email, password: senha });
+    sessaoProfessor = {
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
+      user: data.user,
+      expira_em: Date.now() + (data.expires_in || 3600) * 1000,
+    };
+    salvarSessao();
+    await entrarPainelProfessor();
+  } catch (e) { erroEl.textContent = 'E-mail ou senha incorretos.'; }
+}
+
+function salvarSessao() {
+  try { localStorage.setItem('rodizio_sessao', JSON.stringify(sessaoProfessor)); } catch (e) {}
+}
+function carregarSessao() {
+  try {
+    const raw = localStorage.getItem('rodizio_sessao');
+    if (raw) sessaoProfessor = JSON.parse(raw);
+  } catch (e) {}
+}
+function sairProfessor() {
+  sessaoProfessor = null;
+  try { localStorage.removeItem('rodizio_sessao'); } catch (e) {}
+  atualizarNavActions();
+  showScreen('funcoes-screen');
+}
+
+/* ── Renovação de sessão (evita "JWT expired") ── */
+let _renovacaoEmAndamento = null;
+async function renovarSessao() {
+  if (!sessaoProfessor?.refresh_token) return false;
+  if (_renovacaoEmAndamento) return _renovacaoEmAndamento;
+  _renovacaoEmAndamento = (async () => {
+    try {
+      const data = await authFetch('token?grant_type=refresh_token', { refresh_token: sessaoProfessor.refresh_token });
+      sessaoProfessor = {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token || sessaoProfessor.refresh_token,
+        user: data.user || sessaoProfessor.user,
+        expira_em: Date.now() + (data.expires_in || 3600) * 1000,
+      };
+      salvarSessao();
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      _renovacaoEmAndamento = null;
+    }
+  })();
+  return _renovacaoEmAndamento;
+}
+// Renova proativamente se o token estiver perto de expirar (ou sem expira_em salvo,
+// caso de sessões salvas antes desta correção).
+async function garantirSessaoValida() {
+  if (!sessaoProfessor?.access_token) return;
+  const faltamMenosDeUmMinuto = !sessaoProfessor.expira_em || (sessaoProfessor.expira_em - Date.now() < 60000);
+  if (faltamMenosDeUmMinuto) await renovarSessao();
+}
+
+async function entrarPainelProfessor() {
+  atualizarNavActions();
+  await carregarTurmasProfessor();
+  showScreen('prof-turmas-screen');
+}
+
+function atualizarNavActions() {
+  const el = document.getElementById('funcoes-nav-actions');
+  if (!el) return;
+  if (sessaoProfessor?.user) {
+    el.innerHTML = `<span class="nav-pill">${sessaoProfessor.user.email}</span><button class="btn btn-ghost btn-sm" onclick="sairProfessor()">Sair</button>`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   NAVEGAÇÃO
+   showScreen(id) já existe globalmente na S.C.I (mesmo
+   comportamento: esconde .screen, mostra o id, rola pro topo) —
+   reaproveitado aqui em vez de redeclarado.
+════════════════════════════════════════════════════════════ */
+function mostrarToast(msg) {
+  const t = document.getElementById('funcoes-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(() => t.classList.remove('show'), 3200);
+}
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function formatarDataBR(iso) {
+  const [y,m,d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
+function proximaSextaOuHoje() {
+  const d = new Date();
+  const diff = (5 - d.getDay() + 7) % 7;
+  d.setDate(d.getDate() + diff);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function hojeIso() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function hexToRgba(hex, alpha) {
+  const h = (hex || '#888888').replace('#','');
+  const r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   RODA DO ALUNO — elemento visual de assinatura (SVG gerado)
+   Uma fatia por SEMANA (não por posição na fila): a sequência de
+   funções de UM aluno específico ao longo do tempo. A data mais
+   próxima com atividade (nem sempre "hoje" — só tem atividade
+   nas sextas) fica no topo (12h); semanas passadas giram pra
+   trás (anti-horário), futuras (projeção) giram pra frente
+   (horário) — como um relógio que também mostra de onde você veio.
+════════════════════════════════════════════════════════════ */
+function desenharRodaAluno(semanas, indiceCentral, funcaoInfoPorNome, tamanho = 200) {
+  const n = semanas.length;
+  if (!n) return '';
+  const cx = tamanho/2, cy = tamanho/2, r = tamanho*0.40, rInner = tamanho*0.20;
+  const segAngle = (2*Math.PI)/n;
+  let svg = `<svg class="roda-svg" width="${tamanho}" height="${tamanho}" viewBox="0 0 ${tamanho} ${tamanho}">`;
+  semanas.forEach((s, i) => {
+    const startAngle = -Math.PI/2 + (i - indiceCentral)*segAngle;
+    const gap = Math.min(0.05, segAngle*0.12);
+    const endAngle = startAngle + segAngle - gap;
+    const isCentral = i === indiceCentral;
+    const isFuturo = i > indiceCentral;
+    const fi = s.semAtividade ? null : (funcaoInfoPorNome[s.funcao] || null);
+    const fill = fi ? (fi.cor || '#888') : 'rgba(255,255,255,0.07)';
+    const label = s.semAtividade ? 'Sem atividade' : (fi?.descricao || s.funcao);
+    const x1 = cx + r*Math.cos(startAngle), y1 = cy + r*Math.sin(startAngle);
+    const x2 = cx + r*Math.cos(endAngle), y2 = cy + r*Math.sin(endAngle);
+    const largeArc = (endAngle-startAngle) > Math.PI ? 1 : 0;
+    const opacity = isCentral ? 1 : (isFuturo ? 0.35 : 0.7);
+    const stroke = isCentral ? '#fff' : (isFuturo ? 'rgba(255,255,255,0.32)' : 'none');
+    const strokeW = isCentral ? 2 : (isFuturo ? 1 : 0);
+    const dash = (isFuturo && !isCentral) ? ' stroke-dasharray="2,2"' : '';
+    svg += `<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${fill}" opacity="${opacity}" stroke="${stroke}" stroke-width="${strokeW}"${dash}><title>${formatarDataBR(s.data)} · ${escapeHtml(label)}${s.trocou?' (troca)':''}</title></path>`;
+  });
+  const central = semanas[indiceCentral] || {};
+  const centralFi = central.semAtividade ? null : (funcaoInfoPorNome[central.funcao] || null);
+  const centralData = central.data ? (() => { const [y,m,d] = central.data.split('-'); return `${d}/${m}`; })() : '';
+  const centralLabel = central.semAtividade ? 'Sem ativ.' : (central.funcao || '');
+  const centralFontSize = centralLabel.length > 5 ? 10 : 14;
+  const centralCor = central.semAtividade ? '#6b7a8d' : (centralFi?.cor || '#e8eef4');
+  svg += `<circle cx="${cx}" cy="${cy}" r="${rInner}" fill="#0f1419" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>`;
+  svg += `<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="9" fill="#6b7a8d" letter-spacing="0.04em">${centralData}</text>`;
+  svg += `<text x="${cx}" y="${cy+13}" text-anchor="middle" font-size="${centralFontSize}" font-weight="700" fill="${centralCor}">${escapeHtml(centralLabel)}</text>`;
+  svg += `</svg>`;
+  return svg;
+}
+
+/** Legenda de cores por função, usada abaixo da roda do aluno. */
+function _rodaLegenda(funcoes) {
+  return `<div class="roda-legend">${(funcoes || []).map(f => `<span class="roda-legend-item"><span class="roda-legend-dot" style="background:${f.cor || '#888'}"></span>${escapeHtml(f.descricao || f.nome)}</span>`).join('')}</div>`;
+}
+
+/**
+ * Monta a janela de semanas (passadas + a semana central + futuras) com a
+ * função do aluno atual em cada uma — base tanto pra roda gráfica quanto
+ * pra lista da aba "Próximas semanas". Semanas passadas refletem rodadas
+ * já fechadas quando existirem (via computarSequenciaTurno); não é
+ * possível voltar antes do início da turma, então o nº de semanas
+ * passadas é ajustado automaticamente pra turmas mais novas.
+ */
+async function _montarJanelaSemanasAluno(dataCentral, semanasPassadas = 6, semanasFuturas = 6) {
+  const { datasCanceladasIndividual, trocas } = await _buscarExcecoesAluno(alunoAtual.id);
+  const slotCentral = slotDaData(turmaAtual.data_primeira_sexta, dataCentral);
+  const passadas = Math.min(semanasPassadas, slotCentral);
+  const slotInicio = slotCentral - passadas;
+  const slotFim = slotCentral + semanasFuturas;
+  const datasRange = gerarSlots(turmaAtual.data_primeira_sexta, slotFim).slice(slotInicio, slotFim + 1);
+  const indiceCentral = datasRange.indexOf(dataCentral);
+
+  const { porData } = await computarSequenciaTurno(alunoAtual.turno, datasRange[datasRange.length - 1]);
+
+  const semanas = datasRange.map(data => {
+    const funcaoCalculada = (porData[data] || {})[alunoAtual.id] ?? null;
+    const trocaData = trocas.find(t => t.data === data);
+    const faltaData = datasCanceladasIndividual.has(data);
+    return {
+      data,
+      funcaoCalculada,
+      funcao: trocaData ? trocaData.funcoes.nome : funcaoCalculada,
+      semAtividade: funcaoCalculada === null || faltaData,
+      trocou: !!trocaData,
+    };
+  });
+
+  return { semanas, indiceCentral };
+}
+
+/* ════════════════════════════════════════════════════════════
+   FLUXO DO ALUNO
+════════════════════════════════════════════════════════════ */
+let turmaDados = null; // cache: {funcoes, capacidades, funcaoInfoPorNome, alunosAtivos, alunosTodos(por turno), totalAtivosPorTurno, cancelamentosColetivos}
+
+async function entrarComoAluno(codigoForcado) {
+  const codigo = (codigoForcado || document.getElementById('entrada-codigo-input').value).trim().toUpperCase();
+  const erroEl = document.getElementById('entrada-erro');
+  erroEl.textContent = '';
+  if (!codigo) { erroEl.textContent = 'Digite o código da turma.'; return; }
+  try {
+    const turmas = await sbJson(`/rest/v1/turmas?codigo_acesso=eq.${encodeURIComponent(codigo)}&status=eq.publicada&select=*`);
+    if (!turmas || !turmas.length) { erroEl.textContent = 'Código não encontrado (ou a turma ainda não foi publicada).'; return; }
+    turmaAtual = turmas[0];
+    await carregarDadosTurmaCompletos(turmaAtual.id);
+    document.getElementById('aluno-turma-nome').textContent = turmaAtual.nome;
+    document.getElementById('aluno-busca-input').value = '';
+    document.getElementById('aluno-busca-resultados').innerHTML = '';
+    showScreen('aluno-busca-screen');
+    setTimeout(() => document.getElementById('aluno-busca-input')?.focus(), 100);
+  } catch (e) {
+    console.error(e);
+    erroEl.textContent = 'Erro ao buscar a turma. Verifique sua conexão e tente de novo.';
+  }
+}
+
+/**
+ * Carrega tudo que é necessário pra calcular funções da turma inteira:
+ * - funcoes ordenadas por `ordem` (vira o array de capacidades pro motor)
+ * - alunos ativos (pra busca, listas etc) e TODOS os alunos (pra histórico)
+ * - totalAtivosPorTurno: quantos alunos ativos cada turno tem AGORA
+ * - cancelamentos coletivos da turma inteira
+ */
+async function carregarDadosTurmaCompletos(turmaId) {
+  const [funcoes, alunosAtivos, alunosTodos, cancColetivos, rodadas] = await Promise.all([
+    sbJson(`/rest/v1/funcoes?turma_id=eq.${turmaId}&select=*&order=ordem.asc`),
+    sbJson(`/rest/v1/alunos?turma_id=eq.${turmaId}&ativo=eq.true&select=*&order=nome.asc`),
+    sbJson(`/rest/v1/alunos?turma_id=eq.${turmaId}&select=*&order=nome.asc`),
+    sbJson(`/rest/v1/cancelamentos_coletivos?turma_id=eq.${turmaId}&select=*`),
+    sbJson(`/rest/v1/rodadas_publicadas?turma_id=eq.${turmaId}&select=aluno_id,data,funcao&order=data.asc`),
+  ]);
+  const capacidades = (funcoes || []).map(f => ({ funcao: f.nome, capacidade: f.capacidade_maxima }));
+  const funcaoInfoPorNome = {};
+  (funcoes || []).forEach(f => { funcaoInfoPorNome[f.nome] = f; });
+  const totalAtivosPorTurno = {};
+  (alunosAtivos || []).forEach(a => { totalAtivosPorTurno[a.turno] = (totalAtivosPorTurno[a.turno] || 0) + 1; });
+  const rodadasPorAluno = {};
+  (rodadas || []).forEach(r => { (rodadasPorAluno[r.aluno_id] = rodadasPorAluno[r.aluno_id] || []).push({ data: r.data, funcao: r.funcao }); });
+  turmaDados = {
+    funcoes: funcoes || [],
+    capacidades,
+    funcaoInfoPorNome,
+    alunosAtivos: alunosAtivos || [],
+    alunosTodos: alunosTodos || [],
+    totalAtivosPorTurno,
+    cancelamentosColetivos: cancColetivos || [],
+    rodadasPorAluno,
+  };
+}
+
+/** Recalcula só a parte derivada (capacidades/mapas) sem novo fetch — usado após edições locais */
+function _recalcularDerivadosTurmaDados() {
+  turmaDados.capacidades = turmaDados.funcoes.map(f => ({ funcao: f.nome, capacidade: f.capacidade_maxima }));
+  turmaDados.funcaoInfoPorNome = {};
+  turmaDados.funcoes.forEach(f => { turmaDados.funcaoInfoPorNome[f.nome] = f; });
+  turmaDados.totalAtivosPorTurno = {};
+  turmaDados.alunosAtivos.forEach(a => { turmaDados.totalAtivosPorTurno[a.turno] = (turmaDados.totalAtivosPorTurno[a.turno] || 0) + 1; });
+}
+
+function buscarAluno() {
+  const termo = document.getElementById('aluno-busca-input').value.trim().toLowerCase();
+  const resultadosEl = document.getElementById('aluno-busca-resultados');
+  if (!termo) { resultadosEl.innerHTML = ''; return; }
+  const encontrados = (turmaDados?.alunosAtivos || []).filter(a => a.nome.toLowerCase().includes(termo));
+  if (!encontrados.length) {
+    resultadosEl.innerHTML = `<div class="empty-state" style="padding:24px 0"><div class="empty-state-icon">🔍</div>Nenhum nome encontrado com "${escapeHtml(termo)}".</div>`;
+    return;
+  }
+  resultadosEl.innerHTML = encontrados.map(a =>
+    `<div class="busca-item" onclick="selecionarAluno('${a.id}')">${escapeHtml(a.nome)} <span style="color:var(--muted);font-size:12px">— ${labelTurno(a.turno)}</span></div>`
+  ).join('');
+}
+
+async function selecionarAluno(alunoId) {
+  alunoAtual = turmaDados.alunosAtivos.find(a => a.id === alunoId);
+  if (!alunoAtual) return;
+  showScreen('aluno-funcao-screen');
+  document.getElementById('aluno-funcao-content').innerHTML = '<div class="empty-state">Carregando...</div>';
+  await exibirFuncaoAluno();
+}
+
+function trocarAluno() {
+  alunoAtual = null;
+  showScreen('aluno-busca-screen');
+}
+
+/** Busca as exceções específicas de UM aluno (cancelamentos individuais + trocas manuais) */
+async function _buscarExcecoesAluno(alunoId) {
+  const [cancIndiv, trocas] = await Promise.all([
+    sbJson(`/rest/v1/cancelamentos_individuais?aluno_id=eq.${alunoId}&select=data`),
+    sbJson(`/rest/v1/trocas_manuais?aluno_id=eq.${alunoId}&select=data,funcoes(nome)`),
+  ]);
+  return {
+    datasCanceladasIndividual: new Set((cancIndiv || []).map(c => c.data)),
+    trocas: trocas || [],
+  };
+}
+
+function _datasCanceladasColetivoDoTurno(turno) {
+  return new Set(
+    (turmaDados.cancelamentosColetivos || [])
+      .filter(c => !c.turno || c.turno === turno)
+      .map(c => c.data)
+  );
+}
+
+/**
+ * Motor v3 em produção: calcula a função de cada aluno ATIVO de um turno em
+ * cada rodada real entre o início da turma e `dataLimite` (inclusive).
+ *
+ * Âncora: a última rodada que já está em `turmaDados.rodadasPorAluno` (ou
+ * seja, que o professor já "fechou" — ver `fecharRodada`). A partir daí,
+ * projeta pra frente com `projetarRodadas` (motor v3: quotas exatas + nunca
+ * repete a mesma função 3x seguidas). Se a turma NUNCA fechou nenhuma
+ * rodada ainda, a primeira rodada real é calculada com a fórmula antiga
+ * (numero_fila, sem histórico pra respeitar — não tem como violar a regra
+ * de repetição numa primeira rodada) e as seguintes já saem encadeadas.
+ *
+ * Cancelamentos coletivos não contam como rodada (nem consomem posição, nem
+ * entram na cadeia) — igual ao motor v2.
+ *
+ * @returns {{ datas: string[], porData: Record<string, Record<string,string|null>> }}
+ *          porData[data][alunoId] = sigla da função, ou null se sem atividade nessa data.
+ */
+async function computarSequenciaTurno(turno, dataLimite) {
+  const alunos = turmaDados.alunosAtivos.filter(a => a.turno === turno);
+  if (!alunos.length) return { datas: [], porData: {} };
+
+  const datasCanceladasColetivo = _datasCanceladasColetivoDoTurno(turno);
+  const slotLimite = slotDaData(turmaAtual.data_primeira_sexta, dataLimite);
+  const todasDatas = gerarSlots(turmaAtual.data_primeira_sexta, slotLimite);
+  const porData = {};
+  todasDatas.forEach(d => { porData[d] = {}; });
+
+  const rodadasPorAluno = turmaDados.rodadasPorAluno || {};
+  // Última data em que TODOS os alunos ativos do turno já têm rodada fechada.
+  let ultimaFechadaComum = null;
+  for (const d of todasDatas) {
+    if (datasCanceladasColetivo.has(d)) continue;
+    const todosTem = alunos.every(a => (rodadasPorAluno[a.id] || []).some(r => r.data === d));
+    if (todosTem) ultimaFechadaComum = d;
+    else break; // primeira data real sem fechamento completo interrompe a âncora
+  }
+
+  // Preenche as datas já fechadas (inclusive as cancelativas, marcadas null) até a âncora.
+  let estado = null; // {[alunoId]: {funcaoAtual, historicoRecente}}
+  for (const d of todasDatas) {
+    if (ultimaFechadaComum && d > ultimaFechadaComum) break;
+    if (datasCanceladasColetivo.has(d)) { alunos.forEach(a => { porData[d][a.id] = null; }); continue; }
+    const passo = {};
+    alunos.forEach(a => {
+      const rec = (rodadasPorAluno[a.id] || []).find(r => r.data === d);
+      passo[a.id] = rec ? rec.funcao : null;
+      porData[d][a.id] = passo[a.id];
+    });
+    // atualiza histórico encadeado (mantém só as últimas 3 reais)
+    const novoEstado = {};
+    alunos.forEach(a => {
+      const historicoAnterior = (rodadasPorAluno[a.id] || [])
+        .filter(r => r.data <= d)
+        .map(r => r.funcao)
+        .slice(-3);
+      novoEstado[a.id] = { funcaoAtual: passo[a.id], historicoRecente: historicoAnterior };
+    });
+    estado = novoEstado;
+  }
+
+  // A partir daqui, projeta as datas reais restantes.
+  const datasRestantes = todasDatas.filter(d => !ultimaFechadaComum || d > ultimaFechadaComum);
+  const datasReaisRestantes = datasRestantes.filter(d => !datasCanceladasColetivo.has(d));
+  datasRestantes.filter(d => datasCanceladasColetivo.has(d)).forEach(d => {
+    alunos.forEach(a => { porData[d][a.id] = null; });
+  });
+
+  if (datasReaisRestantes.length) {
+    if (!estado) {
+      // Nunca houve nenhuma rodada fechada: a primeira rodada real usa a
+      // fórmula antiga (numero_fila), que é equivalente e segura pra uma
+      // primeira semana (sem histórico, não há como repetir).
+      const primeira = datasReaisRestantes[0];
+      const totalAtivos = alunos.length;
+      estado = {};
+      alunos.forEach(a => {
+        const r = calcularFuncaoAluno({
+          numeroFila: a.numero_fila, totalAtivosNoTurno: totalAtivos, capacidades: turmaDados.capacidades,
+          dataPrimeiraSexta: turmaAtual.data_primeira_sexta, dataAlvo: primeira,
+          datasCanceladasColetivo,
+        });
+        porData[primeira][a.id] = r.semAtividade ? null : r.funcao;
+        estado[a.id] = { funcaoAtual: r.funcao, historicoRecente: [r.funcao] };
+      });
+      datasReaisRestantes.shift();
+    }
+
+    if (datasReaisRestantes.length) {
+      const estadoInicial = alunos.map(a => ({
+        id: a.id,
+        funcaoAtual: estado[a.id].funcaoAtual,
+        historicoRecente: estado[a.id].historicoRecente,
+      }));
+      const rodadas = projetarRodadas({
+        estadoInicial, capacidadesAlvo: turmaDados.capacidades,
+        quantidadeRodadas: datasReaisRestantes.length,
+      });
+      rodadas.forEach((r, i) => {
+        const d = datasReaisRestantes[i];
+        r.atribuicoes.forEach(a => { porData[d][a.id] = a.funcaoNova; });
+      });
+    }
+  }
+
+  return { datas: todasDatas, porData };
+}
+
+/** Persiste (upsert) a rodada de uma data como "fechada" pra todos os
+ *  alunos ativos do turno — a partir daí ela vira âncora fixa pro motor v3,
+ *  e não muda mais mesmo que a turma ganhe/perca alunos depois. */
+async function fecharRodada(turno, data) {
+  const { porData } = await computarSequenciaTurno(turno, data);
+  const funcoesData = porData[data] || {};
+  const alunos = turmaDados.alunosAtivos.filter(a => a.turno === turno);
+  const linhas = alunos
+    .filter(a => funcoesData[a.id]) // ignora quem está sem atividade nessa data
+    .map(a => ({ turma_id: turmaAtual.id, aluno_id: a.id, data, funcao: funcoesData[a.id] }));
+  if (!linhas.length) return { fechadas: 0 };
+  await sbJson(`/rest/v1/rodadas_publicadas?on_conflict=aluno_id,data`, {
+    method: 'POST',
+    headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+    body: JSON.stringify(linhas),
+  });
+  linhas.forEach(l => {
+    (turmaDados.rodadasPorAluno[l.aluno_id] = turmaDados.rodadasPorAluno[l.aluno_id] || []).push({ data: l.data, funcao: l.funcao });
+    turmaDados.rodadasPorAluno[l.aluno_id].sort((x, y) => x.data.localeCompare(y.data));
+  });
+  return { fechadas: linhas.length };
+}
+
+async function exibirFuncaoAluno(dataAlvoForcada) {
+  const dataAlvo = dataAlvoForcada || proximaSextaOuHoje();
+  const el = document.getElementById('aluno-funcao-content');
+  try {
+    const { semanas, indiceCentral } = await _montarJanelaSemanasAluno(dataAlvo);
+    const central = semanas[indiceCentral];
+
+    const roda = `
+      <div class="roda-wrap">${desenharRodaAluno(semanas, indiceCentral, turmaDados.funcaoInfoPorNome)}</div>
+      ${_rodaLegenda(turmaDados.funcoes)}
+    `;
+    const rodape = `
+      <div class="btn-row mt-16">
+        <button class="btn btn-ghost btn-sm" onclick="abrirProximasSemanas()">📅 Próximas semanas</button>
+        <button class="btn btn-ghost btn-sm" onclick="abrirNotificacoesAluno()">🔔 Avisos</button>
+        <button class="btn btn-ghost btn-sm" onclick="abrirHistoricoAluno()">📊 Meu histórico</button>
+      </div>`;
+
+    if (central.semAtividade) {
+      el.innerHTML = `
+        <div class="hero-card" style="--_glow:rgba(224,105,122,0.14)">
+          <div class="hero-eyebrow">${formatarDataBR(dataAlvo)} · ${escapeHtml(alunoAtual.nome)}</div>
+          <div class="hero-funcao" style="font-size:1.5rem">Sem atividade</div>
+          <div class="hero-desc">${central.funcaoCalculada === null ? 'Atividade cancelada para a turma nesta data.' : 'Você tem uma falta registrada nesta data.'}</div>
+        </div>
+        ${roda}
+        ${rodape}
+      `;
+      return;
+    }
+    const funcaoInfo = turmaDados.funcaoInfoPorNome[central.funcao] || {};
+    const cor = funcaoInfo.cor || '#ec4899';
+    el.innerHTML = `
+      <div class="hero-card" style="--_glow:${hexToRgba(cor, 0.16)}">
+        <div class="hero-eyebrow">${formatarDataBR(dataAlvo)} · ${escapeHtml(alunoAtual.nome)}</div>
+        <div class="hero-funcao" style="color:${cor}">${escapeHtml(funcaoInfo.descricao || central.funcao)}</div>
+        <div class="hero-desc">${central.trocou ? '🔄 Troca combinada com o professor' : labelTurno(alunoAtual.turno)}</div>
+        <div class="hero-data f-mono">${central.funcao}</div>
+      </div>
+      ${roda}
+      ${rodape}
+    `;
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = `<div class="empty-state">⚠️ Não foi possível carregar sua função agora. Tente novamente.</div>`;
+  }
+}
+
+async function abrirProximasSemanas() {
+  const el = document.getElementById('aluno-funcao-content');
+  const anterior = el.innerHTML;
+  el.innerHTML = '<div class="empty-state">Carregando...</div>';
+  try {
+    const dataAlvo = proximaSextaOuHoje();
+    const { semanas, indiceCentral } = await _montarJanelaSemanasAluno(dataAlvo);
+
+    const linhas = semanas.slice(indiceCentral).map((s, i) => {
+      const rotulo = formatarDataBR(s.data) + (i === 0 ? ' (mais próxima)' : '');
+      if (s.semAtividade) {
+        const motivo = s.funcaoCalculada === null ? 'cancelado p/ turma' : 'sua falta';
+        return `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${rotulo}</div><div class="list-item-sub">Sem atividade (${motivo})</div></div></div>`;
+      }
+      const fi = turmaDados.funcaoInfoPorNome[s.funcao] || {};
+      return `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${rotulo}</div><div class="list-item-sub">${escapeHtml(fi.descricao || s.funcao)}${s.trocou ? ' · troca combinada' : ''}</div></div><span class="badge" style="background:${hexToRgba(fi.cor,0.18)};color:${fi.cor||'#888'}">${s.funcao}</span></div>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div class="eyebrow">Próximas semanas</div>
+      <div class="page-title" style="font-size:1.2rem;margin-bottom:4px">${escapeHtml(alunoAtual.nome)}</div>
+      <div class="page-sub" style="margin-bottom:4px">Passado e futuro numa roda só — a fatia de cima é a próxima atividade, e cada uma ao redor é uma semana.</div>
+      <div class="roda-wrap">${desenharRodaAluno(semanas, indiceCentral, turmaDados.funcaoInfoPorNome)}</div>
+      ${_rodaLegenda(turmaDados.funcoes)}
+      ${linhas}
+      <div class="page-sub mt-8" style="font-size:11px">Semanas ainda não fechadas pelo professor são uma projeção — podem mudar até serem confirmadas.</div>
+      <button class="btn btn-ghost mt-16" onclick="exibirFuncaoAluno()">← Voltar pra função de hoje</button>
+    `;
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = anterior;
+    mostrarToast('Não foi possível carregar as próximas semanas.');
+  }
+}
+
+
+/** Tela de notificações do aluno — avisos que afetam ele especificamente ou a turma toda */
+async function abrirNotificacoesAluno() {
+  const el = document.getElementById('aluno-funcao-content');
+  const anterior = el.innerHTML;
+  el.innerHTML = '<div class="empty-state">Carregando...</div>';
+  try {
+    const notifs = await sbJson(`/rest/v1/notificacoes?turma_id=eq.${turmaAtual.id}&or=(aluno_id.eq.${alunoAtual.id},aluno_id.is.null)&select=*&order=created_at.desc`);
+    const lista = (notifs || []).map(n => `
+      <div class="list-item">
+        <div class="list-item-main">
+          <div class="list-item-title">${escapeHtml(n.descricao)}</div>
+          <div class="list-item-sub">${n.data_referente ? formatarDataBR(n.data_referente) + ' · ' : ''}${escapeHtml(n.tipo)}${!n.aluno_id ? ' · turma toda' : ''}</div>
+        </div>
+      </div>`).join('') || `<div class="empty-state"><div class="empty-state-icon">🔔</div>Nenhum aviso por enquanto.</div>`;
+    el.innerHTML = `
+      <div class="eyebrow">Avisos</div>
+      <div class="page-title" style="font-size:1.2rem;margin-bottom:16px">${escapeHtml(alunoAtual.nome)}</div>
+      ${lista}
+      <button class="btn btn-ghost mt-16" onclick="exibirFuncaoAluno()">← Voltar pra função de hoje</button>
+    `;
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = anterior;
+    mostrarToast('Não foi possível carregar os avisos.');
+  }
+}
+
+/** "Meu histórico" — quantas vezes o aluno já exerceu cada função desde que entrou */
+async function abrirHistoricoAluno() {
+  const el = document.getElementById('aluno-funcao-content');
+  const anterior = el.innerHTML;
+  el.innerHTML = '<div class="empty-state">Carregando...</div>';
+  try {
+    const [{ datasCanceladasIndividual, trocas }, trocasManuaisRaw] = await Promise.all([
+      _buscarExcecoesAluno(alunoAtual.id),
+      sbJson(`/rest/v1/trocas_manuais?aluno_id=eq.${alunoAtual.id}&select=data,funcoes(nome)`),
+    ]);
+    const datasCanceladasColetivo = _datasCanceladasColetivoDoTurno(alunoAtual.turno);
+    const trocasManuais = (trocasManuaisRaw || []).map(t => ({ data: t.data, funcao: t.funcoes.nome }));
+
+    // aproxima o tamanho do turno em cada data usando o roster completo (ativos+inativos) do turno
+    const rosterTurno = turmaDados.alunosTodos.filter(a => a.turno === alunoAtual.turno);
+    const totalAtivosNaData = (data) => rosterTurno.filter(a => a.data_entrada <= data && (!a.data_saida || a.data_saida > data)).length;
+
+    const contagem = contarHistoricoFuncoes({
+      numeroFila: alunoAtual.numero_fila,
+      dataPrimeiraSexta: turmaAtual.data_primeira_sexta,
+      dataEntradaAluno: alunoAtual.data_entrada,
+      dataLimite: proximaSextaOuHoje() < hojeIso() ? proximaSextaOuHoje() : hojeIso(),
+      capacidades: turmaDados.capacidades,
+      totalAtivosNaData,
+      datasCanceladasColetivo, datasCanceladasIndividual, trocasManuais,
+    });
+
+    const linhas = turmaDados.funcoes.map(f => `
+      <div class="list-item">
+        <div class="list-item-main"><div class="list-item-title">${escapeHtml(f.descricao || f.nome)}</div></div>
+        <span class="badge" style="background:${hexToRgba(f.cor,0.18)};color:${f.cor}">${contagem[f.nome] || 0}×</span>
+      </div>`).join('');
+
+    el.innerHTML = `
+      <div class="eyebrow">Meu histórico</div>
+      <div class="page-title" style="font-size:1.2rem;margin-bottom:16px">${escapeHtml(alunoAtual.nome)}</div>
+      ${linhas}
+      <button class="btn btn-ghost mt-16" onclick="exibirFuncaoAluno()">← Voltar pra função de hoje</button>
+    `;
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = anterior;
+    mostrarToast('Não foi possível carregar o histórico.');
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   PROFESSOR — LISTAGEM DE TURMAS
+════════════════════════════════════════════════════════════ */
+async function carregarTurmasProfessor() {
+  const el = document.getElementById('prof-turmas-lista');
+  el.innerHTML = '<div class="empty-state">Carregando...</div>';
+  try {
+    const turmas = await sbJson(`/rest/v1/turmas?professor_id=eq.${sessaoProfessor.user.id}&select=*&order=created_at.desc`);
+    if (!turmas || !turmas.length) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div>Você ainda não tem turmas. Crie a primeira acima.</div>`;
+      return;
+    }
+    const statusInfo = {
+      rascunho: { label: 'Rascunho', cor: '#a3b5ae', bg: 'rgba(163,181,174,0.12)' },
+      publicada: { label: 'Publicada', cor: '#5fb4a2', bg: 'rgba(95,180,162,0.14)' },
+      arquivada: { label: 'Arquivada', cor: '#7c9089', bg: 'rgba(124,144,137,0.1)' },
+    };
+    el.innerHTML = turmas.map(t => {
+      const si = statusInfo[t.status] || statusInfo.rascunho;
+      return `<div class="list-item" style="cursor:pointer" onclick="abrirTurma('${t.id}')">
+        <div class="list-item-main">
+          <div class="list-item-title">${escapeHtml(t.nome)}</div>
+          <div class="list-item-sub">${escapeHtml(t.periodo || '')}${t.periodo ? ' · ' : ''}código: ${t.codigo_acesso}</div>
+        </div>
+        <span class="badge" style="background:${si.bg};color:${si.cor}">${si.label}</span>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = '<div class="empty-state">⚠️ Erro ao carregar turmas.</div>';
+  }
+}
+
+async function abrirTurma(turmaId) {
+  try {
+    const turmas = await sbJson(`/rest/v1/turmas?id=eq.${turmaId}&select=*`);
+    turmaAtual = turmas[0];
+    if (turmaAtual.status === 'rascunho') {
+      await retomarRascunho();
+    } else {
+      await carregarDadosTurmaCompletos(turmaAtual.id);
+      gestaoTabAtiva = 'hoje';
+      await renderGestaoScreen();
+      showScreen('prof-gestao-screen');
+    }
+  } catch (e) {
+    console.error(e);
+    mostrarToast('Erro ao abrir a turma.');
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   ASSISTENTE DE CRIAÇÃO DE TURMA (wizard em 6 etapas) — modelo v2
+════════════════════════════════════════════════════════════ */
+const CORES_PADRAO = ['#7c93e8', '#d97a9c', '#e8a355', '#5fb4a2', '#9ccc65', '#ba68c8', '#4fc3f7', '#ff8a65'];
+const TOTAL_ETAPAS = 6;
+
+function abrirCriarTurma() {
+  criarTurmaState = {
+    etapa: 1,
+    turmaId: null,
+    nome: '',
+    periodo: '',
+    alunos: [],
+    funcoes: [
+      { nome: 'EXA', descricao: 'Exame', cor: CORES_PADRAO[0], capacidade: 6, semLimite: false },
+      { nome: 'BOC', descricao: 'Bochecho', cor: CORES_PADRAO[1], capacidade: 2, semLimite: false },
+      { nome: 'ESC', descricao: 'Escovação', cor: CORES_PADRAO[2], capacidade: 8, semLimite: false },
+      { nome: 'MON', descricao: 'Monitoria', cor: CORES_PADRAO[3], capacidade: null, semLimite: true },
+    ],
+    modo: null,           // 'sortear' | 'importar'
+    dataPrimeiraSexta: '', // usada no modo sortear
+    dataReferencia: '',    // usada no modo importar (vira a data_primeira_sexta ao publicar)
+    seed: null,
+    sorteioFeito: false,
+  };
+  showScreen('prof-criar-screen');
+  renderWizard();
+}
+
+async function retomarRascunho() {
+  // Rascunhos não guardam estado intermediário do assistente (nada é gravado
+  // antes da publicação) — por segurança, reabrimos como uma turma nova.
+  mostrarToast('Esse rascunho não tem dados salvos ainda — comece a configuração novamente.');
+  abrirCriarTurma();
+}
+
+function renderStepper() {
+  const el = document.getElementById('criar-stepper');
+  let html = '';
+  for (let i = 1; i <= TOTAL_ETAPAS; i++) {
+    const cls = i < criarTurmaState.etapa ? 'done' : (i === criarTurmaState.etapa ? 'active' : '');
+    html += `<div class="step-dot ${cls}"></div>`;
+  }
+  el.innerHTML = html;
+}
+
+function renderWizard() {
+  renderStepper();
+  const fns = { 1: etapaNomeTurma, 2: etapaAlunos, 3: etapaFuncoes, 4: etapaModo, 5: etapaDataOuImportacao, 6: etapaPreview };
+  fns[criarTurmaState.etapa]();
+}
+function irEtapa(n) { criarTurmaState.etapa = n; renderWizard(); }
+
+/* ── ETAPA 1: nome e período ── */
+function etapaNomeTurma() {
+  const el = document.getElementById('criar-etapa-content');
+  el.innerHTML = `
+    <div class="eyebrow">Etapa 1 de ${TOTAL_ETAPAS}</div>
+    <div class="page-title">Nova turma</div>
+    <div class="page-sub">Como essa turma vai se chamar?</div>
+    <div class="fg"><label>Nome da turma</label><input id="wiz-nome" placeholder="Ex: Odontologia — Turma A" value="${escapeHtml(criarTurmaState.nome)}"></div>
+    <div class="fg"><label>Período / semestre (opcional)</label><input id="wiz-periodo" placeholder="Ex: 2026/1" value="${escapeHtml(criarTurmaState.periodo)}"></div>
+    <button class="btn btn-primary" onclick="salvarEtapaNome()">Continuar →</button>
+  `;
+  setTimeout(() => document.getElementById('wiz-nome')?.focus(), 50);
+}
+function salvarEtapaNome() {
+  const nome = document.getElementById('wiz-nome').value.trim();
+  if (!nome) { mostrarToast('Digite um nome pra turma.'); return; }
+  criarTurmaState.nome = nome;
+  criarTurmaState.periodo = document.getElementById('wiz-periodo').value.trim();
+  irEtapa(2);
+}
+
+/* ── ETAPA 2: alunos ── */
+function etapaAlunos() {
+  const el = document.getElementById('criar-etapa-content');
+  el.innerHTML = `
+    <div class="eyebrow">Etapa 2 de ${TOTAL_ETAPAS}</div>
+    <div class="page-title">Alunos</div>
+    <div class="page-sub">Adicione os alunos e o turno de cada um. Pode colar uma lista também.</div>
+    <div class="card">
+      <div class="card-title">Adicionar em lote</div>
+      <div class="card-sub mt-8" style="margin-bottom:10px">Um nome por linha. Todos entram no turno escolhido abaixo — dá pra mover depois.</div>
+      <textarea id="wiz-alunos-lote" rows="4" placeholder="Maria Silva&#10;João Souza&#10;..."></textarea>
+      <div class="fg mt-16"><label>Turno pra este lote</label>
+        <select id="wiz-alunos-turno">${TURNOS.map(t => `<option value="${t.id}">${t.label}</option>`).join('')}</select>
+      </div>
+      <button class="btn btn-ghost" onclick="adicionarAlunosLote()">+ Adicionar lote</button>
+    </div>
+    <div id="wiz-alunos-lista">${renderListaAlunosWizard()}</div>
+    <div class="btn-row mt-16">
+      <button class="btn btn-ghost" onclick="irEtapa(1)">← Voltar</button>
+      <button class="btn btn-primary" onclick="salvarEtapaAlunos()">Continuar →</button>
+    </div>
+  `;
+}
+function renderListaAlunosWizard() {
+  if (!criarTurmaState.alunos.length) return '<div class="empty-state" style="padding:20px 0">Nenhum aluno adicionado ainda.</div>';
+  return criarTurmaState.alunos.map((a, i) =>
+    `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${escapeHtml(a.nome)}</div><div class="list-item-sub">${labelTurno(a.turno)}</div></div><button class="btn btn-ghost btn-sm" onclick="removerAlunoWizard(${i})">Remover</button></div>`
+  ).join('');
+}
+function adicionarAlunosLote() {
+  const texto = document.getElementById('wiz-alunos-lote').value;
+  const turno = document.getElementById('wiz-alunos-turno').value;
+  const nomes = texto.split('\n').map(n => n.trim()).filter(Boolean);
+  if (!nomes.length) { mostrarToast('Cole ao menos um nome.'); return; }
+  nomes.forEach(nome => criarTurmaState.alunos.push({ nome, turno }));
+  document.getElementById('wiz-alunos-lote').value = '';
+  document.getElementById('wiz-alunos-lista').innerHTML = renderListaAlunosWizard();
+}
+function removerAlunoWizard(i) {
+  criarTurmaState.alunos.splice(i, 1);
+  document.getElementById('wiz-alunos-lista').innerHTML = renderListaAlunosWizard();
+}
+function salvarEtapaAlunos() {
+  if (criarTurmaState.alunos.length < 2) { mostrarToast('Adicione ao menos 2 alunos.'); return; }
+  irEtapa(3);
+}
+
+/* ── ETAPA 3: funções + capacidade máxima por função ── */
+function etapaFuncoes() {
+  const el = document.getElementById('criar-etapa-content');
+  el.innerHTML = `
+    <div class="eyebrow">Etapa 3 de ${TOTAL_ETAPAS}</div>
+    <div class="page-title">Funções</div>
+    <div class="page-sub">Defina a capacidade (vagas por semana) de cada função. Marque exatamente uma como "sem limite" — ela absorve o que sobrar.</div>
+    <div id="wiz-funcoes-lista">${renderListaFuncoesWizard()}</div>
+    <button class="btn btn-ghost" onclick="adicionarFuncaoWizard()">+ Adicionar função</button>
+    <div id="wiz-funcoes-erro" class="hint" style="color:var(--danger);margin-top:8px"></div>
+    <div class="btn-row mt-16">
+      <button class="btn btn-ghost" onclick="irEtapa(2)">← Voltar</button>
+      <button class="btn btn-primary" onclick="salvarEtapaFuncoes()">Continuar →</button>
+    </div>
+  `;
+}
+function renderListaFuncoesWizard() {
+  return criarTurmaState.funcoes.map((f, i) => `
+    <div class="card" style="padding:14px 16px">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+        <input type="color" value="${f.cor}" oninput="criarTurmaState.funcoes[${i}].cor=this.value" style="width:36px;height:36px;padding:2px;border-radius:8px;flex-shrink:0">
+        <input placeholder="Código (ex: EXA)" value="${escapeHtml(f.nome)}" oninput="criarTurmaState.funcoes[${i}].nome=this.value.toUpperCase()" style="max-width:110px;font-family:var(--f-mono)">
+        <input placeholder="Descrição" value="${escapeHtml(f.descricao)}" oninput="criarTurmaState.funcoes[${i}].descricao=this.value">
+        <button class="btn btn-ghost btn-sm" onclick="removerFuncaoWizard(${i})">✕</button>
+      </div>
+      <div class="row-between">
+        <div style="flex:1;max-width:160px">
+          <input type="number" min="1" placeholder="Capacidade" value="${f.capacidade == null ? '' : f.capacidade}" ${f.semLimite ? 'disabled' : ''} oninput="criarTurmaState.funcoes[${i}].capacidade=this.value?parseInt(this.value,10):null">
+        </div>
+        <label class="check-row">
+          <input type="checkbox" ${f.semLimite ? 'checked' : ''} onchange="marcarSemLimite(${i}, this.checked)"> sem limite (absorve o resto)
+        </label>
+      </div>
+    </div>`
+  ).join('');
+}
+function marcarSemLimite(i, checked) {
+  criarTurmaState.funcoes.forEach((f, idx) => { if (idx !== i) f.semLimite = false; });
+  criarTurmaState.funcoes[i].semLimite = checked;
+  if (checked) criarTurmaState.funcoes[i].capacidade = null;
+  document.getElementById('wiz-funcoes-lista').innerHTML = renderListaFuncoesWizard();
+}
+function adicionarFuncaoWizard() {
+  const cor = CORES_PADRAO[criarTurmaState.funcoes.length % CORES_PADRAO.length];
+  criarTurmaState.funcoes.push({ nome: '', descricao: '', cor, capacidade: null, semLimite: false });
+  document.getElementById('wiz-funcoes-lista').innerHTML = renderListaFuncoesWizard();
+}
+function removerFuncaoWizard(i) {
+  criarTurmaState.funcoes.splice(i, 1);
+  document.getElementById('wiz-funcoes-lista').innerHTML = renderListaFuncoesWizard();
+}
+function salvarEtapaFuncoes() {
+  const erroEl = document.getElementById('wiz-funcoes-erro');
+  erroEl.textContent = '';
+  const fs = criarTurmaState.funcoes;
+  const nomes = fs.map(f => f.nome.trim());
+  if (!fs.length) { erroEl.textContent = 'Adicione ao menos uma função.'; return; }
+  if (nomes.some(n => !n)) { erroEl.textContent = 'Preencha o código de todas as funções (ou remova as vazias).'; return; }
+  if (new Set(nomes).size !== nomes.length) { erroEl.textContent = 'Os códigos das funções precisam ser únicos.'; return; }
+  const semLimite = fs.filter(f => f.semLimite);
+  if (semLimite.length !== 1) { erroEl.textContent = 'Marque exatamente uma função como "sem limite".'; return; }
+  if (fs.some(f => !f.semLimite && (!f.capacidade || f.capacidade < 1))) { erroEl.textContent = 'Toda função (exceto a sem-limite) precisa de uma capacidade válida (≥ 1).'; return; }
+  // move a função "sem limite" pro final — o motor exige que ela seja a última entrada
+  const idx = fs.findIndex(f => f.semLimite);
+  const [semLimiteFn] = fs.splice(idx, 1);
+  fs.push(semLimiteFn);
+  irEtapa(4);
+}
+
+/* ── ETAPA 4 (NOVA): sortear automaticamente OU importar rodízio existente ── */
+function etapaModo() {
+  const el = document.getElementById('criar-etapa-content');
+  el.innerHTML = `
+    <div class="eyebrow">Etapa 4 de ${TOTAL_ETAPAS}</div>
+    <div class="page-title">Como começar a fila?</div>
+    <div class="page-sub">Escolha como a fila rotativa de cada turno vai ser definida no início.</div>
+    <button class="modo-card ${criarTurmaState.modo==='sortear'?'selected':''}" onclick="escolherModo('sortear')">
+      <div class="modo-card-icon">🎲</div>
+      <div class="modo-card-title">Sortear automaticamente</div>
+      <div class="modo-card-sub">Distribuição aleatória e equilibrada, por turno. Bom pra quem está começando do zero.</div>
+    </button>
+    <button class="modo-card ${criarTurmaState.modo==='importar'?'selected':''}" onclick="escolherModo('importar')">
+      <div class="modo-card-icon">📋</div>
+      <div class="modo-card-title">Importar rodízio existente</div>
+      <div class="modo-card-sub">Já tenho uma distribuição em uso (ex: numa planilha) e quero que o sistema continue dali.</div>
+    </button>
+    <div class="btn-row mt-16">
+      <button class="btn btn-ghost" onclick="irEtapa(3)">← Voltar</button>
+      <button class="btn btn-primary" onclick="salvarEtapaModo()" ${criarTurmaState.modo ? '' : 'disabled'}>Continuar →</button>
+    </div>
+  `;
+}
+function escolherModo(modo) {
+  criarTurmaState.modo = modo;
+  etapaModo();
+}
+function salvarEtapaModo() {
+  if (!criarTurmaState.modo) { mostrarToast('Escolha uma opção.'); return; }
+  irEtapa(5);
+}
+
+/* ── ETAPA 5: condicional ao modo escolhido ── */
+function etapaDataOuImportacao() {
+  if (criarTurmaState.modo === 'sortear') { etapaDataSorteio(); return; }
+  etapaImportacao();
+}
+
+function etapaDataSorteio() {
+  const el = document.getElementById('criar-etapa-content');
+  el.innerHTML = `
+    <div class="eyebrow">Etapa 5 de ${TOTAL_ETAPAS}</div>
+    <div class="page-title">Primeira sexta-feira</div>
+    <div class="page-sub">Data da primeira atividade prática. Precisa ser uma sexta-feira.</div>
+    <div class="fg"><label>Data</label><input id="wiz-data" type="date" value="${criarTurmaState.dataPrimeiraSexta}"></div>
+    <div id="wiz-data-erro" class="hint" style="color:var(--danger)"></div>
+    <div class="btn-row mt-16">
+      <button class="btn btn-ghost" onclick="irEtapa(4)">← Voltar</button>
+      <button class="btn btn-primary" onclick="salvarEtapaDataSorteio()">Continuar →</button>
+    </div>
+  `;
+}
+function salvarEtapaDataSorteio() {
+  const data = document.getElementById('wiz-data').value;
+  const erroEl = document.getElementById('wiz-data-erro');
+  if (!data) { erroEl.textContent = 'Escolha uma data.'; return; }
+  if (!dataEhSextaFeira(data)) { erroEl.textContent = 'Essa data não é uma sexta-feira. Escolha uma sexta.'; return; }
+  erroEl.textContent = '';
+  criarTurmaState.dataPrimeiraSexta = data;
+  criarTurmaState.sorteioFeito = false;
+  irEtapa(6);
+}
+
+function etapaImportacao() {
+  const el = document.getElementById('criar-etapa-content');
+  const porTurno = {};
+  criarTurmaState.alunos.forEach((a, i) => { (porTurno[a.turno] = porTurno[a.turno] || []).push(i); });
+  const opcoesFuncao = criarTurmaState.funcoes.map(f => `<option value="${f.nome}">${f.nome} — ${escapeHtml(f.descricao||'')}</option>`).join('');
+
+  const tabelas = Object.keys(porTurno).map(turno => `
+    <div class="card">
+      <div class="card-title">${labelTurno(turno)}</div>
+      <div class="mt-8">
+        ${porTurno[turno].map(i => {
+          const a = criarTurmaState.alunos[i];
+          if (a.funcaoImportada === undefined) a.funcaoImportada = criarTurmaState.funcoes[0].nome;
+          return `<div class="row-between" style="padding:6px 0">
+            <span style="font-size:13.5px">${escapeHtml(a.nome)}</span>
+            <select style="width:auto;max-width:170px" onchange="criarTurmaState.alunos[${i}].funcaoImportada=this.value">
+              ${criarTurmaState.funcoes.map(f => `<option value="${f.nome}" ${a.funcaoImportada===f.nome?'selected':''}>${f.nome}</option>`).join('')}
+            </select>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+
+  el.innerHTML = `
+    <div class="eyebrow">Etapa 5 de ${TOTAL_ETAPAS}</div>
+    <div class="page-title">Importar rodízio existente</div>
+    <div class="page-sub">Informe a data de referência (uma sexta-feira) e a função que cada aluno exerce NESSA data. Essa data vira a nova "primeira sexta" da turma.</div>
+    <div class="fg"><label>Data de referência</label><input id="wiz-data-ref" type="date" value="${criarTurmaState.dataReferencia}"></div>
+    <div id="wiz-data-ref-erro" class="hint" style="color:var(--danger);margin-bottom:12px"></div>
+    ${tabelas}
+    <div class="btn-row mt-16">
+      <button class="btn btn-ghost" onclick="irEtapa(4)">← Voltar</button>
+      <button class="btn btn-primary" onclick="salvarEtapaImportacao()">Continuar →</button>
+    </div>
+  `;
+}
+function salvarEtapaImportacao() {
+  const data = document.getElementById('wiz-data-ref').value;
+  const erroEl = document.getElementById('wiz-data-ref-erro');
+  if (!data) { erroEl.textContent = 'Escolha a data de referência.'; return; }
+  if (!dataEhSextaFeira(data)) { erroEl.textContent = 'Essa data não é uma sexta-feira. Escolha uma sexta.'; return; }
+  erroEl.textContent = '';
+  criarTurmaState.dataReferencia = data;
+  criarTurmaState.dataPrimeiraSexta = data;
+  criarTurmaState.sorteioFeito = false;
+  irEtapa(6);
+}
+
+/* ── ETAPA 6: cálculo do número de fila + preview + publicar ── */
+function _calcularNumerosFilaWizard() {
+  const porTurno = {};
+  criarTurmaState.alunos.forEach((a, i) => { (porTurno[a.turno] = porTurno[a.turno] || []).push(i); });
+
+  if (criarTurmaState.modo === 'sortear') {
+    const seed = criarTurmaState.seed || (criarTurmaState.seed = Math.floor(Math.random() * 1e9));
+    Object.keys(porTurno).forEach((turno, idxTurno) => {
+      const indices = porTurno[turno];
+      const ids = indices.map(String);
+      const filas = sortearFilaInicial(ids, seed + idxTurno * 7919);
+      indices.forEach(i => { criarTurmaState.alunos[i].numeroFila = filas[String(i)]; });
+    });
+  } else {
+    const capacidades = criarTurmaState.funcoes.map(f => ({ funcao: f.nome, capacidade: f.semLimite ? null : f.capacidade }));
+    Object.keys(porTurno).forEach(turno => {
+      const indices = porTurno[turno];
+      const alunosParaCalculo = indices.map(i => ({ id: String(i), nome: criarTurmaState.alunos[i].nome, funcao: criarTurmaState.alunos[i].funcaoImportada }));
+      const filas = calcularFilaImportacao({ alunos: alunosParaCalculo, capacidades, dataPrimeiraSexta: criarTurmaState.dataPrimeiraSexta, dataReferencia: criarTurmaState.dataReferencia });
+      indices.forEach(i => { criarTurmaState.alunos[i].numeroFila = filas[String(i)]; });
+    });
+  }
+  criarTurmaState.sorteioFeito = true;
+}
+
+function etapaPreview() {
+  if (!criarTurmaState.sorteioFeito) _calcularNumerosFilaWizard();
+
+  const capacidades = criarTurmaState.funcoes.map(f => ({ funcao: f.nome, capacidade: f.semLimite ? null : f.capacidade }));
+  const funcaoInfoPorNome = {};
+  criarTurmaState.funcoes.forEach(f => { funcaoInfoPorNome[f.nome] = f; });
+
+  const totalAtivosPorTurno = {};
+  criarTurmaState.alunos.forEach(a => { totalAtivosPorTurno[a.turno] = (totalAtivosPorTurno[a.turno] || 0) + 1; });
+
+  // avisos de capacidade por turno
+  const avisosPorTurno = [];
+  Object.keys(totalAtivosPorTurno).forEach(turno => {
+    const v = validarCapacidades(capacidades, totalAtivosPorTurno[turno]);
+    if (v.avisos.length) avisosPorTurno.push({ turno, avisos: v.avisos });
+  });
+  const avisosHtml = avisosPorTurno.length ? `
+    <div class="card" style="border-color:rgba(224,105,122,0.35);background:var(--danger-dim)">
+      <div class="card-title">⚠️ Avisos de capacidade</div>
+      ${avisosPorTurno.map(a => `<div class="card-sub mt-8"><strong>${labelTurno(a.turno)}:</strong> ${a.avisos.map(escapeHtml).join(' ')}</div>`).join('')}
+    </div>` : '';
+
+  const datas = gerarSlots(criarTurmaState.dataPrimeiraSexta, 3); // próximas 4 semanas
+
+  // Semana 1: fórmula clássica por numeroFila (não tem histórico anterior,
+  // então não há como violar a regra de repetição — é sempre segura).
+  // Semanas seguintes: motor v3 encadeado (calcularProximaRodada), pra
+  // garantir quotas exatas + nunca repetir a mesma função 3x seguidas.
+  const resultadosPorAluno = {}; // idx -> [funcao semana1, funcao semana2, ...]
+  const porTurnoIdx = {};
+  criarTurmaState.alunos.forEach((a, i) => { (porTurnoIdx[a.turno] = porTurnoIdx[a.turno] || []).push(i); });
+
+  Object.keys(porTurnoIdx).forEach(turno => {
+    const idxs = porTurnoIdx[turno];
+    const totalAtivos = totalAtivosPorTurno[turno];
+    const estadoInicial = idxs.map(i => {
+      const a = criarTurmaState.alunos[i];
+      const r = calcularFuncaoAluno({ numeroFila: a.numeroFila, totalAtivosNoTurno: totalAtivos, capacidades, dataPrimeiraSexta: criarTurmaState.dataPrimeiraSexta, dataAlvo: datas[0] });
+      resultadosPorAluno[i] = [r.funcao];
+      return { id: String(i), funcaoAtual: r.funcao };
+    });
+    if (datas.length > 1) {
+      const rodadas = projetarRodadas({ estadoInicial, capacidadesAlvo: capacidades, quantidadeRodadas: datas.length - 1 });
+      rodadas.forEach(rodada => {
+        rodada.atribuicoes.forEach(at => { resultadosPorAluno[Number(at.id)].push(at.funcaoNova); });
+      });
+    }
+  });
+
+  const linhas = criarTurmaState.alunos.map((a, i) => {
+    const celulas = resultadosPorAluno[i].map(funcao => {
+      const f = funcaoInfoPorNome[funcao] || {};
+      return `<td style="padding:6px;text-align:center"><span class="badge" style="background:${hexToRgba(f.cor,0.16)};color:${f.cor||'#888'}">${funcao}</span></td>`;
+    }).join('');
+    return `<tr><td style="padding:6px;white-space:nowrap"><strong>${escapeHtml(a.nome)}</strong><div style="font-size:11px;color:var(--muted)">${labelTurno(a.turno)}</div></td>${celulas}</tr>`;
+  }).join('');
+
+  criarTurmaState.primeiraRodada = { data: datas[0], funcaoPorIdx: criarTurmaState.alunos.map((_, i) => resultadosPorAluno[i][0]) };
+
+  const el = document.getElementById('criar-etapa-content');
+  el.innerHTML = `
+    <div class="eyebrow">Etapa 6 de ${TOTAL_ETAPAS}</div>
+    <div class="page-title">Revisão final</div>
+    <div class="page-sub">A fila inicial já foi ${criarTurmaState.modo === 'sortear' ? 'sorteada' : 'calculada a partir da importação'}. Confira as próximas semanas antes de publicar — depois de publicada, os dados ficam ativos pros alunos.</div>
+    ${avisosHtml}
+    <div class="card tbl-wrap">
+      <table class="data-tbl">
+        <thead><tr><th>Aluno</th>${datas.map(d => `<th style="text-align:center">${formatarDataBR(d)}</th>`).join('')}</tr></thead>
+        <tbody>${linhas}</tbody>
+      </table>
+    </div>
+    <div class="btn-row mt-16">
+      <button class="btn btn-ghost" onclick="irEtapa(5)">← Voltar</button>
+      <button class="btn btn-primary" onclick="publicarTurma()" id="btn-publicar">✓ Publicar turma</button>
+    </div>
+  `;
+}
+
+function gerarCodigoAcesso() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s = '';
+  for (let i = 0; i < 6; i++) s += chars[Math.floor(Math.random() * chars.length)];
+  return s;
+}
+
+async function publicarTurma() {
+  const btn = document.getElementById('btn-publicar');
+  btn.disabled = true; btn.textContent = 'Publicando...';
+  try {
+    const codigoAcesso = gerarCodigoAcesso();
+    const turmaResp = await sbJson(`/rest/v1/turmas`, {
+      method: 'POST', headers: { 'Prefer': 'return=representation' },
+      body: JSON.stringify({
+        professor_id: sessaoProfessor.user.id,
+        nome: criarTurmaState.nome,
+        periodo: criarTurmaState.periodo || null,
+        status: 'publicada',
+        codigo_acesso: codigoAcesso,
+        data_primeira_sexta: criarTurmaState.dataPrimeiraSexta,
+      }),
+    });
+    const turmaId = turmaResp[0].id;
+
+    await sbJson(`/rest/v1/funcoes`, {
+      method: 'POST', headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify(criarTurmaState.funcoes.map((f, ordem) => ({
+        turma_id: turmaId, nome: f.nome, descricao: f.descricao, cor: f.cor,
+        ordem, capacidade_maxima: f.semLimite ? null : f.capacidade,
+      }))),
+    });
+
+    const alunosResp = await sbJson(`/rest/v1/alunos`, {
+      method: 'POST', headers: { 'Prefer': 'return=representation' },
+      body: JSON.stringify(criarTurmaState.alunos.map(a => ({
+        turma_id: turmaId, nome: a.nome, turno: a.turno,
+        numero_fila: a.numeroFila, ativo: true, data_entrada: criarTurmaState.dataPrimeiraSexta,
+      }))),
+    });
+
+    // Persiste a rodada 1 (já mostrada na Revisão final) como "fechada",
+    // usando os ids reais que o banco acabou de gerar — é isso que ancora
+    // o motor v3 pra calcular a rodada 2 corretamente depois.
+    if (criarTurmaState.primeiraRodada) {
+      const idPorTurnoFila = {};
+      (alunosResp || []).forEach(a => { idPorTurnoFila[`${a.turno}|${a.numero_fila}`] = a.id; });
+      const linhasRodada = criarTurmaState.alunos
+        .map((a, i) => ({
+          aluno_id: idPorTurnoFila[`${a.turno}|${a.numeroFila}`],
+          funcao: criarTurmaState.primeiraRodada.funcaoPorIdx[i],
+        }))
+        .filter(l => l.aluno_id && l.funcao)
+        .map(l => ({ turma_id: turmaId, aluno_id: l.aluno_id, data: criarTurmaState.primeiraRodada.data, funcao: l.funcao }));
+      if (linhasRodada.length) {
+        await sbJson(`/rest/v1/rodadas_publicadas`, {
+          method: 'POST', headers: { 'Prefer': 'return=minimal' },
+          body: JSON.stringify(linhasRodada),
+        }).catch(() => {}); // não bloqueia a publicação se a tabela ainda não existir
+      }
+    }
+
+    await sbJson(`/rest/v1/log_auditoria`, {
+      method: 'POST', headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify({
+        turma_id: turmaId, professor_id: sessaoProfessor.user.id,
+        acao: 'criar_e_publicar', entidade: 'turma', entidade_id: turmaId,
+        valor_anterior: null, valor_novo: { nome: criarTurmaState.nome, codigo_acesso: codigoAcesso },
+      }),
+    }).catch(() => {});
+
+    mostrarToast('🎉 Turma publicada! Código: ' + codigoAcesso);
+    turmaAtual = turmaResp[0];
+    await carregarDadosTurmaCompletos(turmaId);
+    gestaoTabAtiva = 'hoje';
+    await renderGestaoScreen();
+    showScreen('prof-gestao-screen');
+  } catch (e) {
+    console.error(e);
+    mostrarToast('Erro ao publicar — veja o console (F12) para detalhes.');
+    btn.disabled = false; btn.textContent = '✓ Publicar turma';
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   PAINEL DE GESTÃO (pós-publicação) — abas
+════════════════════════════════════════════════════════════ */
+const GESTAO_TABS = [
+  { id: 'hoje', label: '📅 Hoje' },
+  { id: 'alunos', label: '👥 Alunos' },
+  { id: 'cancelamentos', label: '🚫 Cancelamentos' },
+  { id: 'notificacoes', label: '🔔 Notificações' },
+  { id: 'historico', label: '📊 Histórico' },
+];
+
+async function renderGestaoScreen() {
+  const linkAluno = `${location.origin}${location.pathname}?turma=${turmaAtual.codigo_acesso}`;
+  document.getElementById('gestao-header').innerHTML = `
+    <div class="eyebrow">Turma publicada</div>
+    <div class="page-title">${escapeHtml(turmaAtual.nome)}</div>
+    <div class="card" style="margin-bottom:8px">
+      <div class="row-between">
+        <div>
+          <div class="card-sub">Código de acesso do aluno</div>
+          <div class="f-mono" style="font-size:1.3rem;font-weight:600;color:var(--brand);letter-spacing:.05em">${turmaAtual.codigo_acesso}</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="copiarLinkAluno()">📋 Copiar link</button>
+      </div>
+      <div class="hint mt-8">${linkAluno}</div>
+    </div>
+  `;
+  document.getElementById('gestao-tabs').innerHTML = GESTAO_TABS.map(t =>
+    `<button class="tab-btn ${gestaoTabAtiva===t.id?'active':''}" onclick="trocarAbaGestao('${t.id}')">${t.label}</button>`
+  ).join('');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const painelAtual = document.getElementById('gestao-tab-' + gestaoTabAtiva);
+  painelAtual.classList.add('active');
+  await renderGestaoTab(gestaoTabAtiva);
+}
+
+async function trocarAbaGestao(id) {
+  gestaoTabAtiva = id;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  const painel = document.getElementById('gestao-tab-' + id);
+  painel.classList.add('active');
+  await renderGestaoTab(id);
+}
+
+async function renderGestaoTab(id) {
+  const fns = {
+    hoje: renderAbaHoje, alunos: renderAbaAlunos, cancelamentos: renderAbaCancelamentos,
+    notificacoes: renderAbaNotificacoes, historico: renderAbaHistorico,
+  };
+  const el = document.getElementById('gestao-tab-' + id);
+  el.innerHTML = '<div class="empty-state">Carregando...</div>';
+  try { await fns[id](el); }
+  catch (e) { console.error(e); el.innerHTML = '<div class="empty-state">⚠️ Erro ao carregar esta aba.</div>'; }
+}
+
+function copiarLinkAluno() {
+  const link = `${location.origin}${location.pathname}?turma=${turmaAtual.codigo_acesso}`;
+  navigator.clipboard?.writeText(link).then(() => mostrarToast('Link copiado!')).catch(() => mostrarToast('Não foi possível copiar automaticamente. Copie manualmente: ' + link));
+}
+
+async function criarNotificacao({ alunoId = null, tipo, descricao, dataReferente = null }) {
+  return sbJson(`/rest/v1/notificacoes`, {
+    method: 'POST', headers: { 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ turma_id: turmaAtual.id, aluno_id: alunoId, tipo, descricao, data_referente: dataReferente }),
+  });
+}
+async function registrarLog(acao, entidade, entidadeId, valorAnterior, valorNovo) {
+  return sbJson(`/rest/v1/log_auditoria`, {
+    method: 'POST', headers: { 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ turma_id: turmaAtual.id, professor_id: sessaoProfessor.user.id, acao, entidade, entidade_id: entidadeId, valor_anterior: valorAnterior, valor_novo: valorNovo }),
+  }).catch(() => {});
+}
+
+/* ── ABA: HOJE ── */
+async function renderAbaHoje(el) {
+  const dataAlvo = proximaSextaOuHoje();
+  const [cancIndivHoje, trocasHoje] = await Promise.all([
+    sbJson(`/rest/v1/cancelamentos_individuais?turma_id=eq.${turmaAtual.id}&data=eq.${dataAlvo}&select=aluno_id`),
+    sbJson(`/rest/v1/trocas_manuais?turma_id=eq.${turmaAtual.id}&data=eq.${dataAlvo}&select=aluno_id,funcoes(nome)`),
+  ]);
+  const cancelados = new Set((cancIndivHoje || []).map(c => c.aluno_id));
+  const trocaPorAluno = {};
+  (trocasHoje || []).forEach(t => { trocaPorAluno[t.aluno_id] = t.funcoes.nome; });
+
+  const porTurno = {};
+  turmaDados.alunosAtivos.forEach(a => { (porTurno[a.turno] = porTurno[a.turno] || []).push(a); });
+
+  const turnosPresentes = TURNOS.filter(t => porTurno[t.id]?.length);
+  const sequenciaPorTurno = {};
+  for (const t of turnosPresentes) {
+    sequenciaPorTurno[t.id] = await computarSequenciaTurno(t.id, dataAlvo);
+  }
+
+  // Uma rodada é considerada "fechada" quando TODOS os alunos ativos desse
+  // turno já têm registro em rodadas_publicadas pra essa data.
+  const turnoJaFechado = {};
+  turnosPresentes.forEach(t => {
+    const rp = turmaDados.rodadasPorAluno || {};
+    turnoJaFechado[t.id] = porTurno[t.id].every(a => (rp[a.id] || []).some(r => r.data === dataAlvo));
+  });
+
+  const secoes = turnosPresentes.map(t => {
+    const { porData } = sequenciaPorTurno[t.id];
+    const funcoesData = porData[dataAlvo] || {};
+    const linhas = porTurno[t.id].map(a => {
+      const faltouHoje = cancelados.has(a.id);
+      const funcaoCalculada = funcoesData[a.id] ?? null;
+      if (funcaoCalculada === null || faltouHoje) {
+        return `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${escapeHtml(a.nome)}</div><div class="list-item-sub">Sem atividade</div></div></div>`;
+      }
+      const funcaoFinal = trocaPorAluno[a.id] || funcaoCalculada;
+      const fi = turmaDados.funcaoInfoPorNome[funcaoFinal] || {};
+      return `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${escapeHtml(a.nome)}</div></div><span class="badge" style="background:${hexToRgba(fi.cor,0.18)};color:${fi.cor||'#888'}">${escapeHtml(fi.descricao || funcaoFinal)}</span></div>`;
+    }).join('');
+    const statusBadge = turnoJaFechado[t.id]
+      ? `<span class="badge" style="background:rgba(120,200,150,0.16);color:#78c896">rodada fechada</span>`
+      : `<button class="btn btn-primary btn-sm" onclick="fecharRodadaHoje('${t.id}','${dataAlvo}')">🔒 Fechar rodada</button>`;
+    return `<div class="card"><div class="row-between"><div class="card-title">${t.label}</div>${statusBadge}</div><div class="mt-8">${linhas}</div></div>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="row-between mt-8" style="margin-bottom:12px">
+      <div class="page-sub" style="margin-bottom:0">Quem faz o quê em <strong>${formatarDataBR(dataAlvo)}</strong></div>
+      <button class="btn btn-ghost btn-sm" onclick="exportarImagemHoje('${dataAlvo}')">🖼️ Exportar imagem</button>
+    </div>
+    <div class="page-sub" style="font-size:11px;margin-bottom:12px">Enquanto a rodada não é fechada, a função de cada aluno é uma projeção e pode mudar. Depois de fechada, fica valendo pra sempre — inclusive pra decidir a rotação da semana seguinte.</div>
+    ${secoes || '<div class="empty-state">Nenhum aluno ativo nesta turma.</div>'}
+  `;
+}
+
+/** Chamado pelo botão "🔒 Fechar rodada" — confirma a rodada de hoje pra um
+ *  turno, gravando o que cada aluno fez em `rodadas_publicadas`. A partir
+ *  daí a rotação da semana seguinte é calculada a partir desse resultado
+ *  real (encadeado), não mais de uma projeção. */
+async function fecharRodadaHoje(turno, data) {
+  try {
+    const r = await fecharRodada(turno, data);
+    await registrarLog('fechar_rodada', 'turno', turno, null, { data, alunosFechados: r.fechadas });
+    mostrarToast(`Rodada de ${formatarDataBR(data)} fechada (${labelTurno(turno)}).`);
+    await renderGestaoTab('hoje');
+  } catch (e) {
+    console.error(e);
+    mostrarToast('Não foi possível fechar a rodada. Tente de novo.');
+  }
+}
+
+/* ── ABA: ALUNOS (kanban por turno) ── */
+async function renderAbaAlunos(el) {
+  const porTurno = {};
+  TURNOS.forEach(t => { porTurno[t.id] = []; });
+  turmaDados.alunosAtivos.forEach(a => { (porTurno[a.turno] = porTurno[a.turno] || []).push(a); });
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-title">+ Adicionar aluno</div>
+      <div class="row-between mt-8" style="gap:8px">
+        <input id="add-aluno-nome" placeholder="Nome do aluno" style="flex:2">
+        <select id="add-aluno-turno" style="flex:1;width:auto">${TURNOS.map(t => `<option value="${t.id}">${t.label}</option>`).join('')}</select>
+        <button class="btn btn-primary btn-sm" onclick="adicionarAlunoGestao()">Adicionar</button>
+      </div>
+    </div>
+    <div class="page-sub mt-8" style="margin-bottom:12px">Arraste um card pra outra coluna pra mudar o turno do aluno.</div>
+    <div class="kanban">
+      ${TURNOS.map(t => `
+        <div class="kanban-col" data-turno="${t.id}" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="onDropKanban(event,'${t.id}')">
+          <div class="kanban-col-title"><span>${t.label}</span><span>${porTurno[t.id].length}</span></div>
+          ${porTurno[t.id].map(a => `<div class="kanban-card" draggable="true" data-aluno-id="${a.id}" ondragstart="onDragStartKanban(event,'${a.id}')" ondragend="this.classList.remove('dragging')">${escapeHtml(a.nome)}</div>`).join('')}
+        </div>`).join('')}
+    </div>
+  `;
+}
+let _kanbanArrastando = null;
+function onDragStartKanban(ev, alunoId) { _kanbanArrastando = alunoId; ev.target.classList.add('dragging'); }
+async function onDropKanban(ev, turnoDestino) {
+  ev.preventDefault();
+  ev.currentTarget.classList.remove('dragover');
+  const alunoId = _kanbanArrastando;
+  _kanbanArrastando = null;
+  if (!alunoId) return;
+  const aluno = turmaDados.alunosAtivos.find(a => a.id === alunoId);
+  if (!aluno || aluno.turno === turnoDestino) return;
+  await moverAlunoDeTurno(aluno, turnoDestino);
+}
+async function moverAlunoDeTurno(aluno, turnoDestino) {
+  try {
+    const hoje = proximaSextaOuHoje();
+    const totalAposEntrada = (turmaDados.totalAtivosPorTurno[turnoDestino] || 0) + 1;
+    const datasCanceladasColetivo = _datasCanceladasColetivoDoTurno(turnoDestino);
+    const numeroFila = calcularFilaNovoAluno({ dataPrimeiraSexta: turmaAtual.data_primeira_sexta, dataEntrada: hoje, totalAtivosAposEntrada: totalAposEntrada, datasCanceladasColetivo });
+
+    await sbJson(`/rest/v1/alunos?id=eq.${aluno.id}`, {
+      method: 'PATCH', headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ ativo: false, data_saida: hoje }),
+    });
+    await sbJson(`/rest/v1/alunos`, {
+      method: 'POST', headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ turma_id: turmaAtual.id, nome: aluno.nome, turno: turnoDestino, numero_fila: numeroFila, ativo: true, data_entrada: hoje }),
+    });
+    await criarNotificacao({ alunoId: aluno.id, tipo: 'mudanca_turno', descricao: `${aluno.nome} mudou de ${labelTurno(aluno.turno)} para ${labelTurno(turnoDestino)}.`, dataReferente: hoje });
+    await registrarLog('mover_turno', 'aluno', aluno.id, { turno: aluno.turno }, { turno: turnoDestino });
+
+    mostrarToast(`${aluno.nome} movido para ${labelTurno(turnoDestino)}.`);
+    await carregarDadosTurmaCompletos(turmaAtual.id);
+    await renderGestaoTab('alunos');
+  } catch (e) {
+    console.error(e);
+    mostrarToast('Erro ao mover aluno.');
+  }
+}
+async function adicionarAlunoGestao() {
+  const nomeEl = document.getElementById('add-aluno-nome');
+  const turnoEl = document.getElementById('add-aluno-turno');
+  const nome = nomeEl.value.trim();
+  const turno = turnoEl.value;
+  if (!nome) { mostrarToast('Digite o nome do aluno.'); return; }
+  try {
+    const hoje = proximaSextaOuHoje();
+    const totalAposEntrada = (turmaDados.totalAtivosPorTurno[turno] || 0) + 1;
+    const datasCanceladasColetivo = _datasCanceladasColetivoDoTurno(turno);
+    const numeroFila = calcularFilaNovoAluno({ dataPrimeiraSexta: turmaAtual.data_primeira_sexta, dataEntrada: hoje, totalAtivosAposEntrada: totalAposEntrada, datasCanceladasColetivo });
+    const resp = await sbJson(`/rest/v1/alunos`, {
+      method: 'POST', headers: { 'Prefer': 'return=representation' },
+      body: JSON.stringify({ turma_id: turmaAtual.id, nome, turno, numero_fila: numeroFila, ativo: true, data_entrada: hoje }),
+    });
+    await criarNotificacao({ alunoId: resp[0].id, tipo: 'novo_aluno', descricao: `${nome} entrou na turma (${labelTurno(turno)}).`, dataReferente: hoje });
+    mostrarToast(`${nome} adicionado.`);
+    nomeEl.value = '';
+    await carregarDadosTurmaCompletos(turmaAtual.id);
+    await renderGestaoTab('alunos');
+  } catch (e) {
+    console.error(e);
+    mostrarToast('Erro ao adicionar aluno.');
+  }
+}
+
+/* ── ABA: CANCELAMENTOS ── */
+async function renderAbaCancelamentos(el) {
+  const [indiv, coletivos] = await Promise.all([
+    sbJson(`/rest/v1/cancelamentos_individuais?turma_id=eq.${turmaAtual.id}&select=*,alunos(nome)&order=data.desc`),
+    sbJson(`/rest/v1/cancelamentos_coletivos?turma_id=eq.${turmaAtual.id}&select=*&order=data.desc`),
+  ]);
+  const opcoesAlunos = turmaDados.alunosAtivos.map(a => `<option value="${a.id}">${escapeHtml(a.nome)} — ${labelTurno(a.turno)}</option>`).join('');
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-title">Falta individual</div>
+      <div class="fg mt-8"><label>Aluno</label><select id="canc-ind-aluno">${opcoesAlunos}</select></div>
+      <div class="fg"><label>Data</label><input id="canc-ind-data" type="date"></div>
+      <div class="fg"><label>Motivo (opcional)</label><input id="canc-ind-motivo" placeholder="Ex: atestado médico"></div>
+      <button class="btn btn-ghost" onclick="registrarCancelamentoIndividual()">Registrar falta</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Cancelamento coletivo</div>
+      <div class="fg mt-8"><label>Abrangência</label>
+        <select id="canc-col-turno"><option value="">Turma inteira</option>${TURNOS.map(t => `<option value="${t.id}">${t.label}</option>`).join('')}</select>
+      </div>
+      <div class="fg"><label>Data</label><input id="canc-col-data" type="date"></div>
+      <div class="fg"><label>Motivo (opcional)</label><input id="canc-col-motivo" placeholder="Ex: feriado"></div>
+      <button class="btn btn-ghost" onclick="registrarCancelamentoColetivo()">Registrar cancelamento</button>
+    </div>
+    <div class="card-title mt-16" style="margin-bottom:8px">Faltas individuais registradas</div>
+    ${(indiv || []).map(c => `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${escapeHtml(c.alunos?.nome || '—')}</div><div class="list-item-sub">${formatarDataBR(c.data)}${c.motivo ? ' · ' + escapeHtml(c.motivo) : ''}</div></div><button class="btn btn-danger btn-sm" onclick="removerCancelamentoIndividual('${c.id}')">Remover</button></div>`).join('') || '<div class="empty-state" style="padding:16px 0">Nenhuma falta registrada.</div>'}
+    <div class="card-title mt-16" style="margin-bottom:8px">Cancelamentos coletivos registrados</div>
+    ${(coletivos || []).map(c => `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${c.turno ? labelTurno(c.turno) : 'Turma inteira'}</div><div class="list-item-sub">${formatarDataBR(c.data)}${c.motivo ? ' · ' + escapeHtml(c.motivo) : ''}</div></div><button class="btn btn-danger btn-sm" onclick="removerCancelamentoColetivo('${c.id}')">Remover</button></div>`).join('') || '<div class="empty-state" style="padding:16px 0">Nenhum cancelamento coletivo registrado.</div>'}
+  `;
+}
+async function registrarCancelamentoIndividual() {
+  const alunoId = document.getElementById('canc-ind-aluno').value;
+  const data = document.getElementById('canc-ind-data').value;
+  const motivo = document.getElementById('canc-ind-motivo').value.trim() || null;
+  if (!alunoId || !data) { mostrarToast('Escolha o aluno e a data.'); return; }
+  try {
+    await sbJson(`/rest/v1/cancelamentos_individuais`, {
+      method: 'POST', headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ turma_id: turmaAtual.id, aluno_id: alunoId, data, motivo }),
+    });
+    const aluno = turmaDados.alunosAtivos.find(a => a.id === alunoId);
+    await criarNotificacao({ alunoId, tipo: 'falta_individual', descricao: `Falta registrada para ${aluno?.nome || ''} em ${formatarDataBR(data)}.${motivo ? ' Motivo: ' + motivo : ''}`, dataReferente: data });
+    mostrarToast('Falta registrada.');
+    await renderGestaoTab('cancelamentos');
+  } catch (e) { console.error(e); mostrarToast('Erro ao registrar (talvez já exista uma falta pra esse aluno nessa data).'); }
+}
+async function removerCancelamentoIndividual(id) {
+  try {
+    await sbJson(`/rest/v1/cancelamentos_individuais?id=eq.${id}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+    mostrarToast('Falta removida.');
+    await renderGestaoTab('cancelamentos');
+  } catch (e) { console.error(e); mostrarToast('Erro ao remover.'); }
+}
+async function registrarCancelamentoColetivo() {
+  const turno = document.getElementById('canc-col-turno').value || null;
+  const data = document.getElementById('canc-col-data').value;
+  const motivo = document.getElementById('canc-col-motivo').value.trim() || null;
+  if (!data) { mostrarToast('Escolha a data.'); return; }
+  try {
+    await sbJson(`/rest/v1/cancelamentos_coletivos`, {
+      method: 'POST', headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ turma_id: turmaAtual.id, turno, data, motivo }),
+    });
+    await criarNotificacao({ alunoId: null, tipo: 'cancelamento_coletivo', descricao: `Atividade cancelada em ${formatarDataBR(data)} para ${turno ? labelTurno(turno) : 'toda a turma'}.${motivo ? ' Motivo: ' + motivo : ''}`, dataReferente: data });
+    mostrarToast('Cancelamento registrado.');
+    await carregarDadosTurmaCompletos(turmaAtual.id);
+    await renderGestaoTab('cancelamentos');
+  } catch (e) { console.error(e); mostrarToast('Erro ao registrar cancelamento.'); }
+}
+async function removerCancelamentoColetivo(id) {
+  try {
+    await sbJson(`/rest/v1/cancelamentos_coletivos?id=eq.${id}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+    mostrarToast('Cancelamento removido.');
+    await carregarDadosTurmaCompletos(turmaAtual.id);
+    await renderGestaoTab('cancelamentos');
+  } catch (e) { console.error(e); mostrarToast('Erro ao remover.'); }
+}
+
+/* ── ABA: NOTIFICAÇÕES (histórico do que já foi avisado) ── */
+async function renderAbaNotificacoes(el) {
+  const notifs = await sbJson(`/rest/v1/notificacoes?turma_id=eq.${turmaAtual.id}&select=*,alunos(nome)&order=created_at.desc`);
+  el.innerHTML = (notifs || []).map(n => `
+    <div class="list-item">
+      <div class="list-item-main">
+        <div class="list-item-title">${escapeHtml(n.descricao)}</div>
+        <div class="list-item-sub">${n.alunos?.nome ? escapeHtml(n.alunos.nome) + ' · ' : 'Turma toda · '}${escapeHtml(n.tipo)}${n.data_referente ? ' · ' + formatarDataBR(n.data_referente) : ''}</div>
+      </div>
+    </div>`).join('') || '<div class="empty-state"><div class="empty-state-icon">🔔</div>Nenhuma notificação ainda.</div>';
+}
+
+/* ── ABA: HISTÓRICO (contador por aluno x função) ── */
+async function renderAbaHistorico(el) {
+  const dataLimite = hojeIso() < proximaSextaOuHoje() ? hojeIso() : proximaSextaOuHoje();
+  const alunos = turmaDados.alunosAtivos;
+  const linhas = await Promise.all(alunos.map(async a => {
+    const [{ datasCanceladasIndividual }, trocasRaw] = await Promise.all([
+      _buscarExcecoesAluno(a.id),
+      sbJson(`/rest/v1/trocas_manuais?aluno_id=eq.${a.id}&select=data,funcoes(nome)`),
+    ]);
+    const trocasManuais = (trocasRaw || []).map(t => ({ data: t.data, funcao: t.funcoes.nome }));
+    const datasCanceladasColetivo = _datasCanceladasColetivoDoTurno(a.turno);
+    const rosterTurno = turmaDados.alunosTodos.filter(x => x.turno === a.turno);
+    const totalAtivosNaData = (data) => rosterTurno.filter(x => x.data_entrada <= data && (!x.data_saida || x.data_saida > data)).length;
+    const contagem = contarHistoricoFuncoes({
+      numeroFila: a.numero_fila, dataPrimeiraSexta: turmaAtual.data_primeira_sexta,
+      dataEntradaAluno: a.data_entrada, dataLimite, capacidades: turmaDados.capacidades,
+      totalAtivosNaData, datasCanceladasColetivo, datasCanceladasIndividual, trocasManuais,
+    });
+    return { aluno: a, contagem };
+  }));
+
+  const colunas = turmaDados.funcoes;
+  el.innerHTML = `
+    <div class="card tbl-wrap">
+      <table class="data-tbl">
+        <thead><tr><th>Aluno</th><th>Turno</th>${colunas.map(f => `<th style="text-align:center">${f.nome}</th>`).join('')}</tr></thead>
+        <tbody>
+          ${linhas.map(({aluno, contagem}) => `<tr><td>${escapeHtml(aluno.nome)}</td><td>${labelTurno(aluno.turno)}</td>${colunas.map(f => `<td style="text-align:center">${contagem[f.nome] || 0}</td>`).join('')}</tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+/* ════════════════════════════════════════════════════════════
+   EXPORTAR IMAGEM (canvas client-side, sem lib externa)
+════════════════════════════════════════════════════════════ */
+async function exportarImagemHoje(dataAlvo) {
+  try {
+    const [cancIndivHoje, trocasHoje] = await Promise.all([
+      sbJson(`/rest/v1/cancelamentos_individuais?turma_id=eq.${turmaAtual.id}&data=eq.${dataAlvo}&select=aluno_id`),
+      sbJson(`/rest/v1/trocas_manuais?turma_id=eq.${turmaAtual.id}&data=eq.${dataAlvo}&select=aluno_id,funcoes(nome)`),
+    ]);
+    const cancelados = new Set((cancIndivHoje || []).map(c => c.aluno_id));
+    const trocaPorAluno = {};
+    (trocasHoje || []).forEach(t => { trocaPorAluno[t.aluno_id] = t.funcoes.nome; });
+
+    const porTurno = {};
+    turmaDados.alunosAtivos.forEach(a => { (porTurno[a.turno] = porTurno[a.turno] || []).push(a); });
+    const colunas = TURNOS.filter(t => porTurno[t.id]?.length);
+
+    // monta as linhas de texto (nome + função) por coluna, já calculadas
+    const dadosColunas = colunas.map(t => {
+      const totalAtivos = turmaDados.totalAtivosPorTurno[t.id] || 1;
+      const datasCanceladasColetivo = _datasCanceladasColetivoDoTurno(t.id);
+      const linhas = porTurno[t.id].map(a => {
+        const datasCanceladasIndividual = cancelados.has(a.id) ? new Set([dataAlvo]) : new Set();
+        const r = calcularFuncaoAluno({
+          numeroFila: a.numero_fila, totalAtivosNoTurno: totalAtivos, capacidades: turmaDados.capacidades,
+          dataPrimeiraSexta: turmaAtual.data_primeira_sexta, dataAlvo,
+          datasCanceladasColetivo, datasCanceladasIndividual,
+          trocaManual: trocaPorAluno[a.id] ? { data: dataAlvo, funcao: trocaPorAluno[a.id] } : null,
+        });
+        const fi = r.semAtividade ? null : (turmaDados.funcaoInfoPorNome[r.funcao] || {});
+        return { nome: a.nome, funcaoLabel: r.semAtividade ? 'Sem atividade' : (fi.descricao || r.funcao), cor: r.semAtividade ? '#7c9089' : (fi.cor || '#888') };
+      });
+      return { label: t.label, linhas };
+    });
+
+    // dimensões
+    const larguraCol = 260, padding = 28, alturaLinha = 28, alturaCabecalho = 118, alturaColTitulo = 34;
+    const maxLinhas = Math.max(...dadosColunas.map(c => c.linhas.length), 1);
+    const largura = padding * 2 + larguraCol * dadosColunas.length;
+    const altura = alturaCabecalho + alturaColTitulo + maxLinhas * alturaLinha + padding;
+
+    const canvas = document.getElementById('funcoes-export-canvas');
+    canvas.width = largura; canvas.height = altura;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#0b1210'; ctx.fillRect(0, 0, largura, altura);
+    ctx.fillStyle = '#e8efec';
+    ctx.font = '700 22px "Space Grotesk", sans-serif';
+    ctx.fillText(turmaAtual.nome, padding, 40);
+    ctx.fillStyle = '#7c9089';
+    ctx.font = '500 13px "JetBrains Mono", monospace';
+    ctx.fillText(`Rodízio de funções · ${formatarDataBR(dataAlvo)}`, padding, 62);
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.beginPath(); ctx.moveTo(padding, 84); ctx.lineTo(largura - padding, 84); ctx.stroke();
+
+    dadosColunas.forEach((col, ci) => {
+      const x = padding + ci * larguraCol;
+      let y = alturaCabecalho;
+      ctx.fillStyle = '#a3b5ae';
+      ctx.font = '700 14px "Space Grotesk", sans-serif';
+      ctx.fillText(col.label, x, y);
+      y += alturaColTitulo;
+      col.linhas.forEach(l => {
+        ctx.fillStyle = '#e8efec';
+        ctx.font = '500 13px "Public Sans", sans-serif';
+        ctx.fillText(l.nome.length > 22 ? l.nome.slice(0, 21) + '…' : l.nome, x, y + 14);
+        ctx.fillStyle = l.cor;
+        ctx.font = '600 11px "JetBrains Mono", monospace';
+        const larguraTxt = ctx.measureText(l.funcaoLabel).width;
+        ctx.fillStyle = hexToRgba(l.cor, 0.18);
+        ctx.fillRect(x + larguraCol - larguraTxt - 44, y - 2, larguraTxt + 24, 18);
+        ctx.fillStyle = l.cor;
+        ctx.fillText(l.funcaoLabel, x + larguraCol - larguraTxt - 32, y + 12);
+        y += alturaLinha;
+      });
+    });
+
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `rodizio-${turmaAtual.codigo_acesso}-${dataAlvo}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    }, 'image/png');
+  } catch (e) {
+    console.error(e);
+    mostrarToast('Erro ao gerar a imagem.');
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   BOOTSTRAP
+   Diferente da versão standalone, aqui o rodízio não decide
+   sozinho qual tela mostrar ao carregar a página — quem faz
+   isso é a própria S.C.I (tela de auth / home). A sessão do
+   professor só é recarregada em silêncio (pra não pedir login
+   de novo toda vez que ele abrir "Funções"), e a navegação de
+   fato só acontece quando o hub é aberto, via abrirFuncoesHub().
+════════════════════════════════════════════════════════════ */
+carregarSessao();
+if (sessaoProfessor?.access_token) garantirSessaoValida();
+
+window._funcoesCodigoDeepLink = new URLSearchParams(location.search).get('turma') || null;
+
+/* Chamado pelo card "Funções" na home da S.C.I. */
+async function abrirFuncoesHub() {
+  showScreen('funcoes-screen');
+  if (window._funcoesCodigoDeepLink) {
+    const codigo = window._funcoesCodigoDeepLink;
+    window._funcoesCodigoDeepLink = null;
+    await entrarComoAluno(codigo);
+    return;
+  }
+  if (sessaoProfessor?.user) {
+    await garantirSessaoValida();
+    await entrarPainelProfessor();
+  }
+}
 
 
 </script>
