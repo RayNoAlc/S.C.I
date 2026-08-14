@@ -1272,6 +1272,8 @@ body{padding-bottom:7rem!important}
 #funcoes-root .list-item-title{font-weight:600;font-size:14px}
 #funcoes-root .list-item-sub{font-size:12px;color:var(--muted)}
 #funcoes-root .badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;white-space:nowrap;display:inline-block}
+#funcoes-root .turma-del-btn{flex-shrink:0;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-sm);color:var(--muted);font-size:14px;transition:.15s}
+#funcoes-root .turma-del-btn:hover{background:var(--danger-dim);color:var(--danger)}
 
 /* ── EMPTY STATE ── */
 #funcoes-root .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
@@ -1313,9 +1315,12 @@ body{padding-bottom:7rem!important}
 #funcoes-root .kanban-col{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:12px;min-height:120px}
 #funcoes-root .kanban-col.dragover{border-color:var(--brand);background:var(--brand-dim)}
 #funcoes-root .kanban-col-title{font-weight:700;font-size:13px;margin-bottom:10px;display:flex;justify-content:space-between;color:var(--muted2)}
-#funcoes-root .kanban-card{background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:8px;cursor:grab;font-size:13px;font-weight:500}
+#funcoes-root .kanban-card{background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:8px;cursor:grab;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px}
 #funcoes-root .kanban-card:active{cursor:grabbing}
 #funcoes-root .kanban-card.dragging{opacity:.35}
+#funcoes-root .kanban-card-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#funcoes-root .kanban-card-del{flex-shrink:0;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;border-radius:5px;color:var(--muted);font-size:12px;opacity:.55;transition:.15s;cursor:pointer}
+#funcoes-root .kanban-card-del:hover{opacity:1;background:var(--danger-dim);color:var(--danger)}
 
 /* ── TABLE ── */
 #funcoes-root .tbl-wrap{overflow-x:auto}
@@ -1323,8 +1328,7 @@ body{padding-bottom:7rem!important}
 #funcoes-root table.data-tbl th{text-align:left;padding:8px 6px;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border2);white-space:nowrap}
 #funcoes-root table.data-tbl td{padding:8px 6px;border-bottom:1px solid var(--border);white-space:nowrap}
 
-/* ── nav-pill (usado no status do professor logado) ── */
-#funcoes-root .nav-pill{font-size:12px;padding:6px 12px;border-radius:99px;border:1px solid var(--border2);color:var(--muted2);background:var(--s2)}
+
 
 /* ── UTIL ── */
 #funcoes-root .hidden{display:none !important}
@@ -2447,66 +2451,24 @@ body{padding-bottom:7rem!important}
   <div class="sub-header">
     <button class="sub-header-back" onclick="showScreen('home-screen')" aria-label="Voltar">← Início</button>
     <div class="sub-header-title">🔄 Funções</div>
-    <div class="sub-header-desc">O rodízio semanal da clínica — veja sua função ou gerencie sua turma</div>
+    <div class="sub-header-desc">O rodízio semanal da clínica — veja aqui a sua função</div>
   </div>
-  <div class="card" style="margin-bottom:16px">
+  <div class="card">
     <div class="card-title">🎓 Sou aluno</div>
     <div class="card-sub mt-8" style="margin-bottom:12px">Digite o código da sua turma (seu professor compartilhou esse código).</div>
     <input id="entrada-codigo-input" placeholder="Ex: KKM4H2" maxlength="10" style="text-transform:uppercase;font-family:var(--f-mono);letter-spacing:.05em" onkeydown="if(event.key==='Enter')entrarComoAluno()">
     <button class="btn btn-primary mt-16" onclick="entrarComoAluno()">Entrar →</button>
     <div id="entrada-erro" class="hint" style="color:var(--danger)"></div>
   </div>
-
-  <div class="card">
-    <div class="card-title">👩‍🏫 Sou professor</div>
-    <div class="card-sub mt-8" style="margin-bottom:12px">Gerencie sua turma e o rodízio de funções.</div>
-    <button class="btn btn-ghost" onclick="showScreen('prof-login-screen')">Entrar como professor</button>
-  </div>
-</div>
-
-<!-- ═══ FUNÇÕES — PROFESSOR: LOGIN ═══ -->
-<div id="prof-login-screen" class="screen">
-  <div class="sub-header">
-    <button class="sub-header-back" onclick="showScreen('funcoes-screen')" aria-label="Voltar">← Funções</button>
-    <div class="sub-header-title">👩‍🏫 Área do professor</div>
-    <div class="sub-header-desc">Use seu e-mail e senha cadastrados</div>
-  </div>
-  <div class="fg">
-    <label>E-mail</label>
-    <input id="login-email" type="email" placeholder="voce@email.com">
-  </div>
-  <div class="fg">
-    <label>Senha</label>
-    <input id="login-senha" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLogin()">
-  </div>
-  <button class="btn btn-primary" onclick="fazerLogin()">Entrar</button>
-  <div id="login-erro" class="hint" style="color:var(--danger);margin-top:10px"></div>
-  <div class="text-center mt-24" style="font-size:13px;color:var(--muted)">
-    Primeiro acesso? <a href="#" onclick="event.preventDefault();showScreen('prof-cadastro-screen')">Criar conta</a>
-  </div>
-</div>
-
-<!-- ═══ FUNÇÕES — PROFESSOR: CADASTRO ═══ -->
-<div id="prof-cadastro-screen" class="screen">
-  <div class="sub-header">
-    <button class="sub-header-back" onclick="showScreen('prof-login-screen')" aria-label="Voltar">← Voltar</button>
-    <div class="sub-header-title">👩‍🏫 Criar conta</div>
-    <div class="sub-header-desc">Leva menos de um minuto</div>
-  </div>
-  <div class="fg"><label>E-mail</label><input id="cad-email" type="email" placeholder="voce@email.com"></div>
-  <div class="fg"><label>Senha</label><input id="cad-senha" type="password" placeholder="Mínimo 6 caracteres"></div>
-  <button class="btn btn-primary" onclick="fazerCadastro()">Criar conta</button>
-  <div id="cad-erro" class="hint" style="color:var(--danger);margin-top:10px"></div>
 </div>
 
 <!-- ═══ FUNÇÕES — PROFESSOR: LISTA DE TURMAS ═══ -->
 <div id="prof-turmas-screen" class="screen">
   <div class="sub-header">
-    <button class="sub-header-back" onclick="showScreen('funcoes-screen')" aria-label="Voltar">← Funções</button>
+    <button class="sub-header-back" onclick="showScreen('home-screen')" aria-label="Voltar">← Início</button>
     <div class="sub-header-title">👩‍🏫 Painel do professor</div>
     <div class="sub-header-desc">Escolha uma turma ou crie uma nova</div>
   </div>
-  <div class="row-between" id="funcoes-nav-actions" style="margin-bottom:14px"></div>
   <button class="btn btn-primary" onclick="abrirCriarTurma()" style="margin-bottom:20px">+ Nova turma</button>
   <div id="prof-turmas-lista"></div>
 </div>
@@ -12135,12 +12097,12 @@ function _achOnDailyStreak(streak){
    (ícones de tela, tema do hub e ponto de entrada)
 ══════════════════════════════════════════════════════════ */
 Object.assign(SCREEN_ICONS, {
-  'funcoes-screen':'🔄','prof-login-screen':'👩‍🏫','prof-cadastro-screen':'👩‍🏫',
+  'funcoes-screen':'🔄',
   'prof-turmas-screen':'👩‍🏫','prof-criar-screen':'👩‍🏫','prof-gestao-screen':'👩‍🏫',
   'aluno-busca-screen':'🎓','aluno-funcao-screen':'🎓'
 });
 Object.assign(_HUB_MAP, {
-  'funcoes-screen':'hub-funcoes','prof-login-screen':'hub-funcoes','prof-cadastro-screen':'hub-funcoes',
+  'funcoes-screen':'hub-funcoes',
   'prof-turmas-screen':'hub-funcoes','prof-criar-screen':'hub-funcoes','prof-gestao-screen':'hub-funcoes',
   'aluno-busca-screen':'hub-funcoes','aluno-funcao-screen':'hub-funcoes'
 });
@@ -12663,8 +12625,11 @@ if (typeof module !== 'undefined' && module.exports) {
    CONFIGURAÇÃO DO SUPABASE
    Troque pelos valores do SEU projeto (Settings → API no painel).
 ════════════════════════════════════════════════════════════ */
-const FUNCOES_SUPABASE_URL = 'https://nyuzpkzwnbhheiapbhet.supabase.co';
-const FUNCOES_SUPABASE_ANON_KEY = 'sb_publishable_NkiheIZsK09J8TCkPJunkA_tz-KoKW1';
+/* Mesmo projeto Supabase da S.C.I — o rodízio deixou de ter um banco
+   separado; essas constantes só existem pra não precisar reescrever
+   toda chamada sb()/sbJson() que já usa esses nomes. */
+const FUNCOES_SUPABASE_URL = SUPABASE_URL;
+const FUNCOES_SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
 
 const TURNOS = [
   { id: 'manha_p1', label: 'Manhã — P1' },
@@ -12701,7 +12666,13 @@ function _erroDeConfiguracao(e) {
   return e;
 }
 async function sb(path, opts = {}) {
-  await garantirSessaoValida();
+  const ok = await garantirSessaoValida();
+  if (!ok && isAdminUser) {
+    // Renovação falhou de vez (refresh token expirado/revogado) — em vez
+    // de seguir com um token morto e devolver 401, loga de novo do zero
+    // com a conta fixa. Só faz sentido pro admin (é quem tem essa conta).
+    try { await _loginProfessorFixo(); } catch (e) {}
+  }
   const headers = {
     'apikey': FUNCOES_SUPABASE_ANON_KEY,
     'Authorization': 'Bearer ' + (sessaoProfessor?.access_token || FUNCOES_SUPABASE_ANON_KEY),
@@ -12718,9 +12689,13 @@ async function sbJson(path, opts = {}) {
   let res = await sb(path, opts);
   if (res.status === 401) {
     // Token pode ter expirado entre a checagem proativa e a resposta chegar;
-    // tenta renovar uma vez e repetir a chamada antes de desistir.
-    const renovou = await renovarSessao();
-    if (renovou) res = await sb(path, opts);
+    // tenta renovar uma vez e repetir a chamada antes de desistir. Se a
+    // renovação falhar mas for o admin, tenta um login novo do zero.
+    let recuperou = await renovarSessao();
+    if (!recuperou && isAdminUser) {
+      try { await _loginProfessorFixo(); recuperou = true; } catch (e) { recuperou = false; }
+    }
+    if (recuperou) res = await sb(path, opts);
   }
   if (!res.ok) {
     const txt = await res.text().catch(() => '');
@@ -12753,49 +12728,6 @@ async function authFetch(path, body) {
   return data;
 }
 
-async function fazerCadastro() {
-  const email = document.getElementById('cad-email').value.trim();
-  const senha = document.getElementById('cad-senha').value;
-  const erroEl = document.getElementById('cad-erro');
-  erroEl.textContent = '';
-  if (!email || senha.length < 6) { erroEl.textContent = 'Preencha e-mail e senha (mínimo 6 caracteres).'; return; }
-  try {
-    const data = await authFetch('signup', { email, password: senha });
-    if (data.access_token) {
-      sessaoProfessor = {
-        access_token: data.access_token,
-        refresh_token: data.refresh_token,
-        user: data.user,
-        expira_em: Date.now() + (data.expires_in || 3600) * 1000,
-      };
-      salvarSessao();
-      await entrarPainelProfessor();
-    } else {
-      mostrarToast('Conta criada! Verifique seu e-mail para confirmar o acesso.');
-      showScreen('prof-login-screen');
-    }
-  } catch (e) { erroEl.textContent = e.message; }
-}
-
-async function fazerLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const senha = document.getElementById('login-senha').value;
-  const erroEl = document.getElementById('login-erro');
-  erroEl.textContent = '';
-  if (!email || !senha) { erroEl.textContent = 'Preencha e-mail e senha.'; return; }
-  try {
-    const data = await authFetch('token?grant_type=password', { email, password: senha });
-    sessaoProfessor = {
-      access_token: data.access_token,
-      refresh_token: data.refresh_token,
-      user: data.user,
-      expira_em: Date.now() + (data.expires_in || 3600) * 1000,
-    };
-    salvarSessao();
-    await entrarPainelProfessor();
-  } catch (e) { erroEl.textContent = 'E-mail ou senha incorretos.'; }
-}
-
 function salvarSessao() {
   try { localStorage.setItem('rodizio_sessao', JSON.stringify(sessaoProfessor)); } catch (e) {}
 }
@@ -12808,7 +12740,6 @@ function carregarSessao() {
 function sairProfessor() {
   sessaoProfessor = null;
   try { localStorage.removeItem('rodizio_sessao'); } catch (e) {}
-  atualizarNavActions();
   showScreen('funcoes-screen');
 }
 
@@ -12837,27 +12768,48 @@ async function renovarSessao() {
   return _renovacaoEmAndamento;
 }
 // Renova proativamente se o token estiver perto de expirar (ou sem expira_em salvo,
-// caso de sessões salvas antes desta correção).
+// caso de sessões salvas antes desta correção). Retorna false quando a sessão
+// ficou mesmo inválida (refresh token expirado/revogado) — quem chama decide
+// o que fazer (ex.: logar de novo do zero em vez de seguir com token velho).
 async function garantirSessaoValida() {
-  if (!sessaoProfessor?.access_token) return;
+  if (!sessaoProfessor?.access_token) return true;
   const faltamMenosDeUmMinuto = !sessaoProfessor.expira_em || (sessaoProfessor.expira_em - Date.now() < 60000);
-  if (faltamMenosDeUmMinuto) await renovarSessao();
+  if (faltamMenosDeUmMinuto) return await renovarSessao();
+  return true;
+}
+
+/* ── Login automático de professor (conta fixa, sem tela visível) ──
+   Extraído do fluxo antigo de fazerLogin() pra poder ser chamado tanto
+   na entrada quanto como recuperação automática sempre que uma sessão
+   não puder ser renovada (ver sb() e sbJson() abaixo) — assim o
+   professor nunca vê um erro de "sessão expirou" no meio do trabalho. */
+async function _loginProfessorFixo() {
+  const data = await authFetch('token?grant_type=password', { email: FUNCOES_PROFESSOR_EMAIL, password: FUNCOES_PROFESSOR_SENHA });
+  sessaoProfessor = {
+    access_token: data.access_token,
+    refresh_token: data.refresh_token,
+    user: data.user,
+    expira_em: Date.now() + (data.expires_in || 3600) * 1000,
+  };
+  salvarSessao();
+}
+
+/* Garante uma sessão de professor válida antes de uma ação crítica (ex.:
+   publicar turma) que monta o corpo da requisição já lendo
+   sessaoProfessor.user.id — sem isso, uma sessão expirada vira um erro
+   confuso ("Cannot read properties of null") bem no fim de um formulário
+   longo, em vez de simplesmente logar de novo e seguir o fluxo. */
+async function _garantirProfessorLogado() {
+  if (sessaoProfessor?.access_token) {
+    const ok = await garantirSessaoValida();
+    if (ok && sessaoProfessor?.user) return;
+  }
+  await _loginProfessorFixo();
 }
 
 async function entrarPainelProfessor() {
-  atualizarNavActions();
   await carregarTurmasProfessor();
   showScreen('prof-turmas-screen');
-}
-
-function atualizarNavActions() {
-  const el = document.getElementById('funcoes-nav-actions');
-  if (!el) return;
-  if (sessaoProfessor?.user) {
-    el.innerHTML = `<span class="nav-pill">${sessaoProfessor.user.email}</span><button class="btn btn-ghost btn-sm" onclick="sairProfessor()">Sair</button>`;
-  } else {
-    el.innerHTML = '';
-  }
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -13393,6 +13345,7 @@ async function carregarTurmasProfessor() {
   const el = document.getElementById('prof-turmas-lista');
   el.innerHTML = '<div class="empty-state">Carregando...</div>';
   try {
+    await _garantirProfessorLogado();
     const turmas = await sbJson(`/rest/v1/turmas?professor_id=eq.${sessaoProfessor.user.id}&select=*&order=created_at.desc`);
     if (!turmas || !turmas.length) {
       el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div>Você ainda não tem turmas. Crie a primeira acima.</div>`;
@@ -13411,12 +13364,45 @@ async function carregarTurmasProfessor() {
           <div class="list-item-sub">${escapeHtml(t.periodo || '')}${t.periodo ? ' · ' : ''}código: ${t.codigo_acesso}</div>
         </div>
         <span class="badge" style="background:${si.bg};color:${si.cor}">${si.label}</span>
+        <button class="turma-del-btn" title="Excluir turma" data-nome="${escapeHtml(t.nome)}" onclick="event.stopPropagation();excluirTurma('${t.id}',this.dataset.nome)">🗑️</button>
       </div>`;
     }).join('');
   } catch (e) {
     console.error(e);
     el.innerHTML = '<div class="empty-state">⚠️ Erro ao carregar turmas.</div>';
   }
+}
+
+/** Apaga uma turma e tudo que depende dela (alunos, funções, rodadas
+ *  fechadas, cancelamentos e trocas) — pedindo confirmação antes, já que
+ *  não tem como desfazer. */
+function excluirTurma(turmaId, nomeTurma) {
+  showConfirm({
+    icon: '🗑️', title: 'Excluir turma',
+    msg: `Excluir "${nomeTurma}" definitivamente? Alunos, funções e todo o histórico dessa turma serão apagados. Essa ação não pode ser desfeita.`,
+    confirmLabel: 'Excluir', confirmClass: 'btn-danger',
+    onConfirm: async () => {
+      try {
+        const alunos = await sbJson(`/rest/v1/alunos?turma_id=eq.${turmaId}&select=id`);
+        const alunoIds = (alunos || []).map(a => a.id);
+        if (alunoIds.length) {
+          const listaIds = alunoIds.join(',');
+          await sbJson(`/rest/v1/cancelamentos_individuais?aluno_id=in.(${listaIds})`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+          await sbJson(`/rest/v1/trocas_manuais?aluno_id=in.(${listaIds})`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+        }
+        await sbJson(`/rest/v1/rodadas_publicadas?turma_id=eq.${turmaId}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+        await sbJson(`/rest/v1/cancelamentos_coletivos?turma_id=eq.${turmaId}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+        await sbJson(`/rest/v1/funcoes?turma_id=eq.${turmaId}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+        await sbJson(`/rest/v1/alunos?turma_id=eq.${turmaId}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+        await sbJson(`/rest/v1/turmas?id=eq.${turmaId}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+        mostrarToast('Turma excluída.');
+        await carregarTurmasProfessor();
+      } catch (e) {
+        console.error(e);
+        mostrarToast('Não foi possível excluir a turma agora. Tente novamente.');
+      }
+    },
+  });
 }
 
 async function abrirTurma(turmaId) {
@@ -13852,6 +13838,7 @@ async function publicarTurma() {
   const btn = document.getElementById('btn-publicar');
   btn.disabled = true; btn.textContent = 'Publicando...';
   try {
+    await _garantirProfessorLogado();
     const codigoAcesso = gerarCodigoAcesso();
     const turmaResp = await sbJson(`/rest/v1/turmas`, {
       method: 'POST', headers: { 'Prefer': 'return=representation' },
@@ -13994,6 +13981,8 @@ async function criarNotificacao({ alunoId = null, tipo, descricao, dataReferente
   });
 }
 async function registrarLog(acao, entidade, entidadeId, valorAnterior, valorNovo) {
+  await _garantirProfessorLogado().catch(() => {});
+  if (!sessaoProfessor?.user) return; // log é best-effort, nunca deve travar a ação principal
   return sbJson(`/rest/v1/log_auditoria`, {
     method: 'POST', headers: { 'Prefer': 'return=minimal' },
     body: JSON.stringify({ turma_id: turmaAtual.id, professor_id: sessaoProfessor.user.id, acao, entidade, entidade_id: entidadeId, valor_anterior: valorAnterior, valor_novo: valorNovo }),
@@ -14093,7 +14082,7 @@ async function renderAbaAlunos(el) {
       ${TURNOS.map(t => `
         <div class="kanban-col" data-turno="${t.id}" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="onDropKanban(event,'${t.id}')">
           <div class="kanban-col-title"><span>${t.label}</span><span>${porTurno[t.id].length}</span></div>
-          ${porTurno[t.id].map(a => `<div class="kanban-card" draggable="true" data-aluno-id="${a.id}" ondragstart="onDragStartKanban(event,'${a.id}')" ondragend="this.classList.remove('dragging')">${escapeHtml(a.nome)}</div>`).join('')}
+          ${porTurno[t.id].map(a => `<div class="kanban-card" draggable="true" data-aluno-id="${a.id}" ondragstart="onDragStartKanban(event,'${a.id}')" ondragend="this.classList.remove('dragging')"><span class="kanban-card-name">${escapeHtml(a.nome)}</span><button class="kanban-card-del" draggable="false" title="Remover da turma" data-nome="${escapeHtml(a.nome)}" onclick="event.stopPropagation();removerAlunoGestao('${a.id}',this.dataset.nome)">✕</button></div>`).join('')}
         </div>`).join('')}
     </div>
   `;
@@ -14160,6 +14149,36 @@ async function adicionarAlunoGestao() {
     console.error(e);
     mostrarToast('Erro ao adicionar aluno.');
   }
+}
+
+/** Remove um aluno da rotação ativa da turma. Não apaga o registro dele:
+ *  marca como inativo (com data de saída), do mesmo jeito que já
+ *  acontece quando um aluno muda de turno. Assim ele some da busca e da
+ *  fila daqui pra frente, mas o histórico de funções já fechadas
+ *  continua correto e intacto. */
+function removerAlunoGestao(alunoId, nome) {
+  showConfirm({
+    icon: '🗑️', title: 'Remover aluno',
+    msg: `Remover "${nome}" da turma? Ele(a) sai da rotação e some da busca — o histórico de funções já registradas continua guardado. Pra voltar, é só adicionar de novo.`,
+    confirmLabel: 'Remover', confirmClass: 'btn-danger',
+    onConfirm: async () => {
+      try {
+        const hoje = proximaSextaOuHoje();
+        await sbJson(`/rest/v1/alunos?id=eq.${alunoId}`, {
+          method: 'PATCH', headers: { 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ ativo: false, data_saida: hoje }),
+        });
+        await criarNotificacao({ alunoId, tipo: 'saida_turma', descricao: `${nome} foi removido(a) da turma.`, dataReferente: hoje });
+        await registrarLog('remover_aluno', 'aluno', alunoId, { ativo: true }, { ativo: false });
+        mostrarToast(`${nome} removido(a) da turma.`);
+        await carregarDadosTurmaCompletos(turmaAtual.id);
+        await renderGestaoTab('alunos');
+      } catch (e) {
+        console.error(e);
+        mostrarToast('Erro ao remover aluno.');
+      }
+    },
+  });
 }
 
 /* ── ABA: CANCELAMENTOS ── */
@@ -14393,20 +14412,47 @@ if (sessaoProfessor?.access_token) garantirSessaoValida();
 
 window._funcoesCodigoDeepLink = new URLSearchParams(location.search).get('turma') || null;
 
+/* ── Login automático do professor ──
+   Não existe mais tela de "Sou professor" com e-mail/senha: quem
+   abre "Funções" logado na S.C.I como sci.admin (isAdminUser) É o
+   professor, e entra direto no painel. Por baixo dos panos ainda
+   existe uma conta real no Supabase Auth (é o que garante que só
+   quem tem acesso a essa conta consegue escrever no banco via
+   RLS) — só que agora o login com ela é automático, escondido do
+   usuário.
+   TROQUE os dois valores abaixo pela conta de professor criada no
+   projeto Supabase da S.C.I (Authentication → Users). */
+const FUNCOES_PROFESSOR_EMAIL = 'professor@rodizio.app';
+const FUNCOES_PROFESSOR_SENHA = 'semsenha';
+
+async function _autoLoginProfessor() {
+  try {
+    if (!sessaoProfessor?.access_token) {
+      await _loginProfessorFixo();
+    } else {
+      const ok = await garantirSessaoValida();
+      if (!ok) await _loginProfessorFixo(); // refresh não deu — loga do zero
+    }
+    await entrarPainelProfessor();
+  } catch (e) {
+    console.error(e);
+    mostrarToast('Não foi possível entrar automaticamente como professor.');
+    showScreen('funcoes-screen');
+  }
+}
+
 /* Chamado pelo card "Funções" na home da S.C.I. */
 async function abrirFuncoesHub() {
+  if (isAdminUser) {
+    await _autoLoginProfessor();
+    return;
+  }
   showScreen('funcoes-screen');
   if (window._funcoesCodigoDeepLink) {
     const codigo = window._funcoesCodigoDeepLink;
     window._funcoesCodigoDeepLink = null;
     await entrarComoAluno(codigo);
-    return;
-  }
-  if (sessaoProfessor?.user) {
-    await garantirSessaoValida();
-    await entrarPainelProfessor();
   }
 }
-
 
 </script>
