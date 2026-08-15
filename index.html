@@ -1274,6 +1274,8 @@ body{padding-bottom:7rem!important}
 #funcoes-root .badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;white-space:nowrap;display:inline-block}
 #funcoes-root .turma-del-btn{flex-shrink:0;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-sm);color:var(--muted);font-size:14px;transition:.15s}
 #funcoes-root .turma-del-btn:hover{background:var(--danger-dim);color:var(--danger)}
+#funcoes-root .list-icon-btn{flex-shrink:0;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-sm);color:var(--muted);font-size:13px;transition:.15s}
+#funcoes-root .list-icon-btn:hover{background:var(--brand-dim);color:var(--brand)}
 
 /* ── EMPTY STATE ── */
 #funcoes-root .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
@@ -13918,7 +13920,7 @@ async function publicarTurma() {
 const GESTAO_TABS = [
   { id: 'hoje', label: '📅 Hoje' },
   { id: 'alunos', label: '👥 Alunos' },
-  { id: 'cancelamentos', label: '🚫 Cancelamentos' },
+  { id: 'cancelamentos', label: '🔧 Ajustes' },
   { id: 'notificacoes', label: '🔔 Notificações' },
   { id: 'historico', label: '📊 Histórico' },
 ];
@@ -13952,7 +13954,7 @@ async function trocarAbaGestao(id) {
   gestaoTabAtiva = id;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  event.target.classList.add('active');
+  document.querySelector(`.tab-btn[onclick="trocarAbaGestao('${id}')"]`)?.classList.add('active');
   const painel = document.getElementById('gestao-tab-' + id);
   painel.classList.add('active');
   await renderGestaoTab(id);
@@ -14028,7 +14030,7 @@ async function renderAbaHoje(el) {
       }
       const funcaoFinal = trocaPorAluno[a.id] || funcaoCalculada;
       const fi = turmaDados.funcaoInfoPorNome[funcaoFinal] || {};
-      return `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${escapeHtml(a.nome)}</div></div><span class="badge" style="background:${hexToRgba(fi.cor,0.18)};color:${fi.cor||'#888'}">${escapeHtml(fi.descricao || funcaoFinal)}</span></div>`;
+      return `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${escapeHtml(a.nome)}</div></div><span class="badge" style="background:${hexToRgba(fi.cor,0.18)};color:${fi.cor||'#888'}">${escapeHtml(fi.descricao || funcaoFinal)}</span><button class="list-icon-btn" title="Editar função" onclick="abrirEdicaoFuncao('${a.id}','${dataAlvo}')">✏️</button></div>`;
     }).join('');
     const statusBadge = turnoJaFechado[t.id]
       ? `<span class="badge" style="background:rgba(120,200,150,0.16);color:#78c896">rodada fechada</span>`
@@ -14183,13 +14185,23 @@ function removerAlunoGestao(alunoId, nome) {
 
 /* ── ABA: CANCELAMENTOS ── */
 async function renderAbaCancelamentos(el) {
-  const [indiv, coletivos] = await Promise.all([
+  const [indiv, coletivos, trocas] = await Promise.all([
     sbJson(`/rest/v1/cancelamentos_individuais?turma_id=eq.${turmaAtual.id}&select=*,alunos(nome)&order=data.desc`),
     sbJson(`/rest/v1/cancelamentos_coletivos?turma_id=eq.${turmaAtual.id}&select=*&order=data.desc`),
+    sbJson(`/rest/v1/trocas_manuais?turma_id=eq.${turmaAtual.id}&select=id,data,alunos(nome),funcoes(nome,descricao,cor)&order=data.desc`),
   ]);
   const opcoesAlunos = turmaDados.alunosAtivos.map(a => `<option value="${a.id}">${escapeHtml(a.nome)} — ${labelTurno(a.turno)}</option>`).join('');
+  const opcoesFuncoes = turmaDados.funcoes.map(f => `<option value="${f.id}">${escapeHtml(f.descricao || f.nome)}</option>`).join('');
 
   el.innerHTML = `
+    <div class="card">
+      <div class="card-title">✏️ Editar função de um aluno</div>
+      <div class="card-sub mt-8" style="margin-bottom:10px">Corrige a função de um aluno numa data específica — seja porque a rotação calculou algo diferente do que aconteceu, seja porque um fechamento foi registrado errado. Se a rodada dessa data já foi fechada, o registro histórico é corrigido direto (o que também ajusta o cálculo das semanas seguintes); se ainda não foi fechada, vira uma troca combinada por cima da projeção.</div>
+      <div class="fg mt-8"><label>Aluno</label><select id="editfn-aluno">${opcoesAlunos}</select></div>
+      <div class="fg"><label>Data</label><input id="editfn-data" type="date"></div>
+      <div class="fg"><label>Função</label><select id="editfn-funcao">${opcoesFuncoes}</select></div>
+      <button class="btn btn-ghost" onclick="editarFuncaoManual()">Salvar função</button>
+    </div>
     <div class="card">
       <div class="card-title">Falta individual</div>
       <div class="fg mt-8"><label>Aluno</label><select id="canc-ind-aluno">${opcoesAlunos}</select></div>
@@ -14206,11 +14218,72 @@ async function renderAbaCancelamentos(el) {
       <div class="fg"><label>Motivo (opcional)</label><input id="canc-col-motivo" placeholder="Ex: feriado"></div>
       <button class="btn btn-ghost" onclick="registrarCancelamentoColetivo()">Registrar cancelamento</button>
     </div>
+    <div class="card-title mt-16" style="margin-bottom:8px">Funções editadas manualmente</div>
+    ${(trocas || []).map(t => `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${escapeHtml(t.alunos?.nome || '—')}</div><div class="list-item-sub">${formatarDataBR(t.data)} · ${escapeHtml(t.funcoes?.descricao || t.funcoes?.nome || '—')}</div></div><button class="btn btn-danger btn-sm" onclick="removerTrocaManual('${t.id}')">Remover</button></div>`).join('') || '<div class="empty-state" style="padding:16px 0">Nenhuma troca manual pendente (não conta as que já foram direto pro histórico fechado).</div>'}
     <div class="card-title mt-16" style="margin-bottom:8px">Faltas individuais registradas</div>
     ${(indiv || []).map(c => `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${escapeHtml(c.alunos?.nome || '—')}</div><div class="list-item-sub">${formatarDataBR(c.data)}${c.motivo ? ' · ' + escapeHtml(c.motivo) : ''}</div></div><button class="btn btn-danger btn-sm" onclick="removerCancelamentoIndividual('${c.id}')">Remover</button></div>`).join('') || '<div class="empty-state" style="padding:16px 0">Nenhuma falta registrada.</div>'}
     <div class="card-title mt-16" style="margin-bottom:8px">Cancelamentos coletivos registrados</div>
     ${(coletivos || []).map(c => `<div class="list-item"><div class="list-item-main"><div class="list-item-title">${c.turno ? labelTurno(c.turno) : 'Turma inteira'}</div><div class="list-item-sub">${formatarDataBR(c.data)}${c.motivo ? ' · ' + escapeHtml(c.motivo) : ''}</div></div><button class="btn btn-danger btn-sm" onclick="removerCancelamentoColetivo('${c.id}')">Remover</button></div>`).join('') || '<div class="empty-state" style="padding:16px 0">Nenhum cancelamento coletivo registrado.</div>'}
   `;
+}
+/** Corrige a função de um aluno numa data específica. Se já existir um
+ *  fechamento (rodadas_publicadas) pra essa data, corrige o registro em
+ *  si — é ele que alimenta o cálculo da rotação das semanas seguintes.
+ *  Se ainda não foi fechada, vira uma troca manual por cima da projeção,
+ *  sem mexer no motor de cálculo dos outros alunos. */
+async function editarFuncaoManual() {
+  const alunoId = document.getElementById('editfn-aluno').value;
+  const data = document.getElementById('editfn-data').value;
+  const funcaoId = document.getElementById('editfn-funcao').value;
+  if (!alunoId || !data || !funcaoId) { mostrarToast('Escolha o aluno, a data e a função.'); return; }
+  try {
+    await _garantirProfessorLogado();
+    const aluno = turmaDados.alunosAtivos.find(a => a.id === alunoId);
+    const funcaoObj = turmaDados.funcoes.find(f => f.id === funcaoId);
+    if (!aluno || !funcaoObj) { mostrarToast('Aluno ou função inválidos.'); return; }
+
+    const jaFechada = (turmaDados.rodadasPorAluno?.[alunoId] || []).some(r => r.data === data);
+    if (jaFechada) {
+      await sbJson(`/rest/v1/rodadas_publicadas?aluno_id=eq.${alunoId}&data=eq.${data}`, {
+        method: 'PATCH', headers: { 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ funcao: funcaoObj.nome }),
+      });
+    } else {
+      // Remove uma troca anterior pra esse mesmo aluno+data (se houver) antes
+      // de gravar a nova, já que trocas_manuais não tem unique constraint.
+      await sbJson(`/rest/v1/trocas_manuais?turma_id=eq.${turmaAtual.id}&aluno_id=eq.${alunoId}&data=eq.${data}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+      await sbJson(`/rest/v1/trocas_manuais`, {
+        method: 'POST', headers: { 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ turma_id: turmaAtual.id, aluno_id: alunoId, funcao_id: funcaoId, data }),
+      });
+    }
+    await criarNotificacao({ alunoId, tipo: 'edicao_funcao', descricao: `Sua função em ${formatarDataBR(data)} foi ajustada para ${funcaoObj.descricao || funcaoObj.nome}.`, dataReferente: data });
+    await registrarLog('editar_funcao', 'aluno', alunoId, null, { data, funcao: funcaoObj.nome, fechada: jaFechada });
+    mostrarToast(`Função de ${aluno.nome} atualizada.`);
+    await carregarDadosTurmaCompletos(turmaAtual.id);
+    await renderGestaoTab('cancelamentos');
+  } catch (e) {
+    console.error(e);
+    mostrarToast('Erro ao editar a função.');
+  }
+}
+async function removerTrocaManual(id) {
+  try {
+    await sbJson(`/rest/v1/trocas_manuais?id=eq.${id}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+    mostrarToast('Troca removida — volta a valer o que a rotação calcular.');
+    await renderGestaoTab('cancelamentos');
+  } catch (e) { console.error(e); mostrarToast('Erro ao remover.'); }
+}
+/** Atalho a partir da aba "Hoje": pula pra aba de ajustes já com o aluno
+ *  e a data preenchidos, só faltando escolher a nova função. */
+async function abrirEdicaoFuncao(alunoId, data) {
+  await trocarAbaGestao('cancelamentos');
+  const alunoEl = document.getElementById('editfn-aluno');
+  const dataEl = document.getElementById('editfn-data');
+  if (alunoEl) alunoEl.value = alunoId;
+  if (dataEl) dataEl.value = data;
+  document.getElementById('editfn-funcao')?.focus();
+  document.getElementById('editfn-aluno')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 async function registrarCancelamentoIndividual() {
   const alunoId = document.getElementById('canc-ind-aluno').value;
