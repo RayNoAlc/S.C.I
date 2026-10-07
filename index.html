@@ -682,32 +682,32 @@ body.light-mode .push-notif-desc{
 .tutor-messages::-webkit-scrollbar-thumb{background:var(--border3);border-radius:2px}
 .tutor-msg{display:flex;gap:10px;align-items:flex-start}
 .tutor-msg-user{flex-direction:row-reverse}
-.tutor-avatar{width:32px;height:32px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
-.tutor-avatar-user{background:rgba(167,139,250,0.12);border-color:rgba(167,139,250,0.3)}
+.tutor-avatar{width:32px;height:32px;border-radius:50%;background:rgba(236,72,153,0.12);border:1px solid rgba(236,72,153,0.3);color:#ec4899;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
+.tutor-avatar-user{background:rgba(167,139,250,0.12);border-color:rgba(167,139,250,0.3);color:#a78bfa}
 .tutor-bubble{max-width:82%;display:flex;flex-direction:column;gap:6px}
 .tutor-bubble-content{background:var(--s1);border:1px solid var(--border2);border-radius:12px 12px 12px 3px;padding:11px 14px;font-size:13px;line-height:1.6;color:var(--text)}
-.tutor-bubble-content strong{color:var(--accent)}
+.tutor-bubble-content strong{color:#ec4899}
 .tutor-bubble-content code{background:var(--s2);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:11px}
 .tutor-msg-user .tutor-bubble-content{border-radius:12px 12px 3px 12px;background:rgba(167,139,250,0.10);border-color:rgba(167,139,250,0.22);color:var(--text)}
 .tutor-suggestions{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
 .tutor-sug{border:.5px solid var(--border2);background:var(--s2);color:var(--muted2);font-size:11px;border-radius:99px;padding:4px 10px;cursor:pointer;transition:all .12s;font-family:'DM Sans',sans-serif;text-align:left;line-height:1.3}
-.tutor-sug:hover{border-color:var(--accent-border);color:var(--accent);background:var(--accent-dim)}
+.tutor-sug:hover{border-color:rgba(236,72,153,0.4);color:#ec4899;background:rgba(236,72,153,0.10)}
 .tutor-ts{font-size:10px;color:var(--muted);padding:0 4px;align-self:flex-end}
 .tutor-msg-user .tutor-ts{text-align:right}
 .tutor-loading{display:flex;gap:5px;align-items:center;padding:10px 14px;background:var(--s1);border:1px solid var(--border2);border-radius:12px 12px 12px 3px}
-.tutor-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:tutor-pulse 1.2s ease-in-out infinite}
+.tutor-dot{width:7px;height:7px;border-radius:50%;background:#ec4899;animation:tutor-pulse 1.2s ease-in-out infinite}
 .tutor-dot:nth-child(2){animation-delay:.2s}
 .tutor-dot:nth-child(3){animation-delay:.4s}
 @keyframes tutor-pulse{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 .tutor-input-wrap{display:flex;align-items:flex-end;gap:8px;padding:10px 0 4px;border-top:1px solid var(--border2);margin-top:8px;flex-shrink:0}
-.tutor-input{flex:1;background:var(--s1);border:1px solid var(--border2);border-radius:18px;padding:9px 14px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;resize:none;line-height:1.4;max-height:120px;transition:border-color .15s;scrollbar-width:none}
-.tutor-input:focus{border-color:var(--accent-border)}
+.tutor-input{flex:1;background:var(--s1);border:1px solid var(--border2);border-radius:18px;padding:9px 14px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;resize:none;line-height:1.4;max-height:120px;transition:border-color .15s,box-shadow .15s;scrollbar-width:none}
+.tutor-input:focus{border-color:rgba(236,72,153,0.5);box-shadow:0 0 10px rgba(236,72,153,0.12)}
 .tutor-input::-webkit-scrollbar{display:none}
-.tutor-send{width:38px;height:38px;border-radius:50%;background:var(--accent);border:none;color:#05120a;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
-.tutor-send:hover{transform:scale(1.07)}
-.tutor-send:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.tutor-recommend{background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;padding:9px 12px;margin-top:8px;font-size:12px;color:var(--muted2);line-height:1.5}
-.tutor-recommend strong{color:#a78bfa}
+.tutor-send{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#db2777);border:none;color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s;box-shadow:0 4px 12px rgba(236,72,153,0.28)}
+.tutor-send:hover{transform:scale(1.07);box-shadow:0 6px 16px rgba(236,72,153,0.42)}
+.tutor-send:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.tutor-recommend{background:rgba(236,72,153,0.08);border:1px solid rgba(236,72,153,0.25);border-radius:8px;padding:9px 12px;margin-top:8px;font-size:12px;color:var(--muted2);line-height:1.5}
+.tutor-recommend strong{color:#ec4899}
 /* ══ PWA INSTALL BANNER ══ */
 .pwa-banner{background:var(--s1);border:1px solid var(--accent-border);border-radius:var(--r);padding:13px 15px;display:flex;align-items:center;gap:12px;margin-bottom:1rem;cursor:pointer;transition:all .15s}
 .pwa-banner:hover{border-color:var(--accent);background:var(--s2)}
@@ -2852,7 +2852,7 @@ body.light-mode .tour-spotlight-target {
   <div id="tutor-screen" class="screen">
     <div class="sub-header">
       <button class="sub-header-back" onclick="showScreen('estudo-screen')" aria-label="Voltar">← Estudar</button>
-      <div class="sub-header-title"><i class="ph ph-brain"></i> Tutor IA</div>
+      <div class="sub-header-title"><i class="ph ph-brain" style="color:#ec4899"></i> Tutor IA</div>
       <div class="sub-header-desc">Assistente especializado em Saúde Coletiva I</div>
     </div>
     <div class="tutor-wrap">
@@ -2920,10 +2920,10 @@ body.light-mode .tour-spotlight-target {
         <div class="mode-card-desc">Slides, PDFs e materiais oficiais do professor organizados por prova.</div>
       </div>
       <!-- TUTOR IA -->
-      <div class="mode-card" onclick="showScreen('tutor-screen')" style="border-color:rgba(61,214,140,0.22);grid-column:1/-1" onmouseover="this.style.borderColor='#3dd68c'" onmouseout="this.style.borderColor='rgba(61,214,140,0.22)'">
-        <div class="mode-badge" style="background:rgba(61,214,140,0.10);color:#3dd68c;border:1px solid rgba(61,214,140,0.25)"><i class="ph ph-robot"></i> IA</div>
+      <div class="mode-card" onclick="showScreen('tutor-screen')" style="border-color:rgba(236,72,153,0.25);grid-column:1/-1" onmouseover="this.style.borderColor='#ec4899'" onmouseout="this.style.borderColor='rgba(236,72,153,0.25)'">
+        <div class="mode-badge" style="background:rgba(236,72,153,0.12);color:#ec4899;border:1px solid rgba(236,72,153,0.3)"><i class="ph ph-robot"></i> IA</div>
         <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('tutor')" title="Como funciona?">?</button>
-        <div class="mode-card-icon" style="color:#3dd68c"><i class="ph ph-brain"></i></div>
+        <div class="mode-card-icon" style="color:#ec4899"><i class="ph ph-brain"></i></div>
         <div class="mode-card-title">Tutor IA</div>
         <div class="mode-card-desc">Tire dúvidas, peça explicações e revisões com assistente especializado em Saúde Coletiva.</div>
       </div>
@@ -7444,7 +7444,7 @@ const MODE_INFO={
   material:{icon:'<i class="ph ph-books"></i>',title:'Material da Aula',color:'#f5a623',
     pedagogy:'Centralize todo o conteúdo oficial do professor. Acesse slides e PDFs sem sair da plataforma, integrando revisão passiva ao ecossistema de estudo.',
     flow:['Slides do professor visualizados diretamente na plataforma','PDFs e materiais complementares por prova','Links externos com visualizador embutido','Organizado por prova — escalável para toda a disciplina']},
-  tutor:{icon:'<i class="ph ph-brain"></i>',title:'Tutor IA',color:'#3dd68c',
+  tutor:{icon:'<i class="ph ph-brain" style="color:#ec4899"></i>',title:'Tutor IA',color:'#ec4899',
     pedagogy:'IA especializada em Saúde Coletiva I. Tire dúvidas, peça resumos e receba sugestões de estudo integradas aos Flashcards, Mapa Conceitual e Quiz da plataforma.',
     flow:['Perguntas conceituais e explicações detalhadas','Resumos de leis e políticas de saúde','Sugestões de Flashcards, Mapa e Quiz conforme o tema','Histórico de conversa salvo — continue de onde parou']}
 };
