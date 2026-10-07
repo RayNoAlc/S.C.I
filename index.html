@@ -1697,6 +1697,191 @@ body{padding-bottom:7rem!important}
   }
 }
 
+/* ══ ONBOARDING COMPANION (FIRST LOGIN TUTORIAL) ══ */
+#onboarding-companion {
+  position: fixed;
+  z-index: 8400;
+  pointer-events: none;
+}
+.tour-card, #tour-min-badge {
+  pointer-events: auto;
+}
+.tour-card {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  background: rgba(15, 20, 25, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid var(--accent-border);
+  border-radius: 18px;
+  padding: 18px 20px 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), 0 0 20px var(--accent-dim);
+  animation: tourSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+@media (max-width: 600px) {
+  .tour-card {
+    right: 14px;
+    left: 14px;
+    width: auto;
+    bottom: 74px;
+    padding: 16px 18px 14px;
+    border-radius: 16px;
+  }
+}
+@keyframes tourSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.tour-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.tour-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.tour-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tour-icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.14s;
+}
+.tour-icon-btn:hover {
+  color: var(--text);
+  background: var(--s2);
+}
+.tour-card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+.tour-card-desc {
+  font-size: 13px;
+  color: var(--muted2);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+.tour-progress-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.tour-dots {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+}
+.tour-dot {
+  flex: 1;
+  height: 3.5px;
+  border-radius: 99px;
+  background: var(--border2);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+.tour-dot.active {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-border);
+}
+.tour-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.tour-btn-skip {
+  font-size: 12px !important;
+  padding: 7px 12px !important;
+  color: var(--muted) !important;
+}
+.tour-btn-skip:hover {
+  color: var(--text) !important;
+}
+.tour-btn-next {
+  font-size: 12.5px !important;
+  padding: 8px 16px !important;
+  font-weight: 600 !important;
+}
+#tour-min-badge {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  background: var(--s1);
+  border: 1.5px solid var(--accent-border);
+  border-radius: 99px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  animation: tourSlideUp 0.2s ease;
+  transition: transform 0.15s, border-color 0.15s;
+}
+#tour-min-badge:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+@media (max-width: 600px) {
+  #tour-min-badge {
+    bottom: 74px;
+    right: 14px;
+  }
+}
+.tour-min-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: tourPulse 1.6s infinite;
+}
+@keyframes tourPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Spotlight element highlight (non-restrictive, non-blocking) */
+.tour-spotlight-target {
+  position: relative !important;
+  outline: 2.5px solid var(--accent) !important;
+  outline-offset: 4px !important;
+  border-radius: inherit !important;
+  box-shadow: 0 0 24px var(--accent-border) !important;
+  transition: outline 0.3s ease, box-shadow 0.3s ease !important;
+}
+
 </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
@@ -2718,6 +2903,18 @@ body{padding-bottom:7rem!important}
           <span class="vol-label" id="cfg-vol-label">60%</span>
         </div>
       </div>
+    <div class="config-section">
+      <div class="config-section-label">Ajuda & Tour</div>
+      <div class="config-row" onclick="startOnboardingTour(true)" role="button" tabindex="0">
+        <div class="config-row-left">
+          <div class="config-row-icon" style="color:var(--accent)"><i class="ph ph-compass"></i></div>
+          <div class="config-row-body">
+            <div class="config-row-title">Tour de Boas-Vindas</div>
+            <div class="config-row-sub">Reiniciar o guia interativo e conhecer todos os recursos</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--accent);font-weight:600">Iniciar →</div>
+      </div>
     </div>
     <div class="config-section">
       <div class="config-section-label">Aparência</div>
@@ -3092,6 +3289,60 @@ body{padding-bottom:7rem!important}
 <!-- YOUTUBE PLAYER (hidden) -->
 <iframe id="yt-iframe" style="position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;pointer-events:none;border:none" allow="autoplay" allowfullscreen></iframe>
 
+<!-- ONBOARDING COMPANION (FIRST LOGIN TUTORIAL) -->
+<div id="onboarding-companion" style="display:none">
+  <!-- Minimized floating badge -->
+  <div id="tour-min-badge" onclick="_restoreTour()" style="display:none" role="button" aria-label="Retomar tour interativo">
+    <div class="tour-min-pulse"></div>
+    <i class="ph ph-compass"></i>
+    <span>Guia do App (<span id="tour-min-step">1/5</span>)</span>
+  </div>
+
+  <!-- Interactive Tour Card -->
+  <div id="tour-card" class="tour-card">
+    <div class="tour-card-header">
+      <div class="tour-tag">
+        <i class="ph ph-sparkle"></i> Guia Interativo · Passo <span id="tour-step-num">1</span> de 5
+      </div>
+      <div class="tour-actions">
+        <button type="button" class="tour-icon-btn" onclick="_toggleTourMin()" title="Minimizar guia" aria-label="Minimizar">
+          <i class="ph ph-minus"></i>
+        </button>
+        <button type="button" class="tour-icon-btn" onclick="_skipTour()" title="Encerrar tour" aria-label="Fechar">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="tour-card-body">
+      <div class="tour-card-title" id="tour-title"></div>
+      <div class="tour-card-desc" id="tour-desc"></div>
+    </div>
+
+    <!-- Progress dots -->
+    <div class="tour-progress-row">
+      <div class="tour-dots" id="tour-dots">
+        <span class="tour-dot active"></span>
+        <span class="tour-dot"></span>
+        <span class="tour-dot"></span>
+        <span class="tour-dot"></span>
+        <span class="tour-dot"></span>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="tour-footer">
+      <button type="button" class="btn btn-ghost btn-sm tour-btn-skip" onclick="_skipTour()">Explorar sozinho</button>
+      <div style="display:flex;gap:6px">
+        <button type="button" class="btn btn-ghost btn-sm tour-btn-prev" id="tour-prev-btn" onclick="_prevTourStep()" style="display:none">Voltar</button>
+        <button type="button" class="btn btn-green btn-sm tour-btn-next" id="tour-next-btn" onclick="_nextTourStep()">
+          <span id="tour-next-label">Avançar →</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ════════════════════════════════════════════════════
    SUPABASE SETUP
@@ -3298,6 +3549,7 @@ function finishLogin(){
   showScreen('home-screen');
   _refreshProvaUI();
   const _bn=document.getElementById('bottom-nav');if(_bn)_bn.classList.add('visible');
+  setTimeout(_checkFirstLoginOnboarding, 600);
 }
 
 /* ─── Logout ─── */
@@ -3307,6 +3559,7 @@ function confirmLogout(){
     msg:`Deseja sair da conta @${currentUser.nickname}? Seus dados estão salvos na nuvem.`,
     confirmLabel:'Sair',confirmClass:'btn-danger',
     onConfirm:()=>{
+      _closeTourElements();
       syncToSupabase().finally(()=>{
         clearSession();nickname='';
         document.getElementById('nav-user-btn').style.display='none';
@@ -3320,6 +3573,188 @@ function confirmLogout(){
       });
     }
   });
+}
+
+/* ════════════════════════════════════════════════════
+   INTERACTIVE ONBOARDING TOUR (FIRST LOGIN SYSTEM)
+   Guia interativo, gamificado e 100% não restritivo.
+════════════════════════════════════════════════════ */
+const TOUR_STEPS = [
+  {
+    screen: 'home-screen',
+    target: '.hub-grid',
+    title: 'Sua Central de Aprendizado',
+    desc: 'O S.C.I organiza seu estudo em 4 grandes áreas: Modos de Jogo, Métodos de Estudo ativo, Métricas de Desempenho e Funções Clínicas. Você estuda no seu próprio ritmo!',
+    nextLabel: 'Ver Modos de Jogo →'
+  },
+  {
+    screen: 'modos-screen',
+    target: '#modos-screen .mode-grid',
+    title: 'Pratique nos Modos de Jogo',
+    desc: 'Compita no Ranqueado por streak bônus, treine sem pressão no Normal, teste reflexos no Sprint (2 min), encare a Sobrevivência (3 vidas) ou desafie colegas no Modo Duelo!',
+    nextLabel: 'Ver Métodos de Estudo →'
+  },
+  {
+    screen: 'estudo-screen',
+    target: '#estudo-screen .mode-grid',
+    title: 'Fixação Profunda do Conteúdo',
+    desc: 'Aqui você tem Flashcards com Repetição Espaçada inteligente, Mapa Conceitual interativo para conectar os temas do SUS e todos os Slides e Resumos oficiais da matéria.',
+    nextLabel: 'Conhecer o Tutor IA →'
+  },
+  {
+    screen: 'tutor-screen',
+    target: '#tutor-screen .tutor-wrap',
+    title: 'Tutor IA Disponível 24h',
+    desc: 'Um assistente inteligente configurado exclusivamente para Saúde Coletiva I e SUS. Peça resumos, tire dúvidas conceituais e peça macetes para a prova a qualquer momento!',
+    nextLabel: 'Dicas Finais & Perfil →'
+  },
+  {
+    screen: 'home-screen',
+    target: '.nav',
+    title: 'Você está Pronto!',
+    desc: 'Alterne a Prova ativa (P1 ou P2) no topo e personalize seu perfil com avatares 3D exclusivos de IA nas Configurações. Conclua o tour para receber sua recompensa!',
+    nextLabel: 'Concluir (+100 XP) 🚀'
+  }
+];
+
+let _currentTourStep = 0;
+let _tourActive = false;
+
+function _checkFirstLoginOnboarding(){
+  const done = localStorage.getItem('sci_onboarding_completed');
+  if(!done && currentUser){
+    setTimeout(() => startOnboardingTour(false), 800);
+  }
+}
+
+function startOnboardingTour(isManual = false){
+  _tourActive = true;
+  _currentTourStep = 0;
+  const companion = document.getElementById('onboarding-companion');
+  const card = document.getElementById('tour-card');
+  const badge = document.getElementById('tour-min-badge');
+  if(companion) companion.style.display = 'block';
+  if(card) card.style.display = 'block';
+  if(badge) badge.style.display = 'none';
+  _renderTourStep(_currentTourStep);
+}
+
+function _renderTourStep(idx){
+  const step = TOUR_STEPS[idx];
+  if(!step) return;
+
+  if(step.screen && typeof showScreen === 'function'){
+    showScreen(step.screen);
+  }
+
+  document.querySelectorAll('.tour-spotlight-target').forEach(el => el.classList.remove('tour-spotlight-target'));
+
+  if(step.target){
+    setTimeout(()=>{
+      const targetEl = document.querySelector(step.target);
+      if(targetEl){
+        targetEl.classList.add('tour-spotlight-target');
+        const rect = targetEl.getBoundingClientRect();
+        if(rect.top < 60 || rect.bottom > window.innerHeight - 80){
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }, 150);
+  }
+
+  const stepNum = document.getElementById('tour-step-num');
+  const minStep = document.getElementById('tour-min-step');
+  const title = document.getElementById('tour-title');
+  const desc = document.getElementById('tour-desc');
+  const nextLabel = document.getElementById('tour-next-label');
+  const prevBtn = document.getElementById('tour-prev-btn');
+
+  if(stepNum) stepNum.innerText = (idx + 1);
+  if(minStep) minStep.innerText = `${idx + 1}/${TOUR_STEPS.length}`;
+  if(title) title.innerText = step.title;
+  if(desc) desc.innerText = step.desc;
+  if(nextLabel) nextLabel.innerText = step.nextLabel || 'Avançar →';
+  if(prevBtn) prevBtn.style.display = idx > 0 ? 'inline-flex' : 'none';
+
+  const dots = document.querySelectorAll('#tour-dots .tour-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i <= idx);
+  });
+}
+
+function _nextTourStep(){
+  if(_currentTourStep < TOUR_STEPS.length - 1){
+    _currentTourStep++;
+    _renderTourStep(_currentTourStep);
+  } else {
+    _finishTour();
+  }
+}
+
+function _prevTourStep(){
+  if(_currentTourStep > 0){
+    _currentTourStep--;
+    _renderTourStep(_currentTourStep);
+  }
+}
+
+function _toggleTourMin(){
+  const card = document.getElementById('tour-card');
+  const badge = document.getElementById('tour-min-badge');
+  if(card && badge){
+    card.style.display = 'none';
+    badge.style.display = 'flex';
+  }
+}
+
+function _restoreTour(){
+  const card = document.getElementById('tour-card');
+  const badge = document.getElementById('tour-min-badge');
+  if(card && badge){
+    card.style.display = 'block';
+    badge.style.display = 'none';
+    _renderTourStep(_currentTourStep);
+  }
+}
+
+function _skipTour(){
+  _closeTourElements();
+  localStorage.setItem('sci_onboarding_completed', 'true');
+  showModal({
+    icon: '<i class="ph ph-info"></i>',
+    title: 'Tour Encerrado',
+    msg: 'Você pode reiniciar o guia a qualquer momento acessando o menu de Configurações.'
+  });
+}
+
+function _finishTour(){
+  _closeTourElements();
+  localStorage.setItem('sci_onboarding_completed', 'true');
+  
+  try {
+    if(typeof addXP === 'function'){
+      addXP(100, 'Tour Inicial Concluído');
+    }
+    if(typeof launchConfetti === 'function'){
+      launchConfetti();
+    }
+    if(typeof sfxAchievement === 'function'){
+      sfxAchievement();
+    }
+  } catch(e){}
+
+  showModal({
+    icon: '<i class="ph ph-confetti"></i>',
+    title: 'Parabéns!',
+    msg: 'Você completou a ambientação do S.C.I e ganhou +100 XP de boas-vindas! Bons estudos!'
+  });
+}
+
+function _closeTourElements(){
+  _tourActive = false;
+  document.querySelectorAll('.tour-spotlight-target').forEach(el => el.classList.remove('tour-spotlight-target'));
+  const companion = document.getElementById('onboarding-companion');
+  if(companion) companion.style.display = 'none';
 }
 
 /* ─── App initialization ─── */
