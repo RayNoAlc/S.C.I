@@ -620,12 +620,29 @@ body.light-mode .push-notif-desc{
 .nav-user:hover{border-color:var(--danger);color:var(--danger)}
 .nav-user-dot{width:20px;height:20px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;overflow:hidden;padding:0}
 .nav-user-dot img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.nav-user-lvl{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border);line-height:1.2;cursor:pointer;transition:transform .12s}
+.nav-user-lvl:hover{transform:scale(1.08)}
 /* ══ XP / NÍVEL ══ */
 .xp-bar-wrap{height:4px;background:var(--border2);border-radius:2px;overflow:hidden;margin-top:4px}
 .xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#06b6d4);border-radius:2px;transition:width .6s cubic-bezier(.2,0,0,1)}
-.xp-badge{display:inline-flex;align-items:center;gap:5px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--accent);cursor:default}
-.level-up-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#f5a623,#f97316);color:#05120a;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;border-radius:99px;padding:9px 22px;z-index:9500;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
-.level-up-toast.show{opacity:1}
+.xp-badge{display:inline-flex;align-items:center;gap:5px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:99px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--accent);cursor:pointer;transition:transform .12s}
+.xp-badge:hover{transform:scale(1.04)}
+.level-up-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) scale(0.9);background:linear-gradient(135deg,#f5a623,#f97316);color:#05120a;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;border-radius:99px;padding:10px 24px;z-index:10010;opacity:0;pointer-events:none;white-space:nowrap;box-shadow:0 12px 36px rgba(245,166,35,0.45),0 4px 12px rgba(0,0,0,0.5);display:inline-flex;align-items:center;gap:8px;transition:all .35s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
+.level-up-toast.show{opacity:1;transform:translateX(-50%) scale(1)}
+/* Card de XP na tela de Resultados */
+.res-xp-card{background:linear-gradient(135deg,rgba(61,214,140,0.08),rgba(6,182,212,0.06));border:1px solid rgba(61,214,140,0.25);border-radius:var(--r);padding:14px 16px;margin:1rem 0;text-align:left;animation:up 0.25s ease}
+.res-xp-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.res-xp-gain{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:4px}
+.res-xp-title-badge{font-size:12px;font-weight:600;color:var(--text);background:var(--s2);border:1px solid var(--border2);border-radius:99px;padding:3px 10px}
+.res-xp-foot{font-size:11px;color:var(--muted2);text-align:right}
+/* Card de Nível no Hub de Desempenho */
+.perf-level-card{background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px;margin-bottom:1rem;cursor:pointer;transition:all 0.15s}
+.perf-level-card:hover{border-color:var(--accent-border);background:var(--s2);transform:translateY(-1px)}
+.plc-header{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.plc-badge{background:var(--accent-dim);border:1px solid var(--accent-border);color:var(--accent);font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px}
+.plc-title{font-size:13px;font-weight:600;color:var(--text);flex:1;margin-left:4px}
+.plc-xp{font-size:12px;color:var(--warn);font-weight:700}
+.plc-footer{font-size:11px;color:var(--muted2);text-align:right}
 /* ══ DESAFIO DIÁRIO ══ */
 .daily-card{background:linear-gradient(135deg,var(--s1) 0%,rgba(245,166,35,0.06) 100%);border:1.5px solid rgba(245,166,35,0.3);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
 .daily-card:hover{border-color:rgba(245,166,35,0.55);transform:translateY(-1px)}
@@ -2280,7 +2297,7 @@ body.light-mode .tour-spotlight-target {
     </div>
     <div class="prova-switcher" id="prova-switcher"></div>
     <div class="nav-pills"><span class="pill hub-ctx-pill" id="nav-hub-chip" style="display:none"></span><span id="nav-topic-pills" style="display:contents"></span></div>
-    <div class="nav-user" id="nav-user-btn" onclick="confirmLogout()" style="display:none"><div class="nav-user-dot" id="nav-avatar-dot"><i class="ph ph-user"></i></div><span id="nav-user-name"></span><span style="font-size:10px;opacity:0.6">sair</span></div>
+    <div class="nav-user" id="nav-user-btn" onclick="confirmLogout()" style="display:none"><div class="nav-user-dot" id="nav-avatar-dot"><i class="ph ph-user"></i></div><span id="nav-user-name"></span><span class="nav-user-lvl" id="nav-user-lvl" onclick="event.stopPropagation();showLevelDetailsModal()" title="Ver detalhes do seu nível">Nv. 1</span><span style="font-size:10px;opacity:0.6">sair</span></div>
   </div>
 
   <!-- AUTH -->
@@ -2344,9 +2361,12 @@ body.light-mode .tour-spotlight-target {
     </div>
 
     <!-- XP / NÍVEL WIDGET (home) -->
-  <div id="xp-widget" style="display:none;margin-bottom:.75rem">
+  <div id="xp-widget" style="display:none;margin-bottom:.75rem;cursor:pointer" onclick="showLevelDetailsModal()" title="Clique para ver sua progressão de níveis e patentes">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
-      <span class="xp-badge" id="xp-level-badge">Nível 1</span>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="xp-badge" id="xp-level-badge">Nível 1</span>
+        <span id="xp-level-title" style="font-size:11px;font-weight:600;color:var(--text);opacity:0.85">Calouro do SUS</span>
+      </div>
       <span style="font-size:11px;color:var(--muted)" id="xp-to-next">0 / 500 XP</span>
     </div>
     <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div></div>
@@ -2917,6 +2937,16 @@ body.light-mode .tour-spotlight-target {
       <div class="sub-header-title"><i class="ph ph-trophy"></i> Desempenho</div>
       <div class="sub-header-desc">Acompanhe seus resultados e evolução</div>
     </div>
+    <!-- Level & XP Overview Card -->
+    <div class="perf-level-card" id="perf-level-card" onclick="showLevelDetailsModal()" title="Clique para ver detalhes do nível e patentes">
+      <div class="plc-header">
+        <span class="plc-badge" id="plc-level-badge">Nível 1</span>
+        <span class="plc-title" id="plc-level-title">Calouro do SUS</span>
+        <span class="plc-xp" id="plc-xp-count">0 XP</span>
+      </div>
+      <div class="xp-bar-wrap" style="height:6px;border-radius:3px;margin:10px 0 6px"><div class="xp-bar-fill" id="plc-xp-fill" style="width:0%"></div></div>
+      <div class="plc-footer" id="plc-xp-foot">0 / 500 XP para o próximo nível</div>
+    </div>
     <div class="mode-grid">
       <div class="mode-card ranking-card" onclick="showRanking()" style="grid-column:1/-1">
         <button class="mode-info-btn" onclick="event.stopPropagation();showModeInfo('ranking')" title="Como funciona?">?</button>
@@ -3037,6 +3067,15 @@ body.light-mode .tour-spotlight-target {
       <div class="stat-card"><div class="stat-label">Acertos</div><div class="stat-val" id="res-hits">0</div></div>
       <div class="stat-card"><div class="stat-label">Precisão</div><div class="stat-val" id="res-acc">0%</div></div>
       <div class="stat-card"><div class="stat-label" id="res-third-label">De 1ª</div><div class="stat-val" id="res-first">0</div></div>
+    </div>
+    <!-- XP Gain Card -->
+    <div class="res-xp-card" id="res-xp-card" style="display:none;cursor:pointer" onclick="showLevelDetailsModal()" title="Clique para ver sua progressão de nível">
+      <div class="res-xp-top">
+        <div class="res-xp-gain" id="res-xp-gain"><i class="ph ph-arrow-up"></i> +0 XP</div>
+        <div class="res-xp-title-badge" id="res-xp-title-badge">Nível 1 · Calouro do SUS</div>
+      </div>
+      <div class="xp-bar-wrap" style="height:6px;border-radius:3px;margin:10px 0 6px"><div class="xp-bar-fill" id="res-xp-fill" style="width:0%"></div></div>
+      <div class="res-xp-foot" id="res-xp-foot">0 / 500 XP para o próximo nível</div>
     </div>
     <div class="section-title">Desempenho por tema</div>
     <div class="cat-list" id="cat-list"></div>
@@ -3597,6 +3636,7 @@ body.light-mode .tour-spotlight-target {
   </div>
 </div>
 <div class="admin-toast" id="admin-toast"><i class="ph ph-tools"></i> Modo admin ativo…</div>
+<div class="level-up-toast" id="level-up-toast"><i class="ph ph-sparkle"></i> Nível <span id="level-up-num">2</span> Alcançado! <span id="level-up-title" style="font-size:12px;opacity:0.95;margin-left:4px"></span></div>
 
 <!-- MODE INFO MODAL -->
 <div class="mode-info-overlay" id="mode-info-overlay" style="display:none" onclick="closeModeInfo()">
@@ -3895,6 +3935,7 @@ function finishLogin(){
   checkLastResultBanner();
   showScreen('home-screen');
   _refreshProvaUI();
+  if(typeof updateXPWidget==='function')updateXPWidget();
   const _bn=document.getElementById('bottom-nav');if(_bn)_bn.classList.add('visible');
   setTimeout(_checkFirstLoginOnboarding, 600);
 }
@@ -5088,6 +5129,9 @@ function showScreen(id){
   // if(_ni)_ni.innerHTML =SCREEN_ICONS[id]||'<i class="ph ph-tooth"></i>';
   _syncBottomNav(id);
   if(id==='config-screen')_syncConfigScreen();
+  if(id==='home-screen'||id==='desempenho-screen'||id==='evo-screen'){
+    if(typeof updateXPWidget==='function')updateXPWidget();
+  }
   _applyHub(_HUB_MAP[id]||'hub-home');
   /* ── Música adaptativa por tela ── */
   if(musicOn&&_MUSIC_SCREEN_MAP[id]&&id!=='quiz-screen'){
@@ -5657,7 +5701,11 @@ function showResult(){
   const _qacc=total>0?Math.round((hits/total)*100):0;
   sfxQuizEnd(_qacc>=60);
   if(_qacc>=70)setTimeout(launchConfetti,700);
-  const data={nick:nickname,score,hits,total,correctFirst,correctSecond,log,date:Date.now(),mode:currentMode,maxStreak,lives,smartExtra:lastSmartExtra,prova:currentProva};
+  const data={nick:nickname,score,hits,total,acc:_qacc,correctFirst,correctSecond,log,date:Date.now(),mode:currentMode,maxStreak,lives,smartExtra:lastSmartExtra,prova:currentProva};
+  // XP da partida
+  const matchXP = (typeof calcMatchXP === 'function') ? calcMatchXP(data) : Math.max(15, Math.round(_qacc * 0.7));
+  data.xpWon = matchXP;
+  addXP(matchXP, currentMode);
   saveLastResult(data);
   updatePerfData(log);
   // save score per mode
@@ -5817,6 +5865,31 @@ function renderResult(data){
         smartWrap.innerHTML=`<div class="smart-feedback-block"><div class="smart-fb-header"><span><i class="ph ph-brain"></i></span><div><div class="smart-fb-title">Treino Inteligente</div><div class="smart-fb-sub">Ótimo desempenho! Nenhuma questão extra foi necessária.</div></div></div></div>`;
       }else{smartWrap.innerHTML='';}
     }
+  }
+  // render XP card
+  const xpCard=document.getElementById('res-xp-card');
+  if(xpCard&&data.xpWon){
+    const d=loadXP();
+    const curTitle=typeof getLevelTitle==='function'?getLevelTitle(d.level):'';
+    const isMax=d.level>=XP_PER_LEVEL.length-1;
+    const thisLvl=getXPForLevel(d.level-1)||0;
+    const nextLvl=getXPForLevel(d.level)||getXPForLevel(XP_PER_LEVEL.length-1);
+    const range=Math.max(1,nextLvl-thisLvl);
+    const pct=isMax?100:Math.min(100,Math.max(0,Math.round((d.total-thisLvl)/range*100)));
+    const xpGainEl=document.getElementById('res-xp-gain');
+    if(xpGainEl)xpGainEl.innerHTML=`<i class="ph ph-arrow-up"></i> +${data.xpWon} XP`;
+    const titleBadge=document.getElementById('res-xp-title-badge');
+    if(titleBadge)titleBadge.innerHTML=`Nível ${d.level} · ${curTitle}`;
+    const fill=document.getElementById('res-xp-fill');
+    if(fill){
+      fill.style.width='0%';
+      setTimeout(()=>{fill.style.width=pct+'%';},180);
+    }
+    const xpFoot=document.getElementById('res-xp-foot');
+    if(xpFoot)xpFoot.innerHTML=isMax?'Nível Máximo Alcançado!':`${d.total.toLocaleString('pt-BR')} / ${nextLvl.toLocaleString('pt-BR')} XP para o Nível ${d.level+1}`;
+    xpCard.style.display='block';
+  }else if(xpCard){
+    xpCard.style.display='none';
   }
   // history + share (inlined — no monkey-patching)
   pushHistory(data);
@@ -6256,10 +6329,14 @@ function markUnderstood(idx,e){
   if(e){e.stopPropagation();e.preventDefault();}
   // 1. Persist understood=true, keep flipped=true
   const progress=loadStudyProgress();
+  const wasUnderstood=Boolean(progress[idx]?.understood);
   if(!progress[idx])progress[idx]={userAnswer:'',flipped:true};
   progress[idx].understood=true;
   progress[idx].flipped=true;
   saveStudyProgress(progress);
+  if(!wasUnderstood){
+    addXP(15, 'Flashcard fixado');
+  }
 
   // 2. Update status badge on the FRONT face (always visible in card-num row)
   const statusEl=document.getElementById('front-'+idx)?.querySelector('.sfc-card-status');
@@ -7836,9 +7913,11 @@ function renderEvoScreen(){
   const avg=Math.round(h.reduce((a,b)=>a+b.acc,0)/h.length);
   const best=Math.max(...h.map(x=>x.acc));
   const last=h[h.length-1];
-  const trend=h.length>=2?(h[h.length-1].acc>=h[h.length-2].acc?'<i class="ph ph-trend-up"></i> Melhorando':'<i class="ph ph-trend-down"></i> Queda'):' ';
+  const _xp = loadXP();
+  const _title = typeof getLevelTitle === 'function' ? getLevelTitle(_xp.level) : '';
   const statRow=document.getElementById('evo-stat-row');
   statRow.innerHTML=`
+    <div class="stat-card" onclick="showLevelDetailsModal()" style="cursor:pointer" title="Ver detalhes do nível"><div class="stat-label">Nível / XP</div><div class="stat-val" style="color:var(--warn);font-size:13px;padding-top:4px" id="evo-level-val">Nv. ${_xp.level} · ${_xp.total.toLocaleString('pt-BR')} XP</div></div>
     <div class="stat-card"><div class="stat-label">Média</div><div class="stat-val" style="color:var(--info)">${avg}%</div></div>
     <div class="stat-card"><div class="stat-label">Melhor</div><div class="stat-val" style="color:var(--accent)">${best}%</div></div>
     <div class="stat-card"><div class="stat-label">Tendência</div><div class="stat-val" style="font-size:14px;padding-top:3px">${trend}</div></div>`;
@@ -12368,72 +12447,258 @@ setTimeout(()=>{if(currentUser)applyAvatarEverywhere();},600);
 /* ════════════════════════════════════════════════════════════════
    SISTEMA XP / NÍVEL
 ════════════════════════════════════════════════════════════════ */
-const XP_PER_LEVEL=[0,500,1100,1800,2600,3500,4500,5700,7100,8700,10500];
+const XP_PER_LEVEL = [0, 500, 1100, 1800, 2600, 3500, 4500, 5700, 7100, 8700, 10500, 13000];
+const LEVEL_TITLES = [
+  "",
+  "Calouro do SUS",
+  "Iniciante em Saúde",
+  "Agente Comunitário",
+  "Acadêmico de UBS",
+  "Sanitarista Júnior",
+  "Promotor de Saúde",
+  "Estrategista da ESF",
+  "Cirurgião da Família",
+  "Mestre em Prevenção",
+  "Especialista em APS",
+  "Doutor do SUS",
+  "Sanitarista Mestre ★"
+];
+
+function getLevelTitle(lv){
+  return LEVEL_TITLES[lv] || (lv >= LEVEL_TITLES.length ? LEVEL_TITLES[LEVEL_TITLES.length - 1] : "Estudante");
+}
+
+function getXPForLevel(lv){
+  const idx = Math.max(0, Math.min(lv, XP_PER_LEVEL.length - 1));
+  return XP_PER_LEVEL[idx] !== undefined ? XP_PER_LEVEL[idx] : XP_PER_LEVEL[XP_PER_LEVEL.length - 1];
+}
+
+function calcMatchXP(data){
+  if(!data) return 20;
+  const base = {ranked:100, normal:50, survival:80, sprint:70, simulado:150, duel:75, diario:150};
+  const modeBase = base[data.mode] || 50;
+  const total = Math.max(1, Number(data.total) || 1);
+  const hits = Math.max(0, Number(data.hits) || 0);
+  const acc = typeof data.acc === 'number' ? data.acc : Math.round((hits / total) * 100);
+  const hitsRatio = hits / total;
+  
+  let streakBonus = 0;
+  if(data.maxStreak && data.maxStreak >= 4) streakBonus = Math.min(30, Math.floor(data.maxStreak * 2.5));
+  
+  const rawXP = Math.round(modeBase * (acc / 100) * (hitsRatio + 0.5) + streakBonus);
+  return Math.max(15, isNaN(rawXP) ? 15 : rawXP);
+}
+
 function loadXP(){
-  const d=getCache('xp',{total:0,level:1});
-  /* sanitize — ensure numbers */
-  d.total=parseInt(d.total)||0;
-  d.level=parseInt(d.level)||1;
-  /* recalculate level from total in case cache is stale */
-  while(d.level<XP_PER_LEVEL.length-1&&d.total>=getXPForLevel(d.level))d.level++;
+  const d = getCache('xp', {total:0, level:1});
+  let total = Number(d.total);
+  if(isNaN(total) || total < 0) total = 0;
+  d.total = Math.round(total);
+  
+  // Auto-recuperação retroativa se partidas passadas foram salvas sem XP
+  if(d.total === 0 && !getCache('xp_recovered', false)){
+    const hist = getCache('history', []);
+    if(Array.isArray(hist) && hist.length > 0){
+      let recovered = 0;
+      hist.forEach(h => { recovered += calcMatchXP(h); });
+      if(recovered > 0){
+        d.total = recovered;
+        setCache('xp_recovered', true);
+      }
+    }
+  }
+  
+  d.level = 1;
+  while(d.level < XP_PER_LEVEL.length - 1 && d.total >= getXPForLevel(d.level)){
+    d.level++;
+  }
   return d;
 }
-function saveXP(d){setCache('xp',d);}
+
+function saveXP(d){ setCache('xp', d); }
+
 /* Call updateXPWidget whenever the xp-widget is visible */
 function refreshXPOnScreen(){
-  if(document.getElementById('xp-widget'))updateXPWidget();
+  updateXPWidget();
 }
-function getXPForLevel(lv){return XP_PER_LEVEL[Math.min(lv,XP_PER_LEVEL.length-1)]||XP_PER_LEVEL[XP_PER_LEVEL.length-1];}
-function addXP(amount,reason=''){
-  const d=loadXP();
-  const prev=d.level;
-  d.total=(d.total||0)+Math.max(0,Math.round(amount));
-  while(d.level<XP_PER_LEVEL.length-1&&d.total>=getXPForLevel(d.level)){d.level++;}
+
+function addXP(amount, reason = ''){
+  const amt = Math.max(0, Math.round(Number(amount) || 0));
+  if(amt <= 0) return;
+  const d = loadXP();
+  const prevLevel = d.level;
+  d.total = (d.total || 0) + amt;
+  while(d.level < XP_PER_LEVEL.length - 1 && d.total >= getXPForLevel(d.level)){
+    d.level++;
+  }
   saveXP(d);
   updateXPWidget();
-  if(d.level>prev){
-    const t=document.getElementById('level-up-toast');
-    const n=document.getElementById('level-up-num');
-    if(t&&n){n.innerHTML =d.level;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-    try{sfxAchievement();}catch(e){}
+  
+  // Conquistas desbloqueadas por XP/Nível
+  try{
+    if(d.level >= 5) unlockAch('level_5');
+    if(d.level >= XP_PER_LEVEL.length - 1) unlockAch('level_max');
+    if(d.total >= 1000) unlockAch('xp_1000');
+    if(d.total >= 5000) unlockAch('xp_5000');
+  }catch(e){}
+  
+  // Feedback ao subir de nível
+  if(d.level > prevLevel){
+    const t = document.getElementById('level-up-toast');
+    const n = document.getElementById('level-up-num');
+    const titleEl = document.getElementById('level-up-title');
+    const title = getLevelTitle(d.level);
+    if(t && n){
+      n.innerHTML = d.level;
+      if(titleEl) titleEl.innerHTML = `· ${title}`;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+    try{ sfxAchievement(); }catch(e){}
+    try{ if(typeof launchConfetti === 'function') launchConfetti(); }catch(e){}
     try{
-      if(typeof notifyPush==='function'){
+      if(typeof notifyPush === 'function'){
         notifyPush({
-          title:`🎉 Parabéns! Nível ${d.level} Alcançado`,
-          body:`Você avançou de nível e conquistou novos conhecimentos em Saúde Coletiva!`,
-          type:'levelup',
-          actionText:'Ver Progresso',
-          onAction:()=>showScreen('desempenho-screen')
+          title: `🎉 Parabéns! Nível ${d.level} Alcançado`,
+          body: `Você conquistou o título "${title}" em Saúde Coletiva!`,
+          type: 'levelup',
+          actionText: 'Ver Progresso',
+          onAction: () => showScreen('desempenho-screen')
         });
       }
     }catch(e){}
   }
-  if(amount>0)_qaLog&&_qaLog(`<i class="ph ph-arrow-up"></i> +${amount} XP (${reason})`,'success');
+  
+  if(_qaLog) _qaLog(`<i class="ph ph-arrow-up"></i> +${amt} XP (${reason})`, 'success');
 }
+
 function updateXPWidget(){
-  const d=loadXP();
-  const widget=document.getElementById('xp-widget');if(!widget)return;
-  const badge=document.getElementById('xp-level-badge');
-  const toNext=document.getElementById('xp-to-next');
-  const fill=document.getElementById('xp-bar-fill');
-  const isMax=d.level>=XP_PER_LEVEL.length-1;
-  const thisLvl=getXPForLevel(d.level-1)||0;
-  const nextLvl=getXPForLevel(d.level)||getXPForLevel(XP_PER_LEVEL.length-1);
-  const range=Math.max(1,nextLvl-thisLvl);
-  const pct=isMax?100:Math.min(100,Math.max(0,Math.round((d.total-thisLvl)/range*100)));
-  if(badge)badge.innerHTML =`Nível ${d.level}${isMax?' ★':''}`;
-  if(toNext)toNext.innerHTML =isMax?`${d.total.toLocaleString('pt-BR')} XP — Nível máximo!`:`${d.total.toLocaleString('pt-BR')} / ${nextLvl.toLocaleString('pt-BR')} XP`;
-  if(fill)fill.style.width=pct+'%';
-  if(widget)widget.style.display='block';
+  const d = loadXP();
+  const title = getLevelTitle(d.level);
+  const isMax = d.level >= XP_PER_LEVEL.length - 1;
+  const thisLvl = getXPForLevel(d.level - 1) || 0;
+  const nextLvl = getXPForLevel(d.level) || getXPForLevel(XP_PER_LEVEL.length - 1);
+  const range = Math.max(1, nextLvl - thisLvl);
+  const pct = isMax ? 100 : Math.min(100, Math.max(0, Math.round((d.total - thisLvl) / range * 100)));
+  
+  // 1. Home XP Widget
+  const widget = document.getElementById('xp-widget');
+  if(widget){
+    if(currentUser){
+      const badge = document.getElementById('xp-level-badge');
+      const titleEl = document.getElementById('xp-level-title');
+      const toNext = document.getElementById('xp-to-next');
+      const fill = document.getElementById('xp-bar-fill');
+      if(badge) badge.innerHTML = `Nível ${d.level}${isMax ? ' ★' : ''}`;
+      if(titleEl) titleEl.innerHTML = title;
+      if(toNext) toNext.innerHTML = isMax ? `${d.total.toLocaleString('pt-BR')} XP — Nível máximo!` : `${d.total.toLocaleString('pt-BR')} / ${nextLvl.toLocaleString('pt-BR')} XP`;
+      if(fill) fill.style.width = pct + '%';
+      widget.style.display = 'block';
+    } else {
+      widget.style.display = 'none';
+    }
+  }
+  
+  // 2. Top Navigation Bar Level Pill
+  const navLvl = document.getElementById('nav-user-lvl');
+  if(navLvl){
+    if(currentUser){
+      navLvl.innerHTML = `Nv. ${d.level}`;
+      navLvl.style.display = 'inline-block';
+    } else {
+      navLvl.style.display = 'none';
+    }
+  }
+  
+  // 3. Desempenho Hub Card
+  const plcBadge = document.getElementById('plc-level-badge');
+  const plcTitle = document.getElementById('plc-level-title');
+  const plcXp = document.getElementById('plc-xp-count');
+  const plcFill = document.getElementById('plc-xp-fill');
+  const plcFoot = document.getElementById('plc-xp-foot');
+  if(plcBadge) plcBadge.innerHTML = `Nível ${d.level}${isMax ? ' ★' : ''}`;
+  if(plcTitle) plcTitle.innerHTML = title;
+  if(plcXp) plcXp.innerHTML = `${d.total.toLocaleString('pt-BR')} XP`;
+  if(plcFill) plcFill.style.width = pct + '%';
+  if(plcFoot) plcFoot.innerHTML = isMax ? 'Nível máximo atingido! Parabéns!' : `${d.total.toLocaleString('pt-BR')} / ${nextLvl.toLocaleString('pt-BR')} XP (${pct}%)`;
+
+  // 4. Minha Evolução Stat Card
+  const evoVal = document.getElementById('evo-level-val');
+  if(evoVal) evoVal.innerHTML = `Nv. ${d.level} · ${d.total.toLocaleString('pt-BR')} XP`;
 }
-/* XP ao finalizar partida */
+
+function showLevelDetailsModal(){
+  const d = loadXP();
+  const curTitle = getLevelTitle(d.level);
+  const isMax = d.level >= XP_PER_LEVEL.length - 1;
+  const thisLvl = getXPForLevel(d.level - 1) || 0;
+  const nextLvl = getXPForLevel(d.level) || getXPForLevel(XP_PER_LEVEL.length - 1);
+  const range = Math.max(1, nextLvl - thisLvl);
+  const pct = isMax ? 100 : Math.min(100, Math.max(0, Math.round((d.total - thisLvl) / range * 100)));
+  
+  let listHTML = '';
+  for(let i = 1; i < XP_PER_LEVEL.length; i++){
+    const reqXP = XP_PER_LEVEL[i - 1];
+    const t = LEVEL_TITLES[i];
+    const isCur = d.level === i;
+    const isUnlocked = d.level >= i;
+    listHTML += `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:6px;background:${isCur ? 'rgba(61,214,140,0.12)' : (isUnlocked ? 'var(--s2)' : 'var(--s1)')};border:1px solid ${isCur ? 'var(--accent)' : 'var(--border)'};margin-bottom:5px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-weight:700;font-size:12px;color:${isCur ? 'var(--accent)' : (isUnlocked ? 'var(--text)' : 'var(--muted)')}">Nv. ${i}</span>
+          <span style="font-size:12px;color:${isCur ? 'var(--accent)' : (isUnlocked ? 'var(--text)' : 'var(--muted2)')};font-weight:${isCur ? '600' : '400'}">${t}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:11px;color:${isCur ? 'var(--accent)' : 'var(--muted)'}">${reqXP.toLocaleString('pt-BR')} XP</span>
+          ${isCur ? '<span style="font-size:10px;background:var(--accent);color:#05120a;padding:1px 6px;border-radius:99px;font-weight:700">Atual</span>' : (isUnlocked ? '<i class="ph ph-check" style="color:var(--accent);font-size:12px"></i>' : '<i class="ph ph-lock" style="color:var(--muted);font-size:11px"></i>')}
+        </div>
+      </div>
+    `;
+  }
+  
+  const contentHTML = `
+    <div style="text-align:left;max-height:65vh;overflow-y:auto;padding-right:2px">
+      <div style="background:linear-gradient(135deg,rgba(61,214,140,0.1),rgba(6,182,212,0.08));border:1px solid rgba(61,214,140,0.25);border-radius:var(--r);padding:14px;margin-bottom:1rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--accent)">Nível ${d.level}</span>
+          <span style="font-weight:700;font-size:13px;color:var(--warn)">${d.total.toLocaleString('pt-BR')} XP total</span>
+        </div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${curTitle}</div>
+        <div class="xp-bar-wrap" style="height:6px;border-radius:3px;margin-bottom:4px"><div class="xp-bar-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:11px;color:var(--muted2);text-align:right">${isMax ? 'Nível Máximo Alcançado!' : `${d.total.toLocaleString('pt-BR')} / ${nextLvl.toLocaleString('pt-BR')} XP (${pct}%)`}</div>
+      </div>
+      
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px">Patentes & Níveis do S.C.I</div>
+      <div style="margin-bottom:1rem">${listHTML}</div>
+      
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px">Como Ganhar XP</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.6;background:var(--s1);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px">
+        <div>⚡ <strong>Partidas e Quizzes:</strong> +30 a +160 XP por precisão e streak</div>
+        <div>🎯 <strong>Desafio Diário:</strong> +150 XP garantidos ao concluir</div>
+        <div>📇 <strong>Flashcards:</strong> +15 XP por card entendido</div>
+        <div>📋 <strong>Simulados:</strong> até +200 XP por conclusão</div>
+      </div>
+    </div>
+  `;
+  
+  showModal({
+    icon: '<i class="ph ph-sparkle"></i>',
+    title: 'Sistema de Nível & XP',
+    msg: contentHTML,
+    label: 'Fechar'
+  });
+}
+
+/* Fallback seguro caso pushHistory seja chamado isoladamente */
 (()=>{
-  const orig=pushHistory;
-  window.pushHistory=function(data){
-    orig.apply(this,arguments);
-    const base={ranked:80,normal:40,survival:60,sprint:50,simulado:70,duel:55,diario:100};
-    const xp=Math.round((base[data.mode]||40)*(data.acc/100)*((data.hits/Math.max(data.total,1))+0.5));
-    addXP(Math.max(10,xp),data.mode);
+  const orig = pushHistory;
+  window.pushHistory = function(data){
+    orig.apply(this, arguments);
+    if(data && !data.xpWon){
+      const xp = calcMatchXP(data);
+      data.xpWon = xp;
+      addXP(xp, data.mode);
+    }
   };
 })();
 
