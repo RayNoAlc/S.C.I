@@ -234,6 +234,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .opt.correct .opt-letter{background:rgba(61,214,140,0.12);border-color:var(--accent-border);color:var(--accent)}
 .opt.wrong{background:var(--danger-dim);border-color:rgba(255,107,107,0.22);color:var(--danger)}
 .opt.wrong .opt-letter{background:var(--danger-dim);border-color:rgba(255,107,107,0.22);color:var(--danger)}
+.opt > span:not(.opt-letter){flex:1}
+.opt.selected{background:rgba(6,182,212,0.12)!important;border-color:rgba(6,182,212,0.55)!important;color:var(--text)!important;box-shadow:0 0 0 1.5px rgba(6,182,212,0.35)}
+.opt.selected .opt-letter{background:#06b6d4!important;border-color:#06b6d4!important;color:#041017!important;font-weight:800!important}
+.opt.selected::after{content:'Selecionada';margin-left:auto;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:2px 8px;border-radius:99px;background:rgba(6,182,212,0.2);color:#06b6d4;border:1px solid rgba(6,182,212,0.4);flex-shrink:0;align-self:center}
+.opt.simulado-answered:not(.selected){opacity:0.55}
 .hint-box{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.18);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:0.7rem;font-size:13px;line-height:1.6;color:var(--warn);display:none;animation:up 0.2s ease}
 .hint-box.show{display:flex;gap:9px}
 .hint-ico{flex-shrink:0;font-size:14px;margin-top:1px}
@@ -284,19 +289,31 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .fc-stack{display:flex;flex-direction:column;gap:10px}
 .flashcard{border-radius:var(--r);overflow:hidden;cursor:pointer}
 .fc-front{background:var(--s1);border:1px solid rgba(255,107,107,0.18);border-radius:var(--r);padding:15px;display:flex;flex-direction:column;gap:8px}
+.fc-front.is-correct{border-color:rgba(61,214,140,0.24)}
 .fc-back{background:var(--s2);border:1px solid rgba(91,156,246,0.2);border-radius:var(--r);padding:15px;display:none;flex-direction:column;gap:10px}
 .flashcard.open .fc-front{display:none}
 .flashcard.open .fc-back{display:flex}
 .fc-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--danger);background:var(--danger-dim);border:1px solid rgba(255,107,107,0.18);border-radius:99px;padding:2px 10px;width:fit-content}
+.fc-tag.correct{color:var(--accent);background:var(--accent-dim);border-color:var(--accent-border)}
 .fc-question{font-size:14px;color:var(--text);line-height:1.55;font-weight:500}
 .fc-flip-hint{font-size:11px;color:var(--muted)}
 .fc-back-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--info);display:flex;align-items:center;gap:8px}
 .fc-back-label::after{content:'';flex:1;height:1px;background:rgba(91,156,246,0.15)}
 .fc-wrong-list{display:flex;flex-direction:column;gap:6px}
-.fc-wrong-item{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.1);border-radius:6px;padding:8px 10px}
-.fc-wrong-letter{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--danger);margin-bottom:3px;opacity:0.8}
+.fc-wrong-item{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.12);border-radius:6px;padding:8px 10px}
+.fc-wrong-letter{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--danger);margin-bottom:3px;opacity:0.85}
 .fc-wrong-opt{font-size:12px;color:var(--text);margin-bottom:3px;line-height:1.4}
 .fc-wrong-why{font-size:12px;color:var(--muted2);line-height:1.5;font-style:italic}
+.fc-correct-item{background:rgba(61,214,140,0.07);border:1px solid rgba(61,214,140,0.28);border-radius:6px;padding:9px 11px}
+.fc-correct-letter{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--accent);margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.fc-correct-opt{font-size:12px;color:var(--text);font-weight:600;margin-bottom:3px;line-height:1.4}
+.fc-correct-why{font-size:12px;color:var(--accent);line-height:1.5;opacity:0.95}
+.fc-user-choice-badge{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;padding:2px 7px;border-radius:99px}
+.fc-user-choice-badge.badge-wrong{background:rgba(255,107,107,0.18);color:var(--danger);border:1px solid rgba(255,107,107,0.32)}
+.fc-user-choice-badge.badge-correct{background:rgba(61,214,140,0.2);color:var(--accent);border:1px solid rgba(61,214,140,0.38)}
+.review-filter-btn{cursor:pointer;border:1px solid var(--border2);background:var(--s1);color:var(--muted2);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all 0.14s;display:inline-flex;align-items:center;gap:5px}
+.review-filter-btn:hover{color:var(--text);border-color:var(--border3)}
+.review-filter-btn.active{background:var(--accent);color:#061017;border-color:var(--accent);font-weight:700}
 .fc-hint-box{background:var(--warn-dim);border:1px solid rgba(245,166,35,0.18);border-radius:6px;padding:9px 11px;display:flex;gap:8px}
 .fc-hint-ico{font-size:13px;flex-shrink:0;margin-top:1px}
 .fc-hint-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--warn);opacity:0.7;margin-bottom:2px}
@@ -3095,9 +3112,12 @@ body.light-mode .tour-spotlight-target {
   <!-- REVIEW -->
   <div id="review-screen" class="screen">
     <div class="review-header">
-      <div class="review-title"><i class="ph ph-cards"></i> Revisão de Erros</div>
-      <div class="review-sub">Clique em cada card para ver a explicação de cada alternativa.</div>
-      <div class="review-tag" id="review-count-tag"></div>
+      <div class="review-title" id="review-screen-title"><i class="ph ph-cards"></i> Revisão & Gabarito</div>
+      <div class="review-sub">Clique em cada card para ver o gabarito oficial e a justificativa de todas as alternativas.</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:0.75rem">
+        <div class="review-tag" id="review-count-tag"></div>
+        <div id="review-filter-tabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      </div>
     </div>
     <div class="fc-stack" id="fc-stack"></div>
     <div class="review-nav">
@@ -5516,9 +5536,10 @@ function timeExpired(){
   if(answered)return;sfxTimeout();answered=true;
   clearInterval(timerInterval);
   const q=shuffled[current];
-  log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
+  log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false,userChoice:null});
   streak=0;updateStreakUI();
   if(currentMode==='simulado'){
+    document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;b.classList.add('simulado-answered');});
     const btn=document.getElementById('next-btn');
     btn.innerHTML =current===shuffled.length-1?'Encerrar simulado →':'Próxima →';
     btn.style.display='inline-block';
@@ -5541,14 +5562,15 @@ function selectOption(idx){
   if(answered)return;
   const q=shuffled[current];const btns=document.querySelectorAll('.opt');
 
-  /* ── SIMULADO: sem qualquer feedback ── */
+  /* ── SIMULADO: sem feedback de acerto/erro imediato, mas destaca a opção escolhida ── */
   if(currentMode==='simulado'){
     answered=true;
-    btns.forEach(b=>b.disabled=true);
+    btns.forEach(b=>{b.disabled=true;b.classList.add('simulado-answered');});
+    if(btns[idx])btns[idx].classList.add('selected');
     const correct=idx===q.answer;
     const first=attempts===0;
     if(correct)correctFirst++;
-    log.push({cat:q.cat,correct,firstTry:first,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:false});
+    log.push({cat:q.cat,correct,firstTry:first,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:false,userChoice:idx});
     const isLast=current===shuffled.length-1;
     const btn=document.getElementById('next-btn');
     btn.innerHTML =isLast?'Encerrar simulado →':'Próxima →';
@@ -5575,7 +5597,7 @@ function selectOption(idx){
     }
     document.getElementById('expl-text').innerHTML =q.explanation||'';
     document.getElementById('expl-box').classList.add('show');
-    log.push({cat:q.cat,correct:true,firstTry:first,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts,isSmartExtra:q.isSmartExtra||false});
+    log.push({cat:q.cat,correct:true,firstTry:first,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts,isSmartExtra:q.isSmartExtra||false,userChoice:idx});
     updateStreakUI();
     if(streak>=3)unlockAch('streak_3');
     if(streak>=10)unlockAch('streak_10');
@@ -5599,7 +5621,7 @@ function selectOption(idx){
       document.getElementById('expl-lbl').innerHTML =(isDuelLives||currentMode==='survival')?'Errou! -1 <i class="ph ph-heart"></i>':'Errou!';
       document.getElementById('expl-text').innerHTML =q.explanation||'';
       document.getElementById('expl-box').classList.add('show');
-      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
+      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false,userChoice:idx});
       const btn=document.getElementById('next-btn');
       btn.innerHTML =lives<=0?'Ver resultado':'Próxima →';
       btn.style.display='inline-block';
@@ -5614,7 +5636,7 @@ function selectOption(idx){
       document.getElementById('expl-lbl').innerHTML ='Explicação';
       document.getElementById('expl-text').innerHTML =q.explanation||'';
       document.getElementById('expl-box').classList.add('show');
-      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
+      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false,userChoice:idx});
       document.getElementById('next-btn').style.display='inline-block';
       return;
     }
@@ -5631,7 +5653,7 @@ function selectOption(idx){
       document.getElementById('expl-lbl').innerHTML ='Explicação';
       document.getElementById('expl-text').innerHTML =q.explanation||'';
       document.getElementById('expl-box').classList.add('show');
-      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false});
+      log.push({cat:q.cat,correct:false,firstTry:false,text:q.text,explanation:q.explanation,hint:q.hint,options:q.options,answer:q.answer,wrongReasons:q.wrongReasons,pts:0,isSmartExtra:q.isSmartExtra||false,userChoice:idx});
     }
   }
   if(answered){
@@ -5838,10 +5860,10 @@ function renderResult(data){
     const bw=document.getElementById('duel-result-banner-wrap');
     if(bw)bw.innerHTML='';
     if(!wrongs.length){
-      ctaWrap.innerHTML='<div style="background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:var(--accent);text-align:center;margin-bottom:1rem">Parabéns! Você acertou todas as questões. <i class="ph ph-confetti"></i></div>';
+      ctaWrap.innerHTML=`<div style="background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:var(--accent);text-align:center;margin-bottom:0.75rem">Parabéns! Você acertou todas as questões. <i class="ph ph-confetti"></i></div><div class="review-cta" style="margin-bottom:1rem"><div><div class="review-cta-title"><i class="ph ph-clipboard-text"></i> Gabarito Completo (${total} questões)</div><div class="review-cta-sub">Confira a justificativa oficial e análise de todas as alternativas da prova.</div></div><button class="btn btn-green" onclick="openReview('all')">Ver gabarito →</button></div>`;
       retryWrap.innerHTML='';
     }else{
-      ctaWrap.innerHTML=`<div class="review-cta"><div><div class="review-cta-title"><i class="ph ph-books"></i> ${wrongs.length} questão${wrongs.length>1?'s':''} para revisar</div><div class="review-cta-sub">Veja por que cada alternativa errada está errada.</div></div><button class="btn btn-warn" onclick="openReview()">Ver o que errei</button></div>`;
+      ctaWrap.innerHTML=`<div class="review-cta"><div><div class="review-cta-title"><i class="ph ph-books"></i> ${wrongs.length} questão${wrongs.length>1?'s':''} com erro</div><div class="review-cta-sub">Veja o gabarito oficial com a resposta certa e a justificativa das erradas.</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-warn" onclick="openReview('wrongs')"><i class="ph ph-x-circle"></i> Ver o que errei</button><button class="btn btn-ghost" onclick="openReview('all')" style="border-color:var(--border3)!important" title="Gabarito de todas as questões"><i class="ph ph-clipboard-text"></i> Gabarito (${total}q)</button></div></div>`;
       retryWrap.innerHTML=`<div class="retry-errors-cta"><div><div class="review-cta-title"><i class="ph ph-arrows-clockwise"></i> Revisar meus erros</div><div class="review-cta-sub">Gera um novo quiz apenas com as ${wrongs.length} questões que você errou.</div></div><button class="btn btn-purple" onclick="retryErrors()">Revisar erros →</button></div>`;
     }
     // smart training feedback block
@@ -5898,24 +5920,144 @@ function renderResult(data){
   checkHistoryBanner();
 }
 
-function openReview(){
+let _currentReviewFilter = 'wrongs';
+
+function openReview(filterMode){
   const r=loadLastResult()||{log};
   if(!r||!r.log)return;
-  const wrongs=r.log.filter(l=>!l.correct);
-  document.getElementById('review-count-tag').innerHTML =wrongs.length+' questão'+(wrongs.length>1?'s':'')+' com erro';
+  const allLogs=r.log;
+  const wrongs=allLogs.filter(l=>!l.correct);
+
+  if(!filterMode){
+    filterMode = (wrongs.length > 0) ? 'wrongs' : 'all';
+  }
+  _currentReviewFilter = filterMode;
+
+  const targetList = (filterMode === 'all') ? allLogs : wrongs;
+
+  const countTag = document.getElementById('review-count-tag');
+  if(countTag){
+    if(filterMode === 'all'){
+      countTag.innerHTML = `<i class="ph ph-clipboard-text"></i> Gabarito completo: ${allLogs.length} questão${allLogs.length>1?'s':''}`;
+    }else{
+      countTag.innerHTML = `<i class="ph ph-x-circle"></i> ${wrongs.length} questão${wrongs.length>1?'s':''} com erro`;
+    }
+  }
+
+  const tabsWrap = document.getElementById('review-filter-tabs');
+  if(tabsWrap){
+    if(wrongs.length > 0 && allLogs.length > wrongs.length){
+      tabsWrap.innerHTML = `
+        <button class="review-filter-btn ${filterMode==='wrongs'?'active':''}" onclick="openReview('wrongs')"><i class="ph ph-x-circle"></i> Apenas Erros (${wrongs.length})</button>
+        <button class="review-filter-btn ${filterMode==='all'?'active':''}" onclick="openReview('all')"><i class="ph ph-list-numbers"></i> Todas (${allLogs.length})</button>
+      `;
+    }else{
+      tabsWrap.innerHTML = '';
+    }
+  }
+
   const stack=document.getElementById('fc-stack');stack.innerHTML='';
-  wrongs.forEach((w,i)=>{
-    let wrongHTML='';
-    if(w.options){
-      w.options.forEach((opt,oi)=>{
-        if(oi===w.answer)return;
-        const why=w.wrongReasons&&w.wrongReasons[oi]?w.wrongReasons[oi]:'Esta alternativa não está correta neste contexto.';
-        wrongHTML+=`<div class="fc-wrong-item"><div class="fc-wrong-letter">${String.fromCharCode(65+oi)}</div><div class="fc-wrong-opt">${opt}</div><div class="fc-wrong-why">↳ ${why}</div></div>`;
+
+  if(!targetList.length){
+    stack.innerHTML = `<div style="background:var(--s1);border:1px solid var(--border2);border-radius:var(--r);padding:24px;text-align:center;color:var(--muted2)">Nenhuma questão para exibir nesta visualização.</div>`;
+    showScreen('review-screen');
+    return;
+  }
+
+  targetList.forEach((w,i)=>{
+    const origIdx = allLogs.indexOf(w);
+    const qNum = (origIdx >= 0) ? (origIdx + 1) : (i + 1);
+
+    let optionsHTML = '';
+    if(w.options && Array.isArray(w.options)){
+      w.options.forEach((opt, oi)=>{
+        const isCorrectAnswer = (oi === w.answer);
+        const isUserChoice = (w.userChoice !== undefined && w.userChoice !== null && oi === w.userChoice);
+
+        if(isCorrectAnswer){
+          const why = w.explanation || 'Alternativa correta conforme o gabarito oficial.';
+          optionsHTML += `
+            <div class="fc-correct-item">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px">
+                <div class="fc-correct-letter">
+                  <i class="ph ph-check-circle" style="font-size:13px"></i> Alternativa ${String.fromCharCode(65+oi)} · CORRETA (Gabarito)
+                </div>
+                ${isUserChoice ? `<span class="fc-user-choice-badge badge-correct"><i class="ph ph-check"></i> Sua escolha</span>` : ''}
+              </div>
+              <div class="fc-correct-opt">${opt}</div>
+              <div class="fc-correct-why">✓ ${why}</div>
+            </div>`;
+        }else{
+          const why = (w.wrongReasons && w.wrongReasons[oi]) ? w.wrongReasons[oi] : 'Esta alternativa não está correta neste contexto.';
+          optionsHTML += `
+            <div class="fc-wrong-item">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px">
+                <div class="fc-wrong-letter">
+                  Alternativa ${String.fromCharCode(65+oi)} · Incorreta
+                </div>
+                ${isUserChoice ? `<span class="fc-user-choice-badge badge-wrong"><i class="ph ph-x"></i> Sua escolha</span>` : ''}
+              </div>
+              <div class="fc-wrong-opt">${opt}</div>
+              <div class="fc-wrong-why">↳ ${why}</div>
+            </div>`;
+        }
       });
     }
-    const div=document.createElement('div');div.className='flashcard';div.id='fcr'+i;
-    div.onclick=()=>div.classList.toggle('open');
-    div.innerHTML=`<div class="fc-front"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px"><span class="fc-tag"><i class="ph ph-x-circle"></i> ${i+1} de ${wrongs.length}</span><span style="font-size:10px;color:var(--muted)">${CAT_NAMES[w.cat]||''}</span></div><div class="fc-question">${w.text}</div><div class="fc-flip-hint" style="margin-top:6px"><i class="ph ph-arrow-u-up-left"></i> clique para ver explicação</div></div><div class="fc-back"><div class="fc-back-label">Por que cada alternativa errada está errada</div><div class="fc-wrong-list">${wrongHTML}</div><div class="fc-hint-box"><span class="fc-hint-ico"><i class="ph ph-lightbulb"></i></span><div><div class="fc-hint-label">Como pensar na resposta</div><div class="fc-hint-text">${w.hint||''}</div></div></div><div class="fc-close-hint" style="margin-top:6px"><i class="ph ph-arrow-u-up-left"></i> clique para fechar</div></div>`;
+
+    let userChoiceFront = '';
+    if(w.userChoice !== undefined && w.userChoice !== null){
+      const choseLetter = String.fromCharCode(65 + w.userChoice);
+      const isRight = (w.userChoice === w.answer);
+      userChoiceFront = `
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--muted2);margin-top:2px;padding-top:5px;border-top:1px dashed var(--border2);flex-wrap:wrap;gap:4px">
+          <span>Sua resposta: <strong style="color:${isRight?'var(--accent)':'var(--danger)'}">Alternativa ${choseLetter} (${isRight?'Correta':'Incorreta'})</strong></span>
+          <span style="color:var(--accent);font-weight:600">Gabarito: ${String.fromCharCode(65+w.answer)}</span>
+        </div>`;
+    }else{
+      userChoiceFront = `
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--muted2);margin-top:2px;padding-top:5px;border-top:1px dashed var(--border2);flex-wrap:wrap;gap:4px">
+          <span style="color:var(--warn);font-style:italic">Sem resposta / Tempo esgotado</span>
+          <span style="color:var(--accent);font-weight:600">Gabarito: ${String.fromCharCode(65+w.answer)}</span>
+        </div>`;
+    }
+
+    const tagText = (filterMode === 'wrongs')
+      ? `Questão ${qNum} · Erro ${i+1}/${wrongs.length}`
+      : `Questão ${qNum} · ${w.correct ? 'Acertou' : 'Errou'}`;
+
+    const tagClass = w.correct ? 'fc-tag correct' : 'fc-tag';
+    const tagIcon = w.correct ? 'ph-check-circle' : 'ph-x-circle';
+    const frontBorderClass = w.correct ? 'fc-front is-correct' : 'fc-front';
+
+    const div = document.createElement('div');
+    div.className = 'flashcard';
+    div.id = 'fcr' + i;
+    div.onclick = () => div.classList.toggle('open');
+    div.innerHTML = `
+      <div class="${frontBorderClass}">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px">
+          <span class="${tagClass}"><i class="ph ${tagIcon}"></i> ${tagText}</span>
+          <span style="font-size:10px;color:var(--muted)">${CAT_NAMES[w.cat] || ''}</span>
+        </div>
+        <div class="fc-question">${w.text}</div>
+        ${userChoiceFront}
+        <div class="fc-flip-hint" style="margin-top:6px"><i class="ph ph-arrow-u-up-left"></i> clique para ver gabarito e explicações</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-back-label">Gabarito oficial & análise das alternativas</div>
+        <div class="fc-wrong-list">${optionsHTML}</div>
+        ${w.hint ? `
+          <div class="fc-hint-box">
+            <span class="fc-hint-ico"><i class="ph ph-lightbulb"></i></span>
+            <div>
+              <div class="fc-hint-label">Como pensar na resposta</div>
+              <div class="fc-hint-text">${w.hint}</div>
+            </div>
+          </div>
+        ` : ''}
+        <div class="fc-close-hint" style="margin-top:6px"><i class="ph ph-arrow-u-up-left"></i> clique para fechar</div>
+      </div>
+    `;
     stack.appendChild(div);
   });
   showScreen('review-screen');
