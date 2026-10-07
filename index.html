@@ -7176,7 +7176,7 @@ function _drawShareCard(data){
 
   const acc=data.total>0?Math.round(data.hits/data.total*100):0;
   const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado',duel:'Duelo',diario:'Diário'};
-  const stars=acc>=90?'<i class="ph ph-trophy"></i>':acc>=75?'<i class="ph ph-target"></i>':acc>=60?'<i class="ph ph-books"></i>':'<i class="ph ph-barbell"></i>';
+  const stars=acc>=90?'🏆':acc>=75?'🎯':acc>=60?'📚':'⚡';
   const modeLabel=modeNames[data.mode]||data.mode;
 
   // ── Background
@@ -7197,7 +7197,7 @@ function _drawShareCard(data){
 
   // ── Header: badge auto-sizes to text
   ctx.font='bold 12px Syne,system-ui,sans-serif';
-  const _bTxt='<i class="ph ph-tooth"></i> S.C.I — Saúde Coletiva Inteligente';
+  const _bTxt='S.C.I — Saúde Coletiva Inteligente';
   const _bTW=ctx.measureText(_bTxt).width;
   const _bPad=20,_bH=34,_bY=16,_bX=W/2-(_bTW/2+_bPad);
   ctx.fillStyle='rgba(61,214,140,0.13)';
@@ -7232,16 +7232,19 @@ function _drawShareCard(data){
     }else{
       ctx.fillStyle='rgba(61,214,140,0.25)';ctx.fill();
     }
-  }else if(_av&&_av.type==='emoji'){
+  }else if(_av&&_av.type==='emoji'&&_av.value&&!_av.value.includes('<')){
     ctx.fillStyle='rgba(61,214,140,0.15)';ctx.fill();
     ctx.restore();ctx.save();
-    ctx.font=`${_avR*1.2}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.font=`${_avR*1.2}px "Segoe UI Emoji","Apple Color Emoji",serif`;ctx.textAlign='center';ctx.textBaseline='middle';
     ctx.fillText(_av.value,_avCx,_avCy+1);
   }else{
-    ctx.fillStyle='rgba(61,214,140,0.15)';ctx.fill();
+    ctx.fillStyle='rgba(61,214,140,0.2)';ctx.fill();
     ctx.restore();ctx.save();
-    ctx.font=`${_avR}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('<i class="ph ph-user"></i>',_avCx,_avCy+1);
+    const _initial=((data.nick||(currentUser&&currentUser.nickname)||'U').charAt(0)||'U').toUpperCase();
+    ctx.font=`bold ${_avR}px Syne,system-ui,sans-serif`;
+    ctx.fillStyle='#3dd68c';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(_initial,_avCx,_avCy+1);
   }
   ctx.restore();
 
@@ -7262,7 +7265,7 @@ function _drawShareCard(data){
   ctx.fillText('de precisão geral',W/2,238);
 
   // stars emoji — espaço claro abaixo do label
-  ctx.font='36px serif';
+  ctx.font='36px "Segoe UI Emoji","Apple Color Emoji",serif';
   ctx.fillText(stars,W/2,282);
 
   // ── Stats row
@@ -7336,7 +7339,7 @@ function _drawShareCard(data){
   ctx.fillStyle='rgba(255,255,255,0.18)';ctx.lineWidth=1;
   ctx.beginPath();ctx.moveTo(36,H-44);ctx.lineTo(W-36,H-44);ctx.stroke();
   ctx.fillStyle='#3b4a5a';ctx.font='10px DM Sans,system-ui,sans-serif';
-  ctx.fillText('<i class="ph ph-tooth"></i> S.C.I — Saúde Coletiva Inteligente · Odontologia',W/2,H-24);
+  ctx.fillText('S.C.I — Saúde Coletiva Inteligente · Odontologia',W/2,H-24);
 }
 
 function _roundRect(ctx,x,y,w,h,r){
@@ -7351,7 +7354,7 @@ function _buildSocialBtns(data){
   const canvas=document.getElementById('share-card-canvas');
   const acc=data.total>0?Math.round(data.hits/data.total*100):0;
   const modeNames={ranked:'Ranqueado',normal:'Normal',sprint:'Sprint',survival:'Sobrevivência',simulado:'Simulado',duel:'Duelo',diario:'Diário'};
-  const stars=acc>=90?'<i class="ph ph-trophy"></i>':acc>=75?'<i class="ph ph-target"></i>':acc>=60?'<i class="ph ph-books"></i>':'<i class="ph ph-barbell"></i>';
+  const stars=acc>=90?'🏆':acc>=75?'🎯':acc>=60?'📚':'⚡';
   const btns=document.getElementById('share-social-btns');
   btns.innerHTML='';
 
@@ -7381,7 +7384,7 @@ function _buildSocialBtns(data){
   waBtn.onclick=()=>{
     _getImageFile(file=>{
       if(file&&navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-        navigator.share({files:[file],title:'<i class="ph ph-tooth"></i> S.C.I — Resultado'}).catch(()=>{});
+        navigator.share({files:[file],title:'S.C.I — Resultado'}).catch(()=>{});
       }else{
         // fallback: download the image and open WhatsApp
         const a=document.createElement('a');
@@ -7400,7 +7403,7 @@ function _buildSocialBtns(data){
   wsBtn.onclick=()=>{
     _getImageFile(file=>{
       if(file&&navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-        navigator.share({files:[file],title:'<i class="ph ph-tooth"></i> S.C.I — Saúde Coletiva Inteligente'}).catch(()=>{});
+        navigator.share({files:[file],title:'S.C.I — Saúde Coletiva Inteligente'}).catch(()=>{});
       }else if(navigator.share){
         const shareText=`${stars} S.C.I — Saúde Coletiva Inteligente\n\nModo: ${modeNames[data.mode]||data.mode}\nAcertos: ${data.hits}/${data.total} (${acc}%)`;
         navigator.share({title:'S.C.I — Resultado',text:shareText}).catch(()=>{});
@@ -8529,7 +8532,7 @@ function shareDuelWhatsApp(){
 function shareDuelFromLb(){
   if(currentDuelId) {
     const id=currentDuelId;
-    const msg=`<i class="ph ph-sword"></i> *Duelo S.C.I* — entre e compare seu resultado!\n\n<i class="ph ph-identification-card"></i> ID: ${id}\n\nAcesse Modos de Jogo → Duelo e insira o ID.`;
+    const msg=`⚔️ *Duelo S.C.I* — entre e compare seu resultado!\n\n🪪 ID: ${id}\n\nAcesse Modos de Jogo → ⚔️ Duelo e insira o ID.`;
     window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
   }
 }
@@ -8891,8 +8894,8 @@ function _drawDuelInviteCard(id, cfg){
   ctx.fillText('S.C.I — SAÚDE COLETIVA INTELIGENTE · ODONTOLOGIA',W/2,28);
 
   /* Sword icon area */
-  ctx.font='42px serif';
-  ctx.fillText('<i class="ph ph-sword"></i>',W/2,92);
+  ctx.font='42px "Segoe UI Emoji","Apple Color Emoji",serif';
+  ctx.fillText('⚔️',W/2,92);
 
   /* DUELO heading */
   ctx.fillStyle='#e8eef4';
@@ -8916,7 +8919,7 @@ function _drawDuelInviteCard(id, cfg){
 
   ctx.fillStyle='rgba(6,182,212,0.6)';
   ctx.font=`600 10px "DM Sans",system-ui,sans-serif`;
-  ctx.fillText('<i class="ph ph-identification-card"></i>  ID DO DUELO',W/2,201);
+  ctx.fillText('ID DO DUELO',W/2,201);
 
   ctx.fillStyle='#06b6d4';
   ctx.font=`800 20px "Syne","DM Sans",system-ui,sans-serif`;
@@ -8940,14 +8943,14 @@ function _drawDuelInviteCard(id, cfg){
   const _dImgProvaMeta=PROVAS[cfg.prova||'p1'];
   const themeNames=(_dImgProvaMeta&&_dImgProvaMeta.pillLabels)||['SUS','Saúde-Doença','Políticas'];
   const tags=[];
-  if(_dImgProvaMeta)tags.push(`${_dImgProvaMeta.icon} ${_dImgProvaMeta.label}`);
+  if(_dImgProvaMeta)tags.push(_dImgProvaMeta.label);
   if(cfg.themes)cfg.themes.forEach(t=>tags.push(themeNames[t]));
   tags.push(cfg.count+'q');
   tags.push(cfg.timePerQ>0?cfg.timePerQ+'s/q':'Sem limite');
-  tags.push(cfg.difficulty==='mixed'?'<i class="ph ph-circle"></i> Misto':'<i class="ph ph-circle"></i> Normal');
-  if(cfg.speedScore)tags.push('<i class="ph ph-lightning"></i> Velocidade');
-  if(cfg.streak)tags.push('<i class="ph ph-fire"></i> Streak');
-  if(cfg.lives)tags.push('<i class="ph ph-heart"></i> Vidas');
+  tags.push(cfg.difficulty==='mixed'?'Misto':'Normal');
+  if(cfg.speedScore)tags.push('⚡ Velocidade');
+  if(cfg.streak)tags.push('🔥 Streak');
+  if(cfg.lives)tags.push('❤️ Vidas');
 
   ctx.font=`500 11px "DM Sans",system-ui,sans-serif`;
   let tx=W/2, ty=278;
@@ -8981,7 +8984,7 @@ function _drawDuelInviteCard(id, cfg){
 
   ctx.fillStyle='rgba(255,255,255,0.35)';
   ctx.font=`400 11px "DM Sans",system-ui,sans-serif`;
-  ctx.fillText('Como jogar: Modos de Jogo → <i class="ph ph-sword"></i> Duelo → cole o ID',W/2,instrY+16);
+  ctx.fillText('Como jogar: Modos de Jogo → ⚔️ Duelo → cole o ID',W/2,instrY+16);
 
   /* Bottom bar */
   const barGrad=ctx.createLinearGradient(48,H-36,W-48,H-36);
@@ -8994,7 +8997,7 @@ function _drawDuelInviteCard(id, cfg){
 
   ctx.fillStyle='rgba(6,182,212,0.4)';
   ctx.font=`400 10px "DM Sans",system-ui,sans-serif`;
-  ctx.fillText('<i class="ph ph-tooth"></i> S.C.I · Odontologia — Unioeste Campus Cascavel',W/2,H-18);
+  ctx.fillText('S.C.I · Odontologia — Unioeste Campus Cascavel',W/2,H-18);
 }
 
 function _rrect(ctx,x,y,w,h,r){
@@ -9020,17 +9023,17 @@ function shareDuelCardWhatsApp(){
   const themeNames=(_shProvaMeta&&_shProvaMeta.pillLabels)||['SUS','Saúde-Doença','Políticas'];
   const temas=(cfg.themes||[]).map(t=>themeNames[t]).join(', ');
   const mechs=[
-    cfg.speedScore?'<i class="ph ph-lightning"></i> Velocidade':null,
-    cfg.streak?'<i class="ph ph-fire"></i> Streak':null,
-    cfg.lives?'<i class="ph ph-heart"></i> Vidas':null,
-    cfg.secondTry?'<i class="ph ph-arrows-clockwise"></i> 2ª tentativa':null,
+    cfg.speedScore?'⚡ Velocidade':null,
+    cfg.streak?'🔥 Streak':null,
+    cfg.lives?'❤️ Vidas':null,
+    cfg.secondTry?'🔄 2ª tentativa':null,
   ].filter(Boolean).join(' · ')||'—';
-  const msg=`<i class="ph ph-sword"></i> *Duelo S.C.I — Saúde Coletiva Inteligente*\n\nEu criei um desafio. Consegue me superar?\n\n<i class="ph ph-identification-card"></i> *ID:* ${id}\n${_shProvaMeta?'<i class="ph ph-book-bookmark"></i> Prova: '+_shProvaMeta.label+'\\n':''}<i class="ph ph-books"></i> Temas: ${temas}\n<i class="ph ph-list-numbers"></i> Questões: ${cfg.count||'?'}\n<i class="ph ph-timer"></i> Tempo: ${cfg.timePerQ>0?cfg.timePerQ+'s/q':'Sem limite'}\n<i class="ph ph-game-controller"></i> Mecânicas: ${mechs}\n\n*Como jogar:*\n1. Acesse a plataforma\n2. Modos de Jogo → <i class="ph ph-sword"></i> Duelo\n3. Cole o ID acima e jogue!`;
+  const msg=`⚔️ *Duelo S.C.I — Saúde Coletiva Inteligente*\n\nEu criei um desafio. Consegue me superar?\n\n🪪 *ID:* ${id}\n${_shProvaMeta?'📖 Prova: '+_shProvaMeta.label+'\n':''}📚 Temas: ${temas}\n🔢 Questões: ${cfg.count||'?'}\n⏱️ Tempo: ${cfg.timePerQ>0?cfg.timePerQ+'s/q':'Sem limite'}\n🎮 Mecânicas: ${mechs}\n\n*Como jogar:*\n1. Acesse a plataforma\n2. Modos de Jogo → ⚔️ Duelo\n3. Cole o ID acima e jogue!`;
   const canvas=document.getElementById('duel-invite-canvas');
   canvas.toBlob(blob=>{
     const file=blob?new File([blob],'duelo-sci.png',{type:'image/png'}):null;
     if(file&&navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-      navigator.share({files:[file],title:'<i class="ph ph-sword"></i> Duelo S.C.I',text:msg}).catch(()=>
+      navigator.share({files:[file],title:'⚔️ Duelo S.C.I',text:msg}).catch(()=>
         window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank')
       );
     }else{
