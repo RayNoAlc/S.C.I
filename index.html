@@ -1824,11 +1824,12 @@ body{padding-bottom:7rem!important}
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
+  z-index: 10005;
   pointer-events: none;
 }
 .tour-card, #tour-min-badge {
   pointer-events: auto;
+  z-index: 10006;
 }
 .tour-card {
   position: fixed;
@@ -1836,13 +1837,13 @@ body{padding-bottom:7rem!important}
   right: 28px;
   width: 420px;
   max-width: calc(100vw - 32px);
-  background: rgba(15, 20, 25, 0.96);
+  background: rgba(15, 20, 25, 0.98);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1.5px solid var(--accent-border);
   border-radius: 20px;
   padding: 20px 22px 18px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 24px var(--accent-dim);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 30px var(--accent-dim);
   animation: tourSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   transition: transform 0.2s ease, opacity 0.2s ease;
   font-family: 'DM Sans', sans-serif;
@@ -1852,7 +1853,7 @@ body{padding-bottom:7rem!important}
 body.light-mode .tour-card {
   background: rgba(255, 255, 255, 0.98);
   border: 1.5px solid rgba(61, 214, 140, 0.5);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18), 0 0 24px rgba(61, 214, 140, 0.2);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.2), 0 0 24px rgba(61, 214, 140, 0.2);
   color: #0b1a14;
 }
 body.light-mode .tour-card-title {
@@ -2048,6 +2049,61 @@ body.light-mode .tour-spotlight-target {
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <body class="hub-home">
 <a href="#main-content" class="skip-link">Pular para conteúdo</a>
+
+<!-- ONBOARDING COMPANION (FIRST LOGIN TUTORIAL) -->
+<div id="onboarding-companion" style="display:none">
+  <!-- Minimized floating badge -->
+  <div id="tour-min-badge" onclick="_restoreTour()" style="display:none" role="button" aria-label="Retomar tour interativo">
+    <div class="tour-min-pulse"></div>
+    <i class="ph ph-compass"></i>
+    <span>Guia do App (<span id="tour-min-step">1/5</span>)</span>
+  </div>
+
+  <!-- Interactive Tour Card -->
+  <div id="tour-card" class="tour-card">
+    <div class="tour-card-header">
+      <div class="tour-tag">
+        <i class="ph ph-sparkle"></i> Guia Interativo · Passo <span id="tour-step-num">1</span> de 5
+      </div>
+      <div class="tour-actions">
+        <button type="button" class="tour-icon-btn" onclick="_toggleTourMin()" title="Minimizar guia" aria-label="Minimizar">
+          <i class="ph ph-minus"></i>
+        </button>
+        <button type="button" class="tour-icon-btn" onclick="_skipTour()" title="Encerrar tour" aria-label="Fechar">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="tour-card-body">
+      <div class="tour-card-title" id="tour-title"></div>
+      <div class="tour-card-desc" id="tour-desc"></div>
+    </div>
+
+    <!-- Progress dots -->
+    <div class="tour-progress-row">
+      <div class="tour-dots" id="tour-dots">
+        <span class="tour-dot active"></span>
+        <span class="tour-dot"></span>
+        <span class="tour-dot"></span>
+        <span class="tour-dot"></span>
+        <span class="tour-dot"></span>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="tour-footer">
+      <button type="button" class="btn btn-ghost btn-sm tour-btn-skip" onclick="_skipTour()">Explorar sozinho</button>
+      <div style="display:flex;gap:6px">
+        <button type="button" class="btn btn-ghost btn-sm tour-btn-prev" id="tour-prev-btn" onclick="_prevTourStep()" style="display:none">Voltar</button>
+        <button type="button" class="btn btn-green btn-sm tour-btn-next" id="tour-next-btn" onclick="_nextTourStep()">
+          <span id="tour-next-label">Avançar →</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <noscript><div style="position:fixed;inset:0;background:#080c10;color:#e8eef4;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;font-family:system-ui,sans-serif;z-index:99999"><div><div style="font-size:40px;margin-bottom:1rem"><i class="ph ph-tooth"></i></div><div style="font-size:20px;font-weight:700;margin-bottom:0.5rem">S.C.I — Saúde Coletiva Inteligente</div><div style="font-size:14px;color:#6b7a8d;line-height:1.7">Esta plataforma requer JavaScript para funcionar.<br>Por favor, habilite o JavaScript no seu navegador e recarregue a página.</div></div></div></noscript>
 <div id="app">
   <div class="nav">
@@ -3360,6 +3416,8 @@ body.light-mode .tour-spotlight-target {
     <div class="modal-msg" id="modal-msg"></div>
     <div class="modal-btns" id="modal-btns"></div>
   </div>
+</div>
+
 <!-- PUSH-UP NOTIFICATION BANNER -->
 <div class="push-notif-container" id="push-notif-container" role="alert" aria-live="polite">
   <div class="push-notif-card" id="push-notif-card">
@@ -3491,60 +3549,6 @@ body.light-mode .tour-spotlight-target {
 
 <!-- YOUTUBE PLAYER (hidden) -->
 <iframe id="yt-iframe" style="position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;pointer-events:none;border:none" allow="autoplay" allowfullscreen></iframe>
-
-<!-- ONBOARDING COMPANION (FIRST LOGIN TUTORIAL) -->
-<div id="onboarding-companion" style="display:none">
-  <!-- Minimized floating badge -->
-  <div id="tour-min-badge" onclick="_restoreTour()" style="display:none" role="button" aria-label="Retomar tour interativo">
-    <div class="tour-min-pulse"></div>
-    <i class="ph ph-compass"></i>
-    <span>Guia do App (<span id="tour-min-step">1/5</span>)</span>
-  </div>
-
-  <!-- Interactive Tour Card -->
-  <div id="tour-card" class="tour-card">
-    <div class="tour-card-header">
-      <div class="tour-tag">
-        <i class="ph ph-sparkle"></i> Guia Interativo · Passo <span id="tour-step-num">1</span> de 5
-      </div>
-      <div class="tour-actions">
-        <button type="button" class="tour-icon-btn" onclick="_toggleTourMin()" title="Minimizar guia" aria-label="Minimizar">
-          <i class="ph ph-minus"></i>
-        </button>
-        <button type="button" class="tour-icon-btn" onclick="_skipTour()" title="Encerrar tour" aria-label="Fechar">
-          <i class="ph ph-x"></i>
-        </button>
-      </div>
-    </div>
-    
-    <div class="tour-card-body">
-      <div class="tour-card-title" id="tour-title"></div>
-      <div class="tour-card-desc" id="tour-desc"></div>
-    </div>
-
-    <!-- Progress dots -->
-    <div class="tour-progress-row">
-      <div class="tour-dots" id="tour-dots">
-        <span class="tour-dot active"></span>
-        <span class="tour-dot"></span>
-        <span class="tour-dot"></span>
-        <span class="tour-dot"></span>
-        <span class="tour-dot"></span>
-      </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="tour-footer">
-      <button type="button" class="btn btn-ghost btn-sm tour-btn-skip" onclick="_skipTour()">Explorar sozinho</button>
-      <div style="display:flex;gap:6px">
-        <button type="button" class="btn btn-ghost btn-sm tour-btn-prev" id="tour-prev-btn" onclick="_prevTourStep()" style="display:none">Voltar</button>
-        <button type="button" class="btn btn-green btn-sm tour-btn-next" id="tour-next-btn" onclick="_nextTourStep()">
-          <span id="tour-next-label">Avançar →</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 /* ════════════════════════════════════════════════════
