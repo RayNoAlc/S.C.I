@@ -8012,9 +8012,49 @@ function _sendNativeWebPush(opts){
   try{
     const cleanTitle=(opts.title||'S.C.I').replace(/<[^>]*>/g,'');
     const cleanBody=(opts.body||'').replace(/<[^>]*>/g,'');
-    const icon='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><text y="28" font-size="28">🦷</text></svg>';
-    new Notification(cleanTitle,{body:cleanBody,icon});
-  }catch(e){}
+    const icon='logo.png';
+
+    // Prioridade 1: Envia via Service Worker (funciona mesmo minimizado / fora do app no Android e iOS PWA)
+    if('serviceWorker' in navigator && navigator.serviceWorker.controller){
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SHOW_NOTIFICATION',
+        title: cleanTitle,
+        options: {
+          body: cleanBody,
+          icon: icon,
+          badge: icon,
+          vibrate: [120, 60, 120],
+          tag: 'sci-alert-' + Date.now(),
+          data: { url: './' }
+        }
+      });
+      return;
+    }
+
+    if('serviceWorker' in navigator && navigator.serviceWorker.ready){
+      navigator.serviceWorker.ready.then(reg => {
+        reg.showNotification(cleanTitle, {
+          body: cleanBody,
+          icon: icon,
+          badge: icon,
+          vibrate: [120, 60, 120],
+          tag: 'sci-alert-' + Date.now(),
+          data: { url: './' }
+        });
+      }).catch(()=>{
+        // Fallback: Web Notification comum
+        if('Notification' in window) new Notification(cleanTitle,{body:cleanBody,icon});
+      });
+      return;
+    }
+
+    // Fallback padrão se SW ainda não estiver pronto
+    if('Notification' in window){
+      new Notification(cleanTitle,{body:cleanBody,icon});
+    }
+  }catch(e){
+    console.warn('[Push] Erro ao disparar push nativo do sistema:', e);
+  }
 }
 
 function _renderAndShowPush(opts){
@@ -8239,6 +8279,14 @@ function testPushNotification(){
     sound:true,
     duration:6000
   });
+
+  // Também dispara a notificação nativa do sistema (Android/iOS/PC) para testar fora do app
+  if('Notification' in window && Notification.permission==='granted'){
+    _sendNativeWebPush({
+      title:'S.C.I — Saúde Coletiva Inteligente 🦷',
+      body:'Notificação nativa do sistema recebida! O app continua ativo em segundo plano.'
+    });
+  }
 }
 
 /* ════════════════════════════════════════════════════
@@ -12695,6 +12743,15 @@ let _pwaInstallPrompt=null;
   const url=URL.createObjectURL(blob);
   const link=document.getElementById('pwa-manifest-link');
   if(link)link.href=url;
+
+  /* Register Service Worker for system-level push notifications */
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./sw.js').then(reg=>{
+      console.log('[PWA] Service Worker registrado para notificações do sistema:', reg.scope);
+    }).catch(err=>{
+      console.warn('[PWA] Service Worker falhou:', err);
+    });
+  }
 
   window.addEventListener('beforeinstallprompt',e=>{
     e.preventDefault();_pwaInstallPrompt=e;
