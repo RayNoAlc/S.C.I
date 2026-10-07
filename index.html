@@ -3323,6 +3323,7 @@ body.light-mode .tour-spotlight-target {
           <span class="vol-label" id="cfg-vol-label">60%</span>
         </div>
       </div>
+    </div>
     <div class="config-section">
       <div class="config-section-label">Ajuda & Tour</div>
       <div class="config-row" onclick="startOnboardingTour(true)" role="button" tabindex="0">
@@ -7446,7 +7447,10 @@ const MODE_INFO={
     flow:['Slides do professor visualizados diretamente na plataforma','PDFs e materiais complementares por prova','Links externos com visualizador embutido','Organizado por prova — escalável para toda a disciplina']},
   tutor:{icon:'<i class="ph ph-brain" style="color:#ec4899"></i>',title:'Tutor IA',color:'#ec4899',
     pedagogy:'IA especializada em Saúde Coletiva I. Tire dúvidas, peça resumos e receba sugestões de estudo integradas aos Flashcards, Mapa Conceitual e Quiz da plataforma.',
-    flow:['Perguntas conceituais e explicações detalhadas','Resumos de leis e políticas de saúde','Sugestões de Flashcards, Mapa e Quiz conforme o tema','Histórico de conversa salvo — continue de onde parou']}
+    flow:['Perguntas conceituais e explicações detalhadas','Resumos de leis e políticas de saúde','Sugestões de Flashcards, Mapa e Quiz conforme o tema','Histórico de conversa salvo — continue de onde parou']},
+  funcoes:{icon:'<i class="ph ph-arrows-clockwise"></i>',title:'Funções da Clínica',color:'#ec4899',
+    pedagogy:'Gerenciamento do rodízio semanal de funções práticas dos alunos na clínica de Saúde Coletiva I, garantindo transparência, equilíbrio de atendimentos e histórico completo.',
+    flow:['Rodízio automatizado de funções por data da aula','Acesso direto do aluno com o código da turma','Painel completo de gestão para o professor','Trocas manuais e histórico preservado']}
 };
 function showModeInfo(key){
   const info=MODE_INFO[key];if(!info)return;
@@ -14642,8 +14646,8 @@ async function _garantirProfessorLogado() {
 }
 
 async function entrarPainelProfessor() {
-  await carregarTurmasProfessor();
   showScreen('prof-turmas-screen');
+  await carregarTurmasProfessor();
 }
 
 /* ════════════════════════════════════════════════════════════
