@@ -753,9 +753,14 @@ body.light-mode .push-notif-desc{
 .tutor-send:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 .tutor-recommend{background:rgba(236,72,153,0.08);border:1px solid rgba(236,72,153,0.25);border-radius:8px;padding:9px 12px;margin-top:8px;font-size:12px;color:var(--muted2);line-height:1.5}
 .tutor-recommend strong{color:#ec4899}
-/* ══ PWA INSTALL BANNER ══ */
-.pwa-banner{background:var(--s1);border:1px solid var(--accent-border);border-radius:var(--r);padding:13px 15px;display:flex;align-items:center;gap:12px;margin-bottom:1rem;cursor:pointer;transition:all .15s}
-.pwa-banner:hover{border-color:var(--accent);background:var(--s2)}
+/* ══ PWA INSTALL & DOWNLOAD APP ══ */
+.pwa-banner{background:linear-gradient(135deg,rgba(61,214,140,0.08) 0%,var(--s1) 100%);border:1px solid var(--accent-border);border-radius:var(--r);padding:13px 15px;display:flex;align-items:center;gap:12px;margin-bottom:1rem;cursor:pointer;transition:all .18s;box-shadow:0 4px 14px rgba(0,0,0,0.2)}
+.pwa-banner:hover{border-color:var(--accent);background:var(--s2);transform:translateY(-1px)}
+.nav-download-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(61,214,140,0.12);border:1px solid var(--accent-border);color:var(--accent);border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap}
+.nav-download-btn:hover{background:var(--accent);color:#080c10;transform:translateY(-1px)}
+@media(max-width:480px){
+  .nav-download-btn{padding:4px 9px;font-size:11px}
+}
 /* ══ NOTIF TIME PICKER ══ */
 .notif-time-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border2);margin-top:6px}
 .notif-time-sel{background:var(--s2);border:1px solid var(--border2);color:var(--text);border-radius:var(--r-sm);padding:5px 10px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer}
@@ -2338,6 +2343,7 @@ body.light-mode .tour-spotlight-target {
     </div>
     <div class="prova-switcher" id="prova-switcher"></div>
     <div class="nav-pills"><span class="pill hub-ctx-pill" id="nav-hub-chip" style="display:none"></span><span id="nav-topic-pills" style="display:contents"></span></div>
+    <button type="button" class="nav-download-btn" id="nav-download-btn" onclick="openDownloadAppModal()" title="Baixar S.C.I no celular"><i class="ph ph-download-simple"></i><span>Baixar S.C.I</span></button>
     <div class="nav-user" id="nav-user-btn" onclick="confirmLogout()" style="display:none"><div class="nav-user-dot" id="nav-avatar-dot"><i class="ph ph-user"></i></div><span id="nav-user-name"></span><span class="nav-user-lvl" id="nav-user-lvl" onclick="event.stopPropagation();showLevelDetailsModal()" title="Ver detalhes do seu nível">Nv. 1</span><span style="font-size:10px;opacity:0.6">sair</span></div>
   </div>
 
@@ -2412,14 +2418,17 @@ body.light-mode .tour-spotlight-target {
     </div>
     <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div></div>
   </div>
-  <!-- PWA install banner (shown when installable) -->
-  <div id="pwa-banner" class="pwa-banner" style="display:none" onclick="_pwaInstall()" role="button">
-    <img src="apple-touch-icon.png" alt="S.C.I Logo" style="width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+  <!-- PWA / Mobile App install banner -->
+  <div id="pwa-banner" class="pwa-banner" onclick="openDownloadAppModal()" role="button" style="display:flex">
+    <img src="apple-touch-icon.png" alt="S.C.I Logo" style="width:40px;height:40px;border-radius:10px;object-fit:cover;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.4)">
     <div style="flex:1">
-      <div style="font-size:13px;font-weight:600;margin-bottom:2px">Instalar o S.C.I</div>
-      <div style="font-size:11px;color:var(--muted)">Adicione à tela inicial para ter o app com ícone no seu celular</div>
+      <div style="font-size:13.5px;font-weight:700;margin-bottom:2px;display:flex;align-items:center;gap:6px">
+        <span>Baixar S.C.I</span>
+        <span style="font-size:9.5px;font-weight:700;background:var(--accent-dim);color:var(--accent);padding:1px 6px;border-radius:99px;border:1px solid var(--accent-border);text-transform:uppercase;letter-spacing:0.04em">App Mobile</span>
+      </div>
+      <div style="font-size:11.5px;color:var(--muted)">Adicione à tela inicial para ter o app com ícone escuro no seu celular</div>
     </div>
-    <span style="color:var(--accent);font-size:13px;font-weight:600">Instalar →</span>
+    <span class="btn btn-green btn-sm" style="font-size:12px;font-weight:600;padding:6px 12px;pointer-events:none"><i class="ph ph-download-simple"></i> Baixar</span>
   </div>
   <div id="history-banner" class="history-banner" style="display:none" onclick="showEvoScreen()">
       <div class="hb-top">
@@ -3392,6 +3401,19 @@ body.light-mode .tour-spotlight-target {
           </div>
         </div>
         <div class="config-toggle" id="cfg-theme-toggle"></div>
+      </div>
+    </div>
+    <div class="config-section" id="cfg-app-install-section">
+      <div class="config-section-label">Aplicativo Mobile</div>
+      <div class="config-row" onclick="openDownloadAppModal()" role="button" tabindex="0" id="config-download-row">
+        <div class="config-row-left">
+          <div class="config-row-icon" style="color:var(--accent)"><i class="ph ph-device-mobile"></i></div>
+          <div class="config-row-body">
+            <div class="config-row-title">Baixar S.C.I no Celular</div>
+            <div class="config-row-sub">Instalar app com ícone escuro oficial e tela cheia</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--accent);font-weight:600">Baixar →</div>
       </div>
     </div>
     <div class="config-section">
@@ -5123,6 +5145,7 @@ function _syncConfigScreen(){
   if(slider){slider.value=_musicVolPct;slider.style.setProperty('--vol-pct',_musicVolPct+'%');}
   if(label)label.innerHTML =_musicVolPct+'%';
   if(typeof _updatePushConfigUI==='function')_updatePushConfigUI();
+  if(typeof checkPwaInstallState==='function')checkPwaInstallState();
 }
 /* ── Hub routing: screen → hub class ── */
 const _HUB_MAP={
@@ -5176,6 +5199,7 @@ function showScreen(id){
   if(id==='config-screen')_syncConfigScreen();
   if(id==='home-screen'||id==='desempenho-screen'||id==='evo-screen'){
     if(typeof updateXPWidget==='function')updateXPWidget();
+    if(id==='home-screen'&&typeof checkPwaInstallState==='function')checkPwaInstallState();
   }
   _applyHub(_HUB_MAP[id]||'hub-home');
   /* ── Música adaptativa por tela ── */
@@ -13206,23 +13230,183 @@ let _pwaInstallPrompt=null;
 
   window.addEventListener('beforeinstallprompt',e=>{
     e.preventDefault();_pwaInstallPrompt=e;
-    const banner=document.getElementById('pwa-banner');
-    if(banner)banner.style.display='flex';
+    if(typeof checkPwaInstallState==='function')checkPwaInstallState();
   });
   window.addEventListener('appinstalled',()=>{
-    const banner=document.getElementById('pwa-banner');
-    if(banner)banner.style.display='none';
     _pwaInstallPrompt=null;
-    showModal({icon:'<i class="ph ph-device-mobile"></i>',title:'App instalado!',msg:'S.C.I foi adicionado à sua tela inicial. Você pode abri-lo como um app.'});
+    if(typeof checkPwaInstallState==='function')checkPwaInstallState();
+    showModal({icon:'<i class="ph ph-check-circle" style="color:var(--accent)"></i>',title:'App Instalado!',msg:'S.C.I foi adicionado à sua tela inicial com o ícone escuro oficial. Você pode abri-lo direto como aplicativo!'});
   });
+
+  if(window.matchMedia){
+    try{
+      window.matchMedia('(display-mode: standalone)').addEventListener('change',()=>{
+        if(typeof checkPwaInstallState==='function')checkPwaInstallState();
+      });
+    }catch(e){}
+  }
+
+  setTimeout(()=>{
+    if(typeof checkPwaInstallState==='function')checkPwaInstallState();
+  },100);
 })();
-function _pwaInstall(){
-  if(!_pwaInstallPrompt)return;
-  _pwaInstallPrompt.prompt();
-  _pwaInstallPrompt.userChoice.then(r=>{
-    if(r.outcome==='accepted'){const b=document.getElementById('pwa-banner');if(b)b.style.display='none';}
-    _pwaInstallPrompt=null;
+
+function isPwaInstalled(){
+  try{
+    return window.matchMedia('(display-mode: standalone)').matches ||
+           window.navigator.standalone === true ||
+           (typeof document !== 'undefined' && document.referrer && document.referrer.includes('android-app://'));
+  }catch(e){
+    return false;
+  }
+}
+
+function checkPwaInstallState(){
+  const isInstalled = isPwaInstalled();
+  const banner = document.getElementById('pwa-banner');
+  const navBtn = document.getElementById('nav-download-btn');
+  const cfgRow = document.getElementById('config-download-row');
+
+  if(isInstalled){
+    if(banner)banner.style.display='none';
+    if(navBtn)navBtn.style.display='none';
+    if(cfgRow){
+      cfgRow.onclick=null;
+      cfgRow.style.cursor='default';
+      cfgRow.innerHTML = `
+        <div class="config-row-left">
+          <div class="config-row-icon" style="color:var(--accent)"><i class="ph ph-check-circle"></i></div>
+          <div class="config-row-body">
+            <div class="config-row-title">Aplicativo Instalado</div>
+            <div class="config-row-sub">Você está usando o S.C.I no modo aplicativo oficial</div>
+          </div>
+        </div>
+        <div style="font-size:11.5px;color:var(--accent);font-weight:600"><i class="ph ph-check"></i> Ativo</div>
+      `;
+    }
+  }else{
+    if(banner)banner.style.display='flex';
+    if(navBtn)navBtn.style.display='inline-flex';
+  }
+}
+
+function openDownloadAppModal(){
+  if(_pwaInstallPrompt){
+    _pwaInstallPrompt.prompt();
+    _pwaInstallPrompt.userChoice.then(r=>{
+      if(r.outcome==='accepted'){
+        _pwaInstallPrompt=null;
+        checkPwaInstallState();
+        showModal({
+          icon:'<i class="ph ph-check-circle" style="color:var(--accent)"></i>',
+          title:'App S.C.I Instalado!',
+          msg:'S.C.I foi adicionado à sua tela inicial com o ícone escuro oficial!'
+        });
+      }
+    }).catch(err=>{
+      console.warn('[PWA] prompt error:', err);
+    });
+    return;
+  }
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/i.test(navigator.userAgent);
+
+  let instructionsHtml = '';
+  if(isIOS){
+    instructionsHtml = `
+      <div style="text-align:left;font-size:13px;line-height:1.55;color:var(--text)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;background:var(--s2);padding:10px 12px;border-radius:10px;border:1px solid var(--border)">
+          <img src="apple-touch-icon.png" alt="S.C.I" style="width:46px;height:46px;border-radius:11px;box-shadow:0 4px 12px rgba(0,0,0,0.4);flex-shrink:0">
+          <div>
+            <div style="font-weight:700;font-size:14px;color:var(--text)">S.C.I Mobile (iOS)</div>
+            <div style="font-size:11.5px;color:var(--muted)">Ícone escuro oficial • Tela cheia sem barras</div>
+          </div>
+        </div>
+        <div style="margin-bottom:10px;font-weight:600;color:var(--accent)">Como baixar no iPhone / iPad:</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);padding:8px 10px;border-radius:8px">
+            <span style="background:var(--accent);color:#080c10;font-weight:700;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">1</span>
+            <span>Toque no botão <strong>Compartilhar</strong> (<i class="ph ph-export" style="color:var(--accent);font-size:15px"></i> na barra inferior do Safari).</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);padding:8px 10px;border-radius:8px">
+            <span style="background:var(--accent);color:#080c10;font-weight:700;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">2</span>
+            <span>Role para baixo e selecione <strong>"Adicionar à Tela de Início"</strong> (<i class="ph ph-plus-square" style="color:var(--accent);font-size:15px"></i>).</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);padding:8px 10px;border-radius:8px">
+            <span style="background:var(--accent);color:#080c10;font-weight:700;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">3</span>
+            <span>Toque em <strong>"Adicionar"</strong> no canto superior direito. Pronto! O app abrirá com o ícone escuro oficial.</span>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if(isAndroid){
+    instructionsHtml = `
+      <div style="text-align:left;font-size:13px;line-height:1.55;color:var(--text)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;background:var(--s2);padding:10px 12px;border-radius:10px;border:1px solid var(--border)">
+          <img src="apple-touch-icon.png" alt="S.C.I" style="width:46px;height:46px;border-radius:11px;box-shadow:0 4px 12px rgba(0,0,0,0.4);flex-shrink:0">
+          <div>
+            <div style="font-weight:700;font-size:14px;color:var(--text)">S.C.I Mobile (Android)</div>
+            <div style="font-size:11.5px;color:var(--muted)">Ícone escuro oficial • Modo app nativo</div>
+          </div>
+        </div>
+        <div style="margin-bottom:10px;font-weight:600;color:var(--accent)">Como baixar no celular Android:</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);padding:8px 10px;border-radius:8px">
+            <span style="background:var(--accent);color:#080c10;font-weight:700;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">1</span>
+            <span>Toque no menu de <strong>3 pontinhos (<i class="ph ph-dots-three-vertical" style="color:var(--accent);font-size:15px"></i>)</strong> no topo do seu navegador.</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);padding:8px 10px;border-radius:8px">
+            <span style="background:var(--accent);color:#080c10;font-weight:700;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">2</span>
+            <span>Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);padding:8px 10px;border-radius:8px">
+            <span style="background:var(--accent);color:#080c10;font-weight:700;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">3</span>
+            <span>Confirme a instalação. O S.C.I aparecerá com o ícone escuro entre seus aplicativos!</span>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    instructionsHtml = `
+      <div style="text-align:left;font-size:13px;line-height:1.55;color:var(--text)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;background:var(--s2);padding:10px 12px;border-radius:10px;border:1px solid var(--border)">
+          <img src="apple-touch-icon.png" alt="S.C.I" style="width:46px;height:46px;border-radius:11px;box-shadow:0 4px 12px rgba(0,0,0,0.4);flex-shrink:0">
+          <div>
+            <div style="font-weight:700;font-size:14px;color:var(--text)">Baixar Aplicativo S.C.I</div>
+            <div style="font-size:11.5px;color:var(--muted)">Disponível para Celular e Computador</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);padding:9px 11px;border-radius:8px">
+            <i class="ph ph-device-mobile" style="color:var(--accent);font-size:20px;flex-shrink:0;margin-top:2px"></i>
+            <div>
+              <strong>No Celular (iOS / Android):</strong>
+              <div style="font-size:12px;color:var(--muted2);margin-top:2px">Abra este site no Safari (iPhone) ou Chrome (Android) e selecione <em>"Adicionar à Tela de Início"</em>.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);padding:9px 11px;border-radius:8px">
+            <i class="ph ph-laptop" style="color:var(--accent);font-size:20px;flex-shrink:0;margin-top:2px"></i>
+            <div>
+              <strong>No Computador:</strong>
+              <div style="font-size:12px;color:var(--muted2);margin-top:2px">Clique no ícone de instalar (<i class="ph ph-download-simple" style="color:var(--accent)"></i>) na barra de endereços do Chrome ou Edge.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  showModal({
+    icon: '<i class="ph ph-device-mobile" style="color:var(--accent)"></i>',
+    title: 'Baixar Aplicativo S.C.I',
+    msg: instructionsHtml,
+    label: 'Entendi'
   });
+}
+
+function _pwaInstall(){
+  openDownloadAppModal();
 }
 
 /* ════════════════════════════════════════════════════════════════

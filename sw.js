@@ -2,7 +2,7 @@
    S.C.I — Service Worker para Notificações Nativas do Sistema
    ════════════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'sci-sw-v3.5.2';
+const CACHE_NAME = 'sci-sw-v3.5.3';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
