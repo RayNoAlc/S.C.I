@@ -17080,7 +17080,7 @@ const DADOS_OFICIAIS_ESCOLA = {
     { id: "elevador_terreo", nome: "Elevador", tipo: "servico", x: 250, y: 476, width: 175, height: 44 },
     { id: "banheiros_terreo", nome: "Banheiros", tipo: "banheiro", x: 250, y: 528, width: 175, height: 48 },
     { id: "lavanderia", nome: "Lavanderia", tipo: "servico", x: 250, y: 584, width: 175, height: 40 },
-    { id: "escada_terreo", nome: "Escada", tipo: "circulacao", x: 448, y: 535, width: 88, height: 120 },
+    { id: "escada_terreo", nome: "Escada", tipo: "circulacao", x: 446, y: 535, width: 92, height: 120 },
     { id: "lab_ciencias", nome: "Lab. de Ciências", tipo: "especial", x: 555, y: 230, width: 185, height: 75 },
     { id: "secretaria", nome: "Secretaria", tipo: "admin", x: 555, y: 476, width: 185, height: 50 },
     { id: "coord_01", nome: "Coord. 01", tipo: "admin", x: 555, y: 534, width: 185, height: 48 },
@@ -17094,7 +17094,7 @@ const DADOS_OFICIAIS_ESCOLA = {
     { id: "sala_apoio_esq", nome: "Sala de Funcionários", tipo: "apoio", x: 50, y: 353, width: 185, height: 52 },
     { id: "elevador_sup", nome: "Elevador", tipo: "servico", x: 50, y: 476, width: 185, height: 44 },
     { id: "banheiros_sup", nome: "Banheiros", tipo: "banheiro", x: 50, y: 528, width: 185, height: 48 },
-    { id: "escada_sup", nome: "Escada", tipo: "circulacao", x: 355, y: 535, width: 88, height: 120 },
+    { id: "escada_sup", nome: "Escada", tipo: "circulacao", x: 353, y: 535, width: 92, height: 120 },
     { id: "recursos_multi", nome: "Sala Recursos Multifuncionais", tipo: "especial", x: 555, y: 476, width: 185, height: 58 },
     { id: "apoio_dir_1", nome: "Sala de Funcionários", tipo: "apoio", x: 555, y: 542, width: 185, height: 52 },
     { id: "apoio_dir_2", nome: "Sala de Funcionários", tipo: "apoio", x: 555, y: 602, width: 185, height: 52 },
@@ -17471,18 +17471,24 @@ function _renderPlantaBaixaSVG() {
     } else if (esp.id === 'escada_terreo' || esp.id === 'escada_sup') {
       const dest = (andar === 'terreo') ? 'superior' : 'terreo';
       const label = (andar === 'terreo') ? 'Subir ao 2º Andar' : 'Descer ao Térreo';
+      const subtitulo = (andar === 'terreo') ? '↑ Para o 2º Andar' : '↓ Para o Térreo';
       svg += `
         <g class="escola-escada-click" onclick="trocarAndarEscola('${dest}')" role="button" aria-label="${label}">
           <rect x="${esp.x}" y="${esp.y}" width="${esp.width}" height="${esp.height}" rx="6" fill="${isLight ? '#ffffff' : '#162334'}" stroke="${cRoute}" stroke-width="2" />
-          <line x1="${esp.x+6}" y1="${esp.y+18}" x2="${esp.x+esp.width-6}" y2="${esp.y+18}" stroke="${cHallwayBorder}" />
-          <line x1="${esp.x+6}" y1="${esp.y+34}" x2="${esp.x+esp.width-6}" y2="${esp.y+34}" stroke="${cHallwayBorder}" />
-          <line x1="${esp.x+6}" y1="${esp.y+50}" x2="${esp.x+esp.width-6}" y2="${esp.y+50}" stroke="${cHallwayBorder}" />
-          <text x="${esp.x+esp.width/2}" y="${esp.y+44}" text-anchor="middle" font-family="'DM Mono',monospace" font-weight="800" font-size="11.5" fill="${cRoute}" letter-spacing="1">ESCADA</text>
-          <text x="${esp.x+esp.width/2}" y="${esp.y+60}" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700" font-size="8.5" fill="${cTextMuted}">
-            ${andar === 'terreo' ? 'SOBE 2º ANDAR' : 'CHEGADA DO TÉRREO'}
+          <!-- Degraus decorativos no topo -->
+          <line x1="${esp.x+8}" y1="${esp.y+12}" x2="${esp.x+esp.width-8}" y2="${esp.y+12}" stroke="${cHallwayBorder}" stroke-width="1.2" />
+          <line x1="${esp.x+8}" y1="${esp.y+20}" x2="${esp.x+esp.width-8}" y2="${esp.y+20}" stroke="${cHallwayBorder}" stroke-width="1.2" />
+          <line x1="${esp.x+8}" y1="${esp.y+28}" x2="${esp.x+esp.width-8}" y2="${esp.y+28}" stroke="${cHallwayBorder}" stroke-width="1.2" />
+
+          <!-- Identificação Escada com espaçamento limpo e sem aperto -->
+          <text x="${esp.x+esp.width/2}" y="${esp.y+48}" text-anchor="middle" font-family="'DM Mono',monospace" font-weight="800" font-size="11.5" fill="${cRoute}" letter-spacing="1">ESCADA</text>
+          <text x="${esp.x+esp.width/2}" y="${esp.y+66}" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="600" font-size="9" fill="${cTextMuted}">
+            ${subtitulo}
           </text>
-          <rect x="${esp.x+6}" y="${esp.y+esp.height-24}" width="${esp.width-12}" height="18" rx="4" fill="${isLight ? '#0f766e' : '#3dd68c'}" />
-          <text x="${esp.x+esp.width/2}" y="${esp.y+esp.height-12}" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700" font-size="8.5" fill="${isLight ? '#ffffff' : '#080c10'}">
+
+          <!-- Botão de Ação -->
+          <rect x="${esp.x+8}" y="${esp.y+esp.height-26}" width="${esp.width-16}" height="20" rx="6" fill="${isLight ? '#0f766e' : '#3dd68c'}" />
+          <text x="${esp.x+esp.width/2}" y="${esp.y+esp.height-13}" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700" font-size="8.5" fill="${isLight ? '#ffffff' : '#080c10'}">
             ${label}
           </text>
         </g>
@@ -17561,8 +17567,8 @@ function _renderPlantaBaixaSVG() {
     } else {
       svg += `
         <circle cx="400" cy="441" r="6" fill="#10b981" stroke="#ffffff" stroke-width="2" />
-        <rect x="306" y="415" width="176" height="20" rx="4" fill="#059669" />
-        <text x="394" y="429" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700" font-size="9" fill="#ffffff">📍 Chegada da Escada (Quadra)</text>
+        <rect x="320" y="415" width="160" height="20" rx="4" fill="#059669" />
+        <text x="400" y="429" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700" font-size="9" fill="#ffffff">📍 Chegada da Escada</text>
       `;
     }
     if (selSala && selSala.andar === andar) {
