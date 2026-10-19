@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo Prova 3 — Saúde Coletiva I</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent1: #a78bfa;   /* roxo — Epidemiologia e Métodos */
+    --accent2: #3dd68c;   /* verde — Cárie, Erupção e ICDNT */
+    --accent3: #38bdf8;   /* azul/ciano — Fluorose e Periodontia */
+    --accent-orange: #f59e0b; /* laranja — cuidado/pegadinhas */
+    --accent-red: #ff7b72;    /* vermelho — muito importante/risco */
+    --cap1: #a78bfa;
+    --cap2: #3dd68c;
+    --cap3: #38bdf8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.7; }
+
+  /* ── HERO ── */
+  .hero { background: linear-gradient(135deg, #0d1117 0%, #151a2d 50%, #0d1117 100%); border-bottom: 1px solid var(--border); text-align: center; padding: 60px 24px 48px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(167,139,250,.12) 0%, transparent 70%); }
+  .hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent1); margin-bottom: 16px; position: relative; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: #fff; line-height: 1.15; position: relative; }
+  .hero h1 span { color: var(--accent1); }
+  .hero-sub { margin-top: 12px; color: var(--muted); font-size: 14px; position: relative; }
+  .chapters-nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 32px; position: relative; }
+  .chapters-nav a { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: all .2s; }
+  .chapters-nav a:hover { background: var(--surface); color: var(--text); border-color: var(--accent1); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+
+  /* ── CHAPTER BLOCK ── */
+  .chapter-block { margin-bottom: 64px; scroll-margin-top: 24px; }
+  .chapter-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .chapter-num { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .chapter-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; }
+  .chapter-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--muted); margin-bottom: 12px; padding-left: 12px; border-left: 2px solid var(--border); }
+
+  /* ── CARDS ── */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 10px; }
+  .card-title { font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent1); flex-shrink: 0; }
+  .card p, .card li { color: #c9d1d9; font-size: 14px; }
+  .card ul { padding-left: 18px; }
+  .card ul li { margin-bottom: 4px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 640px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; margin: 12px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { background: var(--surface2); color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: 1px; padding: 10px 14px; text-align: left; font-family: 'DM Mono', monospace; font-weight: 500; }
+  td { padding: 10px 14px; border-top: 1px solid var(--border); color: #c9d1d9; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── CALLOUTS ── */
+  .tip, .warn, .important, .macete { border-radius: 10px; padding: 14px 18px; margin: 14px 0; font-size: 13.5px; }
+  .tip { background: rgba(61,214,140,0.08); border: 1px solid rgba(61,214,140,0.3); }
+  .tip-label { display:block; font-weight:600; color: var(--accent2); margin-bottom: 5px; font-size: 12px; }
+  .warn { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); }
+  .warn-label { display:block; font-weight:600; color: var(--accent-orange); margin-bottom: 5px; font-size: 12px; }
+  .important { background: rgba(255,123,114,0.08); border: 1px solid rgba(255,123,114,0.3); }
+  .important-label { display:block; font-weight:600; color: var(--accent-red); margin-bottom: 5px; font-size: 12px; }
+  .macete { background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(56,189,248,0.06)); border: 1px solid rgba(167,139,250,0.3); }
+  .macete-label { display:block; font-weight:600; color: var(--accent1); margin-bottom: 5px; font-size: 12px; }
+
+  /* ── FLOW ── */
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0; }
+  .flow-step { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 500; }
+  .flow-arrow { color: var(--muted); font-size: 16px; }
+
+  /* ── PILLS ── */
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .pill-purple { background: rgba(167,139,250,0.15); color: #c4b5fd; }
+  .pill-green { background: rgba(61,214,140,0.15); color: #6ee7b7; }
+  .pill-blue { background: rgba(56,189,248,0.15); color: #7dd3fc; }
+  .pill-orange { background: rgba(245,158,11,0.15); color: #fde68a; }
+
+  /* ── CODE BADGE ── */
+  .code-badge { font-family: 'DM Mono', monospace; font-size: 12px; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; color: #fff; font-weight: 600; }
+</style>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">S.C.I · Saúde Coletiva Inteligente · Odontologia em Saúde Coletiva</div>
+  <h1>Resumo Completo<br><span>Prova 3</span></h1>
+  <div class="hero-sub">Estudos Epidemiológicos e Levantamentos · Epidemiologia da Cárie, Erupção e ICDNT · Fluorose Dentária e Doença Periodontal</div>
+  <div class="chapters-nav">
+    <a href="#cap1"><i class="ph ph-chart-line-up"></i> Epidemiologia e Métodos</a>
+    <a href="#cap2"><i class="ph ph-tooth"></i> Cárie, Erupção e ICDNT</a>
+    <a href="#cap3"><i class="ph ph-shield-check"></i> Fluorose e Periodontia</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- CAPÍTULO 1 -->
+<div id="cap1" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap1)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 01</div>
+      <div class="chapter-title" style="color:var(--cap1)">Estudos Epidemiológicos e Levantamentos em Saúde Bucal</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1.1 Método Clínico vs Método Epidemiológico</div>
+    <div class="card">
+      <div class="card-title">Comparação Fundamental no Diagnóstico</div>
+      <p>A epidemiologia não mede saúde diretamente — mede a <b>doença ou a morte</b> (morbidade e mortalidade) na coletividade, invertendo a lógica do consultório.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Critério</th><th>Método Clínico</th><th>Método Epidemiológico</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Objeto de estudo</b></td><td>Indivíduo (paciente)</td><td>População (coletividade)</td></tr>
+            <tr><td><b>Objetivo principal</b></td><td>Cura e alívio dos sintomas</td><td>Prevenção e controle de agravos</td></tr>
+            <tr><td><b>Instrumento de coleta</b></td><td>Anamnese e exames complementares</td><td>Sistemas de informação, inquéritos, fichas padronizadas</td></tr>
+            <tr><td><b>Ações decorrentes</b></td><td>Tratamento clínico e reabilitação</td><td>Programas de saúde, políticas e promoção</td></tr>
+            <tr><td><b>Métricas utilizadas</b></td><td>Sinais e sintomas clínicos</td><td>Indicadores populacionais (prevalência, CPO-D, CPI)</td></tr>
+            <tr><td><b>Raciocínio lógico</b></td><td>Fisiopatológico</td><td>Bioestatístico e populacional</td></tr>
+            <tr><td><b>Intervenção</b></td><td>Tratamento individual</td><td>Medidas coletivas de intervenção</td></tr>
+            <tr><td><b>Avaliação</b></td><td>Evolução do paciente individual</td><td>Alterações dos indicadores de saúde pública</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1.2 Tipos e Desenhos de Estudos Epidemiológicos</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Estudos Descritivos vs Analíticos</div>
+        <ul>
+          <li><b>Descritivos:</b> Detalham a distribuição da doença respondendo a três perguntas: <i>Quem</i> é afetado (pessoa), <i>Onde</i> ocorre (espaço/local) e <i>Quando</i> acontece (tempo). Geram hipóteses epidemiológicas.</li>
+          <li><b>Analíticos:</b> Testam hipóteses causais, avaliando a relação entre uma exposição (fator de risco/proteção) e um desfecho (cura/doença), comparando com grupos de controle.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Fontes de Dados Primários vs Secundários</div>
+        <ul>
+          <li><b>Fontes Secundárias:</b> Registros coletados rotineiramente (SIM, SINASC, SISAB, IBGE, registros hospitalares de câncer). Baixo custo, rapidez, mas dependentes da qualidade de preenchimento.</li>
+          <li><b>Fontes Primárias:</b> Dados coletados especificamente para a pesquisa mediante questionários, exames clínicos e laboratoriais (ex: levantamento de cárie SB Brasil).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:10px;">
+      <div class="card">
+        <div class="card-title">Estudo Transversal (Seccional)</div>
+        <p>Mede <b>prevalência</b>. Exposição e desfecho são investigados simultaneamente no mesmo instante no tempo ("fotografia").</p>
+        <ul>
+          <li><b>Vantagens:</b> Rápido, econômico, excelente para planejamento de serviços e levantamentos de base.</li>
+          <li><b>Limitação:</b> Não estabelece relação temporal direta de causa e efeito (causalidade reversa).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Estudo de Coorte (Longitudinal)</div>
+        <p>Mede <b>incidência</b> (novos casos ao longo do tempo). Indivíduos expostos e não expostos livres da doença são acompanhados no tempo.</p>
+        <ul>
+          <li><b>Medida de associação:</b> Risco Relativo (RR = I expostos / I não expostos).</li>
+          <li><b>Vantagens:</b> Excelente para estabelecer causalidade; livre de viés de memória.</li>
+          <li><b>Limitações:</b> Alto custo, longo tempo de seguimento, perda de participantes no seguimento.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:10px;">
+      <div class="card">
+        <div class="card-title">Estudo Caso-Controle (Retrospectivo)</div>
+        <p>Parte do desfecho (doentes = casos / não doentes = controles) e investiga retrospectivamente a história de exposição pregressa.</p>
+        <ul>
+          <li><b>Medida de associação:</b> Odds Ratio (Razão de Chances).</li>
+          <li><b>Vantagens:</b> Ideal para <b>doenças raras ou de longo período de latência</b>; rápido e de baixo custo.</li>
+          <li><b>Vieses comuns:</b> Viés de memória (recordatório) e viés de seleção.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Estudo Ecológico (Agregado)</div>
+        <p>A unidade de análise é a <b>população/comunidade</b>, não indivíduos (ex: cidades, países, bairros).</p>
+        <ul>
+          <li><b>Falácia Ecológica:</b> Erro de inferir associações individuais a partir de dados médios agregados da população.</li>
+          <li><b>Vantagens:</b> Utiliza dados secundários pré-existentes, rápido e gera hipóteses sobre determinantes macro.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:10px;">
+      <div class="card-title">Estudos Experimentais (Intervenção)</div>
+      <ul>
+        <li><b>Ensaio Clínico Randomizado:</b> Realizado em pacientes clínicos. Randomização garante igual probabilidade de alocação entre grupo intervenção e controle. Padrão-ouro para eficácia de tratamentos.</li>
+        <li><b>Ensaio de Campo:</b> Realizado em indivíduos <b>saudáveis sob risco</b> na comunidade, focando na prevenção primária (ex: avaliação de vacinas).</li>
+        <li><b>Ensaio de Comunidade / População:</b> A unidade de intervenção é a coletividade inteira (ex: fluoretação das águas em um município vs outro não fluoretado).</li>
+      </ul>
+    </div>
+
+    <div class="macete">
+      <span class="macete-label">Macete de Prova — Interpretação do Risco Relativo (RR) e Odds Ratio (OR)</span>
+      <ul>
+        <li><b>RR ou OR = 1:</b> Ausência de associação (sem efeito).</li>
+        <li><b>RR ou OR > 1:</b> Fator de <b>risco</b> (a exposição aumenta a chance do desfecho). Ex: RR = 2.64 (tabagismo aumenta o risco de periodontite em 2,64 vezes).</li>
+        <li><b>RR ou OR < 1:</b> Fator de <b>proteção</b> (a exposição reduz a chance do desfecho).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1.3 Organização da Equipe e Parâmetros de Levantamento</div>
+    <div class="card">
+      <div class="card-title">A Tríade da Equipe de Campo</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Papel</th><th>Responsabilidades Principais</th><th>Condutas e Cuidados Essenciais</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Examinador (Cirurgião-Dentista)</b></td>
+              <td>Realizar os exames clínicos conforme os critérios padronizados da OMS e ditar os códigos ao anotador.</td>
+              <td>Fica sentado; examina a criança à sua frente. Usa EPI completo (luvas, máscara, óculos, gorro). <b>Troca de luvas a cada mucosa</b>. <b>PROIBIDO</b> manipular lápis, borrachas e pranchetas.</td>
+            </tr>
+            <tr>
+              <td><b>Anotador</b></td>
+              <td>Preencher dados sociodemográficos, registrar com clareza os códigos ditados e checar coerência.</td>
+              <td>Posiciona-se de modo a ouvir com clareza e permitir que o examinador visualize as anotações. <b>Nunca deixar caselas em branco</b>; alertar o examinador em caso de dúvida ou inconsistência.</td>
+            </tr>
+            <tr>
+              <td><b>Monitor</b></td>
+              <td>Logística de campo, organização do fluxo de pessoas, apoio e escovação supervisionada.</td>
+              <td>Organiza as buscas, assegura a escovação supervisionada prévia dos examinados, cuida do descarte de resíduos e esterilização do instrumental.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Parâmetros de Trabalho e Biossegurança da OMS</div>
+      <ul>
+        <li><b>Jornada diária:</b> Máximo de <b>4 horas de trabalho de exame</b> por dia.</li>
+        <li><b>Carga de exames:</b> Em torno de <b>30 exames/dia</b> por observador (evita fadiga diagnóstica).</li>
+        <li><b>Teto do levantamento:</b> Máximo de <b>300 exames totais</b> por examinador ao longo de todo o estudo.</li>
+        <li><b>Suprimento instrumental:</b> Mínimo de <b>30 espelhos bucais planos e 30 sondas periodontais OMS (Trinity)</b> por examinador, permitindo ciclos de autoclavagem rotativa.</li>
+        <li><b>Iluminação:</b> Luz natural complementada por lanterna portátil com foco consistente.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1.4 Processo de Calibração e Estatística Kappa</div>
+    <div class="card">
+      <div class="card-title">Objetivo e Etapas da Calibração</div>
+      <p>Garantir que todos os examinadores interpretem e apliquem os critérios diagnósticos de forma uniforme e reprodutível, minimizando variações.</p>
+      <ul>
+        <li><b>Calibração Intra-examinador:</b> O examinador concorda consigo mesmo ao repetir exames no mesmo grupo.</li>
+        <li><b>Calibração Inter-examinador:</b> Dois ou mais examinadores concordam entre si examinando os mesmos indivíduos.</li>
+      </ul>
+      <div class="flow">
+        <div class="flow-step">1. Fase Teórica (Leitura manual e discussão dos códigos)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Exercício Clínico (6 a 8 crianças com ampla variabilidade)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. Calibração Real (15 a 20 pessoas por grupo etário; sem debate)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. Discussão & Kappa (Cálculo estatístico e desempate)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tabela de Interpretação do Coeficiente Kappa (Landis & Koch)</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Valor do Coeficiente Kappa (k)</th><th>Grau de Concordância</th><th>Significado Prático</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>&lt; 0,20</b></td><td>Pobre</td><td>Inaceitável; exige recalibração completa ou substituição do examinador.</td></tr>
+            <tr><td><b>0,21 a 0,40</b></td><td>Fraca</td><td>Discordâncias frequentes nos critérios diagnósticos.</td></tr>
+            <tr><td><b>0,41 a 0,60</b></td><td>Moderada</td><td>Concordância intermediária aceitável para treino inicial.</td></tr>
+            <tr><td><b>0,61 a 0,80</b></td><td>Substancial</td><td>Padrão satisfatório para levantamentos epidemiológicos oficiais.</td></tr>
+            <tr><td><b>0,81 a 1,00</b></td><td>Quase Perfeita</td><td>Excelente reprodutibilidade diagnóstica.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CAPÍTULO 2 -->
+<div id="cap2" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap2)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 02</div>
+      <div class="chapter-title" style="color:var(--cap2)">Epidemiologia da Cárie, Cronologia de Erupção e ICDNT</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.1 Notação Dentária e Cronologia de Erupção</div>
+    <div class="card">
+      <div class="card-title">Notação FDI / OMS de Dois Dígitos</div>
+      <p>O primeiro dígito indica o <b>quadrante</b>; o segundo dígito indica o <b>dente da linha média para distal</b>.</p>
+      <ul>
+        <li><b>Dentição Permanente:</b> Quadrantes 1 (Sup. Dir.), 2 (Sup. Esq.), 3 (Inf. Esq.), 4 (Inf. Dir.). Dentes de 1 a 8. Ex: 11 (Inc. Central Sup. Dir.), 36 (1º Molar Inf. Esq.).</li>
+        <li><b>Dentição Decídua:</b> Quadrantes 5 (Sup. Dir.), 6 (Sup. Esq.), 7 (Inf. Esq.), 8 (Inf. Dir.). Dentes de 1 a 5. Ex: 51 (Inc. Central Sup. Dir. decíduo), 85 (2º Molar Inf. Dir. decíduo).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tabela de Idade Média de Erupção (Dentição Permanente)</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Elemento Dentário</th><th>Dentes Superiores</th><th>Dentes Inferiores</th><th>Destaque Clínico / Epidemiológico</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>1º Molar Permanente</b></td><td>6 a 7 anos</td><td>6 a 7 anos</td><td>Primeiro dente permanente a irromper; erupciona atrás dos decíduos sem esfoliação prévia.</td></tr>
+            <tr><td><b>Incisivo Central</b></td><td>7 a 8 anos</td><td>6 a 7 anos</td><td>Inferiores precedem os superiores em ~1 ano.</td></tr>
+            <tr><td><b>Incisivo Lateral</b></td><td>8 a 9 anos</td><td>7 a 8 anos</td><td>Fase do "patinho feio" na dentição mista.</td></tr>
+            <tr><td><b>Canino</b></td><td>11 a 12 anos</td><td>9 a 10 anos</td><td>Canino inferior irrompe bem antes do canino superior!</td></tr>
+            <tr><td><b>1º Pré-molar</b></td><td>10 a 11 anos</td><td>10 a 12 anos</td><td>Substitui o 1º molar decíduo.</td></tr>
+            <tr><td><b>2º Pré-molar</b></td><td>10 a 12 anos</td><td>11 a 12 anos</td><td>Substitui o 2º molar decíduo.</td></tr>
+            <tr><td><b>2º Molar Permanente</b></td><td>12 a 13 anos</td><td>11 a 12 anos</td><td>Marco dos 12 anos de idade (idade-índice global da OMS para CPO-D).</td></tr>
+            <tr><td><b>3º Molar</b></td><td>17 a 21 anos</td><td>17 a 21 anos</td><td>Variabilidade extrema; alta taxa de impacção e agenesia.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip">
+        <span class="tip-label">Regras de Moyers para Erupção</span>
+        Meninas são, em média, <b>5 meses mais precoces</b> que os meninos. Cerca de 10% dos 1º molares emergem antes dos 5 anos ou após os 8 anos de idade.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.2 Índices Epidemiológicos de Cárie Dentária</div>
+    <div class="grid3">
+      <div class="card">
+        <div class="card-title">Índice CPO-D</div>
+        <p><b>Dentição Permanente.</b> Dentes <b>C</b>ariados + <b>P</b>erdidos por cárie + <b>O</b>bturados (restaurados).</p>
+        <ul>
+          <li>Idade padrão OMS: <b>12 anos</b>.</li>
+          <li><b>C</b> indica necessidade curativa.</li>
+          <li><b>P</b> indica sequela mutiladora.</li>
+          <li><b>O</b> indica acesso a serviços odontológicos restauradores.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Índice ceo-d</div>
+        <p><b>Dentição Decídua.</b> Dentes cariados (<b>c</b>) + indicação de extração (<b>e</b>) + obturados (<b>o</b>).</p>
+        <ul>
+          <li><b>NÃO computa componente P</b> (impossível discernir perda por cárie de esfoliação fisiológica).</li>
+          <li>Idade padrão OMS: <b>5 anos</b>.</li>
+          <li>Meta OMS 2010: 90% livres de cárie (ceo-d=0) aos 5 anos.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Índice CPO-S</div>
+        <p><b>Unidade Superfície.</b> Muito mais refinado e sensível para ensaios clínicos.</p>
+        <ul>
+          <li>32 dentes permanentes = <b>148 superfícies</b>.</li>
+          <li>Molares e pré-molares: <b>5 faces</b> cada.</li>
+          <li>Incisivos e caninos: <b>4 faces</b> cada.</li>
+          <li>Dente perdido: computam-se <b>5 faces em posteriores e 4 em anteriores</b>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:10px;">
+      <div class="card-title">Sistema ICDAS (Detecção e Avaliação de Cáries)</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Código</th><th>Condição Clínica Observada</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>0</b></td><td>Dente hígido; sem evidência de cárie após 5 segundos de secagem com ar.</td></tr>
+            <tr><td><b>1</b></td><td>Primeira alteração visual no esmalte: visível apenas após secagem prolongada ou fundo de fissuras.</td></tr>
+            <tr><td><b>2</b></td><td>Alteração visual nítida no esmalte (mancha branca/marrom), visível mesmo com o dente úmido.</td></tr>
+            <tr><td><b>3</b></td><td>Perda de integridade do esmalte (microcavitação inicial &lt; 0,5 mm) sem dentina exposta.</td></tr>
+            <tr><td><b>4</b></td><td>Sombra escura subjacente de dentina sugerindo lesão profunda sem cavitação franca.</td></tr>
+            <tr><td><b>5</b></td><td>Cavitação perceptível com dentina exposta envolvendo menos de 50% da superfície.</td></tr>
+            <tr><td><b>6</b></td><td>Cavitação extensa com dentina exposta envolvendo mais de 50% da superfície dental.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.3 ICDNT — Condição Dental e Necessidade de Tratamento (OMS / SB Brasil)</div>
+    <div class="card">
+      <div class="card-title">Códigos da Condição da Coroa e da Raiz</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Decíduo</th><th>Permanente</th><th>Condição Dental</th><th>Critério Diagnóstico da OMS</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="code-badge">A</span></td><td><span class="code-badge">0</span></td><td><b>Hígido</b></td><td>Sem evidência de cárie clínica cavitada tratada ou não tratada. Inclui manchas de hipoplasia ou sulcos pigmentados duvidosos.</td></tr>
+            <tr><td><span class="code-badge">B</span></td><td><span class="code-badge">1</span></td><td><b>Cariado</b></td><td>Cavitação inequívoca em esmalte/dentina, assoalho ou parede amolecida.</td></tr>
+            <tr><td><span class="code-badge">C</span></td><td><span class="code-badge">2</span></td><td><b>Restaurado com cárie</b></td><td>Dente com uma ou mais restaurações e lesão de cárie ativa associada.</td></tr>
+            <tr><td><span class="code-badge">D</span></td><td><span class="code-badge">3</span></td><td><b>Restaurado sem cárie</b></td><td>Restauração íntegra definitiva presente, sem qualquer cárie adjacente.</td></tr>
+            <tr><td><span class="code-badge">E</span></td><td><span class="code-badge">4</span></td><td><b>Perdido por cárie</b></td><td>Dente permanente extraído devido a sequela de cárie dentária.</td></tr>
+            <tr><td>—</td><td><span class="code-badge">5</span></td><td><b>Perdido por outra razão</b></td><td>Perdido por ortodontia, trauma, doença periodontal ou agenesia congênita.</td></tr>
+            <tr><td><span class="code-badge">F</span></td><td><span class="code-badge">6</span></td><td><b>Selante de fissura</b></td><td>Presença de selante oclusal sem cárie na superfície.</td></tr>
+            <tr><td><span class="code-badge">G</span></td><td><span class="code-badge">7</span></td><td><b>Apoio de ponte / coroa / faceta</b></td><td>Dente usado como pilar de prótese fixa, coroa protética ou implante.</td></tr>
+            <tr><td>—</td><td><span class="code-badge">8</span></td><td><b>Dente não erupcionado</b></td><td>Espaço edêntulo de dente que ainda não atingiu o plano de oclusão.</td></tr>
+            <tr><td>—</td><td><span class="code-badge">9</span></td><td><b>Dente excluído</b></td><td>Não pode ser examinado (ex: <b>banda ortodôntica</b>; dente inacessível).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Códigos de Necessidade de Tratamento</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Código</th><th>Necessidade de Tratamento</th><th>Critério Clínico SB Brasil</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="code-badge">0</span></td><td>Nenhum tratamento</td><td>Coroa e raiz hígidas ou adequadamente restauradas.</td></tr>
+            <tr><td><span class="code-badge">1</span></td><td>Restauração de 1 superfície</td><td>Cárie envolvendo estritamente uma única face dental.</td></tr>
+            <tr><td><span class="code-badge">2</span></td><td>Restauração de 2 ou mais superfícies</td><td>Cárie envolvendo duas ou mais faces do elemento.</td></tr>
+            <tr><td><span class="code-badge">3</span></td><td>Coroa por qualquer razão</td><td>Destruição coronária severa por cárie, fratura ou HMI posterior.</td></tr>
+            <tr><td><span class="code-badge">4</span></td><td>Faceta estética</td><td>Comprometimento estético de dente anterior (ex: HMI anterior, hipoplasia severa).</td></tr>
+            <tr><td><span class="code-badge">5</span></td><td>Tratamento pulpar + restauração</td><td>Envolvimento endodôntico (polpa exposta, lesão periapical) com dente restaurável.</td></tr>
+            <tr><td><span class="code-badge">6</span></td><td>Extração dental indicada</td><td>Destruição coronal não restaurável ou perda total de inserção com mobilidade severa.</td></tr>
+            <tr><td><span class="code-badge">7</span></td><td>Remineralização de mancha branca</td><td>Mancha branca ativa de cárie exigindo terapia tópica fluoretada.</td></tr>
+            <tr><td><span class="code-badge">8</span></td><td>Aplicação de selante</td><td><b>Regra dos 3 critérios simultâneos:</b> dente irrompido há &lt; 2 anos, homólogo cariado e histórico de cárie.</td></tr>
+            <tr><td><span class="code-badge">9</span></td><td>Sem informação / Não se aplica</td><td>Usado obrigatoriamente quando a coroa for 9 (excluído), 8 (não erupcionado) ou 4/5 (perdido).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="warn">
+      <span class="warn-label">Regras Especiais de Exame da OMS e SB Brasil (Cai Muito em Concursos!)</span>
+      <ul>
+        <li><b>Dente irrompido:</b> É considerado irrompido e examinável quando <i>já pode ser tocado com a ponta da sonda</i>.</li>
+        <li><b>Supranumerários:</b> Dentes supranumerários <b>NÃO</b> são computados nem registrados no ICDNT.</li>
+        <li><b>Permanente e Decíduo no mesmo espaço:</b> Considerar e codificar SEMPRE o <b>dente permanente</b>.</li>
+        <li><b>Dúvida diagnóstica entre Hígido e Cariado:</b> Na dúvida, codificar como <b>HÍGIDO</b> (evita falso-positivo).</li>
+        <li><b>Dúvida entre Restaurado com cárie e Restaurado sem cárie:</b> Na dúvida, codificar como <b>RESTAURADO SEM CÁRIE</b>.</li>
+        <li><b>Ortodontia:</b> Bandas metálicas = código 9 (dente excluído). Braquetes colados = <b>NÃO exclui</b> o dente (examina-se normalmente).</li>
+        <li><b>Uso da sonda exploradora pontiaguda:</b> É <b>PROIBIDO</b> na OMS/SB Brasil para detectar cárie (iatrogenia, fratura esmalte desmineralizado). Usa-se espelho e sonda periodontal OMS Trinity (esfera 0,5 mm).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- CAPÍTULO 3 -->
+<div id="cap3" class="chapter-block">
+  <div class="chapter-header">
+    <span class="chapter-dot" style="background:var(--cap3)"></span>
+    <div>
+      <div class="chapter-num">Capítulo 03</div>
+      <div class="chapter-title" style="color:var(--cap3)">Fluorose Dentária e Doença Periodontal</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3.1 Aspectos Clínicos e Fatores de Risco da Fluorose</div>
+    <div class="card">
+      <div class="card-title">Mecanismo Biológico da Fluorose</div>
+      <p>A fluorose dentária é uma alteração do esmalte decorrente da <b>ingestão crônica excessiva de fluoreto durante a amelogênese</b> (desenvolvimento dental). O flúor retarda a remoção das proteínas da matriz adamantina (amelogeninas) durante a fase de <b>maturação</b>, resultando em esmalte hipomineralizado e poroso subsuperficialmente sob uma camada externa aprismática aparentemente íntegra.</p>
+      <ul>
+        <li><b>Efeito colateral sistêmico:</b> É o <i>único</i> efeito adverso sistêmico da ingestão crônica de água fluoretada em concentrações recomendadas.</li>
+        <li><b>Período crítico de risco:</b> Do nascimento aos 3 anos para incisivos superiores permanentes; até os 6-7 anos para posteriores. Após a formação completa do dente, <b>NÃO há risco</b> de novas lesões de fluorose por ingestão ou aplicações profissionais tópicas de flúor.</li>
+        <li><b>Dose limite segura (Burt, 1992):</b> <b>0,05 a 0,07 mg F / kg de peso corporal / dia</b>.</li>
+        <li><b>Dentifrício fluoretado infantil:</b> Principal fator de risco em crianças de 2 a 3 anos (ingerem em média <b>48%</b> da pasta na escovação; aos 4 anos ingerem 42%; aos 5 anos, 34%).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3.2 Índice de Dean e Critérios Diagnósticos</div>
+    <div class="card">
+      <div class="card-title">Classificação do Índice de Dean (OMS / SB Brasil)</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Escore</th><th>Classificação</th><th>Critério Diagnóstico Visual</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="code-badge">0</span></td><td><b>Normal</b></td><td>Esmalte liso, polido, translúcido, estrutura semi-vitriforme, cor creme-clara uniforme.</td></tr>
+            <tr><td><span class="code-badge">1</span></td><td><b>Questionável</b></td><td>Pequena alteração na translucidez usual, com ocasionais manchas ou pontos esbranquiçados; normal não se justifica.</td></tr>
+            <tr><td><span class="code-badge">2</span></td><td><b>Muito Leve</b></td><td>Pequenas áreas opacas brancas cobrindo <b>menos de 25%</b> da superfície vestibular. Inclui picos nevados (1-2 mm nas cúspides/bordas).</td></tr>
+            <tr><td><span class="code-badge">3</span></td><td><b>Leve</b></td><td>Opacidades brancas cobrindo entre <b>25% e menos de 50%</b> da superfície dentária.</td></tr>
+            <tr><td><span class="code-badge">4</span></td><td><b>Moderada</b></td><td><b>Todo o esmalte</b> afetado; superfícies de atrito mostram desgaste evidente; manchas castanhas/amareladas desfigurantes.</td></tr>
+            <tr><td><span class="code-badge">5</span></td><td><b>Severa / Grave</b></td><td>Hipomineralização generalizada, morfologia alterada; presença marcante de <b>depressões e fossas (pits)</b>; aspecto de corrosão e manchas castanhas difusas.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="important">
+      <span class="important-label">Regras de Exame do Índice de Dean</span>
+      <ul>
+        <li><b>Simetria Bilateral:</b> A fluorose é um agravo sistêmico — manifesta-se com simetria bilateral em dentes homólogos formados no mesmo período.</li>
+        <li><b>Regra dos Dois Dentes Mais Afetados:</b> O registro baseia-se nos dois dentes mais severamente afetados. Se eles não apresentarem o mesmo grau, <b>anota-se o escore do MENOS afetado entre os dois</b>.</li>
+        <li><b>Ordem de Eliminação:</b> O examinador deve sempre começar mentalmente pelo grau mais grave (Severa) e ir eliminando em ordem decrescente até o escore compatível. Em caso de dúvida, <b>atribuir o menor escore</b>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Índice TF (Thylstrup & Fejerskov) e Índice Comunitário (IFD)</div>
+      <ul>
+        <li><b>Índice TF (1978):</b> Classifica de <b>0 a 9</b> de acordo com o grau biológico de porosidade após secagem prolongada do esmalte com ar. TF 1-3 são linhas de Retzius e opacidades fundidas; TF 4 é branco-giz completo; TF 5-9 apresentam perda focal externa de esmalte (pits e desgaste anatômico).</li>
+        <li><b>Índice de Fluorose Dentária Comunitário (IFD):</b> IFD = Soma de (frequência × peso do grau de Dean) / total examinados.
+          <ul>
+            <li>0,0 a 0,4: Negativo (sem preocupação sanitária; excelente efeito anticárie).</li>
+            <li>0,4 a 0,6: Zona limítrofe.</li>
+            <li>&gt; 0,6: Problema de saúde pública justificando ajuste ou remoção de excessos de flúor.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3.3 Diagnóstico Diferencial de Defeitos de Esmalte</div>
+    <div class="card">
+      <div class="card-title">Fluorose vs Outros Defeitos</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Condição</th><th>Etiologia</th><th>Distribuição</th><th>Aspecto Clínico Diferencial</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Fluorose Dentária</b></td>
+              <td>Sistêmica crônica (excesso de flúor).</td>
+              <td><b>Bilateral e simétrica</b> em dentes homólogos. Pré-molares e 2º molares mais acometidos.</td>
+              <td>Linhas e manchas opacas difusas em cúspides e bordas incisais; esmalte resistente à cárie.</td>
+            </tr>
+            <tr>
+              <td><b>Mancha Branca de Cárie</b></td>
+              <td>Local bacteriana (biofilme + açúcar).</td>
+              <td><b>Assimétrica</b>; em sítios estagnados de biofilme (cervical e fossas).</td>
+              <td>Opacidade branca rugosa opaca ativa restrita à área de placa; sem relação com simetria.</td>
+            </tr>
+            <tr>
+              <td><b>HMI (Hipomineralização Molar-Incisivo)</b></td>
+              <td>Sistêmica precoce nos primeiros anos de vida.</td>
+              <td>Qualitativa: afeta de <b>1 a 4 primeiros molares permanentes</b>, com ou sem incisivos.</td>
+              <td>Manchas demarcadas amarelo-acastanhadas assimétricas; esmalte frágil que fratura pós-erupção.</td>
+            </tr>
+            <tr>
+              <td><b>Dente de Turner (Hipoplasia Focal)</b></td>
+              <td>Local (trauma do decíduo antecessor ou infecção periapical crônica).</td>
+              <td><b>Unilateral</b>, em dente permanente isolado.</td>
+              <td>Defeito estrutural nítido, depressão ou mancha focal circunscrita em um único elemento.</td>
+            </tr>
+            <tr>
+              <td><b>Mancha por Tetraciclina</b></td>
+              <td>Sistêmica medicamentosa (quelação de tetraciclina na dentina).</td>
+              <td>Generalizada e bilateral em dentes em calcificação.</td>
+              <td>Bandas horizontais acinzentadas/amareladas fluorescentes profundas intrínsecas à dentina.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3.4 Epidemiologia Periodontal: Índices CPI e PIP (OMS / SB Brasil)</div>
+    <div class="card">
+      <div class="card-title">Índice Periodontal Comunitário (CPI / CPITN)</div>
+      <p>Avalia três indicadores clássicos: <b>higidez, sangramento gengival à sondagem e presença de cálculo ou bolsa periodontal</b>.</p>
+      <ul>
+        <li><b>Sonda Periodontal da OMS (Trinity / CPI):</b> Ponta esférica de <b>0,5 mm</b> (evita traumatismo do sulco), com <b>faixa preta milimetrada de 3,5 a 5,5 mm</b>, e linhas adicionais em 8,5 mm e 11,5 mm. Força recomendada: <b>20 gramas</b> (peso de segurar a sonda sem fletir a polpa digital sob a unha).</li>
+        <li><b>Divisão em Sextantes:</b> Arco dividido em 6 sextantes (18-14, 13-23, 24-28, 48-44, 43-33, 34-38).</li>
+        <li><b>Dentes-índice em adultos (10 dentes):</b> 17/16, 11, 26/27, 47/46, 31, 36/37. Faz-se 1 registro por sextante (pior condição).</li>
+        <li><b>Restrição etária importante:</b> Bolsas periodontais <b>NÃO são registradas em menores de 15 anos</b> de idade (apenas sangramento e cálculo), evitando confundir com pseudo-bolsas por erupção dental ativa.</li>
+        <li><b>Regra de exclusão:</b> Um sextante com menos de 2 dentes funcionais presentes é codificado como <b>X (Sextante Excluído)</b>.</li>
+      </ul>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Código CPI</th><th>Condição Periodontal</th><th>Critério Visual da Sonda OMS</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="code-badge">0</span></td><td>Sextante Hígido</td><td>Sem sangramento, sem cálculo e sem bolsa (sulco até 3,5 mm).</td></tr>
+            <tr><td><span class="code-badge">1</span></td><td>Sangramento à sondagem</td><td>Sangramento gengival evidente observado logo após a passagem da sonda.</td></tr>
+            <tr><td><span class="code-badge">2</span></td><td>Cálculo dentário</td><td>Presença de cálculo supra ou subgengival, mas com <b>toda a faixa preta visível</b>.</td></tr>
+            <tr><td><span class="code-badge">3</span></td><td>Bolsa rasa (4 a 5 mm)</td><td>Margem gengival posicionada <b>dentro da faixa preta da sonda</b> (parcialmente coberta).</td></tr>
+            <tr><td><span class="code-badge">4</span></td><td>Bolsa profunda (6 mm ou mais)</td><td><b>Toda a faixa preta da sonda fica submersa</b> abaixo da margem gengival.</td></tr>
+            <tr><td><span class="code-badge">X</span></td><td>Sextante Excluído</td><td>Menos de 2 dentes funcionais presentes no sextante.</td></tr>
+            <tr><td><span class="code-badge">9</span></td><td>Não examinado</td><td>Sextante inacessível ou exame não realizado.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Índice de Perda de Inserção Periodontal (PIP)</div>
+      <p>Mede a destruição cumulativa de suporte periodontal: distância milimétrica da <b>Junção Cemento-Esmalte (JCE)</b> até o fundo da bolsa.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Código PIP</th><th>Milímetros de Perda de Inserção</th><th>Referência Anatômica na Sonda CPI</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="code-badge">0</span></td><td>0 a 3 mm</td><td>JCE não visível ou localizada a até 3 mm da margem.</td></tr>
+            <tr><td><span class="code-badge">1</span></td><td>4 a 5 mm</td><td>JCE visível na área preta da sonda (3,5 a 5,5 mm).</td></tr>
+            <tr><td><span class="code-badge">2</span></td><td>6 a 8 mm</td><td>JCE visível entre a faixa preta e a marca de 8,5 mm.</td></tr>
+            <tr><td><span class="code-badge">3</span></td><td>9 a 11 mm</td><td>JCE visível entre as marcas de 8,5 mm e 11,5 mm.</td></tr>
+            <tr><td><span class="code-badge">4</span></td><td>12 mm ou mais</td><td>JCE visível além da marca de 11,5 mm da sonda.</td></tr>
+            <tr><td><span class="code-badge">X</span></td><td>Sextante Excluído</td><td>Menos de 2 dentes presentes no sextante.</td></tr>
+            <tr><td><span class="code-badge">9</span></td><td>Não examinado</td><td>Sextante que não pôde ser avaliado.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-label">Dados do SB Brasil 2023 sobre Condição Periodontal</span>
+      <ul>
+        <li>Em adultos (35 a 44 anos), o agravo periodontal mais prevalente é o <b>cálculo dentário (38,7%)</b> e o <b>sangramento (32,4%)</b>. Bolsas rasas acometem 10,4% e profundas 1,5%.</li>
+        <li>Em idosos (65 a 74 anos), <b>86% dos indivíduos têm sextantes excluídos (código X)</b>, reflexo do severo histórico de perdas dentárias e edentulismo no Brasil.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
