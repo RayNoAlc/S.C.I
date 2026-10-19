@@ -2429,11 +2429,12 @@ body.light-mode .tour-spotlight-target {
   </div>
 
   <!-- HOME (hub) -->
-  <div id="home-screen" class="screen" id="main-content">
+  <div id="home-screen" class="screen">
     <div class="home-hero">
       <div class="hero-eyebrow"><span class="hero-dot"></span>S.C.I</div>
       <div class="hero-title">Mais do que questões, uma forma de aprender.</div>
       <div class="hero-desc">Treine, entenda e evolua no seu ritmo!</div>
+      <div class="prova-switcher inline-prova-switcher" style="display:flex;margin:1rem auto 0;background:var(--s2);border:1px solid var(--border2);border-radius:999px;padding:3px;gap:4px;width:fit-content;justify-content:center"></div>
     </div>
     <div id="last-result-banner" class="last-result-banner" style="display:none" onclick="showLastResult()">
       <div class="lrb-left"><div class="lrb-icon"><i class="ph ph-chart-bar"></i></div><div><div class="lrb-title">Ver meu último resultado</div><div class="lrb-sub" id="lrb-sub">Clique para ver estatísticas</div></div></div>
@@ -2534,6 +2535,7 @@ body.light-mode .tour-spotlight-target {
       <button class="sub-header-back" onclick="showScreen('home-screen')">← Início</button>
       <div class="sub-header-title"><i class="ph ph-game-controller"></i> Modos de Jogo</div>
       <div class="sub-header-desc">Escolha como você quer praticar hoje</div>
+      <div class="prova-switcher inline-prova-switcher" style="display:flex;margin-top:1rem;background:transparent;border:none;padding:0;gap:8px"></div>
     </div>
     <!-- DESAFIO DIÁRIO -->
     <div id="daily-card" class="daily-card" onclick="startDailyChallenge()" role="button" aria-label="Desafio diário" style="margin-bottom:1rem;display:none">
@@ -3053,6 +3055,7 @@ body.light-mode .tour-spotlight-target {
       <button class="sub-header-back" onclick="showScreen('home-screen')">← Início</button>
       <div class="sub-header-title"><i class="ph ph-book-open"></i> Métodos de Estudo</div>
       <div class="sub-header-desc">Ferramentas para fixação e compreensão profunda</div>
+      <div class="prova-switcher inline-prova-switcher" style="display:flex;margin-top:1rem;background:transparent;border:none;padding:0;gap:8px"></div>
     </div>
     <div class="mode-grid">
       <div class="mode-card study" onclick="showScreen('study-screen')" style="grid-column:1/-1">
@@ -3093,6 +3096,7 @@ body.light-mode .tour-spotlight-target {
       <button class="sub-header-back" onclick="showScreen('home-screen')">← Início</button>
       <div class="sub-header-title"><i class="ph ph-trophy"></i> Desempenho</div>
       <div class="sub-header-desc">Acompanhe seus resultados e evolução</div>
+      <div class="prova-switcher inline-prova-switcher" style="display:flex;margin-top:1rem;background:transparent;border:none;padding:0;gap:8px"></div>
     </div>
     <!-- Level & XP Overview Card -->
     <div class="perf-level-card" id="perf-level-card" onclick="showLevelDetailsModal()" title="Clique para ver detalhes do nível e patentes">
@@ -3314,6 +3318,7 @@ body.light-mode .tour-spotlight-target {
     <div class="rank-header">
       <div class="rank-title"><i class="ph ph-trophy"></i> Ranking da Turma</div>
       <div class="rank-sub">Selecione o modo para ver o ranking correspondente</div>
+      <div class="prova-switcher inline-prova-switcher" style="display:flex;margin:1rem auto 0;background:transparent;border:none;padding:0;gap:8px;justify-content:center"></div>
     </div>
     <div class="rank-tabs">
       <button class="rank-tab active" onclick="switchRankTab('ranked',this)"><i class="ph ph-lightning"></i> Ranqueado</button>
@@ -8668,6 +8673,7 @@ function setProva(id, opts={}){
     if(document.getElementById('study-screen')?.classList.contains('active'))renderStudy();
     if(document.getElementById('tutor-screen')?.classList.contains('active'))initTutorScreen();
     if(document.getElementById('evo-screen')?.classList.contains('active'))renderEvoScreen();
+    if(document.getElementById('ranking-screen')?.classList.contains('active'))loadRankingTab(currentRankTab);
     if(document.getElementById('setup-screen')?.classList.contains('active')){
       [0,1,2].forEach(i=>{ if(document.getElementById('topt-'+i)) updateCheckUI(i,true); });
     }
@@ -8702,17 +8708,18 @@ function _refreshProvaUI(){
 }
 
 function _renderProvaSwitcher(){
+  const html = Object.values(PROVAS).map(pr => {
+    const active = pr.id === currentProva, locked = !pr.ready;
+    return `<button type="button" class="prova-btn${active?' active':''}${locked?' locked':''}" onclick="setProva('${pr.id}')" title="${locked?'Em construção':pr.label}">${pr.icon} ${pr.shortLabel}${locked?' <i class="ph ph-lock"></i>':''}</button>`;
+  }).join('');
+
   const topEl = document.getElementById('prova-switcher');
-  const p = PROVAS[currentProva];
   if(topEl) {
-    topEl.innerHTML = `<div class="prova-btn active" style="pointer-events:none;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)" title="${p.label}">${p.icon} ${p.shortLabel}</div>`;
+    topEl.innerHTML = html;
   }
   
   document.querySelectorAll('.inline-prova-switcher').forEach(el => {
-    el.innerHTML = Object.values(PROVAS).map(pr => {
-      const active = pr.id === currentProva, locked = !pr.ready;
-      return `<button class="prova-btn${active?' active':''}${locked?' locked':''}" onclick="setProva('${pr.id}')" title="${locked?'Em construção':pr.label}">${pr.icon} ${pr.shortLabel}${locked?' <i class="ph ph-lock"></i>':''}</button>`;
-    }).join('');
+    el.innerHTML = html;
   });
 }
 
@@ -11860,6 +11867,10 @@ function renderEvoScreen(){
   const last=h[h.length-1];
   const _xp = loadXP();
   const _title = typeof getLevelTitle === 'function' ? getLevelTitle(_xp.level) : '';
+  const recent = h.slice(-5);
+  const recentAvg = Math.round(recent.reduce((a,b)=>a+b.acc,0)/recent.length);
+  const diff = recentAvg - avg;
+  const trend = diff > 3 ? '<span style="color:var(--accent,#3dd68c)">↗ Subindo</span>' : (diff < -3 ? '<span style="color:var(--danger,#ff6b6b)">↘ Descendo</span>' : '<span style="color:var(--muted,#6b7a8d)">→ Estável</span>');
   const statRow=document.getElementById('evo-stat-row');
   statRow.innerHTML=`
     <div class="stat-card" onclick="showLevelDetailsModal()" style="cursor:pointer" title="Ver detalhes do nível"><div class="stat-label">Nível / XP</div><div class="stat-val" style="color:var(--warn);font-size:13px;padding-top:4px" id="evo-level-val">Nv. ${_xp.level} · ${_xp.total.toLocaleString('pt-BR')} XP</div></div>
