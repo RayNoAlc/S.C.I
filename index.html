@@ -729,11 +729,36 @@ body.light-mode .push-notif-desc{
 .tutor-msg-user{flex-direction:row-reverse}
 .tutor-avatar{width:32px;height:32px;border-radius:50%;background:rgba(236,72,153,0.12);border:1px solid rgba(236,72,153,0.3);color:#ec4899;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
 .tutor-avatar-user{background:rgba(167,139,250,0.12);border-color:rgba(167,139,250,0.3);color:#a78bfa}
-.tutor-bubble{max-width:82%;display:flex;flex-direction:column;gap:6px}
-.tutor-bubble-content{background:var(--s1);border:1px solid var(--border2);border-radius:12px 12px 12px 3px;padding:11px 14px;font-size:13px;line-height:1.6;color:var(--text)}
+.tutor-bubble{max-width:82%;min-width:0;display:flex;flex-direction:column;gap:6px}
+.tutor-bubble-content{background:var(--s1);border:1px solid var(--border2);border-radius:12px 12px 12px 3px;padding:11px 14px;font-size:13px;line-height:1.6;color:var(--text);min-width:0;overflow-wrap:break-word;word-break:break-word}
+.tutor-bubble-content p{margin:0 0 .55rem 0}
+.tutor-bubble-content p:last-child{margin-bottom:0}
+.tutor-bubble-content ul,.tutor-bubble-content ol{margin:.35rem 0 .6rem 1.25rem;padding:0}
+.tutor-bubble-content li{margin-bottom:.25rem}
+.tutor-bubble-content li:last-child{margin-bottom:0}
+.tutor-bubble-content blockquote{border-left:3px solid #ec4899;padding-left:10px;margin:.5rem 0;color:var(--muted2);font-style:italic}
+.tutor-bubble-content a{color:#ec4899;text-decoration:underline;text-underline-offset:2px}
+.tutor-bubble-content a:hover{color:#f472b6}
+.tutor-table-wrap{width:100%;max-width:100%;overflow-x:auto;margin:.75rem 0;border-radius:8px;border:1px solid var(--border2);background:rgba(0,0,0,0.22);-webkit-overflow-scrolling:touch}
+.tutor-table-wrap::-webkit-scrollbar{height:6px}
+.tutor-table-wrap::-webkit-scrollbar-track{background:rgba(255,255,255,0.03)}
+.tutor-table-wrap::-webkit-scrollbar-thumb{background:rgba(236,72,153,0.35);border-radius:3px}
+.tutor-table-wrap::-webkit-scrollbar-thumb:hover{background:rgba(236,72,153,0.55)}
+.tutor-bubble-content table{width:100%;border-collapse:collapse;font-size:12px;line-height:1.45;color:var(--text);min-width:260px}
+.tutor-bubble-content th,.tutor-bubble-content td{padding:8px 10px;border:1px solid var(--border2);text-align:left;vertical-align:top}
+.tutor-bubble-content th{background:rgba(236,72,153,0.14);color:#ec4899;font-weight:700;font-size:11px;letter-spacing:0.03em;text-transform:uppercase;border-bottom:2px solid rgba(236,72,153,0.35);white-space:nowrap}
+.tutor-bubble-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+.tutor-bubble-content tr:hover td{background:rgba(236,72,153,0.06)}
+body.light-mode .tutor-table-wrap{background:rgba(0,0,0,0.03)}
+body.light-mode .tutor-bubble-content tr:nth-child(even) td{background:rgba(0,0,0,0.02)}
+body.light-mode .tutor-bubble-content tr:hover td{background:rgba(236,72,153,0.08)}
 .tutor-bubble-content strong{color:#ec4899}
 .tutor-bubble-content code{background:var(--s2);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:11px}
 .tutor-msg-user .tutor-bubble-content{border-radius:12px 12px 3px 12px;background:rgba(167,139,250,0.10);border-color:rgba(167,139,250,0.22);color:var(--text)}
+.tutor-msg-user .tutor-bubble-content strong{color:#c4b5fd}
+.tutor-msg-user .tutor-bubble-content a{color:#a78bfa}
+.tutor-msg-user .tutor-bubble-content th{background:rgba(167,139,250,0.14);color:#a78bfa;border-bottom:2px solid rgba(167,139,250,0.35)}
+.tutor-msg-user .tutor-table-wrap::-webkit-scrollbar-thumb{background:rgba(167,139,250,0.35)}
 .tutor-suggestions{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
 .tutor-sug{border:.5px solid var(--border2);background:var(--s2);color:var(--muted2);font-size:11px;border-radius:99px;padding:4px 10px;cursor:pointer;transition:all .12s;font-family:'DM Sans',sans-serif;text-align:left;line-height:1.3}
 .tutor-sug:hover{border-color:rgba(236,72,153,0.4);color:#ec4899;background:rgba(236,72,153,0.10)}
@@ -2279,6 +2304,8 @@ body.light-mode .tour-spotlight-target {
 }
 
 </style>
+  <script src="marked.min.js"></script>
+  <script>if(typeof marked==='undefined'){document.write('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>');}</script>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body class="hub-home">
@@ -14959,10 +14986,9 @@ Seu foco exclusivo é:
 
 Regras de resposta:
 - Seja claro, didático e use exemplos práticos do contexto brasileiro
-- Use markdown simples: **negrito** para termos importantes, listas com -
+- Formatação rica: use **negrito** para termos importantes, listas com hífens (- item) e TABELAS MARKDOWN (| Coluna 1 | Coluna 2 |) sempre que fizer comparações, resumos, correlações, cronologias ou classificações (a plataforma possui renderizador nativo de tabelas reais)
 - Quando relevante, mencione como este conteúdo pode aparecer em provas
 - Se o aluno demonstrar dificuldade em um tema, sugira: "Recomendo revisar este tema nos Flashcards da S.C.I" ou "Veja o Mapa Conceitual para visualizar as conexões"
-- Respostas concisas (máx 400 tokens) para facilitar leitura em mobile
 - NUNCA responda sobre temas fora de Saúde Coletiva I — redirecione gentilmente
 - O aluno está com a ${PROVAS[currentProva].label} selecionada na plataforma agora; priorize esse contexto ao recomendar exercícios, flashcards ou o mapa conceitual.`;
   return base+(currentProva==='p1'?focusP1:(currentProva==='p2'?focusP2:focusP3))+rules;
@@ -15013,17 +15039,38 @@ function _tutorScrollBottom(){
   if(msgs)setTimeout(()=>msgs.scrollTo({top:msgs.scrollHeight,behavior:'smooth'}),80);
 }
 
+function _tutorFormatMarkdown(content){
+  if(!content)return '';
+  if(typeof marked!=='undefined'&&(typeof marked.parse==='function'||typeof marked==='function')){
+    try{
+      if(typeof marked.setOptions==='function'){
+        marked.setOptions({gfm:true,breaks:true});
+      }
+      const parseFn=typeof marked.parse==='function'?marked.parse:marked;
+      let html=parseFn(content);
+      /* Wrap tables in responsive scroll wrapper for mobile and desktop */
+      html=html.replace(/<table(\b[^>]*)>([\s\S]*?)<\/table>/gi,'<div class="tutor-table-wrap"><table$1>$2</table></div>');
+      /* Open external links in safe new tabs */
+      html=html.replace(/<a\s+href=/gi,'<a target="_blank" rel="noopener noreferrer" href=');
+      return html;
+    }catch(err){
+      console.warn('Erro ao formatar markdown com marked:',err);
+    }
+  }
+  return String(content)
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\n- /g,'<br>• ')
+    .replace(/\n/g,'<br>');
+}
+
 function _tutorRenderBubble(role,content,animate=true){
   const msgs=document.getElementById('tutor-messages');if(!msgs)return;
   const isUser=role==='user';
   const ts=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
 
-  /* Convert markdown to simple HTML */
-  const formatted=content
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/\n- /g,'<br>• ')
-    .replace(/\n/g,'<br>');
+  /* Convert markdown to HTML (supports real tables, formatting, code) */
+  const formatted=_tutorFormatMarkdown(content);
 
   const div=document.createElement('div');
   div.className='tutor-msg'+(isUser?' tutor-msg-user':'');
@@ -15157,7 +15204,7 @@ async function sendTutorMessage(){
       try{
         const bodyPayload={
           model,
-          max_tokens:1000,
+          max_tokens:1500,
           messages:[{role:'system',content:getTutorSystemPrompt()},...messages]
         };
         if(model.startsWith('openai/')){
